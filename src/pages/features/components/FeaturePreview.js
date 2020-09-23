@@ -24,7 +24,7 @@ const Container = styled.div`
 const Column = styled.div`
   display: flex;
   flex-direction: column;
-  flex-basis: 400px;
+  flex-basis: 70%;
 `;
 
 const FeatImage = styled.img`
