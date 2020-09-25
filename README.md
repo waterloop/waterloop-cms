@@ -1,8 +1,17 @@
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
+# Setup
+
+Make sure that the `cms-client-api` repo is in `../cms-client-api`. This will ensure that it is installed correctly. message quinn.h@waterloop.ca for help.
+
+### run `yarn`
+
+Installs all node-modules
+
 ## Available Scripts
 
 In the project directory, you can run:
+
 
 ### `yarn start`
 
