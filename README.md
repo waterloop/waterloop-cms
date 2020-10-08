@@ -4,6 +4,8 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 Make sure that the `cms-client-api` repo is in `../cms-client-api`. This will ensure that it is installed correctly. message quinn.h@waterloop.ca for help.
 
+Install the server from the github cms-server and follow readme instructions for setup
+
 ### run `yarn`
 
 Installs all node-modules
