@@ -1,9 +1,11 @@
 import React from 'react';
 import { ThemeProvider } from 'styled-components';
-import { ThemeProvider as MuiThemeProvider, StylesProvider } from '@material-ui/styles'
+import { ThemeProvider as MuiThemeProvider, StylesProvider } from '@material-ui/styles';
+import { Provider } from 'react-redux';
 import ReactDOM from 'react-dom';
 import App from './App';
 import theme from './theme';
+import state from './state';
 
 
 ReactDOM.render(
@@ -11,7 +13,9 @@ ReactDOM.render(
     <ThemeProvider theme={theme}>
       <StylesProvider injectFirst>
         <MuiThemeProvider>
-          <App />
+          <Provider store={state}>
+            <App />
+          </Provider>
         </MuiThemeProvider>
       </StylesProvider>
     </ThemeProvider>

@@ -62,12 +62,12 @@ const Container = styled.div`
   }
 `;
 
-const SignInBox = ({ className }) => {
+const SignInBox = ({ className, onClick }) => {
   return (
     <Container className={className}>
       <Header>Sign in</Header>
       <Body>Remember to use your waterloop email</Body>
-      <Button>
+      <Button onClick={onClick}>
         <GoogleLogo /> Sign In
       </Button>
     </Container>

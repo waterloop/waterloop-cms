@@ -1,6 +1,5 @@
 import React from 'react';
 import styled from 'styled-components';
-import { useGoogleAuth } from '@waterloop/cms-client-api';
 
 import UnstyledSection from './components/Section';
 
@@ -34,16 +33,10 @@ const sections = [
 
 const LandingPage = () => {
   const sectionItems = sections.map(section => <Section key={section.name} {...section} />);
-  const { user, login } = useGoogleAuth();
-
-  React.useEffect(() => {
-    console.log(`user: ${user}`);
-  }, [user]);
 
   return (
     <Container>
       {sectionItems}
-      <button onClick={login}>Login</button>
     </Container>
   );
 };
