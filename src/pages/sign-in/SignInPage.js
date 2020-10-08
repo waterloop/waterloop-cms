@@ -1,17 +1,23 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import { ReactComponent as BuildingsSVG } from './assets/buildings.svg';
-import { ReactComponent as PodSVG } from './assets/pod.svg';
+import BuildingsSVG from './assets/buildings.svg';
+import PodSVG from './assets/pod.svg';
+import WaterloopCmsLogoSVG from './assets/waterloop-cms-logo.svg';
 import UnstyledSignInBox from './components/SignInBox';
 
-const SignInBox = styled(UnstyledSignInBox)`
-  top: calc(min(20%, 267px));
+const WaterloopCmsLogo = styled.img.attrs({
+  src: WaterloopCmsLogoSVG,
+})`
   position: absolute;
-  left: calc(min(84px, 5%))
+  top: 20px;
+  right: calc(min(48px, 2%));
+  max-width: 96%;
 `;
 
-const Buildings = styled(BuildingsSVG)`
+const Buildings = styled.img.attrs({
+  src: BuildingsSVG,
+})`
   width: auto;
   height: 75%;
 
@@ -20,7 +26,9 @@ const Buildings = styled(BuildingsSVG)`
   }
 `;
 
-const Pod = styled(PodSVG)``;
+const Pod = styled.img.attrs({
+  src: PodSVG,
+})``;
 
 const PodTrack = styled.div`
   background-color: ${({ theme }) => theme.colours.yellows.yellow1};
@@ -47,6 +55,13 @@ const PodTrack = styled.div`
   }
 `;
 
+const SignInBox = styled(UnstyledSignInBox)`
+  top: calc(min(20%, 267px));
+  position: absolute;
+  left: calc(min(84px, 5%));
+  max-width: 90%;
+`;
+
 const Container = styled.div`
   background-color: ${({ theme }) => theme.colours.blues.blue1};
   height: 100vh;
@@ -60,13 +75,14 @@ const Container = styled.div`
 
   ${PodTrack} {
     position: absolute;
-    bottom: 120px;
+    bottom: calc(min(120px, 10%));
   }
 `;
 
-const SignIn = () => {
+const SignInPage = () => {
   return (
     <Container>
+      <WaterloopCmsLogo />
       <SignInBox />
       <PodTrack>
         <Pod />
@@ -76,4 +92,4 @@ const SignIn = () => {
   );
 };
 
-export default SignIn;
+export default SignInPage;

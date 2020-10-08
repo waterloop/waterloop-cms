@@ -4,7 +4,7 @@ import { Switch, Route, BrowserRouter } from 'react-router-dom';
 import LandingPage from './pages/landing/LandingPage';
 import GeesePage from './pages/geese/GeesePage';
 import FeaturesPage from './pages/features/FeaturesPage';
-import SignInPage from './pages/sign-in/SignIn';
+import SignInPage from './pages/sign-in/SignInPage';
 
 function App() {
   return (
