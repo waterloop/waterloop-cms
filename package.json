@@ -25,7 +25,15 @@
     "lint:fix": "eslint . --fix"
   },
   "eslintConfig": {
-    "extends": "react-app"
+    "extends": [
+      "react-app",
+      "./node_modules/eslint-config-airbnb-base/rules/best-practices.js",
+    "./node_modules/eslint-config-airbnb-base/rules/errors.js",
+    "./node_modules/eslint-config-airbnb-base/rules/node.js",
+    "./node_modules/eslint-config-airbnb-base/rules/style.js",
+    "./node_modules/eslint-config-airbnb-base/rules/variables.js",
+    "./node_modules/eslint-config-airbnb-base/rules/es6.js"
+    ]
   },
   "browserslist": {
     "production": [

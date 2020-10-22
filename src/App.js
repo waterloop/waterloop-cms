@@ -6,13 +6,17 @@ import GeesePage from './pages/geese/GeesePage';
 import FeaturesPage from './pages/features/FeaturesPage';
 import SignInPage from './pages/sign-in/SignInPage';
 import TeamDesc from './pages/descriptions/TeamDesc';
+import TopBar from './components/TopBar';
 
 function App() {
   return (
     <BrowserRouter>
       <Switch>
         <Route path="/" exact>
-          <LandingPage />
+          <>
+            <TopBar />
+            <LandingPage />
+          </>
         </Route>
         <Route path="/geese" exact>
           <GeesePage />
