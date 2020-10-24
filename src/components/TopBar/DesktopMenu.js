@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import MUIGrid from '@material-ui/core/Grid';
+import ClickAwayListener from '@material-ui/core/ClickAwayListener';
 import FeaturesPageSVG from '../../assets/page-icons/features.svg';
 import GeesePageSVG from '../../assets/page-icons/geese.svg';
 import RecruitmentPageSVG from '../../assets/page-icons/recruitment.svg';
@@ -47,26 +48,28 @@ const Container = styled.div`
 
 const DesktopMenu = ({ className, onClose }) => {
   return (
-    <Container className={className}>
-      <Arrow />
-      <MainBox>
-        <Grid xs={4}>
-          <PagePreview icon={GeesePageSVG} onClick={() => alert('clicked')} pageName="Geese" />
-        </Grid>
-        <Grid xs={4}>
-          <PagePreview icon={FeaturesPageSVG} onClick={() => alert('clicked')} pageName="Features" />
-        </Grid>
-        <Grid xs={4}>
-          <PagePreview icon={TeamDescriptionsPageSVG} onClick={() => alert('clicked')} pageName="Team Descriptions" />
-        </Grid>
-        <Grid xs={4}>
-          <PagePreview icon={SponsorsPageSVG} onClick={() => alert('clicked')} pageName="Sponsors Descriptions" />
-        </Grid>
-        <Grid xs={4}>
-          <PagePreview icon={RecruitmentPageSVG} onClick={() => alert('clicked')} pageName="Current Openings" />
-        </Grid>
-      </MainBox>
-    </Container>
+    <ClickAwayListener onClickAway={onClose}>
+      <Container className={className}>
+        <Arrow />
+        <MainBox>
+          <Grid xs={4}>
+            <PagePreview icon={GeesePageSVG} onClick={() => alert('clicked')} pageName="Geese" />
+          </Grid>
+          <Grid xs={4}>
+            <PagePreview icon={FeaturesPageSVG} onClick={() => alert('clicked')} pageName="Features" />
+          </Grid>
+          <Grid xs={4}>
+            <PagePreview icon={TeamDescriptionsPageSVG} onClick={() => alert('clicked')} pageName="Team Descriptions" />
+          </Grid>
+          <Grid xs={4}>
+            <PagePreview icon={SponsorsPageSVG} onClick={() => alert('clicked')} pageName="Sponsors Descriptions" />
+          </Grid>
+          <Grid xs={4}>
+            <PagePreview icon={RecruitmentPageSVG} onClick={() => alert('clicked')} pageName="Current Openings" />
+          </Grid>
+        </MainBox>
+      </Container>
+    </ClickAwayListener>
   );
 };
 
