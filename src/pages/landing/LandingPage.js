@@ -29,6 +29,10 @@ const sections = [
     name: 'Postings',
     to: '/postings',
   },
+  {
+    name: 'Descriptions',
+    to: '/descriptions'
+  }
 ];
 
 const LandingPage = () => {
