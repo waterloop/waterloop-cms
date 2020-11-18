@@ -4,6 +4,10 @@ import MockData from './MockData';
 import Add from './add.svg'
 import Edit from './edit.svg'
 
+const OuterContainer = styled.div`
+ font-family: 'IBM Plex Sans';   
+`
+
 const Spann = styled.nav`
     display: flex;
     justify-content: space-between;
@@ -13,6 +17,8 @@ const Spann = styled.nav`
 
 const Container = styled.div`
     font-family: 'IBM Plex Sans';
+    padding: 0;
+    margin: 0;
     width: 80%;
     margin-left: 10%;
     color: #2B2B2B;
@@ -21,10 +27,15 @@ const Container = styled.div`
         font-style:italic;
         padding-bottom: 0;
         margin-bottom: 0;
+    };
+    h3{
+        font-style:none;
+        padding-bottom: 0;
+        margin-bottom: 0;
     }
 `
 
-const OuterSpan = styled.span`
+const OuterSpan = styled.div`
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -55,13 +66,48 @@ const TeamButton = styled.button`
     display: flex;
     img{
         width: 25%;
-    }
+    };
+    text-align: center;font-family: IBM Plex Sans;
+        font-style: normal;
+        font-weight: bold;
+        font-size: 15px;
+        line-height: 23px;
+        display: flex;
+        align-items: center;
+        color: #2B2B2B;
+        border: 1px solid #FED95A;
+`
+const EditDescButton = styled.button`
+    background: #1A1A1A;
+    border-radius: 15px;
+    color: #fed95a;
+    text-align: center;font-family: IBM Plex Sans;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 13px;
+    line-height: 23px;
+    display: flex;
+    align-items: center;
+    padding: 0 0.5rem;
+    margin-left: 10%;
+`
+const Border = styled.div`
+    border:0;
+    border: 1px solid #C4C4C4;
 `
 
 function TeamDesc(){
     const list = MockData();
-    
+    const Length = list.length
     return(
+        <OuterContainer>
+            <Spann style={{marginLeft:"10%", marginBottom:"20px"}}>
+                <div style={{fontWeight:"500",fontSize:"22px"}}>
+                    Teams Page Description
+                </div>
+                <TeamButton style={{padding:"0 0.5rem"}}>Preview</TeamButton>
+            </Spann>
+            <EditDescButton>Edit description</EditDescButton>
     <Container>
         <OuterSpan>
         <h1>All Teams</h1>
@@ -70,8 +116,9 @@ function TeamDesc(){
             <img style={{paddingLeft:"7px",width:"12px"}} src={Add} alt="+"/>
         </TeamButton>
         </OuterSpan>
-        {list.map(item =>{
+        {list.map((item,index) =>{
                 return(
+                    <div>
                 <OuterSpan>
                 <Spann>
                     <h2>{item.teamName}</h2> 
@@ -82,9 +129,12 @@ function TeamDesc(){
                     Button
                     <img style={{paddingLeft:"7px",width:"12px"}} src={Edit} alt="edit"/>
                 </button>
-                </OuterSpan>)}
+                </OuterSpan>
+                {(Length != index + 1 ? <Border/> : null)}
+                </div>)}
                 )}
     </Container>
+    </OuterContainer>
     )
 }
 
