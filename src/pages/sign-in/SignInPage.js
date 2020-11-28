@@ -1,6 +1,6 @@
 import React, { useCallback } from 'react';
 import styled from 'styled-components';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { useGoogleAuth } from '@waterloop/cms-client-api';
 
@@ -10,6 +10,7 @@ import WaterloopCmsLogoSVG from './assets/waterloop-cms-logo.svg';
 import UnstyledSignInBox from './components/SignInBox';
 
 import * as userActions from '../../state/user/actions';
+import * as userSelectors from '../../state/user/selectors';
 
 const WaterloopCmsLogo = styled.img.attrs({
   src: WaterloopCmsLogoSVG,
@@ -87,16 +88,18 @@ const Container = styled.div`
 const SignInPage = () => {
   const dispatch = useDispatch();
   const history = useHistory();
-
+  const id = useSelector(userSelectors.userId);
   const onAuthComplete = useCallback(
     (err, userId) => {
       if (err) {
         console.log(err);
         return;
       }
-      dispatch(userActions.setUserId(userId));
-      history.push('/');
-    }, [dispatch, history],
+      if (id === null) {
+        dispatch(userActions.setUserId(userId));
+        history.push('/');
+      }
+    }, [dispatch, history, id],
   );
 
   const { login } = useGoogleAuth(onAuthComplete);

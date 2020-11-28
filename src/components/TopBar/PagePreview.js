@@ -25,6 +25,6 @@ const PagePreview = ({
       <Icon src={icon} alt="Page Icon" />
       <Typography>{pageName}</Typography>
     </Container>
-  );
+);
 
 export default PagePreview;

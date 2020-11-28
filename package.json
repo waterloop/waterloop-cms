@@ -14,7 +14,8 @@
     "react-router-dom": "^5.2.0",
     "react-scripts": "3.4.3",
     "redux": "^4.0.5",
-    "styled-components": "^5.2.1"
+    "styled-components": "^5.2.1",
+    "redux-devtools-extension": "^2.13.8",
   },
   "scripts": {
     "start": "react-scripts start",
@@ -28,11 +29,11 @@
     "extends": [
       "react-app",
       "./node_modules/eslint-config-airbnb-base/rules/best-practices.js",
-    "./node_modules/eslint-config-airbnb-base/rules/errors.js",
-    "./node_modules/eslint-config-airbnb-base/rules/node.js",
-    "./node_modules/eslint-config-airbnb-base/rules/style.js",
-    "./node_modules/eslint-config-airbnb-base/rules/variables.js",
-    "./node_modules/eslint-config-airbnb-base/rules/es6.js"
+      "./node_modules/eslint-config-airbnb-base/rules/errors.js",
+      "./node_modules/eslint-config-airbnb-base/rules/node.js",
+      "./node_modules/eslint-config-airbnb-base/rules/style.js",
+      "./node_modules/eslint-config-airbnb-base/rules/variables.js",
+      "./node_modules/eslint-config-airbnb-base/rules/es6.js"
     ]
   },
   "browserslist": {
