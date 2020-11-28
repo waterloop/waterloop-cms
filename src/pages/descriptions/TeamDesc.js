@@ -89,7 +89,6 @@ const EditDescButton = styled.button`
     display: flex;
     align-items: center;
     padding: 0 0.5rem;
-    margin-left: 10%;
 `
 const Border = styled.div`
     border:0;
@@ -101,13 +100,14 @@ function TeamDesc(){
     const Length = list.length
     return(
         <OuterContainer>
-            <Spann style={{marginLeft:"10%", marginBottom:"20px"}}>
-                <div style={{fontWeight:"500",fontSize:"22px"}}>
+                <div style={{fontWeight:"500",fontSize:"22px",marginLeft:"10%", marginBottom:"20px"}}>
                     Teams Page Description
                 </div>
+
+            <Spann style={{marginLeft:"10%", marginBottom:"20px"}}>
+                <EditDescButton>Edit description</EditDescButton>
                 <TeamButton style={{padding:"0 0.5rem"}}>Preview</TeamButton>
             </Spann>
-            <EditDescButton>Edit description</EditDescButton>
     <Container>
         <OuterSpan>
         <h1>All Teams</h1>
@@ -130,7 +130,7 @@ function TeamDesc(){
                     <img style={{paddingLeft:"7px",width:"12px"}} src={Edit} alt="edit"/>
                 </button>
                 </OuterSpan>
-                {(Length != index + 1 ? <Border/> : null)}
+                {(Length !== index + 1 ? <Border/> : null)}
                 </div>)}
                 )}
     </Container>
