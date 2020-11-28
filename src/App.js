@@ -13,16 +13,22 @@ function App() {
     <BrowserRouter>
       <Switch>
         <Route path="/" exact>
-          <>
+          <div>
             <TopBar />
             <LandingPage />
-          </>
+          </div>
         </Route>
         <Route path="/geese" exact>
-          <GeesePage />
+          <div>
+            <TopBar />
+            <GeesePage />
+          </div>
         </Route>
         <Route path="/features" exact>
-          <FeaturesPage />
+          <div>
+            <TopBar />
+            <FeaturesPage />
+          </div>
         </Route>
         <Route path="/sign-in" exact>
           <SignInPage />

@@ -1,4 +1,5 @@
 import React from 'react';
+import { useHistory } from 'react-router-dom';
 import styled from 'styled-components';
 import MUIGrid from '@material-ui/core/Grid';
 import ClickAwayListener from '@material-ui/core/ClickAwayListener';
@@ -46,29 +47,39 @@ const Container = styled.div`
   }
 `;
 
-const DesktopMenu = ({ className, onClose }) => (
-  <ClickAwayListener onClickAway={onClose}>
-    <Container className={className}>
-      <Arrow />
-      <MainBox>
-        <Grid xs={4}>
-          <PagePreview icon={GeesePageSVG} onClick={() => alert('clicked')} pageName="Geese" />
-        </Grid>
-        <Grid xs={4}>
-          <PagePreview icon={FeaturesPageSVG} onClick={() => alert('clicked')} pageName="Features" />
-        </Grid>
-        <Grid xs={4}>
-          <PagePreview icon={TeamDescriptionsPageSVG} onClick={() => alert('clicked')} pageName="Team Descriptions" />
-        </Grid>
-        <Grid xs={4}>
-          <PagePreview icon={SponsorsPageSVG} onClick={() => alert('clicked')} pageName="Sponsors Descriptions" />
-        </Grid>
-        <Grid xs={4}>
-          <PagePreview icon={RecruitmentPageSVG} onClick={() => alert('clicked')} pageName="Current Openings" />
-        </Grid>
-      </MainBox>
-    </Container>
-  </ClickAwayListener>
-);
+const DesktopMenu = ({ className, onClose }) => {
+  const history = useHistory();
+
+  const handleClick = (route) => () => {
+    if (route) {
+      history.push(route);
+    }
+  };
+
+  return (
+    <ClickAwayListener onClickAway={onClose}>
+      <Container className={className}>
+        <Arrow />
+        <MainBox>
+          <Grid xs={4}>
+            <PagePreview icon={GeesePageSVG} onClick={handleClick('/geese')} pageName="Geese" />
+          </Grid>
+          <Grid xs={4}>
+            <PagePreview icon={FeaturesPageSVG} onClick={handleClick('/features')} pageName="Features" />
+          </Grid>
+          <Grid xs={4}>
+            <PagePreview icon={TeamDescriptionsPageSVG} onClick={handleClick('/team-descriptions')} pageName="Team Descriptions" />
+          </Grid>
+          <Grid xs={4}>
+            <PagePreview icon={SponsorsPageSVG} onClick={handleClick('/sponsors')} pageName="Sponsors Descriptions" />
+          </Grid>
+          <Grid xs={4}>
+            <PagePreview icon={RecruitmentPageSVG} onClick={handleClick('/postings')} pageName="Current Openings" />
+          </Grid>
+        </MainBox>
+      </Container>
+    </ClickAwayListener>
+  );
+};
 
 export default DesktopMenu;

@@ -28,6 +28,7 @@ const breakpoints = {
 const bolds = {
   bold36: '700 36px IBM Plex Sans',
   bold24: '700 24px IBM Plex Sans',
+  bold14: '700 14px IBM Plex Sans',
 };
 
 const mediums = {
@@ -38,6 +39,10 @@ const mediums = {
 
 const shadows = {
   shadow1: '0 4px 4px 0px rgba(0, 0, 0, 0.25)',
+};
+
+const borders = {
+  solidGrey1: '1px solid #c4c4c4',
 };
 
 export default {
@@ -54,4 +59,5 @@ export default {
     ...mediums,
   },
   shadows,
+  borders,
 };

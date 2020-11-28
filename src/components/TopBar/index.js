@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import MUIAppBar from '@material-ui/core/AppBar';
 import MUIToolbar from '@material-ui/core/Toolbar';
@@ -31,13 +32,15 @@ const DesktopMenu = styled(UnstyledDesktopMenu)`
   z-index: 1800;
 `;
 
-const TopBar = ({ }) => {
+const TopBar = () => {
   const [menuOpen, setMenuOpen] = React.useState(false);
   return (
     <>
       <AppBar>
         <Toolbar>
-          <WaterloopLogo />
+          <IconButton edge="start" aria-label="menu" component={Link} to='/'>
+            <WaterloopLogo />
+          </IconButton>
           <IconButton edge="start" aria-label="menu" onClick={() => setMenuOpen(!menuOpen)}>
             <NavIcon />
           </IconButton>

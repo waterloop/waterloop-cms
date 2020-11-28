@@ -7,11 +7,15 @@ import PreviewSVG from './assets/preview.svg';
 
 const EditIcon = styled.img.attrs({
   src: EDITSVG,
-})``;
+})`
+  cursor: pointer;
+`;
 
 const PreviewIcon = styled.img.attrs({
   src: PreviewSVG,
-})``;
+})`
+  cursor: pointer;
+`;
 
 const IconRow = styled.div`
   display: flex;
@@ -23,8 +27,8 @@ const PageIcon = styled.img`
 `;
 
 const Container = styled.div`
-  border: 1px solid black;
-  border-radius: 4px;
+  border: ${({ theme }) => theme.borders.solidGrey1};
+  border-radius: 15px;
 
   -webkit-box-shadow: 9px 9px 6px -2px rgba(201,201,201,1);
   -moz-box-shadow: 9px 9px 6px -2px rgba(201,201,201,1);
@@ -35,8 +39,8 @@ const Container = styled.div`
   align-items: center;
   justify-content: center;
   padding: 32px;
-  padding-right: 64px;
-  padding-left: 64px;
+  padding-right: calc(min(96px, 20%));
+  padding-left: calc(min(96px, 20%));
 `;
 
 const PageTitle = styled(MUITypography)`
@@ -58,7 +62,7 @@ const Section = ({
     } else {
       history.push(site);
     }
-  }, [history, editLink]);
+  }, [history]);
 
   return (
     <Container className={className}>

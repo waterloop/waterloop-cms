@@ -19,8 +19,9 @@ const Container = styled.div`
   display: flex;
   justify-content: center;
 
-  padding-top: 128px;
-
+  padding-top: 96px;
+  padding-right: calc(min(256px, 10%));
+  padding-left: calc(min(128px, 10%));
 `;
 
 const sections = [
@@ -32,25 +33,25 @@ const sections = [
   },
   {
     name: 'Goose Features',
-    to: '/features',
+    editLink: '/features',
     previewLink: 'https://teamwaterloop.ca/the-flock',
     icon: FeaturesPageSVG,
   },
   {
     name: 'Current Openings',
-    to: '/postings',
+    editLink: '/postings',
     previewLink: 'https://teamwaterloop.ca/recruitment',
     icon: RecruitmentPageSVG,
   },
   {
     name: 'Sponsors',
-    to: '/sponsors',
+    editLink: '/sponsors',
     previewLink: 'https://teamwaterloop.ca/sponsors',
     icon: SponsorsPageSVG,
   },
   {
     name: 'Team Descriptions',
-    to: '/team-descriptions',
+    editLink: '/team-descriptions',
     previewLink: 'https://teamwaterloop.ca/team',
     icon: TeamDescriptionsPageSVG,
   },
@@ -62,7 +63,7 @@ const sections = [
 
 const LandingPage = () => {
   const sectionItems = sections.map((section) => (
-    <Grid key={section.name} item xs={12} sm={6} md={3} justify="center" container>
+    <Grid key={section.name} item xs={12} sm={6} md={4} lg={3} justify="center" container>
       <Section {...section} />
     </Grid>
   ));
