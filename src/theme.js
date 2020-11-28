@@ -27,6 +27,7 @@ const breakpoints = {
 
 const bolds = {
   bold36: '700 36px IBM Plex Sans',
+  bold24: '700 24px IBM Plex Sans',
 };
 
 const mediums = {

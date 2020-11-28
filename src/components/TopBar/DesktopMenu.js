@@ -46,31 +46,29 @@ const Container = styled.div`
   }
 `;
 
-const DesktopMenu = ({ className, onClose }) => {
-  return (
-    <ClickAwayListener onClickAway={onClose}>
-      <Container className={className}>
-        <Arrow />
-        <MainBox>
-          <Grid xs={4}>
-            <PagePreview icon={GeesePageSVG} onClick={() => alert('clicked')} pageName="Geese" />
-          </Grid>
-          <Grid xs={4}>
-            <PagePreview icon={FeaturesPageSVG} onClick={() => alert('clicked')} pageName="Features" />
-          </Grid>
-          <Grid xs={4}>
-            <PagePreview icon={TeamDescriptionsPageSVG} onClick={() => alert('clicked')} pageName="Team Descriptions" />
-          </Grid>
-          <Grid xs={4}>
-            <PagePreview icon={SponsorsPageSVG} onClick={() => alert('clicked')} pageName="Sponsors Descriptions" />
-          </Grid>
-          <Grid xs={4}>
-            <PagePreview icon={RecruitmentPageSVG} onClick={() => alert('clicked')} pageName="Current Openings" />
-          </Grid>
-        </MainBox>
-      </Container>
-    </ClickAwayListener>
-  );
-};
+const DesktopMenu = ({ className, onClose }) => (
+  <ClickAwayListener onClickAway={onClose}>
+    <Container className={className}>
+      <Arrow />
+      <MainBox>
+        <Grid xs={4}>
+          <PagePreview icon={GeesePageSVG} onClick={() => alert('clicked')} pageName="Geese" />
+        </Grid>
+        <Grid xs={4}>
+          <PagePreview icon={FeaturesPageSVG} onClick={() => alert('clicked')} pageName="Features" />
+        </Grid>
+        <Grid xs={4}>
+          <PagePreview icon={TeamDescriptionsPageSVG} onClick={() => alert('clicked')} pageName="Team Descriptions" />
+        </Grid>
+        <Grid xs={4}>
+          <PagePreview icon={SponsorsPageSVG} onClick={() => alert('clicked')} pageName="Sponsors Descriptions" />
+        </Grid>
+        <Grid xs={4}>
+          <PagePreview icon={RecruitmentPageSVG} onClick={() => alert('clicked')} pageName="Current Openings" />
+        </Grid>
+      </MainBox>
+    </Container>
+  </ClickAwayListener>
+);
 
 export default DesktopMenu;
