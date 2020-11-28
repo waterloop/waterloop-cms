@@ -91,12 +91,12 @@ const SignInPage = () => {
   const onAuthComplete = useCallback(
     (err, userId) => {
       if (err) {
-        console.log(err)
+        console.log(err);
         return;
       }
       dispatch(userActions.setUserId(userId));
       history.push('/');
-    }, [dispatch, history]
+    }, [dispatch, history],
   );
 
   const { login } = useGoogleAuth(onAuthComplete);
