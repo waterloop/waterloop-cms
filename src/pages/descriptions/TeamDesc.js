@@ -23,6 +23,40 @@ const Spann = styled.nav`
         font-size: 15px;
         padding-left: 5px;
     }
+    @media (max-width: 768px) {
+        h2{
+        font-size: 14px;
+        padding-left: 5px;
+    }
+    .date{
+        font-size: 12px;
+        padding-left: 5px;
+    }
+  }
+`;
+
+const ButtonSpann = styled.nav`
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 20%;
+    h2{
+        font-size: 18px;
+        padding-left: 5px;
+    }
+    .date{
+        font-size: 15px;
+        padding-left: 5px;
+    }
+    @media (max-width: 1024px) {
+        width: 40%;
+  }
+    @media (max-width: 607px) {
+        width: 45%;
+  }
+    @media (max-width: 540px) {
+        width: 50%;
+  }
 `;
 
 const Container = styled.div`
@@ -91,7 +125,8 @@ const EditDescButton = styled.button`
     background: #1A1A1A;
     border-radius: 15px;
     color: #fed95a;
-    text-align: center;font-family: IBM Plex Sans;
+    text-align: center;
+    font-family: IBM Plex Sans;
     font-style: normal;
     font-weight: bold;
     font-size: 13px;
@@ -99,11 +134,11 @@ const EditDescButton = styled.button`
     display: flex;
     align-items: center;
     padding: 0 0.5rem;
+    @media (max-width: 768px) {
+        margin-right: 50px;
+  }
 `
-const Border = styled.div`
-    border:0;
-    border: 1px solid #C4C4C4;
-`
+
 
 const Table = styled.div`
     border-radius: 10px 10px 0px 0px;
@@ -115,17 +150,16 @@ const Table = styled.div`
 
 function TeamDesc(){
     const list = MockData();
-    const Length = list.length
     return(
         <OuterContainer>
                 <div style={{fontWeight:"500",fontSize:"22px",marginLeft:"10%", marginBottom:"20px"}}>
                     Teams Page Description
                 </div>
 
-            <Spann style={{marginLeft:"10%", marginBottom:"20px", width:"20%"}}>
+            <ButtonSpann style={{marginLeft:"10%", marginBottom:"20px"}}>
                 <EditDescButton>Edit description</EditDescButton>
                 <TeamButton style={{padding:"0 0.5rem"}}>Preview</TeamButton>
-            </Spann>
+            </ButtonSpann>
         <Container>
             <OuterSpan>
                 <h1 style={{paddingBottom:"5px"}}>All Teams</h1>
@@ -158,19 +192,18 @@ function TeamDesc(){
                 {list.map((item,index) =>{
                         return(
                             <div style={{outline: "2px solid #C4C4C4"}}>
-                        <OuterSpan>
-                        <Spann>
-                            <h2>{item.teamName}</h2> 
-                            <div className="date">{item.lastUpdated}</div>
-                            
-                        </Spann>
-                        <button style={{marginRight:"5px"}}>
-                            Button
-                            <img style={{paddingLeft:"7px",width:"12px"}} src={Edit} alt="edit"/>
-                        </button>
-                        </OuterSpan>
-                        {(Length !== index + 1 ? <Border/> : null)}
-                        </div>)}
+                                <OuterSpan>
+                                <Spann>
+                                    <h2>{item.teamName}</h2> 
+                                    <div className="date">{item.lastUpdated}</div>
+                                    
+                                </Spann>
+                                <button style={{marginRight:"5px"}}>
+                                    Button
+                                    <img style={{paddingLeft:"7px",width:"12px"}} src={Edit} alt="edit"/>
+                                </button>
+                                </OuterSpan>
+                            </div>)}
                         )}
             </InnerContainer>
         </Container>
