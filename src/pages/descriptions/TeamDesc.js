@@ -33,6 +33,17 @@ const Spann = styled.nav`
         padding-left: 5px;
     }
   }
+    @media (max-width: 411) {
+        width: 60%;
+        h2{
+        font-size: 10px;
+        padding-left: 5px;
+    }
+    .date{
+        font-size: 11px;
+        padding-left: 5px;
+    }
+  }
 `;
 
 const ButtonSpann = styled.nav`
@@ -176,8 +187,8 @@ function TeamDesc(){
                         <div style={{display:"flex"}}>
                             <h2>Team</h2>
                             <div style={{display:"flex",flexDirection:"column", margin:"20px 0"}}>
-                                <img style={{paddingLeft:"7px",width:"12px"}} src={ToggleUp} alt="edit"/>
-                                <img style={{paddingLeft:"7px",width:"12px"}} src={ToggleDown} alt="edit"/>
+                                <img style={{paddingLeft:"7px",width:"12px"}} src={ToggleUp} alt="up"/>
+                                <img style={{paddingLeft:"7px",width:"12px"}} src={ToggleDown} alt="down"/>
                             </div>
                         </div>
                         <div style={{display:"flex"}}>
