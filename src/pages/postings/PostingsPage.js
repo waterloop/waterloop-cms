@@ -83,7 +83,7 @@ const ChartHeaderText = styled.div`
   color: #000000;
   margin-top: 15px;
   margin-bottom: 15px;
-  margin-left: 30px
+  margin-left: 30px;
 `;
 
 const SortingIcon = styled.div`
@@ -157,7 +157,7 @@ const PostingsPage = () => {
         {postingItems}
       </Column>
     </div>
-  )
-}
+  );
+};
 
 export default PostingsPage;

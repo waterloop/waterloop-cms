@@ -103,7 +103,6 @@ const EditButtonText = styled.div`
   margin-left: 12px;
 `;
 
-
 const EditButtonIcon = styled.img`
   padding-left: 8px;
 `;
