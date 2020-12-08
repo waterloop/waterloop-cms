@@ -4,8 +4,8 @@ import usePostings from './postings';
 import HeaderPreview from './HeadersPreview';
 import useHeaders from './headers';
 import styled from 'styled-components';
-import SortingVectorTop from './SortingVectorTop.svg'
-import SortingVectorBottom from './SortingVectorBottom.svg'
+import SortingVectorTop from './SortingVectorTop.svg';
+import SortingVectorBottom from './SortingVectorBottom.svg';
 
 const Column = styled.div`
   display: flex;
