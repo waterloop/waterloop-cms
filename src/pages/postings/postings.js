@@ -39,6 +39,6 @@ const usePostings = () => {
     posting: mockPostings,
     editPosting: edit
   };
-}
+};
 
 export default usePostings;

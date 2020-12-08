@@ -1,92 +1,11 @@
-import React from 'react'
-import PostingPreview from './PostingsPreview'
-import usePostings from './postings'
+import React from 'react';
+import PostingPreview from './PostingsPreview';
+import usePostings from './postings';
+import HeaderPreview from './HeadersPreview';
+import useHeaders from './headers';
 import styled from 'styled-components';
 import SortingVectorTop from './SortingVectorTop.svg'
 import SortingVectorBottom from './SortingVectorBottom.svg'
-
-const FirstDescription = styled.div`
-  position: absolute;
-  margin-left: 6.11%;
-  margin-right: 51.94%;
-  margin-top: 12.57%;
-  margin-bottom: 84.28%;
-  font-family: 'IBM Plex Sans';
-  font-style: normal;
-  font-weight: 500;
-  font-size: 24px;
-  line-height: 31px;
-  color: #2B2B2B;
-`;
-
-const Button = styled.button`
-  font-weight: 700;
-  font-size: 18px;
-  border: none;
-  border-radius: 15px;
-  line-height: 23.4px
-`;
-
-const FirstPreviewButton = styled(Button)`
-  height: 27px;
-  width: 113px;
-  color: #1A1A1A;
-  background-color: #FED95A;
-  position: absolute;
-  margin-left: 20.35%;
-  margin-right: 71.81%;
-  margin-top: 16.9%;
-  margin-bottom: 80.45%;
-`;
-
-const FirstEditButton = styled(Button)`
-  background-color: #1A1A1A;
-  color: #FED95A;
-  height: 27px;
-  width: 177px;
-  position: absolute;
-  margin-left: 6.11%;
-  margin-right: 81.6%;
-  margin-top: 16.9%;
-  margin-bottom: 80.45%;
-`;
-
-const SecondDescription = styled.div`
-  position: absolute;
-  margin-left: 6.11%;
-  margin-top: 22.89%;
-  margin-bottom: 73.97%;
-  font-family: 'IBM Plex Sans';
-  font-style: normal;
-  font-weight: 500;
-  font-size: 24px;
-  line-height: 31px;
-  color: #2B2B2B;
-`;
-
-const SecondPreviewButton = styled(Button)`
-  height: 27px;
-  width: 113px;
-  color: #1A1A1A;
-  background-color: #FED95A;
-  position: absolute;
-  margin-left: 20.35%;
-  margin-right: 71.81%;
-  margin-top: 27.21%;
-  margin-bottom: 70.14%;
-`;
-
-const SecondEditButton = styled(Button)`
-  background-color: #1A1A1A;
-  color: #FED95A;
-  height: 27px;
-  width: 177px;
-  position: absolute;
-  margin-left: 6.11%;
-  margin-right: 81.6%;
-  margin-top: 27.21%;
-  margin-bottom: 70.14%;
-`;
 
 const Column = styled.div`
   display: flex;
@@ -94,10 +13,12 @@ const Column = styled.div`
   flex-basis: 70%;
 `;
 
-const Row = styled.div`
-display: flex;
-flex-direction: row;
-flex-basis: 70%;
+const Button = styled.button`
+  font-weight: 700;
+  font-size: 18px;
+  border: none;
+  border-radius: 15px;
+  line-height: 23.4px;
 `;
 
 const ChartTitle = styled.div`
@@ -160,6 +81,9 @@ const ChartHeaderText = styled.div`
   flex-direction: row;
   align-items: center;
   color: #000000;
+  margin-top: 15px;
+  margin-bottom: 15px;
+  margin-left: 30px
 `;
 
 const SortingIcon = styled.div`
@@ -167,54 +91,66 @@ const SortingIcon = styled.div`
   flex-direction: column;
 `;
 
+const SortingTop = styled.img`
+  margin-left: 100px;
+  margin-bottom: 2px;
+`;
+
+const SortingBottom = styled.img`
+  margin-left: 100px;
+`;
+
 const PostingsPage = () => {
   const { posting, editPosting } = usePostings();
+  const { header, editHeader } = useHeaders();
 
   const handleEditPosting = (id) => () => {
     console.log(`Edit the Posting with id ${id}`);
+  };
+
+  const handleEditHeader = (id) => () => {
+    console.log(`Edit the Header with id ${id}`);
   };
   
   const postingItems = posting.map(
     (posting) => <PostingPreview key={posting.id} onEdit={handleEditPosting(posting.id)} {...posting} />);
 
+  const headerItems = header.map(
+    (header) => <HeaderPreview key={header.id} onEdit={handleEditHeader(header.id)} {...header} />);
+
   return (
     <div>
-      <FirstDescription>Come Join Us Today! Description</FirstDescription>
-      <FirstEditButton>Edit description</FirstEditButton>
-      <FirstPreviewButton>Preview</FirstPreviewButton>
-      <SecondDescription>Openings Description</SecondDescription>
-      <SecondEditButton>Edit description</SecondEditButton>
-      <SecondPreviewButton>Preview</SecondPreviewButton>
+      {headerItems}
       <Column>
         <ChartTitle>Team Openings</ChartTitle>
         <NewOpeningButton>New Opening +</NewOpeningButton>
         <ChartHeader>
-          <ChartHeaderText style={{marginTop:"15px", marginBottom:"15px", marginLeft: "30px"}}>
+          <ChartHeaderText>
             Opening Role
             <SortingIcon>
-              <img style={{marginLeft: "100px", marginBottom: "2px"}} src={SortingVectorTop} alt="edit"/>
-             <img style={{marginLeft: "100px"}} src={SortingVectorBottom} alt="edit"/>
+              <SortingTop src={SortingVectorTop} alt=" "/>
+              <SortingBottom src={SortingVectorBottom} alt=" "/>
             </SortingIcon>
           </ChartHeaderText>
-          <ChartHeaderText style={{marginTop:"15px", marginBottom:"15px", marginLeft: "30px"}}>
+          <ChartHeaderText>
             Subteam
             <SortingIcon>
-            <img style={{marginLeft: "100px", marginBottom: "2px"}} src={SortingVectorTop} alt="edit"/>
-            <img style={{marginLeft: "100px"}} src={SortingVectorBottom} alt="edit"/>
+              <SortingTop src={SortingVectorTop} alt=" "/>
+              <SortingBottom src={SortingVectorBottom} alt=" "/>
             </SortingIcon>
           </ChartHeaderText>
-          <ChartHeaderText style={{marginTop:"15px", marginBottom:"15px", marginLeft: "30px"}}>
+          <ChartHeaderText>
             Last updated
             <SortingIcon>
-              <img style={{marginLeft: "100px", marginBottom: "2px"}} src={SortingVectorTop} alt="edit"/>
-              <img style={{marginLeft: "100px"}} src={SortingVectorBottom} alt="edit"/>
+              <SortingTop src={SortingVectorTop} alt=" "/>
+              <SortingBottom src={SortingVectorBottom} alt=" "/>
             </SortingIcon>
           </ChartHeaderText>
-          <ChartHeaderText style={{marginTop:"15px", marginBottom:"15px", marginLeft: "30px" }}>
+          <ChartHeaderText>
             Opening status
             <SortingIcon>
-              <img style={{marginLeft: "100px", marginBottom: "2px"}} src={SortingVectorTop} alt="edit"/>
-              <img style={{marginLeft: "100px"}} src={SortingVectorBottom} alt="edit"/>
+              <SortingTop src={SortingVectorTop} alt=" "/>
+              <SortingBottom src={SortingVectorBottom} alt=" "/>
             </SortingIcon>
           </ChartHeaderText>
         </ChartHeader>

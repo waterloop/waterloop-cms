@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
-import EditIcon from './EditIcon.svg'
-import OptionsVector from './OptionsVector.svg'
+import EditIcon from './EditIcon.svg';
+import OptionsVector from './OptionsVector.svg';
 
 const ChartColumn = styled.div`
   width: 90%;
@@ -30,6 +30,10 @@ const ChartInfoText = styled.div`
   flex-direction: row;
   align-items: center;
   color: #2B2B2B;
+  margin-top: 25px; 
+  margin-bottom: 25px;
+  margin-left: 30px;
+  margin-right: 50px;
 `;
 
 const LastUpdatedText = styled.div`
@@ -45,6 +49,10 @@ const LastUpdatedText = styled.div`
   flex-direction: row;
   align-items: center;
   color: #2B2B2B;
+  margin-top: 25px; 
+  margin-bottom: 25px;
+  margin-left: 30px;
+  margin-right: 50px;
 `;
 
 const Button = styled.button`
@@ -69,6 +77,14 @@ const StatusBorder = styled(Button)`
   flex-direction: row;
   align-items: center;
   border: 1px solid #C4C4C4;
+  margin-top: 15px; 
+  margin-bottom: 15px;
+  margin-left: 30px;
+  margin-right: 50px;
+`;
+
+const OptionsIcon = styled.img`
+  margin-left: 35px;
 `;
 
 const EditButton = styled(Button)`
@@ -78,6 +94,18 @@ const EditButton = styled(Button)`
   flex-direction: row;
   align-items: center;
   border: 1px solid #FED95A;
+  margin-top: 15px; 
+  margin-left: 80px;
+  margin-right: 30px;
+`;
+
+const EditButtonText = styled.div`
+  margin-left: 12px;
+`;
+
+
+const EditButtonIcon = styled.img`
+  padding-left: 8px;
 `;
 
 const PostingsPreview = ({
@@ -87,17 +115,16 @@ const PostingsPreview = ({
   openingStatus
 }) => (
   <ChartColumn>
-    <ChartInfoText style={{marginTop:"25px", marginBottom:"25px", marginLeft: "30px", marginRight: "50px"}}>{openingRole}</ChartInfoText>
-    <ChartInfoText style={{marginTop:"25px", marginBottom:"25px", marginLeft: "30px", marginRight: "50px"}}>{subteam}</ChartInfoText>
-    <LastUpdatedText style={{marginTop:"25px", marginBottom:"25px", marginLeft: "30px", marginRight: "50px"}}>{lastUpdated}
-    </LastUpdatedText>
-    <StatusBorder style={{marginTop:"15px", marginBottom:"15px", marginLeft: "30px", marginRight: "50px"}}>
+    <ChartInfoText>{openingRole}</ChartInfoText>
+    <ChartInfoText>{subteam}</ChartInfoText>
+    <LastUpdatedText>{lastUpdated}</LastUpdatedText>
+    <StatusBorder>
       {openingStatus}
-      <img style={{marginLeft: "35px"}} src={OptionsVector} alt="edit"/>
+      <OptionsIcon src={OptionsVector} alt="edit"/>
     </StatusBorder>
-    <EditButton style={{marginTop:"15px", marginLeft: "80px", marginRight: "30px"}}>
-      <div style={{marginLeft:"12px"}}>Edit</div>
-      <img style={{paddingLeft:"8px"}} src={EditIcon} alt="edit"/>
+    <EditButton>
+      <EditButtonText>Edit</EditButtonText>
+      <EditButtonIcon src={EditIcon} alt="edit"/>
     </EditButton>
   </ChartColumn>
     );
