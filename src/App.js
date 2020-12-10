@@ -6,6 +6,7 @@ import GeesePage from './pages/geese/GeesePage';
 import FeaturesPage from './pages/features/FeaturesPage';
 import SignInPage from './pages/sign-in/SignInPage';
 import TeamDesc from './pages/descriptions/TeamDesc';
+import PostingsPage from './pages/postings/PostingsPage';
 
 function App() {
   return (
@@ -19,6 +20,9 @@ function App() {
         </Route>
         <Route path="/features" exact>
           <FeaturesPage />
+        </Route>
+        <Route path="/postings" exact>
+          <PostingsPage />
         </Route>
         <Route path="/sign-in" exact>
           <SignInPage />
