@@ -1,23 +1,30 @@
 import React from 'react';
-import styled from 'styled-components'
+import styled from 'styled-components';
 import MockData from './MockData';
-import Add from './add.svg'
-import Edit from './edit.svg'
-import ToggleUp from './up.svg'
-import ToggleDown from './down.svg'
+import Add from './add.svg';
+import Edit from './edit.svg';
+import SortUp from './SortUp.svg';
+import SortDown from './SortDown.svg';
+
+const PageName = styled.div`
+    font-weight: 500; 
+    font-size: 22px; 
+    margin-left: 10%; 
+    margin-bottom: 20px;
+`;
 
 const OuterContainer = styled.div`
  font-family: 'IBM Plex Sans';   
-`
+`;
 
 const Spann = styled.nav`
     display: flex;
     justify-content: space-between;
     align-items: center;
-    width: 35%;
+    width: 50%;
     h2{
         font-size: 18px;
-        padding-left: 5px;
+        padding-left: 30px;
     }
     .date{
         font-size: 15px;
@@ -46,11 +53,53 @@ const Spann = styled.nav`
   }
 `;
 
-const ButtonSpann = styled.nav`
+const ListSpan = styled.nav`
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 40%;
+    h2{
+        font-size: 18px;
+        padding-left: 30px;
+        margin-left: 30px;
+    }
+    .date{
+        font-size: 15px;
+        padding-left: 5px;
+    }
+    @media (max-width: 1030px) {
+        width: 57%;
+    }
+    @media (max-width: 768px) {
+        h2{
+        font-size: 14px;
+        padding-left: 5px;
+    }
+    .date{
+        font-size: 12px;
+        padding-left: 5px;
+    }
+  }
+    @media (max-width: 411) {
+        width: 60%;
+        h2{
+        font-size: 10px;
+        padding-left: 5px;
+    }
+    .date{
+        font-size: 11px;
+        padding-left: 5px;
+    }
+  }
+`;
+
+const ButtonSpan = styled.nav`
     display: flex;
     justify-content: space-between;
     align-items: center;
     width: 20%;
+    margin-left: 10%;
+    margin-bottom: 20px;
     h2{
         font-size: 18px;
         padding-left: 5px;
@@ -88,12 +137,12 @@ const Container = styled.div`
         padding-bottom: 0;
         margin-bottom: 0;
     }
-`
+`;
 
 const InnerContainer = styled.div`
     border: 2px solid #C4C4C4;
     border-radius: 10px 10px 0px 0px;
-`
+`;
 
 const OuterSpan = styled.div`
     display: flex;
@@ -114,11 +163,16 @@ const OuterSpan = styled.div`
         align-items: center;
         color: #2B2B2B;
     }
-`
+    h1{
+        padding-bottom: 20px;
+    }
+`;
+
 const TeamButton = styled.button`
     background: #FED95A;
     border-radius: 15px;
     display: flex;
+    padding: 0 0.5rem;
     img{
         width: 25%;
     };
@@ -131,7 +185,8 @@ const TeamButton = styled.button`
         align-items: center;
         color: #2B2B2B;
         border: 1px solid #FED95A;
-`
+`;
+
 const EditDescButton = styled.button`
     background: #1A1A1A;
     border-radius: 15px;
@@ -148,76 +203,119 @@ const EditDescButton = styled.button`
     @media (max-width: 768px) {
         margin-right: 50px;
   }
-`
-
+`;
 
 const Table = styled.div`
     border-radius: 10px 10px 0px 0px;
-    padding: 15px 0;
+    padding: 0;
     font-size: 13px;
     font-weight: bold;
     background: #F4F4F4;
-`
+`;
+
+const SortingIcons = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
+
+const SortingUp = styled.img`
+  margin-left: 100px;
+  margin-bottom: 2px;
+`;
+
+const SortingDown = styled.img`
+  margin-left: 100px;
+`;
+
+const EditButton = styled.button`
+  margin-right: 5px;
+`;
+
+const EditIcon = styled.img`
+    padding-left: 7px;
+    width: 12px;
+`;
+
+const ChartHeaderText = styled.div`
+  position: relative;
+  width: 250px;
+  height: 24px;
+  font-family: IBM Plex Sans;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 15px;
+  line-height: 23px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  color: #000000;
+  margin-top: 15px;
+  margin-bottom: 15px;
+  margin-left: 30px;
+  white-space: nowrap;
+`;
+
+const Border = styled.div`
+    outline: 2px solid #C4C4C4;
+`;
 
 function TeamDesc(){
     const list = MockData();
     return(
         <OuterContainer>
-                <div style={{fontWeight:"500",fontSize:"22px",marginLeft:"10%", marginBottom:"20px"}}>
+                <PageName>
                     Teams Page Description
-                </div>
+                </PageName>
 
-            <ButtonSpann style={{marginLeft:"10%", marginBottom:"20px"}}>
+            <ButtonSpan>
                 <EditDescButton>Edit description</EditDescButton>
-                <TeamButton style={{padding:"0 0.5rem"}}>Preview</TeamButton>
-            </ButtonSpann>
-        <Container>
-            <OuterSpan>
-                <h1 style={{paddingBottom:"5px"}}>All Teams</h1>
-                <TeamButton>
-                    AddTeam
-                    <img style={{paddingLeft:"7px",width:"12px"}} src={Add} alt="+"/>
-                </TeamButton>
-            </OuterSpan>
+                <TeamButton>Preview</TeamButton>
+            </ButtonSpan>
+            <Container>
+                <OuterSpan>
+                    <h1>All Teams</h1>
+                    <TeamButton>
+                        AddTeam
+                        <EditIcon src={Add} alt="+"/>
+                    </TeamButton>
+                </OuterSpan>
 
 
-            <InnerContainer>
-                <Table style={{padding:"0"}}>
-                    <Spann style={{width:"40%"}}>
-                        <div style={{display:"flex"}}>
-                            <h2>Team</h2>
-                            <div style={{display:"flex",flexDirection:"column", margin:"20px 0"}}>
-                                <img style={{paddingLeft:"7px",width:"12px"}} src={ToggleUp} alt="up"/>
-                                <img style={{paddingLeft:"7px",width:"12px"}} src={ToggleDown} alt="down"/>
-                            </div>
-                        </div>
-                        <div style={{display:"flex"}}>
-                            <h2>Last Updated</h2>
-                            <div style={{display:"flex",flexDirection:"column", margin:"20px 0"}}>
-                                <img style={{paddingLeft:"7px",width:"12px"}} src={ToggleUp} alt="edit"/>
-                                <img style={{paddingLeft:"7px",width:"12px"}} src={ToggleDown} alt="edit"/>
-                            </div>
-                        </div>
-                    </Spann>
-                </Table>
-                {list.map((item,index) =>{
-                        return(
-                            <div style={{outline: "2px solid #C4C4C4"}}>
-                                <OuterSpan>
-                                <Spann>
-                                    <h2>{item.teamName}</h2> 
-                                    <div className="date">{item.lastUpdated}</div>
-                                    
-                                </Spann>
-                                <button style={{marginRight:"5px"}}>
-                                    Button
-                                    <img style={{paddingLeft:"7px",width:"12px"}} src={Edit} alt="edit"/>
-                                </button>
-                                </OuterSpan>
-                            </div>)}
-                        )}
-            </InnerContainer>
-        </Container>
+                <InnerContainer>
+                    <Table>
+                        <Spann>
+                            <ChartHeaderText>
+                                <h2>Team</h2>
+                                <SortingIcons>
+                                    <SortingUp src={SortUp} alt="up"/>
+                                    <SortingDown src={SortDown} alt="down"/>
+                                </SortingIcons>
+                            </ChartHeaderText>
+                            <ChartHeaderText>
+                                <h2>Last Updated</h2>
+                                <SortingIcons>
+                                    <SortingUp src={SortUp} alt="edit"/>
+                                    <SortingDown src={SortDown} alt="edit"/>
+                                </SortingIcons>
+                            </ChartHeaderText>
+                        </Spann>
+                    </Table>
+                    {list.map((item,index) =>(
+                                <Border>
+                                    <OuterSpan>
+                                        <ListSpan>
+                                            <h2>{item.teamName}</h2> 
+                                            <div className="date">{item.lastUpdated}</div>  
+                                        </ListSpan>
+                                        <EditButton >
+                                            Button
+                                            <EditIcon src={Edit} alt="edit"/>
+                                        </EditButton>
+                                    </OuterSpan>
+                                </Border>)
+                            )}
+                </InnerContainer>
+            </Container>
     </OuterContainer>
     )
 }
