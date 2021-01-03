@@ -9,6 +9,8 @@ import TeamDesc from './pages/descriptions/TeamDesc';
 import TopBar from './components/TopBar';
 import * as userSelectors from './state/user/selectors';
 import { useSelector } from 'react-redux';
+import PostingsPage from './pages/postings/PostingsPage';
+
 
 function App() {
   const userId = useSelector(userSelectors.userId);
@@ -36,6 +38,9 @@ function App() {
             <TopBar />
             <FeaturesPage />
           </div>
+        </Route>
+        <Route path="/postings" exact>
+          <PostingsPage />
         </Route>
         <Route path="/sign-in" exact>
           <SignInPage />
