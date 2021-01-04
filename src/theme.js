@@ -9,6 +9,7 @@ const yellows = {
 const blacks = {
   black1: '#000000',
   black2: '#465064',
+  black3: '#1A1A1A',
 };
 
 const greys = {
@@ -29,6 +30,7 @@ const bolds = {
   bold36: '700 36px IBM Plex Sans',
   bold24: '700 24px IBM Plex Sans',
   bold14: '700 14px IBM Plex Sans',
+  bold18: '700 18px IBM Plex Sans',
 };
 
 const mediums = {
@@ -60,4 +62,5 @@ export default {
   },
   shadows,
   borders,
+  pageMargin: '64px 82px 64px 82px',
 };
