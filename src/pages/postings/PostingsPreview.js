@@ -1,25 +1,24 @@
 import React from 'react';
 import styled from 'styled-components';
-import EditIcon from './EditIcon.svg';
-import OptionsVector from './OptionsVector.svg';
+import EditIcon from './assets/EditIcon.svg';
+import OptionsVector from './assets/OptionsVector.svg';
 
-const ChartColumn = styled.div`
-  width: 90%;
+import MUITableCell from '@material-ui/core/TableCell';
+import MUITableRow from '@material-ui/core/TableRow';
+
+const TableCell = styled(MUITableCell)``;
+
+const ChartRow = styled(MUITableRow)`
   height: 80px;
-  margin-left: 6.11%;
-  font-family: IBM Plex Sans;
-  font-size: 18px;
+  font: ${({ theme }) => theme.fonts.medium18};
   line-height: 23.4px;
   color: #000000;
   border: 2px solid #C4C4C4;
   box-sizing: border-box;
-  display: flex;
-  flex-direction: row;
 `;
 
 const ChartInfoText = styled.div`
   position: relative;
-  width: 200px;
   height: 24px;
   font-family: IBM Plex Sans;
   font-style: normal;
@@ -30,15 +29,10 @@ const ChartInfoText = styled.div`
   flex-direction: row;
   align-items: center;
   color: #2B2B2B;
-  margin-top: 25px; 
-  margin-bottom: 25px;
-  margin-left: 30px;
-  margin-right: 50px;
 `;
 
 const LastUpdatedText = styled.div`
   position: relative;
-  width: 200px;
   height: 24px;
   font-family: IBM Plex Sans;
   font-style: normal;
@@ -49,10 +43,6 @@ const LastUpdatedText = styled.div`
   flex-direction: row;
   align-items: center;
   color: #2B2B2B;
-  margin-top: 25px; 
-  margin-bottom: 25px;
-  margin-left: 30px;
-  margin-right: 50px;
 `;
 
 const Button = styled.button`
@@ -71,16 +61,11 @@ const Button = styled.button`
 `;
 
 const StatusBorder = styled(Button)`
-  width: 250px;
   height: 47.13px;
   display: flex;
   flex-direction: row;
   align-items: center;
   border: 1px solid #C4C4C4;
-  margin-top: 15px; 
-  margin-bottom: 15px;
-  margin-left: 30px;
-  margin-right: 50px;
 `;
 
 const OptionsIcon = styled.img`
@@ -94,9 +79,6 @@ const EditButton = styled(Button)`
   flex-direction: row;
   align-items: center;
   border: 1px solid #FED95A;
-  margin-top: 15px; 
-  margin-left: 80px;
-  margin-right: 30px;
 `;
 
 const EditButtonText = styled.div`
@@ -111,22 +93,32 @@ const PostingsPreview = ({
   openingRole,
   subteam,
   lastUpdated,
-  openingStatus
+  openingStatus,
 }) => (
-  <ChartColumn>
-    <ChartInfoText>{openingRole}</ChartInfoText>
-    <ChartInfoText>{subteam}</ChartInfoText>
-    <LastUpdatedText>{lastUpdated}</LastUpdatedText>
-    <StatusBorder>
-      {openingStatus}
-      <OptionsIcon src={OptionsVector} alt="edit"/>
-    </StatusBorder>
-    <EditButton>
-      <EditButtonText>Edit</EditButtonText>
-      <EditButtonIcon src={EditIcon} alt="edit"/>
-    </EditButton>
-  </ChartColumn>
-    );
-  
+  <ChartRow>
+    <TableCell>
+      <ChartInfoText>{openingRole}</ChartInfoText>
+    </TableCell>
+    <TableCell>
+      <ChartInfoText>{subteam}</ChartInfoText>
+    </TableCell>
+    <TableCell>
+      <LastUpdatedText>{lastUpdated}</LastUpdatedText>
+    </TableCell>
+    <TableCell>
+      <StatusBorder>
+        {openingStatus}
+        <OptionsIcon src={OptionsVector} alt="edit" />
+      </StatusBorder>
+    </TableCell>
+    <TableCell>
+      <EditButton>
+        <EditButtonText>Edit</EditButtonText>
+        <EditButtonIcon src={EditIcon} alt="edit" />
+      </EditButton>
+    </TableCell>
+  </ChartRow>
+);
+
 
 export default PostingsPreview;

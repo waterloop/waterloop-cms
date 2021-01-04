@@ -36,7 +36,7 @@ const usePostings = () => {
     }, []);
 
   return {
-    posting: mockPostings,
+    postings: mockPostings,
     editPosting: edit
   };
 };

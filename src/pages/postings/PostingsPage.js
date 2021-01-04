@@ -1,76 +1,53 @@
 import React from 'react';
 import PostingPreview from './PostingsPreview';
-import usePostings from './postings';
-import HeaderPreview from './HeadersPreview';
-import useHeaders from './headers';
+import usePostings from './hooks/postings';
+import UnstyledHeaderPreview from './HeadersPreview';
+import useHeaders from './hooks/headers';
 import styled from 'styled-components';
-import SortingVectorTop from './SortingVectorTop.svg';
-import SortingVectorBottom from './SortingVectorBottom.svg';
+import SortingVectorTop from './assets/SortingVectorTop.svg';
+import SortingVectorBottom from './assets/SortingVectorBottom.svg';
+import Button from '../../components/Button';
 
-const Column = styled.div`
+import MUITable from '@material-ui/core/Table';
+import MUITableBody from '@material-ui/core/TableBody';
+import MUITableCell from '@material-ui/core/TableCell';
+import MUITableRow from '@material-ui/core/TableRow';
+import MUITableContainer from '@material-ui/core/TableContainer';
+import MUITableHead from '@material-ui/core/TableHead';
+
+const Table = styled(MUITable)``;
+const TableBody = styled(MUITableBody)``;
+const TableCell = styled(MUITableCell)``;
+const TableRow = styled(MUITableRow)``;
+const TableContainer = styled(MUITableContainer)``;
+
+const TableHead = styled(MUITableHead)`
+  background: #F4F4F4;
+`;
+
+const Chart = styled.div`
   display: flex;
   flex-direction: column;
   flex-basis: 70%;
-`;
-
-const Button = styled.button`
-  font-weight: 700;
-  font-size: 18px;
-  border: none;
-  border-radius: 15px;
-  line-height: 23.4px;
+  border: 2px solid #C4C4C4;
+  border-radius: 10px 10px 0px 0px;
 `;
 
 const ChartTitle = styled.div`
-  position: absolute;
-  margin-left: 6.11%;
-  margin-top: 37.92%;
-  margin-bottom: 57.47%;
-  font-family: IBM Plex Sans;
   font-style: italic;
-  font-weight: bold;
-  font-size: 36px;
-  line-height: 47px;
+  font: ${({ theme }) => theme.fonts.bold36};
   color: #2B2B2B;
+  margin-bottom: 8px;
 `;
 
 const NewOpeningButton = styled(Button)`
-  background-color: #FED95A;
-  color: #1A1A1A;
-  height: 36px;
-  width: 169px;
-  position: absolute;
-  margin-left: 83.4%;
-  margin-right: 4.86%;
-  margin-top: 36.74%;
-  margin-bottom: 59.72%;
-`;
-
-const ChartColumn = styled.div`
-  width: 90%;
-  height: 60px;
-  margin-left: 6.11%;
-  font-family: IBM Plex Sans;
-  font-size: 18px;
-  line-height: 23.4px;
-  color: #000000;
-  border: 2px solid #C4C4C4;
-  box-sizing: border-box;
-  display: flex;
-  flex-direction: row;
-`;
-
-const ChartHeader = styled(ChartColumn)`
-  position: relative;
-  font-weight: 700;
-  background: #F4F4F4;
-  border-radius: 10px 10px 0px 0px;
-  margin-top: 45%;
+  align-self: flex-end;
+  margin-top: 8px;
+  margin-bottom: -16px
 `;
 
 const ChartHeaderText = styled.div`
   position: relative;
-  width: 250px;
   height: 24px;
   font-family: IBM Plex Sans;
   font-style: normal;
@@ -81,28 +58,35 @@ const ChartHeaderText = styled.div`
   flex-direction: row;
   align-items: center;
   color: #000000;
-  margin-top: 15px;
-  margin-bottom: 15px;
-  margin-left: 30px;
 `;
 
 const SortingIcon = styled.div`
   display: flex;
   flex-direction: column;
+  margin-left: 8px;
 `;
 
 const SortingTop = styled.img`
-  margin-left: 100px;
+  width: 12px;
   margin-bottom: 2px;
 `;
 
 const SortingBottom = styled.img`
-  margin-left: 100px;
+  width: 12px;
+`;
+
+const HeaderPreview = styled(UnstyledHeaderPreview)`
+  margin-top: 32px;
+`;
+const Container = styled.div`
+  margin: ${({ theme }) => theme.pageMargin};
+  display: flex;
+  flex-direction: column;
 `;
 
 const PostingsPage = () => {
-  const { posting, editPosting } = usePostings();
-  const { header, editHeader } = useHeaders();
+  const { postings, editPosting } = usePostings();
+  const { headers, editHeader } = useHeaders();
 
   const handleEditPosting = (id) => () => {
     console.log(`Edit the Posting with id ${id}`);
@@ -112,51 +96,68 @@ const PostingsPage = () => {
     console.log(`Edit the Header with id ${id}`);
   };
 
-  const postingItems = posting.map(
+  const postingItems = postings.map(
     (posting) => <PostingPreview key={posting.id} onEdit={handleEditPosting(posting.id)} {...posting} />);
 
-  const headerItems = header.map(
+  const headerItems = headers.map(
     (header) => <HeaderPreview key={header.id} onEdit={handleEditHeader(header.id)} {...header} />);
 
   return (
-    <div>
+    <Container>
       {headerItems}
-      <Column>
-        <ChartTitle>Team Openings</ChartTitle>
-        <NewOpeningButton>New Opening +</NewOpeningButton>
-        <ChartHeader>
-          <ChartHeaderText>
-            Opening Role
-            <SortingIcon>
-              <SortingTop src={SortingVectorTop} alt=" " />
-              <SortingBottom src={SortingVectorBottom} alt=" " />
-            </SortingIcon>
-          </ChartHeaderText>
-          <ChartHeaderText>
-            Subteam
-            <SortingIcon>
-              <SortingTop src={SortingVectorTop} alt=" " />
-              <SortingBottom src={SortingVectorBottom} alt=" " />
-            </SortingIcon>
-          </ChartHeaderText>
-          <ChartHeaderText>
-            Last updated
-            <SortingIcon>
-              <SortingTop src={SortingVectorTop} alt=" " />
-              <SortingBottom src={SortingVectorBottom} alt=" " />
-            </SortingIcon>
-          </ChartHeaderText>
-          <ChartHeaderText>
-            Opening status
-            <SortingIcon>
-              <SortingTop src={SortingVectorTop} alt=" " />
-              <SortingBottom src={SortingVectorBottom} alt=" " />
-            </SortingIcon>
-          </ChartHeaderText>
-        </ChartHeader>
-        {postingItems}
-      </Column>
-    </div>
+      <NewOpeningButton>New Opening +</NewOpeningButton>
+      <ChartTitle>Team Openings</ChartTitle>
+      <TableContainer component={Chart}>
+        <Table>
+          <TableHead>
+            <TableRow>
+              <TableCell>
+                <ChartHeaderText>
+                  Opening Role
+                  <SortingIcon>
+                    <SortingTop src={SortingVectorTop} alt=" " />
+                    <SortingBottom src={SortingVectorBottom} alt=" " />
+                  </SortingIcon>
+                </ChartHeaderText>
+              </TableCell>
+              <TableCell>
+                <ChartHeaderText>
+                  Subteam
+                  <SortingIcon>
+                    <SortingTop src={SortingVectorTop} alt=" " />
+                    <SortingBottom src={SortingVectorBottom} alt=" " />
+                  </SortingIcon>
+                </ChartHeaderText>
+              </TableCell>
+              <TableCell>
+                <ChartHeaderText>
+                  Last updated
+                  <SortingIcon>
+                    <SortingTop src={SortingVectorTop} alt=" " />
+                    <SortingBottom src={SortingVectorBottom} alt=" " />
+                  </SortingIcon>
+                </ChartHeaderText>
+              </TableCell>
+              <TableCell>
+                <ChartHeaderText>
+                  Opening status
+                  <SortingIcon>
+                    <SortingTop src={SortingVectorTop} alt=" " />
+                    <SortingBottom src={SortingVectorBottom} alt=" " />
+                  </SortingIcon>
+                </ChartHeaderText>
+              </TableCell>
+              <TableCell>
+                <ChartHeaderText /> {/* Place holder column for the edit button */}
+              </TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {postingItems}
+          </TableBody>
+        </Table>
+      </TableContainer>
+    </Container>
   );
 };
 

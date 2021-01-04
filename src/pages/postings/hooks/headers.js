@@ -23,7 +23,7 @@ const useHeaders = () => {
     }, []);
 
   return {
-    header: mockHeaders,
+    headers: mockHeaders,
     editHeader: edit
   };
 };
