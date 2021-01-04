@@ -7,14 +7,14 @@ import SortUp from './SortUp.svg';
 import SortDown from './SortDown.svg';
 
 const PageName = styled.div`
-    font-weight: 500; 
-    font-size: 22px; 
-    margin-left: 10%; 
+    font-weight: 500;
+    font-size: 22px;
+    margin-left: 10%;
     margin-bottom: 20px;
 `;
 
 const OuterContainer = styled.div`
- font-family: 'IBM Plex Sans';   
+ font-family: 'IBM Plex Sans';
 `;
 
 const Spann = styled.nav`
@@ -259,65 +259,65 @@ const Border = styled.div`
     outline: 2px solid #C4C4C4;
 `;
 
-function TeamDesc(){
-    const list = MockData();
-    return(
-        <OuterContainer>
-                <PageName>
-                    Teams Page Description
+function TeamDesc() {
+  const list = MockData();
+  return (
+    <OuterContainer>
+      <PageName>
+        Teams Page Description
                 </PageName>
 
-            <ButtonSpan>
-                <EditDescButton>Edit description</EditDescButton>
-                <TeamButton>Preview</TeamButton>
-            </ButtonSpan>
-            <Container>
-                <OuterSpan>
-                    <h1>All Teams</h1>
-                    <TeamButton>
-                        AddTeam
-                        <EditIcon src={Add} alt="+"/>
-                    </TeamButton>
-                </OuterSpan>
+      <ButtonSpan>
+        <EditDescButton>Edit description</EditDescButton>
+        <TeamButton>Preview</TeamButton>
+      </ButtonSpan>
+      <Container>
+        <OuterSpan>
+          <h1>All Teams</h1>
+          <TeamButton>
+            AddTeam
+            <EditIcon src={Add} alt="+" />
+          </TeamButton>
+        </OuterSpan>
 
 
-                <InnerContainer>
-                    <Table>
-                        <Spann>
-                            <ChartHeaderText>
-                                <h2>Team</h2>
-                                <SortingIcons>
-                                    <SortingUp src={SortUp} alt="up"/>
-                                    <SortingDown src={SortDown} alt="down"/>
-                                </SortingIcons>
-                            </ChartHeaderText>
-                            <ChartHeaderText>
-                                <h2>Last Updated</h2>
-                                <SortingIcons>
-                                    <SortingUp src={SortUp} alt="edit"/>
-                                    <SortingDown src={SortDown} alt="edit"/>
-                                </SortingIcons>
-                            </ChartHeaderText>
-                        </Spann>
-                    </Table>
-                    {list.map((item,index) =>(
-                                <Border>
-                                    <OuterSpan>
-                                        <ListSpan>
-                                            <h2>{item.teamName}</h2> 
-                                            <div className="date">{item.lastUpdated}</div>  
-                                        </ListSpan>
-                                        <EditButton >
-                                            Button
-                                            <EditIcon src={Edit} alt="edit"/>
-                                        </EditButton>
-                                    </OuterSpan>
-                                </Border>)
-                            )}
-                </InnerContainer>
-            </Container>
+        <InnerContainer>
+          <Table>
+            <Spann>
+              <ChartHeaderText>
+                <h2>Team</h2>
+                <SortingIcons>
+                  <SortingUp src={SortUp} alt="up" />
+                  <SortingDown src={SortDown} alt="down" />
+                </SortingIcons>
+              </ChartHeaderText>
+              <ChartHeaderText>
+                <h2>Last Updated</h2>
+                <SortingIcons>
+                  <SortingUp src={SortUp} alt="edit" />
+                  <SortingDown src={SortDown} alt="edit" />
+                </SortingIcons>
+              </ChartHeaderText>
+            </Spann>
+          </Table>
+          {list.map((item) => (
+            <Border>
+              <OuterSpan>
+                <ListSpan>
+                  <h2>{item.teamName}</h2>
+                  <div className="date">{item.lastUpdated}</div>
+                </ListSpan>
+                <EditButton >
+                  Button
+                  <EditIcon src={Edit} alt="edit" />
+                </EditButton>
+              </OuterSpan>
+            </Border>
+          ))}
+        </InnerContainer>
+      </Container>
     </OuterContainer>
-    )
-}
+  );
+};
 
 export default TeamDesc;

@@ -40,6 +40,8 @@ function App() {
           </div>
         </Route>
         <Route path="/postings" exact>
+          {typeof userId !== 'number' && <Redirect to="/sign-in" />}
+          <TopBar />
           <PostingsPage />
         </Route>
         <Route path="/sign-in" exact>
