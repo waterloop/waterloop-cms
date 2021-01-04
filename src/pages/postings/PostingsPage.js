@@ -111,7 +111,7 @@ const PostingsPage = () => {
   const handleEditHeader = (id) => () => {
     console.log(`Edit the Header with id ${id}`);
   };
-  
+
   const postingItems = posting.map(
     (posting) => <PostingPreview key={posting.id} onEdit={handleEditPosting(posting.id)} {...posting} />);
 
@@ -128,29 +128,29 @@ const PostingsPage = () => {
           <ChartHeaderText>
             Opening Role
             <SortingIcon>
-              <SortingTop src={SortingVectorTop} alt=" "/>
-              <SortingBottom src={SortingVectorBottom} alt=" "/>
+              <SortingTop src={SortingVectorTop} alt=" " />
+              <SortingBottom src={SortingVectorBottom} alt=" " />
             </SortingIcon>
           </ChartHeaderText>
           <ChartHeaderText>
             Subteam
             <SortingIcon>
-              <SortingTop src={SortingVectorTop} alt=" "/>
-              <SortingBottom src={SortingVectorBottom} alt=" "/>
+              <SortingTop src={SortingVectorTop} alt=" " />
+              <SortingBottom src={SortingVectorBottom} alt=" " />
             </SortingIcon>
           </ChartHeaderText>
           <ChartHeaderText>
             Last updated
             <SortingIcon>
-              <SortingTop src={SortingVectorTop} alt=" "/>
-              <SortingBottom src={SortingVectorBottom} alt=" "/>
+              <SortingTop src={SortingVectorTop} alt=" " />
+              <SortingBottom src={SortingVectorBottom} alt=" " />
             </SortingIcon>
           </ChartHeaderText>
           <ChartHeaderText>
             Opening status
             <SortingIcon>
-              <SortingTop src={SortingVectorTop} alt=" "/>
-              <SortingBottom src={SortingVectorBottom} alt=" "/>
+              <SortingTop src={SortingVectorTop} alt=" " />
+              <SortingBottom src={SortingVectorBottom} alt=" " />
             </SortingIcon>
           </ChartHeaderText>
         </ChartHeader>
