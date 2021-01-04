@@ -58,8 +58,8 @@ const TopBar = () => {
     }
   }, [profilePic, dispatch, getProfilePicture]);
   return (
-    <>
-      <AppBar>
+    <div>
+      <AppBar position="relative">
         <Toolbar>
           <div>
             <IconButton edge="start" aria-label="menu" component={Link} to='/'>
@@ -75,7 +75,7 @@ const TopBar = () => {
       {menuOpen && (
         <DesktopMenu onClose={() => setMenuOpen(false)} />
       )}
-    </>
+    </div>
   );
 };
 
