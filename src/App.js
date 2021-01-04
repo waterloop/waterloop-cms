@@ -47,7 +47,7 @@ function App() {
         <Route path="/sign-in" exact>
           <SignInPage />
         </Route>
-        <Route path="/descriptions" exact>
+        <Route path="/team-descriptions" exact>
           <TeamDesc />
         </Route>
       </Switch>
