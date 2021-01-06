@@ -1,16 +1,13 @@
-import React, { useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import React from 'react';
 import styled from 'styled-components';
-import { useUserInfo } from '@waterloop/cms-client-api';
+import useProfilePicture from '../../hooks/profile-picture';
+import { Link } from 'react-router-dom';
 import MUIAppBar from '@material-ui/core/AppBar';
 import MUIToolbar from '@material-ui/core/Toolbar';
 import MUIIconButton from '@material-ui/core/IconButton';
 import NavIconSVG from './assets/nav-icon.svg';
 import WaterloopLogoSVG from './assets/topbar-logo.svg';
 import UnstyledDesktopMenu from './DesktopMenu';
-import { useDispatch, useSelector } from 'react-redux';
-import * as userSelectors from '../../state/user/selectors';
-import * as userActions from '../../state/user/actions';
 
 const AppBar = styled(MUIAppBar)`
   background-color: ${({ theme }) => theme.colours.blues.blue1};
@@ -47,16 +44,9 @@ const ProfilePicture = styled.img`
 `;
 
 const TopBar = () => {
-  const dispatch = useDispatch();
   const [menuOpen, setMenuOpen] = React.useState(false);
-  const userId = useSelector(userSelectors.userId);
-  const profilePic = useSelector(userSelectors.picture);
-  const { getProfilePicture } = useUserInfo(userId);
-  useEffect(() => {
-    if (profilePic === '') {
-      getProfilePicture().then((picture) => dispatch(userActions.setUserPicture(picture)));
-    }
-  }, [profilePic, dispatch, getProfilePicture]);
+  const { profilePicture } = useProfilePicture();
+
   return (
     <div>
       <AppBar position="relative">
@@ -69,7 +59,7 @@ const TopBar = () => {
               <NavIcon />
             </IconButton>
           </div>
-          <ProfilePicture src={profilePic} alt="profile" />
+          <ProfilePicture src={profilePicture} alt="profile" />
         </Toolbar>
       </AppBar>
       {menuOpen && (
