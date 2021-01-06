@@ -4,9 +4,10 @@ import api from '../api';
 import * as postingActions from '../state/postings/actions';
 import * as postingSelectors from '../state/postings/selectors';
 
-const deadlineToDate = (data) => ({
+const dateStringsToDate = (data) => ({
   ...data,
   deadline: new Date(data.deadline),
+  lastUpdated: new Date(data.lastUpdated),
 });
 
 const usePostingPostingById = (postingId) => {
@@ -16,7 +17,7 @@ const usePostingPostingById = (postingId) => {
     async () => {
       try {
         const response = await api.getPostingById(postingId);
-        return deadlineToDate(response.data);
+        return dateStringsToDate(response.data);
       } catch (err) {
         if (process.env.NODE_ENV === 'development') {
           console.log(err);

@@ -10,7 +10,6 @@ const useGoogleAuth = (onAuthComplete) => {
   React.useEffect(() => {
     socket.open();
     socket.on('google', (userId) => {
-      console.log(`useriD: ${userId}`);
       onAuthComplete(null, userId);
     });
     return () => {
@@ -33,8 +32,6 @@ const useGoogleAuth = (onAuthComplete) => {
     const left = (window.innerWidth / 2) - (width / 2);
     const top = (window.innerHeight / 2) - (height / 2);
     try {
-      console.log(socket);
-      console.log(`SocketId : ${socket.id}`);
       const response = await api.google.authenticate(socket);
       const url = response.data.uri;
 
