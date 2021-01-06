@@ -1,6 +1,6 @@
 import React from 'react';
 import PostingPreview from './PostingsPreview';
-import usePostings from './hooks/postings';
+import usePostings from '../../hooks/postings';
 import UnstyledHeaderPreview from './HeadersPreview';
 import useHeaders from './hooks/headers';
 import styled from 'styled-components';

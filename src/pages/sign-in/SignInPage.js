@@ -2,7 +2,7 @@ import React, { useCallback } from 'react';
 import styled from 'styled-components';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
-import { useGoogleAuth } from '@waterloop/cms-client-api';
+import useGoogleAuth from '../../hooks/google-auth';
 
 import BuildingsSVG from './assets/buildings.svg';
 import PodSVG from './assets/pod.svg';
@@ -95,11 +95,11 @@ const SignInPage = () => {
         console.log(err);
         return;
       }
-      if (id === null) {
-        dispatch(userActions.setUserId(userId));
-        history.push('/');
-      }
-    }, [dispatch, history, id],
+      // if (id === null) {
+      dispatch(userActions.setUserId(userId));
+      history.push('/');
+      // }
+    }, [dispatch, history, /*id*/],
   );
 
   const { login } = useGoogleAuth(onAuthComplete);
