@@ -1,10 +1,10 @@
 import React from 'react';
 import styled from 'styled-components';
 import MockData from './MockData';
-import Add from './add.svg';
-import Edit from './edit.svg';
-import SortUp from './SortUp.svg';
-import SortDown from './SortDown.svg';
+import Add from './assets/add.svg';
+import Edit from './assets/edit.svg';
+import SortUp from './assets/SortUp.svg';
+import SortDown from './assets/SortDown.svg';
 
 const PageName = styled.div`
     font-weight: 500;
@@ -259,14 +259,13 @@ const Border = styled.div`
     outline: 2px solid #C4C4C4;
 `;
 
-function TeamDesc() {
+const TeamDescriptionsPage = () => {
   const list = MockData();
   return (
     <OuterContainer>
       <PageName>
         Teams Page Description
-                </PageName>
-
+      </PageName>
       <ButtonSpan>
         <EditDescButton>Edit description</EditDescButton>
         <TeamButton>Preview</TeamButton>
@@ -279,8 +278,6 @@ function TeamDesc() {
             <EditIcon src={Add} alt="+" />
           </TeamButton>
         </OuterSpan>
-
-
         <InnerContainer>
           <Table>
             <Spann>
@@ -320,4 +317,4 @@ function TeamDesc() {
   );
 };
 
-export default TeamDesc;
+export default TeamDescriptionsPage;
