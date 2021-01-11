@@ -1,4 +1,5 @@
 import React from 'react';
+import moment from 'moment';
 import styled from 'styled-components';
 import EditIcon from './assets/EditIcon.svg';
 import OptionsVector from './assets/OptionsVector.svg';
@@ -90,20 +91,20 @@ const EditButtonIcon = styled.img`
 `;
 
 const PostingsPreview = ({
-  openingRole,
-  subteam,
+  title,
+  team,
   lastUpdated,
   openingStatus,
 }) => (
   <ChartRow>
     <TableCell>
-      <ChartInfoText>{openingRole}</ChartInfoText>
+      <ChartInfoText>{title}</ChartInfoText>
     </TableCell>
     <TableCell>
-      <ChartInfoText>{subteam}</ChartInfoText>
+      <ChartInfoText>{team}</ChartInfoText>
     </TableCell>
     <TableCell>
-      <LastUpdatedText>{lastUpdated}</LastUpdatedText>
+      <LastUpdatedText>{moment(lastUpdated).format('MMM Do, YYYY')}</LastUpdatedText>
     </TableCell>
     <TableCell>
       <StatusBorder>
