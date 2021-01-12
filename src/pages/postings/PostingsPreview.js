@@ -56,5 +56,4 @@ const PostingsPreview = ({
   </>
 );
 
-
 export default PostingsPreview;

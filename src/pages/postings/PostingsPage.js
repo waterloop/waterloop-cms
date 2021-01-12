@@ -43,7 +43,8 @@ const PostingsPage = () => {
   };
 
   const headerItems = headers.map(
-    (header) => <HeaderPreview key={header.id} onEdit={handleEditHeader(header.id)} {...header} />);
+    (header) => <HeaderPreview key={header.id} onEdit={handleEditHeader(header.id)} {...header} />,
+  );
 
   const tableHeaders = [
     {
@@ -68,7 +69,12 @@ const PostingsPage = () => {
       {headerItems}
       <NewOpeningButton>New Opening +</NewOpeningButton>
       <ChartTitle>Team Openings</ChartTitle>
-      <PreviewTable headers={tableHeaders} rows={postings} RowComponent={PostingPreview} onEdit={handleEditPosting} />
+      <PreviewTable
+        headers={tableHeaders}
+        rows={postings}
+        RowComponent={PostingPreview}
+        onEdit={handleEditPosting}
+      />
     </Container>
   );
 };
