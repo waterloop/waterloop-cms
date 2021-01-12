@@ -2,7 +2,6 @@ import React from 'react';
 import moment from 'moment';
 import styled from 'styled-components';
 import MUITableCell from '@material-ui/core/TableCell';
-import MUITableRow from '@material-ui/core/TableRow';
 
 const Text = styled.div`
   position: relative;
