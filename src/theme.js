@@ -4,6 +4,7 @@ const blues = {
 
 const yellows = {
   yellow1: '#FED138',
+  yellow2: '#FED95A',
 };
 
 const blacks = {
