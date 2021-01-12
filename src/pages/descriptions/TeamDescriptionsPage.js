@@ -1,10 +1,8 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import styled from 'styled-components';
 import MockData from './MockData';
-import Add from './assets/add.svg';
-import Edit from './assets/edit.svg';
-import SortUp from './assets/SortUp.svg';
-import SortDown from './assets/SortDown.svg';
+import PreviewTable from '../../components/PreviewTable';
+import TableRow from './TableRow';
 
 const PageName = styled.div`
     font-weight: 500;
@@ -260,7 +258,23 @@ const Border = styled.div`
 `;
 
 const TeamDescriptionsPage = () => {
-  const list = MockData();
+  const list = MockData;
+  const headers = [
+    {
+      id: 'teamName',
+      value: 'Team',
+    },
+    {
+      id: 'lastUpdated',
+      value: 'Last Updated',
+    },
+  ];
+
+  // eslint-disable-next-line no-unused-vars
+  const handleEdit = useCallback((teamId) => {
+    // TODO implement this function
+  }, [/* Add Dependencies if any */]);
+
   return (
     <OuterContainer>
       <PageName>
@@ -270,49 +284,7 @@ const TeamDescriptionsPage = () => {
         <EditDescButton>Edit description</EditDescButton>
         <TeamButton>Preview</TeamButton>
       </ButtonSpan>
-      <Container>
-        <OuterSpan>
-          <h1>All Teams</h1>
-          <TeamButton>
-            AddTeam
-            <EditIcon src={Add} alt="+" />
-          </TeamButton>
-        </OuterSpan>
-        <InnerContainer>
-          <Table>
-            <Spann>
-              <ChartHeaderText>
-                <h2>Team</h2>
-                <SortingIcons>
-                  <SortingUp src={SortUp} alt="up" />
-                  <SortingDown src={SortDown} alt="down" />
-                </SortingIcons>
-              </ChartHeaderText>
-              <ChartHeaderText>
-                <h2>Last Updated</h2>
-                <SortingIcons>
-                  <SortingUp src={SortUp} alt="edit" />
-                  <SortingDown src={SortDown} alt="edit" />
-                </SortingIcons>
-              </ChartHeaderText>
-            </Spann>
-          </Table>
-          {list.map((item) => (
-            <Border>
-              <OuterSpan>
-                <ListSpan>
-                  <h2>{item.teamName}</h2>
-                  <div className="date">{item.lastUpdated}</div>
-                </ListSpan>
-                <EditButton >
-                  Button
-                  <EditIcon src={Edit} alt="edit" />
-                </EditButton>
-              </OuterSpan>
-            </Border>
-          ))}
-        </InnerContainer>
-      </Container>
+      <PreviewTable headers={headers} RowComponent={TableRow} onEdit={handleEdit} rows={list} />
     </OuterContainer>
   );
 };
