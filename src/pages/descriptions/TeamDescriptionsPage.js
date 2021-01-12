@@ -23,43 +23,6 @@ const ButtonContainer = styled.div`
     }
 `;
 
-const TeamButton = styled.button`
-    background: #FED95A;
-    border-radius: 15px;
-    display: flex;
-    padding: 0 0.5rem;
-    img{
-        width: 25%;
-    };
-    text-align: center;font-family: IBM Plex Sans;
-        font-style: normal;
-        font-weight: bold;
-        font-size: 15px;
-        line-height: 23px;
-        display: flex;
-        align-items: center;
-        color: #2B2B2B;
-        border: 1px solid #FED95A;
-`;
-
-const EditDescButton = styled.button`
-    background: #1A1A1A;
-    border-radius: 15px;
-    color: #fed95a;
-    text-align: center;
-    font-family: IBM Plex Sans;
-    font-style: normal;
-    font-weight: bold;
-    font-size: 13px;
-    line-height: 23px;
-    display: flex;
-    align-items: center;
-    padding: 0 0.5rem;
-    @media (max-width: 768px) {
-        margin-right: 50px;
-  }
-`;
-
 const TeamDescriptionsPage = () => {
   const list = MockData;
   const headers = [
