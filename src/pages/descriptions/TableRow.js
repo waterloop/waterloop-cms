@@ -1,4 +1,5 @@
 import React from 'react';
+import moment from 'moment';
 import styled from 'styled-components';
 import MUITableCell from '@material-ui/core/TableCell';
 import MUITableRow from '@material-ui/core/TableRow';
@@ -16,24 +17,15 @@ const Text = styled.div`
 
 const TableCell = styled(MUITableCell)``;
 
-const Row = styled(MUITableRow)`
-  height: 80px;
-  font: ${({ theme }) => theme.fonts.medium18};
-  line-height: 23.4px;
-  color: #000000;
-  border: 2px solid #C4C4C4;
-  box-sizing: border-box;
-`;
-
-const TableRow = ({ team, lastUpdated }) => (
-  <Row>
+const TableRow = ({ teamName, lastUpdated }) => (
+  <>
     <TableCell>
-      <Text>{team}</Text>
+      <Text>{teamName}</Text>
     </TableCell>
     <TableCell>
-      <Text>{lastUpdated}</Text>
+      <Text>{moment(lastUpdated).format('MMM Do, YYYY')}</Text>
     </TableCell>
-  </Row>
+  </>
 );
 
 export default TableRow;

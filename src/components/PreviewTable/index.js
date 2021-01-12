@@ -25,7 +25,6 @@ const BodyRow = styled(MUITableRow)`
   font: ${({ theme }) => theme.fonts.medium18};
   line-height: 23.4px;
   color: #000000;
-  border: 2px solid #C4C4C4;
   box-sizing: border-box;
 `;
 
