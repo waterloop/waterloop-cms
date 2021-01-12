@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import PostingPreview from './PostingsPreview';
 import usePostings from '../../hooks/postings';
 import UnstyledHeaderPreview from './HeadersPreview';
@@ -34,9 +34,9 @@ const PostingsPage = () => {
   const { postings, editPosting } = usePostings();
   const { headers, editHeader } = useHeaders();
 
-  const handleEditPosting = (id) => () => {
+  const handleEditPosting = useCallback((id) => {
     console.log(`Edit the Posting with id ${id}`);
-  };
+  }, []);
 
   const handleEditHeader = (id) => () => {
     console.log(`Edit the Header with id ${id}`);
