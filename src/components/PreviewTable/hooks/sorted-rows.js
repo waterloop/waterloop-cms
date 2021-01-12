@@ -1,4 +1,4 @@
-import { useReducer, useEffect } from 'react';
+import { useReducer, useEffect, useCallback } from 'react';
 import * as R from 'ramda';
 
 const SORT_DESCENDING = 'SORT_DESCENDING';
@@ -89,16 +89,10 @@ const useSortedRows = (rows) => {
     };
   }, [rows]);
 
-  const onSort = (headerId) => {
+  const onSort = useCallback((headerId) => {
     const type = state.ascending && state.headerId === headerId ? SORT_DESCENDING : SORT_ASCENDING;
-    console.log(type);
-    console.log(headerId);
     dispatch({ type, payload: { headerId } });
-  };
-
-  useEffect(() => {
-    console.log(state.rows);
-  }, [state.rows]);
+  }, [dispatch, state.ascending, state.headerId]);
 
   return {
     sortedRows: state,
