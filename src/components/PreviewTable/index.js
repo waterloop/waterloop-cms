@@ -129,7 +129,7 @@ PreviewTable.propTypes = {
   })),
   rows: PropTypes.arrayOf(PropTypes.object),
   RowComponent: PropTypes.element,
-  onEdit: PropTypes.func, /** (headerId) => void */
+  onEdit: PropTypes.func, /** (rowId) => void */
 };
 
 export default PreviewTable;
