@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import AddImageIconSvg from './assets/addImageIcon.svg';
@@ -15,9 +15,6 @@ const CloseButton = styled.img.attrs({
 
   width: 24px;
   height: 24px;
-  ${'' /* border-radius: 12px;
-  border: ${({ theme }) => theme.borders.solidGrey1};
-  background-color: ${({ theme }) => theme.colours.white}; */}
 
   &:hover {
     visibility: visible;
@@ -60,6 +57,14 @@ const AddImage = styled.div`
   cursor: pointer;
 `;
 
+const FileInput = styled.input.attrs({
+  type: 'file',
+})`
+  visibility: hidden;
+  width: 0px;
+  height: 0px;
+`;
+
 const AddImageIcon = styled.img.attrs({
   src: AddImageIconSvg,
 })`
@@ -71,21 +76,66 @@ const ImagePreview = ({
   src,
   alt = 'image-preview-form-component',
   onDelete,
-  onNew,
-}) => (
-  src ? (
-    <Container className={className}>
-      <CloseButton onClick={onDelete}/>
-      <Image src={src} alt={alt} />
-    </Container>
-  ) : (
-    <Container className={className}>
-      <AddImage onClick={onNew}>
-        <AddImageIcon/> Add a new Image
-      </AddImage>
-    </Container>
-  )
-);
+  onNew, // Takes in a File object as the only parameter
+}) => {
+  const inputRef = useRef(null);
+
+  const handleNew = useCallback((event) => {
+    event.preventDefault();
+    inputRef.current.click();
+  }, []);
+
+  const handleFileUpload = useCallback((event) => {
+    event.preventDefault();
+    const fileList = inputRef.current.files;
+    if (fileList.length === 1) {
+      // console.log(`File uploaded: ${fileList[0].name}`);
+      onNew(fileList[0]);
+    }
+  }, [onNew]);
+
+  const handleFileDrop = useCallback(
+    (event) => {
+      event.preventDefault();
+      if (event.dataTransfer.items) {
+        // Use DataTransferItemList interface to access the file(s)
+        if (event.dataTransfer.items.length === 1) {
+          const file = event.dataTransfer.items[0].getAsFile();
+          // console.log(`File uploaded: ${file.name}`);
+          onNew(file);
+        }
+      } else if (event.dataTransfer.files.length === 1) {
+        // Use DataTransfer interface to access the file(s)
+        const file = event.dataTransfer.files[0];
+        // console.log(`File uploaded: ${file.name}`);
+        onNew(file);
+      }
+    },
+    [onNew],
+  );
+
+  const handleDragOver = useCallback((event) => {
+    event.preventDefault();
+  }, []);
+
+  return (
+    src ? (
+      <Container className={className}>
+        <CloseButton onClick={onDelete}/>
+        <Image src={src} alt={alt} />
+      </Container>
+    ) : (
+      <Container className={className}>
+        <AddImage onClick={handleNew} onDrop={handleFileDrop} onDragOver={handleDragOver}>
+          <AddImageIcon/> Add a new Image
+        </AddImage>
+        {/* FileInput is a hidden element. We use it's ref to access the file upload api
+        without needing to try to style the input element itself.  */}
+        <FileInput ref={inputRef} onChange={handleFileUpload} accept="image/*"/>
+      </Container>
+    )
+  );
+};
 
 ImagePreview.propTypes = {
   className: PropTypes.string,
