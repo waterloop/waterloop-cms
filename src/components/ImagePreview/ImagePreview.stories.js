@@ -1,4 +1,6 @@
 import React from 'react';
+import { ThemeProvider } from 'styled-components';
+import theme from '../../theme';
 import ImagePreview from '.';
 
 export default {
@@ -8,7 +10,7 @@ export default {
   },
 };
 
-const Template = (args) => <ImagePreview {...args} />;
+const Template = (args) => <ThemeProvider theme={theme}><ImagePreview {...args} /></ThemeProvider>;
 
 export const EmptyImage = Template.bind({});
 EmptyImage.args = {

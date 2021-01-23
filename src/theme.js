@@ -1,3 +1,4 @@
+import 'typeface-ibm-plex-sans';
 const blues = {
   blue1: '#232535',
 };
