@@ -7,7 +7,6 @@ import App from './App';
 import theme from './theme';
 import state from './state';
 
-
 ReactDOM.render(
   <React.StrictMode>
     <ThemeProvider theme={theme}>
