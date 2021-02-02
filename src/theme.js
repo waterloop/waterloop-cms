@@ -16,6 +16,7 @@ const blacks = {
 
 const greys = {
   grey1: '#F5F5F5',
+  grey2: '#c4c4c4',
 };
 
 const white = '#FFFFFF';
@@ -36,6 +37,7 @@ const bolds = {
 };
 
 const mediums = {
+  medium12: '500 12px IBM Plex Sans',
   medium14: '500 14px IBM Plex Sans',
   medium18: '500 18px IBM Plex Sans',
   medium24: '500 24px IBM Plex Sans',
@@ -47,6 +49,7 @@ const shadows = {
 
 const borders = {
   solidGrey1: '1px solid #c4c4c4',
+  solidGrey2: '0.75px solid rgba(214, 220, 227, 0.5)',
 };
 
 export default {
