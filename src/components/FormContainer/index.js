@@ -11,8 +11,8 @@ const OuterContainer = styled.div`
   max-width: 300px;
 `;
 
-const FormContainer = ({ title, children }) => (
-  <OuterContainer>
+const FormContainer = ({ title, children, className }) => (
+  <OuterContainer className={className}>
     <Title>{title}</Title>
     {children}
   </OuterContainer>
