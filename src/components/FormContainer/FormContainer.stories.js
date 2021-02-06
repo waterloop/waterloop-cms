@@ -1,9 +1,10 @@
 import React from 'react';
 import { ThemeProvider } from 'styled-components';
 import theme from '../../theme';
-import ImagePreview from '../ImagePreview';
 
+import ImagePreview from '../ImagePreview';
 import FormContainer from '.';
+import DropDownList from '../DropDownList';
 
 export default {
   title: 'FormContainer',
@@ -33,14 +34,23 @@ export const SelectMenu = Template.bind({});
 SelectMenu.args = {
   title: 'Select Menu',
   children: (
-    <select>
-      <option value="Junior Developer">Junior Developer</option>
-      <option value="Designer">Designer</option>
-      <option selected value="Product Tester">
-        Product Tester
-      </option>
-      <option value="Mechanical Team">Mechanical Team</option>
-    </select>
+    <DropDownList
+      title="Options...."
+      items={[
+        {
+          text: 'Option 1',
+          id: 123,
+        },
+        {
+          text: 'Option 2 ',
+          id: 13,
+        },
+        {
+          text: 'Option 3',
+          id: 3,
+        },
+      ]}
+    />
   ),
 };
 
