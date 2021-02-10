@@ -1,5 +1,7 @@
 import React from 'react';
 import TextInput from '.';
+import { ThemeProvider } from 'styled-components';
+import theme from '../../theme';
 
 export default {
   title: 'TextInput',
@@ -9,7 +11,7 @@ export default {
   },
 };
 
-const Template = (args) => <TextInput {...args} />;
+const Template = (args) => <ThemeProvider theme={theme}><TextInput {...args} /></ThemeProvider>;
 
 export const SingleLineEmpty = Template.bind({});
 SingleLineEmpty.args = {
@@ -29,6 +31,6 @@ MultiLineEmpty.args = {
 
 export const MultiLineFilled = Template.bind({});
 MultiLineFilled.args = {
-  value: 'Text a user has entered',
+  value: 'Text a user has entered and a long sentence appears like lorem  ipsum lorem ipsum lorem ipsum Text a user has entered and a long sentence appears like lorem  ipsum lorem ipsum lorem ipsum Text a user has entered and a long sentence appears like lorem  ipsum lorem ipsum lorem ipsum Text a user has entered and a long sentence appears like lorem  ipsum lorem ipsum lorem ipsum Text a user has entered and a long sentence appears like lorem  ipsum lorem ipsum lorem ipsum',
   multiLine: true,
 };
