@@ -1,12 +1,8 @@
-/* eslint-disable no-unused-vars */
-/* remove before merge  ^^^ */
 import React, {useState} from 'react';
 import styled from 'styled-components';
 import MUISelector from '@material-ui/core/Select';
 import MUIMenuItem from '@material-ui/core/MenuItem';
 import ExpandLessIcon from '@material-ui/icons/ExpandLess';
-import MUIInputBase from '@material-ui/core/InputBase';
-import * as R from 'ramda';
 
 const PrimarySelector = styled(MUISelector)({
   borderRadius: 20,
@@ -15,14 +11,6 @@ const PrimarySelector = styled(MUISelector)({
   '& fieldset': {
     borderColor: '#c4c4c4'
   } 
-});
-
-const AddField = styled(MUIMenuItem)({
-  display: "flex",
-  justifyContent: "center",
-  color: "#444444",
-  fontWeight: "bold",
-  fontSize: "0.8rem"
 });
 
 const StyledExpandIcon = styled(ExpandLessIcon)({
@@ -45,12 +33,8 @@ const Selector = ({
   value,
   onSelect,
   items,
-  // isOpen,
-  /* Add other props here */
 }) => {
-  const [selected, setSelected] = useState(value);  // TODO: abstract out to parent component.
-  // const [open, setOpen] = useState(isOpen ?? false); // TODO: Also abstract this out to parent component.
-  // const [newInput, setNewInput] = useState(""); // This I don't think needs to be abstracted to parent.
+  const [selected, setSelected] = useState(value);
 
   const handleChange = (event) => {
     if (!!event.target.value) {
@@ -66,17 +50,6 @@ const Selector = ({
       onChange={handleChange}
       value={selected}
       IconComponent={({className: c}) => <StyledExpandIcon className={c} fontSize="large"/>}
-      // open={open}
-      // onOpen={() => setOpen(true)}
-      // onClose={(event) => {
-      //   // TODO: Find out why this keeps on adding blank values.
-      //   // console.log(event.target.value)
-      //   if (!R.isNil(event.target.value) && event.target.value !== "") {
-      //     items.push(newInput);
-      //     setNewInput("");
-      //     setOpen(false);
-      //   }
-      // }}
       MenuProps={{
         anchorOrigin: {
           vertical: 'bottom',
@@ -88,31 +61,12 @@ const Selector = ({
         },
         getContentAnchorEl: null
       }}
-      // inputProps={{
-      //   classes: {
-      //     root: {
-      //       '$focused $notchedOutline': {
-      //         borderColor: 'black'
-      //       }
-      //     }
-      //   }
-      // }}
     >
       {items.map((item) => (
         <MUIMenuItem key={item.id} value={item.id} divider>
           {item.text}
         </MUIMenuItem>
       ))}
-      {/* TODO: Implement add field when new ticket out for it: */}
-      {/* <AddField>
-        <MUIInputBase 
-          placeholder={"+ Add New"}
-          onChange={(event) => {
-            setNewInput(event.target.value)
-          }}
-          value={newInput}
-        />
-      </AddField> */}
     </PrimarySelector>
   );
 };
