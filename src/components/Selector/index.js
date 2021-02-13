@@ -1,18 +1,20 @@
 /* eslint-disable no-unused-vars */
 /* remove before merge  ^^^ */
 import React, {useState} from 'react';
-import {styled} from '@material-ui/core/styles';
+import styled from 'styled-components';
 import MUISelector from '@material-ui/core/Select';
 import MUIMenuItem from '@material-ui/core/MenuItem';
 import ExpandLessIcon from '@material-ui/icons/ExpandLess';
 import MUIInputBase from '@material-ui/core/InputBase';
 import * as R from 'ramda';
-import { List } from '@material-ui/core';
 
 const PrimarySelector = styled(MUISelector)({
   borderRadius: 20,
   width: '100%',
   zIndex: 100,
+  '& fieldset': {
+    borderColor: '#c4c4c4'
+  } 
 });
 
 const AddField = styled(MUIMenuItem)({
@@ -27,8 +29,6 @@ const StyledExpandIcon = styled(ExpandLessIcon)({
   transition: "cubic-bezier(0.4, 0, 1, 1) 0.1s",
   top: "10px"
 });
-
-// const AddFieldModal
 
 /**Custom Waterloop CMS Selector. The parent component determines what happens when the 
  * value changes, including updating the value that's currently displayed in the field.
@@ -59,62 +59,61 @@ const Selector = ({
     }
   }
   return (
-    <div className={className}>
-      <PrimarySelector
-        variant="outlined"
-        color="primary"
-        onChange={handleChange}
-        value={selected}
-        IconComponent={({className}) => <StyledExpandIcon className={className} fontSize="large"/>}
-        // open={open}
-        // onOpen={() => setOpen(true)}
-        // onClose={(event) => {
-        //   // TODO: Find out why this keeps on adding blank values.
-        //   // console.log(event.target.value)
-        //   if (!R.isNil(event.target.value) && event.target.value !== "") {
-        //     items.push(newInput);
-        //     setNewInput("");
-        //     setOpen(false);
-        //   }
-        // }}
-        MenuProps={{
-          anchorOrigin: {
-            vertical: 'bottom',
-            horizontal: 'center',
-          },
-          transformOrigin: {
-            vertical: 'top',
-            horizontal: 'center',
-          },
-          getContentAnchorEl: null
-        }}
-        // inputProps={{
-        //   classes: {
-        //     root: {
-        //       '$focused $notchedOutline': {
-        //         borderColor: 'black'
-        //       }
-        //     }
-        //   }
-        // }}
-      >
-        {items.map((item) => (
-          <MUIMenuItem key={item} value={item} divider>
-            {item}
-          </MUIMenuItem>
-        ))}
-        {/* TODO: Implement add field when new ticket out for it: */}
-        {/* <AddField>
-          <MUIInputBase 
-            placeholder={"+ Add New"}
-            onChange={(event) => {
-              setNewInput(event.target.value)
-            }}
-            value={newInput}
-          />
-        </AddField> */}
-      </PrimarySelector>
-    </div>
+    <PrimarySelector
+      className={className}
+      variant="outlined"
+      color="primary"
+      onChange={handleChange}
+      value={selected}
+      IconComponent={({className: c}) => <StyledExpandIcon className={c} fontSize="large"/>}
+      // open={open}
+      // onOpen={() => setOpen(true)}
+      // onClose={(event) => {
+      //   // TODO: Find out why this keeps on adding blank values.
+      //   // console.log(event.target.value)
+      //   if (!R.isNil(event.target.value) && event.target.value !== "") {
+      //     items.push(newInput);
+      //     setNewInput("");
+      //     setOpen(false);
+      //   }
+      // }}
+      MenuProps={{
+        anchorOrigin: {
+          vertical: 'bottom',
+          horizontal: 'center',
+        },
+        transformOrigin: {
+          vertical: 'top',
+          horizontal: 'center',
+        },
+        getContentAnchorEl: null
+      }}
+      // inputProps={{
+      //   classes: {
+      //     root: {
+      //       '$focused $notchedOutline': {
+      //         borderColor: 'black'
+      //       }
+      //     }
+      //   }
+      // }}
+    >
+      {items.map((item) => (
+        <MUIMenuItem key={item.id} value={item.id} divider>
+          {item.text}
+        </MUIMenuItem>
+      ))}
+      {/* TODO: Implement add field when new ticket out for it: */}
+      {/* <AddField>
+        <MUIInputBase 
+          placeholder={"+ Add New"}
+          onChange={(event) => {
+            setNewInput(event.target.value)
+          }}
+          value={newInput}
+        />
+      </AddField> */}
+    </PrimarySelector>
   );
 };
 
