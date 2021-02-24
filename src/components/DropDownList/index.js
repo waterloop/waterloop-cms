@@ -21,8 +21,8 @@ const ListClosedIcon = styled.img.attrs({
 })``;
 
 const Container = styled.div`
-  height: 0;
   overflow: visible;
+  z-index: 1; ${''/** Hides the top of the list under the List name container */}
 `;
 
 const ListNameContainer = styled.div`
@@ -51,10 +51,10 @@ const List = styled(({ open, ...props }) => <ul {...props}/>)`
   box-shadow: ${({ theme }) => theme.shadows.shadow1};
   margin-top: -8px;
   padding-top: 8px;
-  z-index: -1; ${''/** Hides the top of the list under the List name container */}
   position: relative;
-  width: calc(100% - 43px);
+  width: calc(100% - 10px);
   margin-left: 6px;
+  padding-inline-start: 0;
 
   ${''/* Cannot Use Transitions with "height: auto", so this calculates the height of the list based on the number of children */}
   ${({ open, children }) => (open ? css`
@@ -97,6 +97,11 @@ const DropDownList = ({
     ),
   );
 
+  const handleAdd = () => {
+    console.log('Add');
+    onAdd();
+  }
+
   return (
     <Container>
       <ListNameContainer onClick={handleOpenToggle} className={className}>
@@ -104,7 +109,7 @@ const DropDownList = ({
       </ListNameContainer>
       <List open={open}>
         {listItems}
-        <ListItem addNew onAddNew={onAdd} />
+        <ListItem addNew onAddNew={handleAdd} />
       </List>
     </Container>
   );

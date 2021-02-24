@@ -7,6 +7,7 @@ import styled from 'styled-components';
 
 import Button from '../../components/Button';
 import PreviewTable from '../../components/PreviewTable';
+import { useHistory, useRouteMatch } from 'react-router-dom';
 
 const ChartTitle = styled.div`
   font-style: italic;
@@ -33,10 +34,12 @@ const Container = styled.div`
 const PostingsPage = () => {
   const { postings, editPosting } = usePostings();
   const { headers, editHeader } = useHeaders();
-
+  const history = useHistory();
+  const { url } = useRouteMatch();
   const handleEditPosting = useCallback((id) => {
     console.log(`Edit the Posting with id ${id}`);
-  }, []);
+    history.push(`${url}/${id}`);
+  }, [history, url]);
 
   const handleEditHeader = (id) => () => {
     console.log(`Edit the Header with id ${id}`);

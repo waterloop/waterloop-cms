@@ -20,7 +20,8 @@ const usePostings = () => {
     async () => {
       try {
         const response = await api.postings.getPostings();
-        return dateStringsToDates(response.data);
+        const teams = await api.teams.getTeams();
+        return dateStringsToDates(response.data.map((item) => ({ ...item, team: teams.data.find((team) => team.id === item.teamId).teamName })));
       } catch (err) {
         if (process.env.NODE_ENV === 'development') {
           console.log(err);
