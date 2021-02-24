@@ -34,24 +34,24 @@ const TitleText = styled.div`
   margin-bottom: 12px;
 `;
 
-const TextInput = ({
-  className, /* Allows for external styles to be applied to the component using the styled components library
-                className prop needs to be passed to the parent JSX element */
-  value, /* The current value of the input */
-  onChange, /* Callback to be called each time that the user changes the input */
+const TextInput = ({ multiline
+  // className, /* Allows for external styles to be applied to the component using the styled components library
+  //               className prop needs to be passed to the parent JSX element */
+  // value, /* The current value of the input */
+  // onChange, /* Callback to be called each time that the user changes the input */
 
-  /* Add other props here */
+  // /* Add other props here */
 }) => {
   /* Boolean flag to be used when implimenting the multi-line update */
-  const [ multiLine, setMultiLine ] = useState(false)
   return (
     <>
-      <TitleText>
-        Title Info
-      </TitleText>
       <Container>
+        { multiline === true ?
+        <TextInputContainer rows="5" cols="60" placeholder="Placeholder Text, Change it">    
+        </TextInputContainer> :
         <TextInputContainer placeholder="Placeholder Text, Change it">    
         </TextInputContainer>
+        }
       </Container>
     </>
   );
