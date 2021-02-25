@@ -42,6 +42,7 @@ const TeamDescriptionsPage = () => {
   }, [/* Add Dependencies if any */]);
 
   return (
+    <>
     <OuterContainer>
       <PageName>
         Teams Page Description
@@ -52,6 +53,7 @@ const TeamDescriptionsPage = () => {
       </ButtonContainer>
       <PreviewTable headers={headers} RowComponent={TableRow} onEdit={handleEdit} rows={list} />
     </OuterContainer>
+    </>
   );
 };
 
