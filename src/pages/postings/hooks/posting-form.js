@@ -1,8 +1,16 @@
-import React, { useReducer, useCallback, useEffect } from 'react';
+import React, {
+  useReducer,
+  useCallback,
+  useEffect,
+  useMemo,
+  useState,
+} from 'react';
 import Dialog from '../../../components/Dialog';
 import api from '../../../api';
 import useTeams from '../../../hooks/teams';
 import { useHistory } from 'react-router-dom';
+
+const today = new Date();
 
 const initialState = (inputState) => ({
   loading: true,
@@ -10,9 +18,9 @@ const initialState = (inputState) => ({
   form: {
     title: '',
     teamId: 1,
-    deadline: new Date(),
+    deadline: today,
     location: '',
-    termYear: (new Date()).getFullYear(),
+    termYear: today.getFullYear(),
     termSeason: 'WINTER',
     description: '',
     requirements: [],
@@ -107,7 +115,9 @@ const reducer = (state, action) => {
         ...state,
         form: {
           ...state.form,
-          requirements: state.form.requirements.filter((data) => data.id !== action.payload),
+          requirements: state.form.requirements.filter(
+            (data) => data.id !== action.payload,
+          ),
         },
       };
     case 'REMOVE_TASK':
@@ -170,7 +180,7 @@ const reducer = (state, action) => {
   }
 };
 
-const usePostingForm = (postingId, input = initialState({})) => {
+const usePostingForm = (postingId, input = {}) => {
   const [state, dispatch] = useReducer(reducer, initialState(input));
   const { teams } = useTeams();
   const history = useHistory();
@@ -182,8 +192,7 @@ const usePostingForm = (postingId, input = initialState({})) => {
    */
   useEffect(() => {
     if (state.loading) {
-      api
-        .postings
+      api.postings
         .getPostingById(postingId)
         .then((response) => {
           if (response && response.status === 200) {
@@ -195,7 +204,9 @@ const usePostingForm = (postingId, input = initialState({})) => {
               },
             });
           } else {
-            throw new Error('Failed to Load Resources, please refresh the page. If you continue to experience difficulties, please contact the web team');
+            throw new Error(
+              'Failed to Load Resources, please refresh the page. If you continue to experience difficulties, please contact the web team',
+            );
           }
         })
         .catch((err) => {
@@ -207,53 +218,83 @@ const usePostingForm = (postingId, input = initialState({})) => {
   /**
    * FORM Functions
    */
-  const updateTitle = useCallback((title) => {
-    dispatch({ type: 'UPDATE_POSTING_TITLE', payload: title });
-  }, [dispatch]);
+  const updateTitle = useCallback(
+    (title) => {
+      dispatch({ type: 'UPDATE_POSTING_TITLE', payload: title });
+    },
+    [dispatch],
+  );
 
-  const updateTermSeason = useCallback((termSeason) => {
-    dispatch({ type: 'UPDATE_TERM_SEASON', payload: termSeason });
-  }, [dispatch]);
+  const updateTermSeason = useCallback(
+    (termSeason) => {
+      dispatch({ type: 'UPDATE_TERM_SEASON', payload: termSeason });
+    },
+    [dispatch],
+  );
 
-  const updateTermYear = useCallback((termYear) => {
-    dispatch({ type: 'UPDATE_TERM_YEAR', payload: termYear });
-  }, [dispatch]);
+  const updateTermYear = useCallback(
+    (termYear) => {
+      dispatch({ type: 'UPDATE_TERM_YEAR', payload: termYear });
+    },
+    [dispatch],
+  );
 
-  const updateTimeCommitment = useCallback((timeCommitment) => {
-    dispatch({ type: 'UPDATE_TIME_COMMITMENT', payload: timeCommitment });
-  }, [dispatch]);
+  const updateTimeCommitment = useCallback(
+    (timeCommitment) => {
+      dispatch({ type: 'UPDATE_TIME_COMMITMENT', payload: timeCommitment });
+    },
+    [dispatch],
+  );
 
-  const updateDescription = useCallback((description) => {
-    dispatch({ type: 'UPDATE_DESCRIPTION', payload: description });
-  }, [dispatch]);
+  const updateDescription = useCallback(
+    (description) => {
+      dispatch({ type: 'UPDATE_DESCRIPTION', payload: description });
+    },
+    [dispatch],
+  );
 
-  const updateSubteam = useCallback((subteam) => {
-    dispatch({ type: 'UPDATE_SUBTEAM', payload: subteam });
-  }, [dispatch]);
+  const updateSubteam = useCallback(
+    (subteam) => {
+      dispatch({ type: 'UPDATE_SUBTEAM', payload: subteam });
+    },
+    [dispatch],
+  );
 
-  const updateDeadline = useCallback((deadline) => {
-    dispatch({ type: 'UPDATE_APPLICATION_DEADLINE', payload: deadline });
-  }, [dispatch]);
+  const updateDeadline = useCallback(
+    (deadline) => {
+      dispatch({ type: 'UPDATE_APPLICATION_DEADLINE', payload: deadline });
+    },
+    [dispatch],
+  );
 
-  const removeRequirement = useCallback(async (requirementId) => {
-    try {
-      await api.postings.removePostingRequirement(postingId, requirementId);
-      dispatch({ type: 'REMOVE_REQUIREMENT', payload: requirementId });
-    } catch (err) {
-      if (process.env.NODE_ENV === 'development') {
-        // eslint-disable-next-line no-console
-        console.error(`[REMOVE REQUIREMENT ERROR]: ${err}`);
+  const removeRequirement = useCallback(
+    async (requirementId) => {
+      try {
+        await api.postings.removePostingRequirement(postingId, requirementId);
+        dispatch({ type: 'REMOVE_REQUIREMENT', payload: requirementId });
+      } catch (err) {
+        if (process.env.NODE_ENV === 'development') {
+          // eslint-disable-next-line no-console
+          console.error(`[REMOVE REQUIREMENT ERROR]: ${err}`);
+        }
       }
-    }
-  }, [dispatch, postingId]);
+    },
+    [dispatch, postingId],
+  );
 
-  const removeTask = useCallback((id) => {
-    dispatch({ type: 'REMOVE_TASK', payload: id });
-  }, [dispatch]);
+  const removeTask = useCallback(
+    (id) => {
+      dispatch({ type: 'REMOVE_TASK', payload: id });
+    },
+    [dispatch],
+  );
 
-  const removeInfo = useCallback((id) => {
-    dispatch({ type: 'REMOVE_INFO', payload: id });
-  }, [dispatch]);
+  const removeInfo = useCallback(
+    (id) => {
+      dispatch({ type: 'REMOVE_INFO', payload: id });
+    },
+    [dispatch],
+  );
   // END Form Functions
 
   /**
@@ -295,9 +336,12 @@ const usePostingForm = (postingId, input = initialState({})) => {
     });
   }, [dispatch]);
 
-  const updateDialogValue = useCallback((event) => {
-    dispatch({ type: 'UPDATE_DIALOG_VALUE', payload: event.target.value });
-  }, [dispatch]);
+  const updateDialogValue = useCallback(
+    (value) => {
+      dispatch({ type: 'UPDATE_DIALOG_VALUE', payload: value });
+    },
+    [dispatch],
+  );
 
   const saveDialog = useCallback(async () => {
     try {
@@ -305,7 +349,10 @@ const usePostingForm = (postingId, input = initialState({})) => {
       switch (state.dialog.formField) {
         case 'requirements': {
           // Response holds a list of requirements that includes the new item
-          response = await api.postings.addRequirementToPosting(postingId, state.dialog.value);
+          response = await api.postings.addRequirementToPosting(
+            postingId,
+            state.dialog.value,
+          );
           break;
         }
         default:
@@ -350,19 +397,47 @@ const usePostingForm = (postingId, input = initialState({})) => {
   /**
    * Save and close Functions
    */
-  const saveForm = useCallback(() => {
-    api
-      .postings
-      .patchPosting(state.form, postingId)
-      .then(() => {
-        history.push('/postings');
-      });
-  }, [state.form, postingId]);
 
   const closeForm = useCallback(() => {
     history.push('/postings');
-  });
+  }, [history]);
+
+  const saveForm = useCallback(() => {
+    api.postings.patchPosting(state.form, postingId).then(() => {
+      closeForm();
+    });
+  }, [state.form, postingId, closeForm]);
+
+  const deleteForm = useCallback(() => {
+    api.postings
+      .deletePosting(postingId)
+      .then(() => closeForm());
+  }, [postingId, closeForm]);
   // END Save and close functions
+
+  /**
+   * Calculate Years for Selector. Add the year that is
+   * currently attached to the posting if it is in the past.
+   */
+  const [currentYear] = useState((new Date()).getFullYear());
+  const years = useMemo(() => {
+    const tempYears = [
+      { id: currentYear, text: `${currentYear}` },
+      { id: currentYear + 1, text: `${currentYear + 1}` },
+      { id: currentYear + 2, text: `${currentYear + 2}` },
+      { id: currentYear + 3, text: `${currentYear + 3}` },
+    ];
+
+    if (state.form.termYear < currentYear) {
+      return [
+        { id: state.form.termYear, text: `${state.form.termYear}` },
+        ...tempYears,
+      ];
+    }
+    return tempYears;
+  }, [state.form.termYear, currentYear]);
+  // END Calculating Term Years
+
   return {
     ...state.form,
     terms: [
@@ -370,12 +445,7 @@ const usePostingForm = (postingId, input = initialState({})) => {
       { id: 'SPRING', text: 'SPRING' },
       { id: 'FALL', text: 'FALL' },
     ],
-    years: [
-      { id: 2020, text: '2020' },
-      { id: 2021, text: '2021' },
-      { id: 2022, text: '2022' },
-      { id: 2023, text: '2023' },
-    ],
+    years,
     subTeams: teams,
     loading: state.loading,
     updateTitle,
@@ -393,6 +463,7 @@ const usePostingForm = (postingId, input = initialState({})) => {
     removeInfo,
     saveForm,
     closeForm,
+    deleteForm,
     renderAddNewDialog,
   };
 };

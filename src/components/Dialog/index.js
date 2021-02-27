@@ -6,6 +6,7 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Button from '../Button';
 import FormContainer from '../FormContainer';
+import TextInput from '../TextInput';
 
 const Dialog = ({
   open,
@@ -21,7 +22,7 @@ const Dialog = ({
     <DialogContent>
       <FormContainer title={fieldLabel}>
       {/* TODO: CHANGE THIS TO OUR STYLED TEXT INPUT */}
-        <input value={value} onChange={onChange} type="text"/>
+        <TextInput value={value} onChange={onChange} />
       </FormContainer>
     </DialogContent>
     <DialogActions>

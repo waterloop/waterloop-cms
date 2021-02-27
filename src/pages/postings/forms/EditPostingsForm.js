@@ -1,13 +1,23 @@
 import React from 'react';
 import styled from 'styled-components';
-import { useHistory, useRouteMatch } from 'react-router-dom';
+import { useRouteMatch } from 'react-router-dom';
 import usePostingForm from '../hooks/posting-form';
 import Grid from '@material-ui/core/Grid';
-import DatePicker from 'react-datepicker';
+import UnstyledDatePicker from 'react-datepicker';
 import Button from '../../../components/Button';
 import FormContainer from '../../../components/FormContainer';
 import Selector from '../../../components/Selector';
 import DropDownList from '../../../components/DropDownList';
+import TextInput from '../../../components/TextInput';
+
+const DatePicker = styled(UnstyledDatePicker)`
+  width: 100%;
+  font: ${({ theme }) => theme.fonts.medium14};
+  height: 47px;
+  padding-left: 8px;
+  border-radius: 9px;
+  border: ${({ theme }) => theme.borders.solidGrey1};
+`;
 
 const Container = styled.div`
   margin: ${({ theme }) => theme.pageMargin};
@@ -23,6 +33,11 @@ const TermContainer = styled.div`
 
 const GridContainer = styled(Grid)`
   padding-bottom: 16px;
+`;
+
+const ButtonContainer = styled.div`
+  display: flex;
+  justify-content: space-between;
 `;
 
 const EditPostingsForm = () => {
@@ -59,6 +74,7 @@ const EditPostingsForm = () => {
     saveForm,
     closeForm,
     renderAddNewDialog,
+    deleteForm,
   } = usePostingForm(postingId);
 
   return loading ? (
@@ -73,7 +89,7 @@ const EditPostingsForm = () => {
       <GridContainer container spacing={4}>
         <Grid item xs={12} md={6}>
           <FormContainer title="Opening Name (required)">
-          <input value={title} onChange={(e) => updateTitle(e.target.value)} type="text"/>
+          <TextInput value={title} onChange={updateTitle} placeholder="Opening Name (required)" />
           </FormContainer>
         </Grid>
         <Grid item xs={12} md={6}>
@@ -100,12 +116,17 @@ const EditPostingsForm = () => {
         </Grid>
         <Grid item xs={12}>
           <FormContainer title="Time Commitment (required)">
-          <input value={timeCommitment} onChange={(e) => updateTimeCommitment(e.target.value)} type="text"/>
+          <TextInput value={timeCommitment} onChange={updateTimeCommitment} placeholder="Time Commitment (required)"/>
           </FormContainer>
         </Grid>
         <Grid item xs={12}>
           <FormContainer title="Description (required)">
-          <input value={description} onChange={(e) => updateDescription(e.target.value)} type="text"/>
+          <TextInput
+            value={description}
+            onChange={updateDescription}
+            placeholder="Description (required)"
+            multiLine
+          />
           </FormContainer>
         </Grid>
         <Grid item xs={12} md={6}>
@@ -154,8 +175,13 @@ const EditPostingsForm = () => {
           </FormContainer>
         </Grid>
       </GridContainer>
-      <Button onClick={saveForm}>Save</Button>
-      <Button cancel onClick={closeForm}>Cancel</Button>
+      <ButtonContainer>
+        <div>
+          <Button onClick={saveForm}>Save</Button>
+          <Button cancel onClick={closeForm}>Cancel</Button>
+        </div>
+        <Button del onClick={deleteForm}>Delete</Button>
+      </ButtonContainer>
       {renderAddNewDialog()}
     </Container>
   );
