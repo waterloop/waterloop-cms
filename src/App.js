@@ -41,7 +41,7 @@ const App = () => {
           </div>
         </Route>
         <Route path="/postings">
-          {/* {typeof userId !== 'number' && <Redirect to="/sign-in" />} */}
+          {typeof userId !== 'number' && <Redirect to="/sign-in" />}
           <TopBar />
           <PostingsRouter />
         </Route>
