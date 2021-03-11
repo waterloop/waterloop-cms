@@ -37,8 +37,8 @@ const ListItem = ({
   text,
   onRemove,
 }) => (addNew ? (
-  <Container className={className} onClick={onAddNew}>
-    <AddNewText>+ Add New</AddNewText>
+  <Container className={className} >
+    <AddNewText onClick={onAddNew}>+ Add New</AddNewText>
   </Container>
 ) : (
   <Container className={className}>

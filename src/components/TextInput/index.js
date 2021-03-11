@@ -2,7 +2,6 @@ import React from 'react';
 import styled from 'styled-components';
 
 const Container = styled.div`
-  height: 0;
   width: 500px;
 `;
 
@@ -12,6 +11,7 @@ const TextInputContainer = styled.input`
   height: 47px;
   width: 100%;
   background-color: ${({ theme }) => theme.colours.white};
+  font: ${({ theme }) => theme.fonts.medium14};
 
   display: flex;
   align-items: center;
@@ -32,6 +32,7 @@ const TextAreaContainer = styled.textarea`
   border-radius: 10px;
   width: 100%;
   background-color: ${({ theme }) => theme.colours.white};
+  font: ${({ theme }) => theme.fonts.medium14};
 
   display: flex;
   align-items: center;
@@ -60,9 +61,19 @@ const TextInput = ({
 }) => (
   <Container className={className}>
     { multiLine ? (
-      <TextAreaContainer rows={rows} cols="60" placeholder={placeholder} value={value} onChange={onChange} />
+      <TextAreaContainer
+        rows={rows}
+        cols="60"
+        placeholder={placeholder}
+        value={value}
+        onChange={(e) => onChange(e.target.value)}
+      />
     ) : (
-      <TextInputContainer placeholder={placeholder} value={value} onChange={onChange} />
+      <TextInputContainer
+        placeholder={placeholder}
+        value={value}
+        onChange={(e) => onChange(e.target.value)}
+      />
     )}
   </Container>
 );

@@ -7,6 +7,8 @@ import styled from 'styled-components';
 
 import Button from '../../components/Button';
 import PreviewTable from '../../components/PreviewTable';
+import { useHistory, useRouteMatch } from 'react-router-dom';
+import api from '../../api';
 
 const ChartTitle = styled.div`
   font-style: italic;
@@ -31,20 +33,35 @@ const Container = styled.div`
 `;
 
 const PostingsPage = () => {
-  const { postings, editPosting } = usePostings();
-  const { headers, editHeader } = useHeaders();
+  const { postings } = usePostings();
+  const { headers } = useHeaders();
+  const history = useHistory();
+  const { url } = useRouteMatch();
 
   const handleEditPosting = useCallback((id) => {
+    // eslint-disable-next-line no-console
     console.log(`Edit the Posting with id ${id}`);
-  }, []);
+    history.push(`${url}/${id}`);
+  }, [history, url]);
 
   const handleEditHeader = (id) => () => {
+    // eslint-disable-next-line no-console
     console.log(`Edit the Header with id ${id}`);
   };
 
   const headerItems = headers.map(
     (header) => <HeaderPreview key={header.id} onEdit={handleEditHeader(header.id)} {...header} />,
   );
+
+  const handelNewPosting = () => {
+    api.postings
+      .createNewPosting()
+      .then((response) => {
+        if (typeof response.data[0] === 'number') {
+          history.push(`/postings/${response.data[0]}`);
+        }
+      });
+  };
 
   const tableHeaders = [
     {
@@ -67,7 +84,7 @@ const PostingsPage = () => {
   return (
     <Container>
       {headerItems}
-      <NewOpeningButton>New Opening +</NewOpeningButton>
+      <NewOpeningButton onClick={handelNewPosting}>New Opening +</NewOpeningButton>
       <ChartTitle>Team Openings</ChartTitle>
       <PreviewTable
         headers={tableHeaders}

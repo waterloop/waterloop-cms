@@ -11,7 +11,7 @@ import TeamDescriptionsPage from './pages/descriptions/TeamDescriptionsPage';
 import TopBar from './components/TopBar';
 import * as userSelectors from './state/user/selectors';
 import { useSelector } from 'react-redux';
-import PostingsPage from './pages/postings/PostingsPage';
+import PostingsRouter from './pages/postings/Postings.router';
 
 const App = () => {
   const userId = useSelector(userSelectors.userId);
@@ -40,10 +40,10 @@ const App = () => {
             <FeaturesPage />
           </div>
         </Route>
-        <Route path="/postings" exact>
+        <Route path="/postings">
           {typeof userId !== 'number' && <Redirect to="/sign-in" />}
           <TopBar />
-          <PostingsPage />
+          <PostingsRouter />
         </Route>
         <Route path="/sign-in" exact>
           <SignInPage />

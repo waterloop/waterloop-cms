@@ -26,7 +26,7 @@ const reducer = (state, { payload, type }) => {
               return (a[headerId] - b[headerId]);
             case 'object':
               if (a[headerId] instanceof Date) {
-                return (a[headerId].getTime() - b[headerId].getTime());
+                return (b[headerId].getTime() - a[headerId].getTime());
               }
               return 0;
             default:
@@ -49,7 +49,7 @@ const reducer = (state, { payload, type }) => {
               return (a[headerId] - b[headerId]);
             case 'object':
               if (a[headerId] instanceof Date) {
-                return (a[headerId].getTime() - b[headerId].getTime());
+                return (b[headerId].getTime() - a[headerId].getTime());
               }
               return 0;
             default:
