@@ -12,6 +12,7 @@ import TopBar from './components/TopBar';
 import * as userSelectors from './state/user/selectors';
 import { useSelector } from 'react-redux';
 import PostingsRouter from './pages/postings/Postings.router';
+import SponsorsRouter from './pages/sponsors/Sponsors.router';
 
 const App = () => {
   const userId = useSelector(userSelectors.userId);
@@ -47,6 +48,11 @@ const App = () => {
         </Route>
         <Route path="/sign-in" exact>
           <SignInPage />
+        </Route>
+        <Route path="/sponsors">
+          {/* {typeof userId !== 'number' && <Redirect to="/sign-in" />} */}
+          <TopBar />
+          <SponsorsRouter />
         </Route>
         <Route path="/team-descriptions" exact>
           {/* {typeof userId !== 'number' && <Redirect to="/sign-in" />} */}
