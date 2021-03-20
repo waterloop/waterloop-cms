@@ -2,12 +2,10 @@ import React from 'react';
 import moment from 'moment';
 import styled from 'styled-components';
 import MUITableCell from '@material-ui/core/TableCell';
-import MUISelect from '@material-ui/core/Select';
+import Selector from '../../components/Selector';
 
 const TableCell = styled(MUITableCell)``;
-const Select = styled(MUISelect)`
-  border: 1px solid #C4C4C4;
-`;
+
 
 const ChartInfoText = styled.div`
   position: relative;
@@ -38,7 +36,8 @@ const PostingsPreview = ({
   title,
   team,
   lastUpdated,
-  openingStatus,
+  closed,
+  onClosedChanged,
 }) => (
   <>
     <TableCell>
@@ -51,7 +50,7 @@ const PostingsPreview = ({
       <LastUpdatedText>{moment(lastUpdated).format('MMM Do, YYYY')}</LastUpdatedText>
     </TableCell>
     <TableCell>
-      <Select value={openingStatus} defaultValue=""/>
+      <Selector onSelect={onClosedChanged} value={closed} items={[{ id: 1, text: 'closed' }, { id: 0, text: 'open' }]}/>
     </TableCell>
   </>
 );

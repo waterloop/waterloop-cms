@@ -63,6 +63,12 @@ const PostingsPage = () => {
       });
   };
 
+  const updateClosed = (id) => (closedState) => {
+    api
+      .postings
+      .patchPosting({ closed: closedState }, id);
+  };
+
   const tableHeaders = [
     {
       id: 'title',
@@ -77,7 +83,7 @@ const PostingsPage = () => {
       value: 'last updated',
     },
     {
-      id: 'status',
+      id: 'closed',
       value: 'Opening Status',
     },
   ];
@@ -88,7 +94,7 @@ const PostingsPage = () => {
       <ChartTitle>Team Openings</ChartTitle>
       <PreviewTable
         headers={tableHeaders}
-        rows={postings}
+        rows={postings.map((posting) => ({ ...posting, onClosedChanged: updateClosed(posting.id) }))}
         RowComponent={PostingPreview}
         onEdit={handleEditPosting}
       />
