@@ -46,7 +46,7 @@ const EditPostingsForm = () => {
     title,
     teamId,
     deadline,
-    location,
+    // location,
     termYear,
     termSeason,
     description,
