@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import MUISelector from '@material-ui/core/Select';
 import MUIMenuItem from '@material-ui/core/MenuItem';
 import ExpandLessIcon from '@material-ui/icons/ExpandLess';
+import * as R from 'ramda';
 
 const PrimarySelector = styled(MUISelector)`
   border-radius: 20px;
@@ -46,7 +47,7 @@ const Selector = ({
   const [selected, setSelected] = useState(value);
 
   const handleChange = (event) => {
-    if (event.target.value && typeof onSelect === 'function') {
+    if (!R.isNil(event.target.value) && typeof onSelect === 'function') {
       onSelect(event.target.value);
       setSelected(event.target.value);
     }
