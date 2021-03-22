@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React from 'react';
+import useSponsorForm from '../hooks/sponsor-form';
 import { useRouteMatch } from 'react-router-dom';
 import styled from 'styled-components';
 import { sponsorsCopies } from './Copies';
@@ -33,7 +34,18 @@ const FormContainer = styled(UnstyledFormContainer)`
   max-width: initial;
 `;
 
-const InlineSpaced = styled.div`
+const TopInfo = styled.span`
+  display: flex;
+  flex-direction: row;
+
+  justify-content: space-between;
+
+  & button {
+    padding: 0;
+  }
+`;
+
+const InlineSpaced = styled.span`
   display: flex;
   flex-direction: row;
 
@@ -78,23 +90,40 @@ const ButtonContainer = styled.div`
 /** Uses Grids for responsive design. */
 const EditSponsors = () => {
   const { params: { id } } = useRouteMatch();
-
+  const {
+    name,
+    website,
+    description,
+    videoLink,
+    updateName,
+    updateWebsite,
+    updateDescription,
+    updateVideoLink
+  } = useSponsorForm();
   return (
     <Container id="sponsor-root">
-      <span>
+      <TopInfo>
         <Button cancel onClick={() => {}}>
           &#60; Back
         </Button>
         <p>
           Last updated on something
         </p>
-      </span>
+      </TopInfo>
       <FormGroup>
         <FormContainer title={sponsorsCopies.NAME_LABEL}>
-          <TextInput placeholder={sponsorsCopies.NAME_PLACEHOLDER} />
+          <TextInput 
+            placeholder={sponsorsCopies.NAME_PLACEHOLDER} 
+            value={name}
+            onChange={(newName) => updateName(newName)}
+          />
         </FormContainer>
         <FormContainer title={sponsorsCopies.WEBSITE_LABEL}>
-          <TextInput placeholder={sponsorsCopies.WEBSITE_PLACEHOLDER} />
+          <TextInput 
+            placeholder={sponsorsCopies.WEBSITE_PLACEHOLDER} 
+            value={website}
+            onChange={(newWebsite) => updateWebsite(newWebsite)} 
+          />
         </FormContainer>
         <FormContainer title={sponsorsCopies.TIER_LABEL}>
           <Selector value={0} items={[]} onSelect={() => {}} placeholder={sponsorsCopies.TIER_PLACEHOLDER} />
@@ -106,13 +135,22 @@ const EditSponsors = () => {
           </InlineSpaced>
         </FormContainer>
         <FormContainer title={sponsorsCopies.CONTRIBUTIONS_LABEL}>
-          <TextMultilineInput multiLine placeholder={sponsorsCopies.CONTRIBUTIONS_PLACEHOLDER} />
+          <TextMultilineInput 
+            multiLine 
+            placeholder={sponsorsCopies.CONTRIBUTIONS_PLACEHOLDER}
+            value={description}
+            onChange={(newDescription) => updateDescription(newDescription)}   
+          />
         </FormContainer>
         <FormContainer title={sponsorsCopies.LOGO_LABEL}>
           <ImagePreview />
         </FormContainer>
         <FormContainer title={sponsorsCopies.VIDEO_LINK_LABEL}>
-          <TextInput placeholder={sponsorsCopies.VIDEO_LINK_PLACEHOLDER} />
+          <TextInput 
+            placeholder={sponsorsCopies.VIDEO_LINK_PLACEHOLDER} 
+            value={videoLink}
+            onChange={(newVideoLink) => updateVideoLink(newVideoLink)}   
+          />
         </FormContainer>
       </FormGroup>
       <ButtonContainer>
