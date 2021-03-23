@@ -6,7 +6,7 @@ import ExpandLessIcon from '@material-ui/icons/ExpandLess';
 import * as R from 'ramda';
 
 const PrimarySelector = styled(MUISelector)`
-  border-radius: 20px;
+  border-radius: 10px;
   width: 100%;
   z-index: 100;
   border-color: #c4c4c4;
@@ -28,21 +28,28 @@ const StyledExpandIcon = styled(ExpandLessIcon)`
   top: 10px;
 `;
 
+const PlaceholderMenuItem = styled(MUIMenuItem)`
+  font: ${({ theme }) => theme.fonts.medium18};
+  color: ${({ theme }) => theme.colours.greys.grey2};
+`;
+
 /** Custom Waterloop CMS Selector. The parent component determines what happens when the
  * value changes, including updating the value that's currently displayed in the field.
  *
- * @param className Allows for external styles to be applied to the
- *                    component using the styled components library className
- *                    prop needs to be passed to the parent JSX element.
- * @param value     The current value of the input.
- * @param onSelect  Callback to be called each time that the user selects a value.
- * @param items     An Array of items to be displayed in the selector dropdown.
+ * @param className     Allows for external styles to be applied to the
+ *                        component using the styled components library className
+ *                        prop needs to be passed to the parent JSX element.
+ * @param value         The current value of the input.
+ * @param onSelect      Callback to be called each time that the user selects a value.
+ * @param items         An Array of items to be displayed in the selector dropdown.
+ * @param placeholder   Optional placeholder text to display for unselected boxes (blank by default).
  */
 const Selector = ({
   className,
-  value,
+  value = "",
   onSelect,
   items,
+  placeholder = ""
 }) => {
   const [selected, setSelected] = useState(value);
 
@@ -55,6 +62,7 @@ const Selector = ({
 
   return (
     <PrimarySelector
+      displayEmpty
       className={className}
       variant="outlined"
       color="primary"
@@ -73,6 +81,10 @@ const Selector = ({
         getContentAnchorEl: null,
       }}
     >
+{/* TODO: Maybe find a way to grey out placeholder if it's currently displayed as the selector value. */}
+      <PlaceholderMenuItem key={""} value={""} divider disabled>
+        {placeholder}
+      </PlaceholderMenuItem>
       {items.map((item) => (
         <MUIMenuItem key={item.id} value={item.id} divider>
           {item.text}
