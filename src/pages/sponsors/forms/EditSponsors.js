@@ -91,15 +91,28 @@ const ButtonContainer = styled.div`
 const EditSponsors = () => {
   const { params: { id } } = useRouteMatch();
   const {
+    terms,
+    sponsorTiers,
+    years,
+
     name,
     website,
+    tierId,
+    termSeason,
+    termYear,
     description,
     videoLink,
+
     updateName,
     updateWebsite,
+    updateTierId,
+    updateTermSeason,
+    updateTermYear,
     updateDescription,
-    updateVideoLink
-  } = useSponsorForm();
+    updateVideoLink,
+
+    saveForm
+  } = useSponsorForm(parseInt(id));
   return (
     <Container id="sponsor-root">
       <TopInfo>
@@ -115,23 +128,23 @@ const EditSponsors = () => {
           <TextInput 
             placeholder={sponsorsCopies.NAME_PLACEHOLDER} 
             value={name}
-            onChange={(newName) => updateName(newName)}
+            onChange={updateName}
           />
         </FormContainer>
         <FormContainer title={sponsorsCopies.WEBSITE_LABEL}>
           <TextInput 
             placeholder={sponsorsCopies.WEBSITE_PLACEHOLDER} 
             value={website}
-            onChange={(newWebsite) => updateWebsite(newWebsite)} 
+            onChange={updateWebsite} 
           />
         </FormContainer>
         <FormContainer title={sponsorsCopies.TIER_LABEL}>
-          <Selector value={0} items={[]} onSelect={() => {}} placeholder={sponsorsCopies.TIER_PLACEHOLDER} />
+          <Selector value={tierId} items={sponsorTiers} onSelect={updateTierId} placeholder={sponsorsCopies.TIER_PLACEHOLDER} />
         </FormContainer>   
         <FormContainer title={sponsorsCopies.START_DATE_LABEL}>
           <InlineSpaced>
-            <NarrowSelector value={0} items={[]} onSelect={() => {}} placeholder={sponsorsCopies.START_DATE_TERM_PLACEHOLDER} />  
-            <NarrowSelector value={0} items={[]} onSelect={() => {}} placeholder={sponsorsCopies.START_DATE_YEAR_PLACEHOLDER} />
+            <NarrowSelector value={termSeason} items={terms} onSelect={updateTermSeason} placeholder={sponsorsCopies.START_DATE_TERM_PLACEHOLDER} />  
+            <NarrowSelector value={termYear} items={years} onSelect={updateTermYear} placeholder={sponsorsCopies.START_DATE_YEAR_PLACEHOLDER} />
           </InlineSpaced>
         </FormContainer>
         <FormContainer title={sponsorsCopies.CONTRIBUTIONS_LABEL}>
@@ -139,7 +152,7 @@ const EditSponsors = () => {
             multiLine 
             placeholder={sponsorsCopies.CONTRIBUTIONS_PLACEHOLDER}
             value={description}
-            onChange={(newDescription) => updateDescription(newDescription)}   
+            onChange={updateDescription}   
           />
         </FormContainer>
         <FormContainer title={sponsorsCopies.LOGO_LABEL}>
@@ -149,13 +162,13 @@ const EditSponsors = () => {
           <TextInput 
             placeholder={sponsorsCopies.VIDEO_LINK_PLACEHOLDER} 
             value={videoLink}
-            onChange={(newVideoLink) => updateVideoLink(newVideoLink)}   
+            onChange={updateVideoLink}
           />
         </FormContainer>
       </FormGroup>
       <ButtonContainer>
         <div>
-          <Button onClick={() => {}}>Save</Button>
+          <Button onClick={saveForm}>Save</Button>
           <Button cancel onClick={() => {}}>Cancel</Button>
         </div>
         <Button del onClick={() => {}}>Delete</Button>

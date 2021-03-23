@@ -9,18 +9,28 @@ import Dialog from '../../../components/Dialog';
 import api from '../../../api';
 import { useHistory } from 'react-router-dom';
 
-const today = new Date();
+import tierMapMock from "../mocks/tierMap.mock.json";
+import { List } from '@material-ui/core';
+
+const TODAY = new Date();
+
+// Used for setting sponsor join date boundaries:
+// Feel free to change these bounds, I don't know when Waterloop had its first sponsor lol.
+const MIN_YEAR = 2000;  
+const MAX_YEAR = TODAY.getFullYear() + 10;
 
 const initialState = (inputState) => ({
   loading: true,
   userFriendlyErrorMessage: '',
+  sponsorTiers: [],
   form: {
     sponsorId: 0,
     name: '',
     website: '',
-    tierId: 4,
-    termYear: today.getFullYear(),
-    termSeason: 'WINTER',
+    tierId: '', // !NOTE: initial value is string to allow selector to display placeholder value.
+    termYear: 2019,
+    // termYear: TODAY.getFullYear(),
+    termSeason: '',
     description: '',
     logoStr: '',
     videoLink: '',
@@ -36,14 +46,15 @@ const initialState = (inputState) => ({
 
 const reducer = (state, action) => {
   switch (action.type) {
-    // After call to GET sponsor by ID:
+    // After call to GET sponsor by ID & GET sponsor tiers:
     case 'LOAD_SUCCESS':
       return {
         ...state,
+        sponsorTiers: action.payload.sponsorTiers,
         loading: false,
         form: {
           ...state.form,
-          ...action.payload,
+          sponsorId: action.payload.sponsorId,
         },
       };
     case 'LOAD_FAILURE':
@@ -217,13 +228,7 @@ const useSponsorForm = (sponsorId, input = {}) => {
     // !Debug: Mock dispatch
       dispatch({
         type: 'LOAD_SUCCESS',
-        payload: {
-          ...state,
-          form: {
-            ...state.form,
-            sponsorId: sponsorId
-          }
-        },
+        payload: {sponsorId, sponsorTiers: tierMapMock},
       });
     }  
   }, [state.loading, dispatch, sponsorId]);
@@ -416,9 +421,10 @@ const useSponsorForm = (sponsorId, input = {}) => {
   }, [history]);
 
   const saveForm = useCallback(() => {
-    api.postings.patchPosting(state.form, sponsorId).then(() => {
-      closeForm();
-    });
+    console.log(state);
+    // api.postings.patchPosting(state.form, sponsorId).then(() => {
+    //   closeForm();
+    // });
   }, [state.form, sponsorId, closeForm]);
 
   const deleteForm = useCallback(() => {
@@ -433,23 +439,15 @@ const useSponsorForm = (sponsorId, input = {}) => {
    * currently attached to the posting if it is in the past.
    */
   // TODO: Abstract this to a utility component.
-  const [currentYear] = useState((new Date()).getFullYear());
   const years = useMemo(() => {
-    const tempYears = [
-      { id: currentYear, text: `${currentYear}` },
-      { id: currentYear + 1, text: `${currentYear + 1}` },
-      { id: currentYear + 2, text: `${currentYear + 2}` },
-      { id: currentYear + 3, text: `${currentYear + 3}` },
-    ];
+    let tempYears = [];
 
-    if (state.form.termYear < currentYear) {
-      return [
-        { id: state.form.termYear, text: `${state.form.termYear}` },
-        ...tempYears,
-      ];
+    for (let y = MIN_YEAR; y <= MAX_YEAR; y++) {
+      tempYears.push({ id: y, text: `${y}` });
     }
+
     return tempYears;
-  }, [state.form.termYear, currentYear]);
+  }, [state.form.termYear]);
   // END Calculating Term Years
 
   return {
@@ -459,6 +457,7 @@ const useSponsorForm = (sponsorId, input = {}) => {
       { id: 'SPRING', text: 'SPRING' },
       { id: 'FALL', text: 'FALL' },
     ],
+    sponsorTiers: tierMapMock,
     years,
     loading: state.loading,
     updateName,
