@@ -51,12 +51,9 @@ const Selector = ({
   items,
   placeholder = ""
 }) => {
-  const [selected, setSelected] = useState(value);
-
   const handleChange = (event) => {
     if (!R.isNil(event.target.value) && typeof onSelect === 'function') {
       onSelect(event.target.value);
-      setSelected(event.target.value);
     }
   };
 
@@ -67,7 +64,7 @@ const Selector = ({
       variant="outlined"
       color="primary"
       onChange={handleChange}
-      value={selected}
+      value={value}
       IconComponent={({ className: c }) => <StyledExpandIcon className={c} fontSize="large"/>}
       MenuProps={{
         anchorOrigin: {
