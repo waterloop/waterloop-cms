@@ -31,9 +31,8 @@ const initialState = (inputState) => ({
     termYear: TODAY.getFullYear(),
     termSeason: '',
     description: '',
-    oldLogoStr: '',
-    newLogoStr: '',
-    newLogoBlob: null, 
+    logoStr: '',
+    logoFile: null, 
     videoLink: '',
     ...inputState, // May overwrite any of the above defaults
   },
@@ -119,8 +118,8 @@ const reducer = (state, action) => {
         ...state,
         form: {
           ...state.form,
-          newLogoStr: action.payload.newLogoStr,
-          newLogoBlob: action.payload.newLogoBlob,
+          logoStr: action.payload.logoStr,
+          logoFile: action.payload.logoFile,
         }
       }
     case 'UPDATE_VIDEO_LINK':
@@ -289,8 +288,8 @@ const useSponsorForm = (sponsorId, input = {}) => {
   );
 
   const updateLogo = useCallback(
-    (newLogoStr, newLogoBlob) => {
-      dispatch({ type: 'UPDATE_LOGO', payload: {newLogoStr, newLogoBlob} });
+    (logoStr, logoFile) => {
+      dispatch({ type: 'UPDATE_LOGO', payload: {logoStr, logoFile} });
     },
     [dispatch],
   );
@@ -484,12 +483,6 @@ const useSponsorForm = (sponsorId, input = {}) => {
     updateDescription,
     updateLogo,
     updateVideoLink,
-    // addNewRequirement,
-    // addNewTask,
-    // addNewInfo,
-    // removeRequirement,
-    // removeTask,
-    // removeInfo,
     saveForm,
     closeForm,
     deleteForm,

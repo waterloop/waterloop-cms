@@ -101,8 +101,8 @@ const EditSponsors = () => {
     termSeason,
     termYear,
     description,
-    oldLogoStr,
-    newLogoBlob,
+    logoStr,
+    logoFile,
     videoLink,
 
     updateName,
@@ -159,13 +159,17 @@ const EditSponsors = () => {
           />
         </FormContainer>
         <FormContainer title={sponsorsCopies.LOGO_LABEL}>
-          <ImagePreview 
-            src={oldLogoStr.length === 0 ? newLogoBlob : oldLogoStr}
+          <ImagePreview
+            // Use local image file if user uploaded new image,
+            // else use existing image URL.
+            src={logoFile ? window.URL.createObjectURL(logoFile) : logoStr}
             onNew={(file) => {
               console.log(file);
-              updateLogo(file.name, window.URL.createObjectURL(file));
+              updateLogo(file.name, file);
             }}
-            onDelete={()=>{}}
+            onDelete={() => {
+              updateLogo('', null);
+            }}
           />
         </FormContainer>
         <FormContainer title={sponsorsCopies.VIDEO_LINK_LABEL}>
