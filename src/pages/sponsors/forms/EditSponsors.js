@@ -90,10 +90,12 @@ const ButtonContainer = styled.div`
 /** Uses Grids for responsive design. */
 const EditSponsors = () => {
   const { params: { id } } = useRouteMatch();
+  
   const {
+    loading,
     terms,
-    sponsorTiers,
     years,
+    sponsorTiers,
 
     name,
     website,
@@ -117,7 +119,7 @@ const EditSponsors = () => {
     saveForm
   } = useSponsorForm(parseInt(id));
   return (
-    <Container id="sponsor-root">
+    !loading && <Container id="sponsor-root">
       <TopInfo>
         <Button cancel onClick={() => {}}>
           &#60; Back

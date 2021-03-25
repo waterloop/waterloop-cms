@@ -1,18 +1,24 @@
-import React, {
+import {
   useReducer,
   useCallback,
   useEffect,
   useMemo,
+  useSelector,
   useState,
 } from 'react';
 import Dialog from '../../../components/Dialog';
 import api from '../../../api';
 import { useHistory } from 'react-router-dom';
 
-import tierMapMock from "../mocks/tierMap.mock.json";
-import { List } from '@material-ui/core';
+import useSponsors from "../../../hooks/sponsors";
+// import * as sponsorSelectors from '../../../state/sponsors/selectors';
+
+// import tierMapMock from "../mocks/tierMap.mock.json";
 
 const TODAY = new Date();
+
+// TODO: If a new sponsor is being created, make sure a separate state is set for this to occur!
+// Reason is backend needs to know whether to add or update the entry.
 
 // Used for setting sponsor join date boundaries:
 // Feel free to change these bounds, I don't know when Waterloop had its first sponsor lol.
@@ -23,6 +29,7 @@ const initialState = (inputState) => ({
   loading: true,
   userFriendlyErrorMessage: '',
   sponsorTiers: [],
+  isNew: true,
   form: {
     sponsorId: 0,
     name: '',
@@ -54,6 +61,7 @@ const reducer = (state, action) => {
         loading: false,
         form: {
           ...state.form,
+          ...action.payload.sponsorData,  // This injects existing data for the chosen sponsor.
           sponsorId: action.payload.sponsorId,
         },
       };
@@ -63,6 +71,12 @@ const reducer = (state, action) => {
         loading: false,
         userFriendlyErrorMessage: action.payload,
       };
+
+    case 'SET_SPONSOR_EXISTS':
+      return {
+        ...state,
+        isNew: false
+      }
 
     // Redux stores acting as react states:
     case 'UPDATE_SPONSOR_NAME':
@@ -204,43 +218,40 @@ const reducer = (state, action) => {
 // Middleware:
 const useSponsorForm = (sponsorId, input = {}) => {
   const [state, dispatch] = useReducer(reducer, initialState(input));
-  // const { teams } = useTeams();
   const history = useHistory();
-  // useEffect(() => {
-  //   console.log('teams', teams);
-  // }, [teams]);
+  // const sponsors = useSelector(sponsorSelectors.sponsors);
+  // const sponsorTiers = useSelector(sponsorSelectors.sponsorTiers);
+
+  const {sponsorTiers, sponsors} = useSponsors();
+
   /**
-   * Load Posting Data By posting ID
+   * Load Sponsor Data by ID:
    */
   useEffect(() => {
-    if (state.loading) {
-    //   api.postings
-    //     .getPostingById(sponsorId)
-    //     .then((response) => {
-    //       if (response && response.status === 200) {
-    //         dispatch({
-    //           type: 'LOAD_SUCCESS',
-    //           payload: {
-    //             ...response.data,
-    //             deadline: new Date(response.data.deadline),
-    //           },
-    //         });
-    //       } else {
-    //         throw new Error(
-    //           'Failed to Load Resources, please refresh the page. If you continue to experience difficulties, please contact the web team',
-    //         );
-    //       }
-    //     })
-    //     .catch((err) => {
-    //       dispatch({ type: 'LOAD_FAILURE', payload: err });
-    //     });
-    // !Debug: Mock dispatch
-      dispatch({
-        type: 'LOAD_SUCCESS',
-        payload: {sponsorId, sponsorTiers: tierMapMock},
-      });
+    if (state.loading && sponsors.length !== 0 && sponsorTiers.length !== 0) {
+      try {
+        console.log(sponsors)
+        // Filter for matching sponsor value:
+        const sponsor = sponsors.filter(s => s.sponsorId === sponsorId);
+        if (sponsor.length === 1) {
+          dispatch({
+            type: 'LOAD_SUCCESS',
+            payload: {
+              sponsorId,
+              sponsorTiers,
+              sponsorData: sponsor[0],
+            }
+          });
+        } else {
+          throw new Error(
+            'Failed to Load Resources, please refresh the page. If you continue to experience difficulties, please contact the web team',
+          );
+        }
+      } catch (err) {
+          dispatch({ type: 'LOAD_FAILURE', payload: err });
+      }
     }  
-  }, [state.loading, dispatch, sponsorId]);
+  }, [state.loading, dispatch, sponsorId, sponsors, sponsorTiers]);
 
   /**
    * FORM Functions
@@ -472,9 +483,9 @@ const useSponsorForm = (sponsorId, input = {}) => {
       { id: 'SPRING', text: 'SPRING' },
       { id: 'FALL', text: 'FALL' },
     ],
-    sponsorTiers: tierMapMock,
     years,
     loading: state.loading,
+    sponsorTiers,
     updateName,
     updateWebsite,
     updateTierId,
