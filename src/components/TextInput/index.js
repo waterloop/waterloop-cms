@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 
 const Container = styled.div`
-  width: 500px;
+  width: ${(props) => (props.width ? props.width : '500px')};
 `;
 
 const TextInputContainer = styled.input`
@@ -45,22 +45,22 @@ const TextAreaContainer = styled.textarea`
   ::-webkit-input-placeholder {
     font: ${({ theme }) => theme.fonts.medium18};
     color: ${({ theme }) => theme.colours.greys.grey2};
-
   }
 `;
 
 const TextInput = ({
-  className, /* Allows for external styles to be applied to the component
+  className /* Allows for external styles to be applied to the component
                 using the styled components library
-                className prop needs to be passed to the parent JSX element */
+                className prop needs to be passed to the parent JSX element */,
   multiLine = false,
-  value, /* The current value of the input */
-  onChange, /* Callback to be called each time that the user changes the input */
+  value /* The current value of the input */,
+  onChange /* Callback to be called each time that the user changes the input */,
   rows = 10,
   placeholder = 'Place Holder Text',
+  width,
 }) => (
-  <Container className={className}>
-    { multiLine ? (
+  <Container width={width} className={className}>
+    {multiLine ? (
       <TextAreaContainer
         rows={rows}
         cols="60"
