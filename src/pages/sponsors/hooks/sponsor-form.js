@@ -28,11 +28,12 @@ const initialState = (inputState) => ({
     name: '',
     website: '',
     tierId: '', // !NOTE: initial value is string to allow selector to display placeholder value.
-    termYear: 2019,
-    // termYear: TODAY.getFullYear(),
+    termYear: TODAY.getFullYear(),
     termSeason: '',
     description: '',
-    logoStr: '',
+    oldLogoStr: '',
+    newLogoStr: '',
+    newLogoBlob: null, 
     videoLink: '',
     ...inputState, // May overwrite any of the above defaults
   },
@@ -113,6 +114,15 @@ const reducer = (state, action) => {
           description: action.payload,
         },
       };
+    case 'UPDATE_LOGO':
+      return {
+        ...state,
+        form: {
+          ...state.form,
+          newLogoStr: action.payload.newLogoStr,
+          newLogoBlob: action.payload.newLogoBlob,
+        }
+      }
     case 'UPDATE_VIDEO_LINK':
       return {
         ...state,
@@ -274,6 +284,13 @@ const useSponsorForm = (sponsorId, input = {}) => {
   const updateDescription = useCallback(
     (description) => {
       dispatch({ type: 'UPDATE_DESCRIPTION', payload: description });
+    },
+    [dispatch],
+  );
+
+  const updateLogo = useCallback(
+    (newLogoStr, newLogoBlob) => {
+      dispatch({ type: 'UPDATE_LOGO', payload: {newLogoStr, newLogoBlob} });
     },
     [dispatch],
   );
@@ -448,7 +465,6 @@ const useSponsorForm = (sponsorId, input = {}) => {
 
     return tempYears;
   }, [state.form.termYear]);
-  // END Calculating Term Years
 
   return {
     ...state.form,
@@ -466,6 +482,7 @@ const useSponsorForm = (sponsorId, input = {}) => {
     updateTermSeason,
     updateTermYear,
     updateDescription,
+    updateLogo,
     updateVideoLink,
     // addNewRequirement,
     // addNewTask,

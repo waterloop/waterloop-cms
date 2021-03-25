@@ -101,6 +101,8 @@ const EditSponsors = () => {
     termSeason,
     termYear,
     description,
+    oldLogoStr,
+    newLogoBlob,
     videoLink,
 
     updateName,
@@ -109,6 +111,7 @@ const EditSponsors = () => {
     updateTermSeason,
     updateTermYear,
     updateDescription,
+    updateLogo,
     updateVideoLink,
 
     saveForm
@@ -156,7 +159,14 @@ const EditSponsors = () => {
           />
         </FormContainer>
         <FormContainer title={sponsorsCopies.LOGO_LABEL}>
-          <ImagePreview />
+          <ImagePreview 
+            src={oldLogoStr.length === 0 ? newLogoBlob : oldLogoStr}
+            onNew={(file) => {
+              console.log(file);
+              updateLogo(file.name, window.URL.createObjectURL(file));
+            }}
+            onDelete={()=>{}}
+          />
         </FormContainer>
         <FormContainer title={sponsorsCopies.VIDEO_LINK_LABEL}>
           <TextInput 
