@@ -15,6 +15,7 @@ export default {
     value: { control: 'text' },
     items: { control: 'object' },
     className: { control: 'text' },
+    placeholder: { control: 'text' }
   },
 };
 
@@ -30,8 +31,8 @@ const Template = (args) => (
 
 export const EmptyValue = Template.bind({});
 EmptyValue.args = {
-  value: 0,
   items: [],
+  placeholder: 'This is a placeholder'
 };
 
 export const NonEmptyValue = Template.bind({});
@@ -55,4 +56,5 @@ NonEmptyValue.args = {
     { id: 8, text: 'Test4' },
   ],
   className: styles.testClass,
+  placeholder: 'This is a placeholder'
 };
