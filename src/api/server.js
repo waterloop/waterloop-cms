@@ -1,7 +1,7 @@
 import axios from 'axios';
 import io from 'socket.io-client';
 
-const baseUrl = process.env.BASE_URL || 'http://localhost:9000';
+const baseUrl = process.env.REACT_APP_BASE_URL || 'http://localhost:9000';
 
 export const server = axios.create({
   baseURL: baseUrl,
