@@ -7,7 +7,7 @@ export const toServerSponsor = (sponsor) => {
       joinDate: termSeasonYearToTimestampMillisec(sponsor.termSeason, sponsor.termYear),
       contributions: sponsor.description,
       logoDir: sponsor.logoStr,
-      videoLink: sponsor.youtube
+      youtube: sponsor.videoLink
     }
     
   } catch (e) {

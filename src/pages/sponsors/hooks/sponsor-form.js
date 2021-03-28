@@ -6,6 +6,7 @@ import {
 } from 'react';
 import api from '../../../api';
 import { useHistory } from 'react-router-dom';
+import FormData from 'form-data';
 
 import useSponsors from "../../../hooks/sponsors";
 import {toServerSponsor} from "../../../utils/sponsors/sponsor-utils";
@@ -152,7 +153,6 @@ const useSponsorForm = (sponsorId, input = {}) => {
   useEffect(() => {
     if (state.loading && sponsors.length !== 0 && sponsorTiers.length !== 0) {
       try {
-        console.log(sponsors)
         // Filter for matching sponsor value:
         const sponsor = sponsors.filter(s => s.sponsorId === sponsorId);
         if (sponsor.length <= 1) {
@@ -242,7 +242,7 @@ const useSponsorForm = (sponsorId, input = {}) => {
     history.push('/sponsors');
   }, [history]);
 
-  const saveForm = useCallback(() => {
+  const saveForm = useCallback(async () => {
     // eslint-disable-next-line no-console
     console.log(state.form);
     // TODO: Validation checks here.
@@ -250,44 +250,65 @@ const useSponsorForm = (sponsorId, input = {}) => {
 
     // Send data to server:
     try {
-      const data = toServerSponsor(state.form);
+      const file = state.form.logoFile;
+      let imageString = state.form.logoStr;
+
+      if (file) {
+        const data = new FormData();
+        
+        data.append('files', file, file.name);
+        const res = await api.formUpload(data);
+    
+        // eslint-disable-next-line no-console
+        console.log("Done image upload!");
+        
+        const imageUrl = res.data.data[0];
+        if (!imageUrl) {
+          throw new Error("Failed to upload image.");
+
+        } else {
+          imageString = imageUrl;
+        }
+      } else if (!state.form.logoStr) {
+        throw new Error("Requirement not satisfied: Sponsor logo");
+      }
+
+      const data = toServerSponsor({
+        ...state.form,
+        logoStr: imageString
+      });
 
       if (state.exists) {
-        api.sponsors.updateSponsor(data, sponsorId)
-          .then(onSuccess, onError);
+        await api.sponsors.updateSponsor(data, sponsorId);
       } else {
-        api.sponsors.addSponsor(data)
-          .then(onSuccess, onError);
+        await api.sponsors.addSponsor(data);
       }
+      
+      // onSuccess:
+      closeForm();
 
     } catch (e) {
       // TODO: Display "could not add/update" error to user as dialogue.
       // eslint-disable-next-line no-console
-      console.err(e);
+      console.error(e);
     }
   }, [state.form, sponsorId, closeForm]);
 
-  const deleteForm = useCallback(() => {
+  const deleteForm = useCallback(async () => {
     try {
-      api.sponsors.deleteSponsor(sponsorId)
-        .then(onSuccess, onError);
+      await api.sponsors.deleteSponsor(sponsorId);
+      closeForm();
+
     } catch (e) {
       // TODO: Display "could not delete" to user as dialogue.
       // eslint-disable-next-line no-console
-      console.err(e);
+      console.error(e);
     }
   }, [sponsorId, closeForm]);
   // END Save and close functions
 
 
   /** UTILITY FUNCTIONS: */
-  // API helpers:
-  const onSuccess = () => {
-    closeForm();
-  }
-  const onError = (error) => {
-    throw new Error(error.toString());
-  }
   /**
    * Calculate Years for Selector.
    */

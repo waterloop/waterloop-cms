@@ -23,5 +23,6 @@ export const sponsorsCopies = {
 export const buttonCopies = {
   DELETE: "Delete",
   SAVE: "Save",
-  CANCEL: "Cancel"
+  CANCEL: "Cancel",
+  BACK: "< Back"
 }

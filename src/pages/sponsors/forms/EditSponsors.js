@@ -123,12 +123,11 @@ const EditSponsors = () => {
   return (
     !loading && <Container id="sponsor-root">
       <TopInfo>
-        <Button cancel onClick={() => {}}>
-          &#60; Back
+        <Button cancel onClick={closeForm}>
+          {buttonCopies.BACK}
         </Button>
-        <p>
-          Last updated on something
-        </p>
+        {/* TODO: Display last time sponsor info was updated. */}
+        <p id="UPDATED-DATE-HERE"></p>
       </TopInfo>
       <FormGroup>
         <FormContainer title={sponsorsCopies.NAME_LABEL}>
@@ -168,7 +167,6 @@ const EditSponsors = () => {
             // else use existing image URL.
             src={logoFile ? window.URL.createObjectURL(logoFile) : logoStr}
             onNew={(file) => {
-              console.log(file);
               updateLogo(file.name, file);
             }}
             onDelete={() => {
