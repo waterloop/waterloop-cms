@@ -6,20 +6,24 @@ import ExpandLessIcon from '@material-ui/icons/ExpandLess';
 import * as R from 'ramda';
 
 const PrimarySelector = styled(MUISelector)`
+  ${({ value, theme }) => (value == "" ? 
+    `font: ${theme.fonts.medium18}; 
+     color: ${theme.colours.greys.grey2};`
+    : "")};
   border-radius: 10px;
   width: 100%;
   z-index: 100;
-  border-color: #c4c4c4;
+  border-color: ${({ theme }) => theme.colours.greys.grey2};
   & fieldset {
-    border-color: #c4c4c4;
+    border-color: ${({ theme }) => theme.colours.greys.grey2};
   }
   &.Mui-focused {
     & .MuiOutlinedInput-notchedOutline {
-      border-color: #c4c4c4;
+      border-color: ${({ theme }) => theme.colours.greys.grey2};
     }
   }
   .MuiOutlinedInput-notchedOutline {
-    border-color: #c4c4c4;
+    border-color: ${({ theme }) => theme.colours.greys.grey2};
   }
 `;
 
@@ -29,7 +33,6 @@ const StyledExpandIcon = styled(ExpandLessIcon)`
 `;
 
 const PlaceholderMenuItem = styled(MUIMenuItem)`
-  font: ${({ theme }) => theme.fonts.medium18};
   color: ${({ theme }) => theme.colours.greys.grey2};
 `;
 

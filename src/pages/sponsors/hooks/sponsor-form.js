@@ -29,20 +29,14 @@ const initialState = (inputState) => ({
     name: '',
     website: '',
     tierId: '', // !NOTE: initial value is string to allow selector to display placeholder value.
-    termYear: TODAY.getFullYear(),
+    termYear: '',
     termSeason: '',
     description: '',
     logoStr: '',
     logoFile: null, 
     videoLink: '',
     ...inputState, // May overwrite any of the above defaults
-  },
-  dialog: {
-    title: '',
-    value: '',
-    formField: '',
-    open: false,
-  },
+  }
 });
 
 const reducer = (state, action) => {

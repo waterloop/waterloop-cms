@@ -15,7 +15,7 @@ const Container = styled.div`
   & input, textarea {
     box-sizing: border-box;
   }
-  @media only screen and (max-width: 958px) {
+  @media only screen and (max-width: ${({theme}) => theme.breakpoints.md}px) {
     margin: ${({ theme }) => theme.mobilePageMargin};
   }
 `;
