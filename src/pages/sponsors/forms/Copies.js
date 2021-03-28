@@ -18,3 +18,10 @@ export const sponsorsCopies = {
 
 // TODO: To be implemented
 // export const descriptionCopies = {};
+
+// TODO: Move this to utility function.
+export const buttonCopies = {
+  DELETE: "Delete",
+  SAVE: "Save",
+  CANCEL: "Cancel"
+}

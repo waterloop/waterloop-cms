@@ -2,7 +2,7 @@ import React from 'react';
 import useSponsorForm from '../hooks/sponsor-form';
 import { useRouteMatch } from 'react-router-dom';
 import styled from 'styled-components';
-import { sponsorsCopies } from './Copies';
+import { sponsorsCopies, buttonCopies } from './Copies';
 
 import UnstyledFormContainer from '../../../components/FormContainer';
 import UnstyledTextInput from '../../../components/TextInput';
@@ -116,7 +116,9 @@ const EditSponsors = () => {
     updateLogo,
     updateVideoLink,
 
-    saveForm
+    saveForm,
+    closeForm,
+    deleteForm,
   } = useSponsorForm(parseInt(id));
   return (
     !loading && <Container id="sponsor-root">
@@ -184,10 +186,10 @@ const EditSponsors = () => {
       </FormGroup>
       <ButtonContainer>
         <div>
-          <Button onClick={saveForm}>Save</Button>
-          <Button cancel onClick={() => {}}>Cancel</Button>
+          <Button onClick={saveForm}>{buttonCopies.SAVE}</Button>
+          <Button cancel onClick={closeForm}>{buttonCopies.CANCEL}</Button>
         </div>
-        <Button del onClick={() => {}}>Delete</Button>
+        <Button del onClick={deleteForm}>{buttonCopies.DELETE}</Button>
       </ButtonContainer>
     </Container>
   );

@@ -1,30 +1,9 @@
 import { useCallback, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import * as R from 'ramda';
 import api from '../api';
 import * as sponsorActions from '../state/sponsors/actions';
 import * as sponsorSelectors from '../state/sponsors/selectors';
-
-// TODO: Abstract this as a utility component. Maybe account for timezone?
-const timestampMillisecToTermSeasonYear = (timestamp) => {
-  const date = new Date(timestamp);
-  
-  // TODO: Enumerate term seasons.
-  let season = 'WINTER';
-
-  if (date.getMonth() > 4) {
-    season = 'SPRING';
-  }
-
-  if (date.getMonth() > 8) {
-    season = 'FALL';
-  }
-
-  return {
-    termSeason: season,
-    termYear: date.getFullYear(),
-  }
-};
+import {fromServerSponsor} from '../utils/sponsors/sponsor-utils'; 
 
 const useSponsors = () => {
   const dispatch = useDispatch();
@@ -42,18 +21,8 @@ const useSponsors = () => {
             text: datum.type
           })),
           
-          sponsors: response.data.map(datum => ({
-            sponsorId: datum.id,
-            name: datum.name,
-            website: datum.website,
-            tierId: datum.typeId,
-            ...timestampMillisecToTermSeasonYear(datum.joinDate),
-            description: datum.contributions,
-            logoStr: datum.logoDir,
-            videoLink: datum.youtube
-          }))
+          sponsors: response.data.map(datum => (fromServerSponsor(datum)))
         };
-        // return dateStringsToDates(response.data.map((item) => ({ ...item, team: teams.data.find((team) => team.id === item.teamId).teamName })));
       } catch (err) {
         if (process.env.NODE_ENV === 'development') {
           console.log(err);
