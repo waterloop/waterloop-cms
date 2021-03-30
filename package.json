@@ -34,8 +34,8 @@
     "lint:fix": "eslint . --fix",
     "storybook": "start-storybook -p 6006 -s public",
     "build-storybook": "build-storybook -s public",
-    "predeploy": "react-scripts build",
-    "deploy": "mv ./build ../cms-server/frontend/build"
+    "predeploy": "cross-env NODE_ENV=production react-scripts build",
+    "deploy": "rm -rf ../cms-server/frontend/build &&  mv ./build ../cms-server/frontend/build"
   },
   "eslintConfig": {
     "extends": [
@@ -70,6 +70,7 @@
     "@storybook/preset-create-react-app": "^3.1.5",
     "@storybook/react": "^6.1.11",
     "babel-loader": "8.1.0",
+    "cross-env": "^7.0.3",
     "eslint-config-airbnb": "^18.2.0",
     "eslint-config-prettier": "^6.12.0",
     "eslint-plugin-jsx-a11y": "^6.3.1",
