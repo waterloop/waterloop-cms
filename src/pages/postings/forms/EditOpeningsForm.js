@@ -50,7 +50,9 @@ const EditOpeningsForm = () => {
 
   useEffect(() => {
     api.openingsDescription.getDescriptions().then((data) => {
-      setformData(data.data);
+      if (data && data.data) {
+        setformData(data.data);
+      }
     });
   }, []);
 
