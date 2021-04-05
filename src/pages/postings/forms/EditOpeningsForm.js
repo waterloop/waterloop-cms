@@ -1,18 +1,26 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
+import * as R from 'ramda';
+import { useHistory } from 'react-router-dom';
 
 import api from '../../../api';
-import TextInput from '../../../components/TextInput';
+import UnstyledTextInput from '../../../components/TextInput';
 import FormContainer from '../../../components/FormContainer';
 import Button from '../../../components/Button';
 
+const SingleLineTextInput = styled(UnstyledTextInput)`
+  width: 70%;
+`;
+
+const TextArea = styled(UnstyledTextInput)`
+  width: 100%;
+`;
+
 const Header = styled.h1`
-  font-size: 36px;
+  font: ${({ theme }) => theme.fonts.bold36};
   font-style: italic;
-  font-weight: ${({ theme }) => theme.fonts.bold36};
   margin: 0px;
   padding: 0px;
-  color: #2b2b2b;
 `;
 
 const SingleFormContainer = styled.div`
@@ -34,8 +42,7 @@ const ButtonContainer = styled.div`
 `;
 
 const EditOpeningsForm = () => {
-  const singleLineInputWidth = '70%';
-  const textAreaInputWidth = '100%';
+  const history = useHistory();
 
   const [formData, setformData] = useState({
     active: {
@@ -50,7 +57,7 @@ const EditOpeningsForm = () => {
 
   useEffect(() => {
     api.openingsDescription.getDescriptions().then((data) => {
-      if (data && data.data) {
+      if (!R.isEmpty(data.data)) {
         setformData(data.data);
       }
     });
@@ -64,26 +71,34 @@ const EditOpeningsForm = () => {
     setformData(newState);
   };
 
-  const saveForm = async () => {
-    await api.openingsDescription.updateDescriptions(formData);
+  const goBack = () => {
+    history.push('/postings');
+  };
+
+  const saveForm = () => {
+    api.openingsDescription
+      .updateDescriptions(formData)
+      .then(() => history.push('/postings'));
   };
 
   return (
     <OuterFormContainer>
+      <Button onClick={goBack} cancel={true}>
+        {'< Back'}
+      </Button>
+      <br />
       <SingleFormContainer>
         <Header>When there is at least one active opening</Header>
         <FormContainer title="Heading (required)">
-          <TextInput
-            width={singleLineInputWidth}
+          <SingleLineTextInput
             value={formData.active.heading}
             onChange={onChange('active', 'heading')}
             placeholder="Active heading text..."
           />
         </FormContainer>
         <FormContainer title="Body (required)">
-          <TextInput
+          <TextArea
             multiLine={true}
-            width={textAreaInputWidth}
             value={formData.active.body}
             onChange={onChange('active', 'body')}
             placeholder="Active body text..."
@@ -94,17 +109,15 @@ const EditOpeningsForm = () => {
       <SingleFormContainer>
         <Header>When there are no active openings</Header>
         <FormContainer title="Heading (required)">
-          <TextInput
-            width={singleLineInputWidth}
+          <SingleLineTextInput
             value={formData.nonActive.heading}
             onChange={onChange('nonActive', 'heading')}
             placeholder="Nonactive heading text..."
           />
         </FormContainer>
         <FormContainer title="Body (required)">
-          <TextInput
+          <TextArea
             multiLine={true}
-            width={textAreaInputWidth}
             value={formData.nonActive.body}
             onChange={onChange('nonActive', 'body')}
             placeholder="Nonactive body text "
@@ -114,7 +127,9 @@ const EditOpeningsForm = () => {
 
       <ButtonContainer>
         <Button onClick={saveForm}>Save</Button>
-        <Button cancel={true}>Cancel</Button>
+        <Button onClick={goBack} cancel={true}>
+          Cancel
+        </Button>
       </ButtonContainer>
     </OuterFormContainer>
   );

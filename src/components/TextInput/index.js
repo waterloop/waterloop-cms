@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 
 const Container = styled.div`
-  width: ${(props) => props.width};
+  width: 500px;
 `;
 
 const TextInputContainer = styled.input`
@@ -57,7 +57,7 @@ const TextInput = ({
   onChange /* Callback to be called each time that the user changes the input */,
   rows = 10,
   placeholder = 'Place Holder Text',
-  width = '500px',
+  width,
 }) => (
   <Container width={width} className={className}>
     {multiLine ? (
