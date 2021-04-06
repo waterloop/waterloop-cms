@@ -2,6 +2,7 @@ import React from 'react';
 // import useSponsorForm from '../hooks/sponsor-form';
 import styled from 'styled-components';
 import { descriptionCopies, buttonCopies } from './Copies';
+import useSponsorDescForm from '../hooks/sponsor-desc';
 
 import UnstyledFormContainer from '../../../components/FormContainer';
 import UnstyledTextInput from '../../../components/TextInput';
@@ -32,6 +33,17 @@ const FormContainer = styled(UnstyledFormContainer)`
   max-width: initial;
 `;
 
+const ImagesContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+
+  &>* {
+    margin-right: 20px;
+    margin-bottom: 20px;
+  }
+`;
+
 const TopInfo = styled.span`
   display: flex;
   flex-direction: row;
@@ -54,7 +66,6 @@ const TextMultilineInput = styled(UnstyledTextInput)`
 
 const ImagePreview = styled(UnstyledImagePreview)`
   max-width: 256px;
-  width: auto;
 `
 
 // TODO: Abstract component as utility for forms:
@@ -65,21 +76,36 @@ const ButtonContainer = styled.div`
 
 
 const EditPageDescription = () => {
+  const {
+    title,
+    description,
+    images,
+    imageFiles,
+
+    updateTitle,
+    updateDescription,
+    updateImage,
+    deleteImage,
+
+    saveForm,
+    closeForm
+  } = useSponsorDescForm();
+
   return (
     <Container id="sponsor-root">
       <TopInfo>
-        <Button cancel onClick={/*{closeForm*/ ()=>{}}>
+        <Button cancel onClick={closeForm}>
           {buttonCopies.BACK}
         </Button>
-        {/* TODO: Display last time sponsor info was updated. */}
+        {/* TODO: Display last time info was updated. */}
         <p id="UPDATED-DATE-HERE"></p>
       </TopInfo>
       <FormGroup>
         <FormContainer title={descriptionCopies.TITLE_LABEL}>
           <TextInput 
             placeholder={descriptionCopies.TITLE_PLACEHOLDER} 
-            value={""}
-            onChange={() => {}}
+            value={title}
+            onChange={updateTitle}
           />
         </FormContainer>
 
@@ -87,30 +113,34 @@ const EditPageDescription = () => {
           <TextMultilineInput 
             multiLine 
             placeholder={descriptionCopies.DESCRIPTION_PLACEHOLDER}
-            value={""}
-            onChange={() => {}}   
+            value={description}
+            onChange={updateDescription}   
           />
         </FormContainer>
         <FormContainer title={descriptionCopies.IMAGES_LABEL}>
-          <ImagePreview
-            // Use local image file if user uploaded new image,
-            // else use existing image URL.
-            src={/*logoFile ? window.URL.createObjectURL(logoFile) : logoStr*/ ""}
-            onNew={/*(file) => {
-              updateLogo(file.name, file);
-            }*/ () => {}}
-            onDelete={/*() => {
-              updateLogo('', null);
-            }*/ () => {}}
-          />
+          <ImagesContainer>
+            {images.map((image, idx) =>
+              <ImagePreview
+                key={idx}
+                src={imageFiles[idx] ? window.URL.createObjectURL(imageFiles[idx]) : image}
+                onNew={() => {}}
+                onDelete={() => deleteImage(idx)}
+              />  
+            )}
+            {/* Empty ImagePreview component to allow user to add new image. */}
+            <ImagePreview
+              src={""}
+              onNew={(file) => updateImage(file.name, file)}
+              onDelete={() => {}}
+            />
+          </ImagesContainer>
         </FormContainer>
       </FormGroup>
       <ButtonContainer>
         <div>
-          <Button onClick={/*saveForm*/ () => {}}>{buttonCopies.SAVE}</Button>
-          <Button cancel onClick={/*{closeForm*/ () => {}}>{buttonCopies.CANCEL}</Button>
+          <Button onClick={saveForm}>{buttonCopies.SAVE}</Button>
+          <Button cancel onClick={closeForm}>{buttonCopies.CANCEL}</Button>
         </div>
-        <Button del onClick={/*deleteForm*/ () => {}}>{buttonCopies.DELETE}</Button>
       </ButtonContainer>
     </Container>
   );

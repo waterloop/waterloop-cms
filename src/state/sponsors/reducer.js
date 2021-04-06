@@ -2,7 +2,7 @@ import * as actionTypes from '../action-types';
 
 const initialState = {
   allSponsors: [],
-  allSponsorDesc: [],
+  allSponsorDesc: null,
   allTiers: [],
 };
 
