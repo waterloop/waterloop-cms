@@ -2,7 +2,7 @@ import React from 'react';
 import useSponsorForm from '../hooks/sponsor-form';
 import { useRouteMatch } from 'react-router-dom';
 import styled from 'styled-components';
-import { sponsorsCopies, buttonCopies } from './Copies';
+import { commonCopies, sponsorsCopies, buttonCopies } from './Copies';
 
 import UnstyledFormContainer from '../../../components/FormContainer';
 import UnstyledTextInput from '../../../components/TextInput';
@@ -50,11 +50,28 @@ const InlineSpaced = styled.span`
   flex-direction: row;
 
   &>* {
-    margin-right: 20px;
+    margin-right: 15px;
     &:last-child {
       margin-right: 0;
     }
   }
+`;
+
+const DateUpdated = styled.span`
+  display: inherit;
+  &>* {
+    margin-right: 5px;
+    &:last-child {
+      margin-right: 0;
+    }
+  }
+`;
+
+const Text = styled.p`
+  font: ${({theme}) => theme.fonts.medium18}
+`;
+const TextBold = styled.p`
+  font: ${({theme}) => theme.fonts.bold18}
 `;
 
 const TextInput = styled(UnstyledTextInput)`
@@ -106,6 +123,7 @@ const EditSponsors = () => {
     logoStr,
     logoFile,
     videoLink,
+    lastUpdated,
 
     updateName,
     updateWebsite,
@@ -126,8 +144,10 @@ const EditSponsors = () => {
         <Button cancel onClick={closeForm}>
           {buttonCopies.BACK}
         </Button>
-        {/* TODO: Display last time sponsor info was updated. */}
-        <p id="UPDATED-DATE-HERE"></p>
+        <DateUpdated>
+          <TextBold>{commonCopies.LAST_UPDATED_DATE}</TextBold>
+          <Text>{lastUpdated}</Text>
+        </DateUpdated>
       </TopInfo>
       <FormGroup>
         <FormContainer title={sponsorsCopies.NAME_LABEL}>

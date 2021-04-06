@@ -1,3 +1,5 @@
+import * as moment from 'moment';
+
 export const toServerSponsor = (sponsor) => {
   try {
     return {
@@ -23,7 +25,8 @@ export const fromServerSponsor = (sponsor) => ({
   ...timestampMillisecToTermSeasonYear(sponsor.joinDate),
   description: sponsor.contributions,
   logoStr: sponsor.logoDir,
-  videoLink: sponsor.youtube
+  videoLink: sponsor.youtube,
+  lastUpdated: moment(sponsor.updatedAt).format("MMMM D, YYYY")
 });
 
 const termSeasonYearToTimestampMillisec = (season, year) => {

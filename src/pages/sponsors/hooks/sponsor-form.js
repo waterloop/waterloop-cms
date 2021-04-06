@@ -35,6 +35,7 @@ const initialState = (inputState) => ({
     logoStr: '',
     logoFile: null, 
     videoLink: '',
+    lastUpdated: '',
     ...inputState, // May overwrite any of the above defaults
   }
 });
@@ -315,7 +316,7 @@ const useSponsorForm = (sponsorId, input = {}) => {
     }
 
     return tempYears;
-  }, [state.form.termYear]);
+  }, []);
   // END UTILITY FUNCTIONS
 
   return {
