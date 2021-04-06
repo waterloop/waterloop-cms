@@ -7,6 +7,13 @@ export const setSponsors = (sponsors) => ({
   },
 });
 
+export const setSponsorDesc = (sponsorDesc) => ({
+  type: actionTypes.SPONSORS_SET_SPONSOR_DESC,
+  payload: {
+    sponsorDesc,
+  },
+});
+
 export const setSponsorTiers = (sponsorTiers) => ({
   type: actionTypes.SPONSORS_SET_SPONSOR_TIERS,
   payload: {

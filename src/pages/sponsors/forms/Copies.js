@@ -16,8 +16,18 @@ export const sponsorsCopies = {
   VIDEO_LINK_PLACEHOLDER: "Sponsor video link",
 }
 
-// TODO: To be implemented
-// export const descriptionCopies = {};
+export const descriptionCopies = {
+  TITLE_LABEL: "Title (required)",
+  DESCRIPTION_LABEL: "Description (required)",
+  IMAGES_LABEL: "Images (at least one image is required)",
+
+  TITLE_PLACEHOLDER: "Title",
+  DESCRIPTION_PLACEHOLDER: "Description"
+};
+
+export const commonCopies = {
+  LAST_UPDATED_DATE: "Last updated:"
+}
 
 // TODO: Move this to utility function.
 export const buttonCopies = {

@@ -2,6 +2,7 @@ import * as actionTypes from '../action-types';
 
 const initialState = {
   allSponsors: [],
+  allSponsorDesc: [],
   allTiers: [],
 };
 
@@ -12,6 +13,12 @@ export default (state = initialState, { type, payload }) => {
         ...state,
         allSponsors: payload.sponsors,
       };
+
+    case actionTypes.SPONSORS_SET_SPONSOR_DESC:
+      return {
+        ...state,
+        allSponsorDesc: payload.sponsorDesc,
+      }
 
     case actionTypes.SPONSORS_SET_SPONSOR_TIERS:
       return {
