@@ -1,7 +1,6 @@
 import React from 'react';
-// import useSponsorForm from '../hooks/sponsor-form';
 import styled from 'styled-components';
-import { descriptionCopies, buttonCopies } from './Copies';
+import { descriptionCopies, buttonCopies, commonCopies } from './Copies';
 import useSponsorDescForm from '../hooks/sponsor-desc';
 
 import UnstyledFormContainer from '../../../components/FormContainer';
@@ -55,6 +54,23 @@ const TopInfo = styled.span`
   }
 `;
 
+const DateUpdated = styled.span`
+  display: inherit;
+  &>* {
+    margin-right: 5px;
+    &:last-child {
+      margin-right: 0;
+    }
+  }
+`;
+
+const Text = styled.p`
+  font: ${({theme}) => theme.fonts.medium18}
+`;
+const TextBold = styled.p`
+  font: ${({theme}) => theme.fonts.bold18}
+`;
+
 const TextInput = styled(UnstyledTextInput)`
   max-width: 500px;
   width: 100%;
@@ -81,6 +97,7 @@ const EditPageDescription = () => {
     description,
     images,
     imageFiles,
+    lastUpdated,
 
     updateTitle,
     updateDescription,
@@ -97,8 +114,10 @@ const EditPageDescription = () => {
         <Button cancel onClick={closeForm}>
           {buttonCopies.BACK}
         </Button>
-        {/* TODO: Display last time info was updated. */}
-        <p id="UPDATED-DATE-HERE"></p>
+        <DateUpdated>
+          <TextBold>{commonCopies.LAST_UPDATED_DATE}</TextBold>
+          <Text>{lastUpdated}</Text>
+        </DateUpdated>
       </TopInfo>
       <FormGroup>
         <FormContainer title={descriptionCopies.TITLE_LABEL}>
@@ -121,7 +140,7 @@ const EditPageDescription = () => {
           <ImagesContainer>
             {images.map((image, idx) =>
               <ImagePreview
-                key={idx}
+                key={image}
                 src={imageFiles[idx] ? window.URL.createObjectURL(imageFiles[idx]) : image}
                 onNew={() => {}}
                 onDelete={() => deleteImage(idx)}

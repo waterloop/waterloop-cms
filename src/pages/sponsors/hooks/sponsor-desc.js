@@ -9,6 +9,7 @@ import FormData from 'form-data';
 
 import useSponsors from "../../../hooks/sponsors";
 import * as R from 'ramda';
+import * as moment from 'moment';
 
 // TODO: Copy over call that retrieves sponsor info to local state.
 const initialState = (inputState) => ({
@@ -20,7 +21,7 @@ const initialState = (inputState) => ({
     images: [],
     imageFiles: [], // NOTE: Image files represents the user uploaded files
     // corresponding to any new entries in images.
-
+    lastUpdated: '',
     ...inputState, // May overwrite any of the above defaults
   }
 });
@@ -88,13 +89,17 @@ const useSponsorDescForm = (input = {}) => {
   useEffect(() => {
     if (state.loading && !R.isNil(sponsorDesc)) {
       try {
-        const data = {...sponsorDesc, imageFiles: Array(sponsorDesc.images.length).fill(null)}
-          dispatch({
-            type: 'LOAD_SUCCESS',
-            payload: {
-              data,
-            }
-          });
+        let data = {
+          ...sponsorDesc, 
+          imageFiles: Array(sponsorDesc.images.length).fill(null), 
+          lastUpdated: moment(sponsorDesc.updatedAt).format("MMMM D, YYYY")
+        }
+        dispatch({
+          type: 'LOAD_SUCCESS',
+          payload: {
+            data
+          }
+        });
       } catch (err) {
           dispatch({ type: 'LOAD_FAILURE', payload: err });
       }
@@ -151,50 +156,53 @@ const useSponsorDescForm = (input = {}) => {
     // TODO: Validation checks here.
 
 
-    // // Send data to server:
-    // try {
-    //   const file = state.form.logoFile;
-    //   let imageString = state.form.logoStr;
+    // Send data to server:
+    try {
+      const files = state.form.imageFiles;
+      let imgStrings = state.form.images;
 
-    //   if (file) {
-    //     const data = new FormData();
+      if (R.isEmpty(imgStrings)) {
+        throw new Error("Requirement not satisfied: images");
+      }
+
+      // Upload files and retrieve Google Cloud Platform URL string:
+      await Promise.all(files.map(async (file, idx) => {
+        if (file) {
+          const data = new FormData();
         
-    //     data.append('files', file, file.name);
-    //     const res = await api.formUpload(data);
-    
-    //     // eslint-disable-next-line no-console
-    //     console.log("Done image upload!");
-        
-    //     const imageUrl = res.data.data[0];
-    //     if (!imageUrl) {
-    //       throw new Error("Failed to upload image.");
-
-    //     } else {
-    //       imageString = imageUrl;
-    //     }
-    //   } else if (!state.form.logoStr) {
-    //     throw new Error("Requirement not satisfied: Sponsor logo");
-    //   }
-
-    //   const data = toServerSponsor({
-    //     ...state.form,
-    //     logoStr: imageString
-    //   });
-
-    //   if (state.exists) {
-    //     await api.sponsors.updateSponsor(data);
-    //   } else {
-    //     await api.sponsors.addSponsor(data);
-    //   }
+          data.append('files', file, file.name);
+          const res = await api.formUpload(data);
       
-      // onSuccess:
-      // closeForm();
+          // eslint-disable-next-line no-console
+          console.log("Done image upload!");
+          
+          const imageUrl = res.data.data[0];
+          if (!imageUrl) {
+            throw new Error(`Failed to upload image: ${file.name}`);
 
-    // } catch (e) {
-    //   // TODO: Display "could not add/update" error to user as dialogue.
-    //   // eslint-disable-next-line no-console
-    //   console.error(e);
-    // }
+          } else {
+            imgStrings[idx] = imageUrl;
+          }
+        }
+      }));
+
+      // Upload rest of data to server:
+      let data = {
+        title: state.form.title,
+        description: state.form.description,
+        images: imgStrings,
+      };
+
+      await api.sponsors.updateSponsorDesc(data);
+
+      // onSuccess:
+      closeForm();
+
+    } catch (e) {
+      // TODO: Display "could not add/update" error to user as dialogue.
+      // eslint-disable-next-line no-console
+      console.error(e);
+    }
   }, [state.form, closeForm]);
 
   return {
