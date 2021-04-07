@@ -12,7 +12,7 @@ const patchPosting = (server) => (postingData, postingId) => server.patch(`/api/
 const createNewPosting = (server) => () => server.post('/api/postings', {
   title: 'New Title',
   teamId: 1,
-  deadline: new Date(),
+  deadline: (new Date()).getTime(),
   location: 'On Site',
   termYear: '2020',
   termSeason: 'WINTER',

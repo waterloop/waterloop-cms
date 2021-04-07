@@ -10,6 +10,7 @@ import WaterloopCmsLogoSVG from './assets/waterloop-cms-logo.svg';
 import UnstyledSignInBox from './components/SignInBox';
 
 import * as userActions from '../../state/user/actions';
+import { addAuthTokenToRequests } from '../../api/server';
 
 const WaterloopCmsLogo = styled.img.attrs({
   src: WaterloopCmsLogoSVG,
@@ -88,21 +89,23 @@ const SignInPage = () => {
   const dispatch = useDispatch();
   const history = useHistory();
   const onAuthComplete = useCallback(
-    (err, userId) => {
+    (err, authPayload) => {
       if (err) {
-        console.log(err);
+        console.log('auth error:', err);
         return;
       }
-      dispatch(userActions.setUserId(userId));
+      dispatch(userActions.setUserAuth(authPayload));
+      addAuthTokenToRequests(authPayload.tokenId);
+      console.log('Auth Complete');
       history.push('/');
     }, [dispatch, history],
   );
 
-  const { login } = useGoogleAuth(onAuthComplete);
+  const { signIn } = useGoogleAuth(onAuthComplete);
   return (
     <Container>
       <WaterloopCmsLogo />
-      <SignInBox onClick={login} />
+      <SignInBox onClick={signIn} />
       <PodTrack>
         <Pod />
       </PodTrack>
