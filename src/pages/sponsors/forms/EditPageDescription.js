@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { descriptionCopies, buttonCopies, commonCopies } from './Copies';
+import { descriptionCopies, buttonCopies, commonCopies } from '../Copies';
 import useSponsorDescForm from '../hooks/sponsor-desc';
 
 import UnstyledFormContainer from '../../../components/FormContainer';
@@ -114,10 +114,11 @@ const EditPageDescription = () => {
         <Button cancel onClick={closeForm}>
           {buttonCopies.BACK}
         </Button>
-        <DateUpdated>
+        {lastUpdated && <DateUpdated>
           <TextBold>{commonCopies.LAST_UPDATED_DATE}</TextBold>
           <Text>{lastUpdated}</Text>
-        </DateUpdated>
+        </DateUpdated>}
+        
       </TopInfo>
       <FormGroup>
         <FormContainer title={descriptionCopies.TITLE_LABEL}>

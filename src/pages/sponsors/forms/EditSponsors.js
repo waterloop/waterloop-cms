@@ -2,7 +2,7 @@ import React from 'react';
 import useSponsorForm from '../hooks/sponsor-form';
 import { useRouteMatch } from 'react-router-dom';
 import styled from 'styled-components';
-import { commonCopies, sponsorsCopies, buttonCopies } from './Copies';
+import { commonCopies, sponsorsCopies, buttonCopies } from '../Copies';
 
 import UnstyledFormContainer from '../../../components/FormContainer';
 import UnstyledTextInput from '../../../components/TextInput';
@@ -144,10 +144,10 @@ const EditSponsors = () => {
         <Button cancel onClick={closeForm}>
           {buttonCopies.BACK}
         </Button>
-        <DateUpdated>
+        {lastUpdated && <DateUpdated>
           <TextBold>{commonCopies.LAST_UPDATED_DATE}</TextBold>
           <Text>{lastUpdated}</Text>
-        </DateUpdated>
+        </DateUpdated>}
       </TopInfo>
       <FormGroup>
         <FormContainer title={sponsorsCopies.NAME_LABEL}>

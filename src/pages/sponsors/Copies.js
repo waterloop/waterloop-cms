@@ -25,6 +25,14 @@ export const descriptionCopies = {
   DESCRIPTION_PLACEHOLDER: "Description"
 };
 
+export const mainCopies = {
+  SUPPORT_TEAM_LABEL: `"Support Our Team" Description`,
+  TABLE_LABEL: "Sponsors",
+
+  SPONSOR_NAME_COLUMN: "Sponsor name",
+  SPONSOR_LEVEL_COLUMN: "Sponsor level"
+}
+
 export const commonCopies = {
   LAST_UPDATED_DATE: "Last updated:"
 }
@@ -34,5 +42,9 @@ export const buttonCopies = {
   DELETE: "Delete",
   SAVE: "Save",
   CANCEL: "Cancel",
-  BACK: "< Back"
+  BACK: "< Back",
+
+  PREVIEW: "Preview",
+  EDIT_DESCRIPTION: "Edit description",
+  NEW_SPONSOR: "New sponsor +"
 }
