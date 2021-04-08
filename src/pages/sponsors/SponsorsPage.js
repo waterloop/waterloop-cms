@@ -1,6 +1,7 @@
 import React from 'react';
 import useSponsors from '../../hooks/sponsors';
 import styled from 'styled-components';
+import {useHistory} from 'react-router-dom';
 
 import { buttonCopies, mainCopies, commonCopies } from './Copies';
 
@@ -62,7 +63,7 @@ const headers = [
   {id: '3', value: mainCopies.SPONSOR_LEVEL_COLUMN}
 ]
 
-const RowComponent = (sponsorTiers) => ({ name, lastUpdated, tier }) => (
+const RowComponent = (sponsorTiers) => ({name, lastUpdated, tier}) => (
   <>
     <TableCell>
       <TextBold>{name}</TextBold>
@@ -71,21 +72,25 @@ const RowComponent = (sponsorTiers) => ({ name, lastUpdated, tier }) => (
       <Text>{lastUpdated}</Text>
     </TableCell>
     <TableCell>
-      {/* TODO: Figure out how to get the value to update here: Maybe have a direct call to update specific sponsor? */}
+      {/* TODO: Figure out how to get the value to update here: Maybe have a direct call to update specific sponsor? Or define redux in sponsor-main.js */}
       <Selector value={tier} items={sponsorTiers} placeholder={"NOTHING; PLEASE CHANGE"}/>
     </TableCell>
   </>
 )
 
 const SponsorsPage = () => {
+  // TODO: Move this to sponsor-main.js and define redux to store Selector value + update backend when value changes (async :) )
   const { sponsorTiers, sponsors } = useSponsors();
   const tableRows = sponsors.map((sponsor) => {
     return {
+      id: sponsor.sponsorId,
       name: sponsor.name,
       lastUpdated: sponsor.lastUpdated,
       tier: sponsor.tierId
     }
-  })
+  });
+
+  const history = useHistory();
 
   return (
     <Container>
@@ -113,6 +118,9 @@ const SponsorsPage = () => {
         headers={headers}
         rows={tableRows}
         RowComponent={RowComponent(sponsorTiers)}
+        onEdit={(sponsorId) => {
+          history.push(`sponsors/${sponsorId}`);
+        }}
       />
     </Container>
   );
