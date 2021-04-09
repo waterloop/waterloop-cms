@@ -30,7 +30,8 @@ export const mainCopies = {
   TABLE_LABEL: "Sponsors",
 
   SPONSOR_NAME_COLUMN: "Sponsor name",
-  SPONSOR_LEVEL_COLUMN: "Sponsor level"
+  SPONSOR_LEVEL_COLUMN: "Sponsor level",
+  SPONSOR_LAST_UPDATED_COLUMN: "Last updated"
 }
 
 export const commonCopies = {

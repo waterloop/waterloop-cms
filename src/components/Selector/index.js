@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import MUISelector from '@material-ui/core/Select';
 import MUIMenuItem from '@material-ui/core/MenuItem';
@@ -6,7 +6,7 @@ import ExpandLessIcon from '@material-ui/icons/ExpandLess';
 import * as R from 'ramda';
 
 const PrimarySelector = styled(MUISelector)`
-  ${({ value, theme }) => (value == "" ? 
+  ${({ value, theme }) => (value === "" ? 
     `font: ${theme.fonts.medium18}; 
      color: ${theme.colours.greys.grey2};`
     : "")};

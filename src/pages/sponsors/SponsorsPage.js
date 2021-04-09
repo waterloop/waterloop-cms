@@ -3,10 +3,9 @@ import useSponsors from '../../hooks/sponsors';
 import styled from 'styled-components';
 import {useHistory} from 'react-router-dom';
 
-import { buttonCopies, mainCopies, commonCopies } from './Copies';
+import { buttonCopies, mainCopies } from './Copies';
 
 import TableCell from '@material-ui/core/TableCell';
-import UnstyledSelector from '../../components/Selector';
 import UnstyledPreviewTable from '../../components/PreviewTable';
 import Button from '../../components/Button';
 
@@ -46,11 +45,6 @@ const TableLabel = styled.h1`
   font-style: italic;
 `;
 
-const Selector = styled(UnstyledSelector)`
-  max-width: 250px;
-  width: 100%;
-`;
-
 const ButtonContainer = styled.div`
   &>* {
     margin-right: 20px;
@@ -58,12 +52,12 @@ const ButtonContainer = styled.div`
 `;
 
 const headers = [
-  {id: '1', value: mainCopies.SPONSOR_NAME_COLUMN}, 
-  {id: '2', value: commonCopies.LAST_UPDATED_DATE}, 
-  {id: '3', value: mainCopies.SPONSOR_LEVEL_COLUMN}
+  {id: 'name', value: mainCopies.SPONSOR_NAME_COLUMN}, 
+  {id: 'lastUpdated', value: mainCopies.SPONSOR_LAST_UPDATED_COLUMN}, 
+  {id: 'tier', value: mainCopies.SPONSOR_LEVEL_COLUMN}
 ]
 
-const RowComponent = (sponsorTiers) => ({name, lastUpdated, tier}) => (
+const RowComponent = ({name, lastUpdated, tier}) => (
   <>
     <TableCell>
       <TextBold>{name}</TextBold>
@@ -72,21 +66,19 @@ const RowComponent = (sponsorTiers) => ({name, lastUpdated, tier}) => (
       <Text>{lastUpdated}</Text>
     </TableCell>
     <TableCell>
-      {/* TODO: Figure out how to get the value to update here: Maybe have a direct call to update specific sponsor? Or define redux in sponsor-main.js */}
-      <Selector value={tier} items={sponsorTiers} placeholder={"NOTHING; PLEASE CHANGE"}/>
+      <Text>{tier}</Text>
     </TableCell>
   </>
 )
 
 const SponsorsPage = () => {
-  // TODO: Move this to sponsor-main.js and define redux to store Selector value + update backend when value changes (async :) )
   const { sponsorTiers, sponsors } = useSponsors();
   const tableRows = sponsors.map((sponsor) => {
     return {
       id: sponsor.sponsorId,
       name: sponsor.name,
       lastUpdated: sponsor.lastUpdated,
-      tier: sponsor.tierId
+      tier: sponsorTiers.filter((sTier) => sTier.id === sponsor.tierId)[0].text
     }
   });
 
@@ -117,7 +109,7 @@ const SponsorsPage = () => {
       <UnstyledPreviewTable 
         headers={headers}
         rows={tableRows}
-        RowComponent={RowComponent(sponsorTiers)}
+        RowComponent={RowComponent}
         onEdit={(sponsorId) => {
           history.push(`sponsors/${sponsorId}`);
         }}
