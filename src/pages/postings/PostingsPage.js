@@ -69,7 +69,7 @@ const PostingsPage = () => {
   const updateClosed = (id) => (closedState) => {
     api
       .postings
-      .patchPosting({ closed: closedState }, id);
+      .patchPosting({ closed: closedState === '1' }, id);
   };
 
   const tableHeaders = [

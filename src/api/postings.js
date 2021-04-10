@@ -5,7 +5,18 @@ const addRequirementToPosting = (server) => (postingId, requirement) => server.p
   requirement,
 });
 
+const addInfoToPosting = (server) => (postingId, info) => server.post(`/api/postings/${postingId}/info`, {
+  info,
+});
+const addTaskToPosting = (server) => (postingId, task) => server.post(`/api/postings/${postingId}/task`, {
+  task,
+});
+
 const removePostingRequirement = (server) => (postingId, requirementId) => server.delete(`/api/postings/${postingId}/requirement/${requirementId}`);
+
+const removePostingTask = (server) => (postingId, taskId) => server.delete(`/api/postings/${postingId}/task/${taskId}`);
+
+const removePostingInfo = (server) => (postingId, infoId) => server.delete(`/api/postings/${postingId}/info/${infoId}`);
 
 const patchPosting = (server) => (postingData, postingId) => server.patch(`/api/postings/${postingId}`, postingData);
 
@@ -31,4 +42,8 @@ export default (server) => ({
   removePostingRequirement: removePostingRequirement(server),
   createNewPosting: createNewPosting(server),
   deletePosting: deletePosting(server),
+  addInfoToPosting: addInfoToPosting(server),
+  addTaskToPosting: addTaskToPosting(server),
+  removePostingTask: removePostingTask(server),
+  removePostingInfo: removePostingInfo(server),
 });
