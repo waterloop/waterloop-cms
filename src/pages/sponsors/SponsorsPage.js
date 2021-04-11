@@ -17,11 +17,12 @@ const Container = styled.div`
   }
   @media only screen and (max-width: ${({theme}) => theme.breakpoints.md}px) {
     margin: ${({ theme }) => theme.mobilePageMargin};
+    text-align: center;
   }
 `;
 
 const PageDescriptionText = styled.h3`
-  margin-bottom: 12px;
+  margin-bottom: 5px;
   font: ${({theme}) => theme.fonts.medium24};
 `;
 
@@ -38,6 +39,12 @@ const TableLabelHeader = styled.span`
   justify-content: space-between;
   align-items: center;
   margin-top: 30px;
+
+  @media only screen and (max-width: ${({theme}) => theme.breakpoints.md}px) {
+    justify-content: center;
+    flex-direction: column;
+    margin-bottom: 20px
+  }
 `;
 
 const TableLabel = styled.h1`
@@ -48,6 +55,10 @@ const TableLabel = styled.h1`
 const ButtonContainer = styled.div`
   &>* {
     margin-right: 20px;
+    margin-top: 10px;
+    @media only screen and (max-width: ${({theme}) => theme.breakpoints.md}px) {
+      margin-right: 0;
+    }
   }
 `;
 

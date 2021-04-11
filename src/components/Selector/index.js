@@ -81,7 +81,6 @@ const Selector = ({
         getContentAnchorEl: null,
       }}
     >
-{/* TODO: Maybe find a way to grey out placeholder if it's currently displayed as the selector value. */}
       <PlaceholderMenuItem key={""} value={""} divider disabled>
         {placeholder}
       </PlaceholderMenuItem>

@@ -104,7 +104,7 @@ const ButtonContainer = styled.div`
   justify-content: space-between;
 `;
 
-/** Uses Grids for responsive design. */
+
 const EditSponsors = () => {
   const { params: { id } } = useRouteMatch();
   

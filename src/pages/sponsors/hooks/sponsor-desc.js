@@ -11,7 +11,7 @@ import useSponsors from "../../../hooks/sponsors";
 import * as R from 'ramda';
 import * as moment from 'moment';
 
-// TODO: Copy over call that retrieves sponsor info to local state.
+
 const initialState = (inputState) => ({
   loading: true,
   userFriendlyErrorMessage: '',

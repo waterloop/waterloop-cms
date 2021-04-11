@@ -7,7 +7,6 @@ import EditSponsors from './forms/EditSponsors';
 
 const SponsorsRouter = () => {
   const { path } = useRouteMatch();
-  console.log(path);
   return (
     <Switch>
       <Route path={path} exact>
