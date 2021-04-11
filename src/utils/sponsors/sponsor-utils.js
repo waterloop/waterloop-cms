@@ -26,7 +26,7 @@ export const fromServerSponsor = (sponsor) => ({
   description: sponsor.contributions,
   logoStr: sponsor.logoDir,
   videoLink: sponsor.youtube,
-  lastUpdated: moment(sponsor.updatedAt).format("MMMM D, YYYY")
+  lastUpdated: moment.utc(sponsor.updatedAt).local().format("MMMM D, YYYY")
 });
 
 const termSeasonYearToTimestampMillisec = (season, year) => {
@@ -45,10 +45,10 @@ const termSeasonYearToTimestampMillisec = (season, year) => {
       throw new Error(`Unknown season: ${season}`);
    }
 
-   return (new Date()).setFullYear(year, month, 1);
+   // Day == 2 to prevent overflow into previous month in a different time zone.
+   return (new Date()).setFullYear(year, month, 2);
 };
 
-// TODO: Maybe account for timezone?
 const timestampMillisecToTermSeasonYear = (timestamp) => {
   const date = new Date(timestamp);
   

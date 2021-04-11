@@ -92,7 +92,7 @@ const useSponsorDescForm = (input = {}) => {
         let data = {
           ...sponsorDesc, 
           imageFiles: Array(sponsorDesc.images.length).fill(null), 
-          lastUpdated: moment(sponsorDesc.updatedAt).format("MMMM D, YYYY")
+          lastUpdated: moment.utc(sponsorDesc.updatedAt).local().format("MMMM D, YYYY")
         }
         dispatch({
           type: 'LOAD_SUCCESS',
