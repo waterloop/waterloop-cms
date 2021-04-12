@@ -146,7 +146,7 @@ const useSponsorForm = (sponsorId, input = {}) => {
    * Load Sponsor Data by ID:
    */
   useEffect(() => {
-    if (state.loading && sponsors.length !== 0 && sponsorTiers.length !== 0) {
+    if (state.loading && sponsorTiers.length !== 0) {
       try {
         // Filter for matching sponsor value:
         const sponsor = sponsors.filter(s => s.sponsorId === sponsorId);
@@ -265,7 +265,7 @@ const useSponsorForm = (sponsorId, input = {}) => {
           imageString = imageUrl;
         }
       } else if (!state.form.logoStr) {
-        throw new Error("Requirement not satisfied: Sponsor logo");
+        throw new Error("Requirement not satisfied: Sponsor logo");  // TODO: Uncomment this.
       }
 
       const data = toServerSponsor({
