@@ -1,6 +1,3 @@
-// TODO: Write contract for getting sponsor by ID in backend?.
-// const getSponsorById = (server) => (id) => server.get(`/api/sponsors/${id}`);
-
 const getSponsorTiers = (server) => () => server.get(`/api/sponsors/tiers`);
 
 const getSponsorDesc = (server) => () => server.get(`/api/sponsors/description`);
@@ -18,7 +15,6 @@ export default (server) => ({
   getSponsorDesc: getSponsorDesc(server),
   updateSponsorDesc: updateSponsorDesc(server),
   getSponsors: getSponsors(server),
-  // getSponsorById: getSponsorById(server),
   addSponsor: addSponsor(server),
   updateSponsor: updateSponsor(server),
   deleteSponsor: deleteSponsor(server),

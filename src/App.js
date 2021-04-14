@@ -50,12 +50,12 @@ const App = () => {
           <SignInPage />
         </Route>
         <Route path="/sponsors">
-          {/* {typeof userId !== 'number' && <Redirect to="/sign-in" />} */}
+          {typeof userId !== 'number' && <Redirect to="/sign-in" />}
           <TopBar />
           <SponsorsRouter />
         </Route>
         <Route path="/team-descriptions" exact>
-          {/* {typeof userId !== 'number' && <Redirect to="/sign-in" />} */}
+          {typeof userId !== 'number' && <Redirect to="/sign-in" />}
           <TopBar />
           <TeamDescriptionsPage />
         </Route>
