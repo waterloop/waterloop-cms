@@ -68,4 +68,5 @@ export default {
   shadows,
   borders,
   pageMargin: '64px 82px 64px 82px',
+  mobilePageMargin: '15px 30px 15px 30px',
 };

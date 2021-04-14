@@ -8,8 +8,8 @@ const CloseButton = styled.img.attrs({
   src: CloseIconSvg,
 })`
   position: absolute;
-  top: 0px;
-  left: 252px;
+  top: -10px;
+  left: 245px;
   visibility: hidden;
   cursor: pointer;
 
@@ -23,6 +23,7 @@ const CloseButton = styled.img.attrs({
 
 const Container = styled.div`
   display: flex;
+  position: relative;
   width: 256px;
   height: 180px;
   background-color: ${({ theme }) => theme.colours.white};
@@ -40,6 +41,7 @@ const Container = styled.div`
 const Image = styled.img`
   width: 100%;
   height: 100%;
+  object-fit: contain;
   border: ${({ theme }) => theme.borders.solidGrey1};
   border-radius: 15px;
 `;
