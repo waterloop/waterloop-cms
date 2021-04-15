@@ -1,9 +1,10 @@
 import * as actionTypes from '../action-types';
 
-export const setUserId = (userId) => ({
-  type: actionTypes.USER_SET_ID,
+export const setUserAuth = (authPayload) => ({
+  type: actionTypes.USER_SET_AUTH,
   payload: {
-    id: userId,
+    id: authPayload.userId,
+    token: authPayload.tokenId,
   },
 });
 

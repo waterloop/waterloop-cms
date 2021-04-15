@@ -1,7 +1,6 @@
 import axios from 'axios';
-import io from 'socket.io-client';
 
-const baseUrl = process.env.REACT_APP_BASE_URL || 'http://localhost:9000';
+const baseUrl = process.env.NODE_ENV === 'production' ? '' : 'http://localhost:9000';
 
 export const server = axios.create({
   baseURL: baseUrl,
@@ -9,9 +8,8 @@ export const server = axios.create({
   withCredentials: true,
 });
 
-export const socket = io(baseUrl);
-socket.on('connect', () => {
-  console.log(`Socket Connected: ${socket.id}`);
-});
-socket.connect();
+export const addAuthTokenToRequests = (token) => {
+  server.defaults.headers.common.Authorization = `Bearer ${token}`;
+};
+
 export default server;

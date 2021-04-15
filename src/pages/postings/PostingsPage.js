@@ -4,11 +4,13 @@ import usePostings from '../../hooks/postings';
 import UnstyledHeaderPreview from './HeadersPreview';
 import useHeaders from './hooks/headers';
 import styled from 'styled-components';
+import { useSelector } from 'react-redux';
 
 import Button from '../../components/Button';
 import PreviewTable from '../../components/PreviewTable';
 import { useHistory, useRouteMatch } from 'react-router-dom';
 import api from '../../api';
+import * as userSelectors from '../../state/user/selectors';
 
 const ChartTitle = styled.div`
   font-style: italic;
@@ -37,6 +39,7 @@ const PostingsPage = () => {
   const { headers } = useHeaders();
   const history = useHistory();
   const { url } = useRouteMatch();
+  const token = useSelector(userSelectors.token);
 
   const handleEditPosting = useCallback((id) => {
     // eslint-disable-next-line no-console
@@ -55,7 +58,7 @@ const PostingsPage = () => {
 
   const handelNewPosting = () => {
     api.postings
-      .createNewPosting()
+      .createNewPosting(token)
       .then((response) => {
         if (typeof response.data[0] === 'number') {
           history.push(`/postings/${response.data[0]}`);
@@ -66,7 +69,7 @@ const PostingsPage = () => {
   const updateClosed = (id) => (closedState) => {
     api
       .postings
-      .patchPosting({ closed: closedState }, id);
+      .patchPosting({ closed: closedState === '1' }, id);
   };
 
   const tableHeaders = [

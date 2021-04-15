@@ -6,10 +6,11 @@ const initialState = {
 
 export default (state = initialState, { type, payload }) => {
   switch (type) {
-    case actionTypes.USER_SET_ID:
+    case actionTypes.USER_SET_AUTH:
       return {
         ...state,
         id: payload.id,
+        token: payload.token,
       };
 
     case actionTypes.USER_SET_PICTURE:

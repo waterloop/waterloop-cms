@@ -1,7 +1,5 @@
 import React from 'react';
-import {
-  Switch, Route, BrowserRouter, Redirect,
-} from 'react-router-dom';
+import { Switch, Route, BrowserRouter, Redirect } from 'react-router-dom';
 
 import LandingPage from './pages/landing/LandingPage';
 import GeesePage from './pages/geese/GeesePage';
@@ -15,34 +13,34 @@ import PostingsRouter from './pages/postings/Postings.router';
 import SponsorsRouter from './pages/sponsors/Sponsors.router';
 
 const App = () => {
-  const userId = useSelector(userSelectors.userId);
+  const token = useSelector(userSelectors.token);
 
   return (
     <BrowserRouter>
       <Switch>
         <Route path="/" exact>
           <div>
-            {typeof userId !== 'number' && <Redirect to="/sign-in" />}
+            {!token && <Redirect to="/sign-in" />}
             <TopBar />
             <LandingPage />
           </div>
         </Route>
         <Route path="/geese" exact>
           <div>
-            {typeof userId !== 'number' && <Redirect to="/sign-in" />}
+            {!token && <Redirect to="/sign-in" />}
             <TopBar />
             <GeesePage />
           </div>
         </Route>
         <Route path="/features" exact>
           <div>
-            {typeof userId !== 'number' && <Redirect to="/sign-in" />}
+            {!token && <Redirect to="/sign-in" />}
             <TopBar />
             <FeaturesPage />
           </div>
         </Route>
         <Route path="/postings">
-          {typeof userId !== 'number' && <Redirect to="/sign-in" />}
+          {!token && <Redirect to="/sign-in" />}
           <TopBar />
           <PostingsRouter />
         </Route>
@@ -50,12 +48,12 @@ const App = () => {
           <SignInPage />
         </Route>
         <Route path="/sponsors">
-          {typeof userId !== 'number' && <Redirect to="/sign-in" />}
+          {!token && <Redirect to="/sign-in" />}
           <TopBar />
           <SponsorsRouter />
         </Route>
         <Route path="/team-descriptions" exact>
-          {typeof userId !== 'number' && <Redirect to="/sign-in" />}
+          {!token && <Redirect to="/sign-in" />}
           <TopBar />
           <TeamDescriptionsPage />
         </Route>

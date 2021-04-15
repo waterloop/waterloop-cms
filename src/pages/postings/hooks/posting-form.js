@@ -283,17 +283,33 @@ const usePostingForm = (postingId, input = {}) => {
   );
 
   const removeTask = useCallback(
-    (id) => {
-      dispatch({ type: 'REMOVE_TASK', payload: id });
+    async (taskId) => {
+      try {
+        await api.postings.removePostingTask(postingId, taskId);
+        dispatch({ type: 'REMOVE_TASK', payload: taskId });
+      } catch (err) {
+        if (process.env.NODE_ENV === 'development') {
+          // eslint-disable-next-line no-console
+          console.error(`[REMOVE TASK ERROR]: ${err}`);
+        }
+      }
     },
-    [dispatch],
+    [dispatch, postingId],
   );
 
   const removeInfo = useCallback(
-    (id) => {
-      dispatch({ type: 'REMOVE_INFO', payload: id });
+    async (infoId) => {
+      try {
+        await api.postings.removePostingInfo(postingId, infoId);
+        dispatch({ type: 'REMOVE_ADDITIONAL_INFORMATION', payload: infoId });
+      } catch (err) {
+        if (process.env.NODE_ENV === 'development') {
+          // eslint-disable-next-line no-console
+          console.error(`[REMOVE INFO ERROR]: ${err}`);
+        }
+      }
     },
-    [dispatch],
+    [dispatch, postingId],
   );
   // END Form Functions
 
@@ -346,6 +362,7 @@ const usePostingForm = (postingId, input = {}) => {
   const saveDialog = useCallback(async () => {
     try {
       let response;
+      console.log(state.dialog);
       switch (state.dialog.formField) {
         case 'requirements': {
           // Response holds a list of requirements that includes the new item
@@ -355,6 +372,19 @@ const usePostingForm = (postingId, input = {}) => {
           );
           break;
         }
+        case 'info': {
+          response = await api.postings.addInfoToPosting(
+            postingId,
+            state.dialog.value,
+          );
+          break;
+        }
+        case 'tasks':
+          response = await api.postings.addTaskToPosting(
+            postingId,
+            state.dialog.value,
+          );
+          break;
         default:
           return null;
       }
