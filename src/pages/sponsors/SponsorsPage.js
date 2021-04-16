@@ -1,7 +1,7 @@
 import React from 'react';
 import useSponsors from '../../hooks/sponsors';
 import styled from 'styled-components';
-import {useHistory} from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 
 import { buttonCopies, mainCopies } from './Copies';
 
@@ -9,13 +9,13 @@ import TableCell from '@material-ui/core/TableCell';
 import UnstyledPreviewTable from '../../components/PreviewTable';
 import Button from '../../components/Button';
 
-
 const Container = styled.div`
   margin: ${({ theme }) => theme.pageMargin};
-  & input, textarea {
+  & input,
+  textarea {
     box-sizing: border-box;
   }
-  @media only screen and (max-width: ${({theme}) => theme.breakpoints.md}px) {
+  @media only screen and (max-width: ${({ theme }) => theme.breakpoints.md}px) {
     margin: ${({ theme }) => theme.mobilePageMargin};
     text-align: center;
   }
@@ -23,15 +23,15 @@ const Container = styled.div`
 
 const PageDescriptionText = styled.h3`
   margin-bottom: 5px;
-  font: ${({theme}) => theme.fonts.medium24};
+  font: ${({ theme }) => theme.fonts.medium24};
 `;
 
 const Text = styled.p`
-  font: ${({theme}) => theme.fonts.medium18};
+  font: ${({ theme }) => theme.fonts.medium18};
 `;
 
 const TextBold = styled.p`
-  font: ${({theme}) => theme.fonts.bold18};
+  font: ${({ theme }) => theme.fonts.bold18};
 `;
 
 const TableLabelHeader = styled.span`
@@ -40,35 +40,35 @@ const TableLabelHeader = styled.span`
   align-items: center;
   margin-top: 30px;
 
-  @media only screen and (max-width: ${({theme}) => theme.breakpoints.md}px) {
+  @media only screen and (max-width: ${({ theme }) => theme.breakpoints.md}px) {
     justify-content: center;
     flex-direction: column;
-    margin-bottom: 20px
+    margin-bottom: 20px;
   }
 `;
 
 const TableLabel = styled.h1`
-  font: ${({theme}) => theme.fonts.bold36};
+  font: ${({ theme }) => theme.fonts.bold36};
   font-style: italic;
 `;
 
 const ButtonContainer = styled.div`
-  &>* {
+  & > * {
     margin-right: 20px;
     margin-top: 10px;
-    @media only screen and (max-width: ${({theme}) => theme.breakpoints.md}px) {
+    @media only screen and (max-width: ${({ theme }) => theme.breakpoints.md}px) {
       margin-right: 0;
     }
   }
 `;
 
 const headers = [
-  {id: 'name', value: mainCopies.SPONSOR_NAME_COLUMN}, 
-  {id: 'lastUpdated', value: mainCopies.SPONSOR_LAST_UPDATED_COLUMN}, 
-  {id: 'tier', value: mainCopies.SPONSOR_LEVEL_COLUMN}
-]
+  { id: 'name', value: mainCopies.SPONSOR_NAME_COLUMN },
+  { id: 'lastUpdated', value: mainCopies.SPONSOR_LAST_UPDATED_COLUMN },
+  { id: 'tier', value: mainCopies.SPONSOR_LEVEL_COLUMN },
+];
 
-const RowComponent = ({name, lastUpdated, tier}) => (
+const RowComponent = ({ name, lastUpdated, tier }) => (
   <>
     <TableCell>
       <TextBold>{name}</TextBold>
@@ -80,7 +80,7 @@ const RowComponent = ({name, lastUpdated, tier}) => (
       <Text>{tier}</Text>
     </TableCell>
   </>
-)
+);
 
 const SponsorsPage = () => {
   const { sponsorTiers, sponsors } = useSponsors();
@@ -89,8 +89,8 @@ const SponsorsPage = () => {
       id: sponsor.sponsorId,
       name: sponsor.name,
       lastUpdated: sponsor.lastUpdated,
-      tier: sponsorTiers.filter((sTier) => sTier.id === sponsor.tierId)[0].text
-    }
+      tier: sponsorTiers.filter((sTier) => sTier.id === sponsor.tierId)[0].text,
+    };
   });
 
   const history = useHistory();
@@ -99,25 +99,25 @@ const SponsorsPage = () => {
     <Container>
       <PageDescriptionText>{mainCopies.SUPPORT_TEAM_LABEL}</PageDescriptionText>
       <ButtonContainer>
-        <Button 
-          label={buttonCopies.EDIT_DESCRIPTION} 
-          secondary 
+        <Button
+          label={buttonCopies.EDIT_DESCRIPTION}
+          secondary
           link
-          to={"sponsors/description"}
+          to="sponsors/description"
         />
         <Button label={buttonCopies.PREVIEW} primary />
       </ButtonContainer>
 
       <TableLabelHeader>
         <TableLabel>{mainCopies.TABLE_LABEL}</TableLabel>
-        <Button 
-          label={buttonCopies.NEW_SPONSOR} 
-          primary 
+        <Button
+          label={buttonCopies.NEW_SPONSOR}
+          primary
           link
-          to={"sponsors/-1"}
+          to={'sponsors/-1'}
         />
       </TableLabelHeader>
-      <UnstyledPreviewTable 
+      <UnstyledPreviewTable
         headers={headers}
         rows={tableRows}
         RowComponent={RowComponent}
@@ -127,6 +127,6 @@ const SponsorsPage = () => {
       />
     </Container>
   );
-}
+};
 
 export default SponsorsPage;

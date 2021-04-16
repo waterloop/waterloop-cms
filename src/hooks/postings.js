@@ -21,7 +21,16 @@ const usePostings = () => {
       try {
         const response = await api.postings.getPostings();
         const teams = await api.teams.getTeams();
-        return dateStringsToDates(response.data.map((item) => ({ ...item, team: teams.data.find((team) => team.id === item.teamId).teamName })));
+        return dateStringsToDates(
+          response
+            .data
+            .map(
+              (item) => ({
+                ...item,
+                team: teams.data.find((team) => team.id === item.teamId).teamName,
+              }),
+            ),
+        );
       } catch (err) {
         if (process.env.NODE_ENV === 'development') {
           console.log(err);
@@ -31,14 +40,17 @@ const usePostings = () => {
     }, [],
   );
 
-  useEffect(() => {
-    (async () => {
-      dispatch(postingActions.setPostings(await getPostings()));
-    })();
+  const reload = useCallback(async () => {
+    dispatch(postingActions.setPostings(await getPostings()));
   }, [dispatch, getPostings]);
+
+  useEffect(() => {
+    reload();
+  }, [reload]);
 
   return {
     postings,
+    reload,
   };
 };
 

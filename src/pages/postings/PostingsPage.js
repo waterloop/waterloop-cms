@@ -35,7 +35,7 @@ const Container = styled.div`
 `;
 
 const PostingsPage = () => {
-  const { postings } = usePostings();
+  const { postings, reload } = usePostings();
   const { headers } = useHeaders();
   const history = useHistory();
   const { url } = useRouteMatch();
@@ -69,7 +69,12 @@ const PostingsPage = () => {
   const updateClosed = (id) => (closedState) => {
     api
       .postings
-      .patchPosting({ closed: closedState === '1' }, id);
+      .patchPosting({ closed: closedState === '1' }, id)
+      .then((response) => {
+        if (response.status === 200) {
+          reload();
+        }
+      });
   };
 
   const tableHeaders = [
