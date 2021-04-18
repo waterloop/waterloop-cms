@@ -47,10 +47,10 @@ const PostingsPreview = ({
       <ChartInfoText>{team}</ChartInfoText>
     </TableCell>
     <TableCell>
-      <LastUpdatedText>{moment(lastUpdated).format('MMM Do, YYYY')}</LastUpdatedText>
+      <LastUpdatedText>{moment(lastUpdated.getTime()).format('MMM Do, YYYY')}</LastUpdatedText>
     </TableCell>
     <TableCell>
-      <Selector onSelect={onClosedChanged} value={closed} items={[{ id: 1, text: 'closed' }, { id: 0, text: 'open' }]}/>
+      <Selector onSelect={onClosedChanged} value={(closed ? '1' : '0')} items={[{ id: '1', text: 'closed' }, { id: '0', text: 'open' }]}/>
     </TableCell>
   </>
 );
