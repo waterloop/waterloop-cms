@@ -3,6 +3,7 @@ import postings from './postings';
 import server from './server';
 import teams from './teams';
 import formUpload from './formUpload';
+import openingsDescription from './openings-description';
 import sponsors from './sponsors';
 
 export default {
@@ -11,4 +12,5 @@ export default {
   sponsors: sponsors(server),
   teams: teams(server),
   formUpload: formUpload(server),
+  openingsDescription: openingsDescription(server),
 };
