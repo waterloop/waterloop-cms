@@ -57,8 +57,8 @@ const sections = [
   },
   {
     name: 'Descriptions',
-    to: '/descriptions'
-  }
+    to: '/descriptions',
+  },
 ];
 
 const LandingPage = () => {

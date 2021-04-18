@@ -1,63 +1,36 @@
-import React from 'react';
+import { useCallback } from 'react';
+import { useGoogleLogin } from 'react-google-login';
 import api from '../api';
-import { socket } from '../api/server';
 
 const useGoogleAuth = (onAuthComplete) => {
-  const [disabled, setDisabled] = React.useState(false);
-
-  const popupRef = React.useRef(null);
-
-  React.useEffect(() => {
-    socket.open();
-    socket.on('google', (userId) => {
-      onAuthComplete(null, userId);
-    });
-    return () => {
-      socket.close();
-    };
-  }, [onAuthComplete]);
-
-  const checkPopup = () => {
-    const check = setInterval(() => {
-      if (!popupRef.current || popupRef.current.closed || popupRef.closed === undefined) {
-        setDisabled(false);
-        clearInterval(check);
-      }
-    }, 1000);
-  };
-
-  const openPopup = React.useCallback(async () => {
-    const width = 600;
-    const height = 600;
-    const left = (window.innerWidth / 2) - (width / 2);
-    const top = (window.innerHeight / 2) - (height / 2);
-    try {
-      const response = await api.google.authenticate(socket);
-      const url = response.data.uri;
-
-      return window.open(url, '',
-        `toolbar=no, location=no, directories=no, status=no, menubar=no,
-        scrollbars=no, resizable=no, copyhistory=no, width=${width},
-        height=${height}, top=${top}, left=${left}`);
-    } catch (err) {
-      onAuthComplete(err);
-      return null;
-    }
-  }, [onAuthComplete]);
-
-  const login = React.useCallback(
-    async () => {
-      if (!disabled) {
-        popupRef.current = await openPopup();
-        setDisabled(true);
-        checkPopup();
-      }
+  const onSuccess = useCallback(
+    (response) => {
+      // https://github.com/anthonyjgrove/react-google-login/blob/7db5b9686a70ded6b090a9c01906ca978b00a54d/index.d.ts#L29
+      const { tokenId } = response;
+      console.log('Begin auth');
+      api
+        .google
+        .checkToken(tokenId)
+        .then((checkTokenResponse) => {
+          if (checkTokenResponse.status === 200) {
+            const { userId } = checkTokenResponse.data;
+            onAuthComplete(null, { userId, tokenId });
+          }
+        })
+        .catch((err) => onAuthComplete(err));
     },
-    [disabled, openPopup],
+    [onAuthComplete],
   );
 
+  const { signIn } = useGoogleLogin({
+    onSuccess,
+    onFailure: (err) => { console.log('failed auth', err); },
+    clientId: '538509890740-e3dai2feq6knjfdspqde5ogt2kme0chm.apps.googleusercontent.com',
+    prompt: 'consent select_account',
+  });
+
   return {
-    login,
+    signIn,
   };
 };
 

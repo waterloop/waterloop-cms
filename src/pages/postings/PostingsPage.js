@@ -4,11 +4,13 @@ import usePostings from '../../hooks/postings';
 import UnstyledHeaderPreview from './HeadersPreview';
 import useHeaders from './hooks/headers';
 import styled from 'styled-components';
+import { useSelector } from 'react-redux';
 
 import Button from '../../components/Button';
 import PreviewTable from '../../components/PreviewTable';
 import { useHistory, useRouteMatch } from 'react-router-dom';
 import api from '../../api';
+import * as userSelectors from '../../state/user/selectors';
 
 const ChartTitle = styled.div`
   font-style: italic;
@@ -33,10 +35,11 @@ const Container = styled.div`
 `;
 
 const PostingsPage = () => {
-  const { postings } = usePostings();
+  const { postings, reload } = usePostings();
   const { headers } = useHeaders();
   const history = useHistory();
   const { url } = useRouteMatch();
+  const token = useSelector(userSelectors.token);
 
   const handleEditPosting = useCallback((id) => {
     // eslint-disable-next-line no-console
@@ -55,10 +58,21 @@ const PostingsPage = () => {
 
   const handelNewPosting = () => {
     api.postings
-      .createNewPosting()
+      .createNewPosting(token)
       .then((response) => {
         if (typeof response.data[0] === 'number') {
           history.push(`/postings/${response.data[0]}`);
+        }
+      });
+  };
+
+  const updateClosed = (id) => (closedState) => {
+    api
+      .postings
+      .patchPosting({ closed: closedState === '1' }, id)
+      .then((response) => {
+        if (response.status === 200) {
+          reload();
         }
       });
   };
@@ -77,7 +91,7 @@ const PostingsPage = () => {
       value: 'last updated',
     },
     {
-      id: 'status',
+      id: 'closed',
       value: 'Opening Status',
     },
   ];
@@ -88,7 +102,7 @@ const PostingsPage = () => {
       <ChartTitle>Team Openings</ChartTitle>
       <PreviewTable
         headers={tableHeaders}
-        rows={postings}
+        rows={postings.map((posting) => ({ ...posting, onClosedChanged: updateClosed(posting.id) }))}
         RowComponent={PostingPreview}
         onEdit={handleEditPosting}
       />

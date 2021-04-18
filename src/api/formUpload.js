@@ -7,13 +7,5 @@ export default (server) => (formData) => {
     },
   };
 
-  server
-    .post('/api/upload', formData, headers)
-    .then((res) => {
-      console.log(`statusCode: ${res.statusCode}`);
-      console.log(res);
-    })
-    .catch((error) => {
-      console.error(error);
-    });
+  return server.post('/api/upload', formData, headers);
 };

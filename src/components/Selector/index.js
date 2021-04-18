@@ -1,24 +1,29 @@
-import React, { useState } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import MUISelector from '@material-ui/core/Select';
 import MUIMenuItem from '@material-ui/core/MenuItem';
 import ExpandLessIcon from '@material-ui/icons/ExpandLess';
+import * as R from 'ramda';
 
 const PrimarySelector = styled(MUISelector)`
-  border-radius: 20px;
+  ${({ value, theme }) => (value === "" ? 
+    `font: ${theme.fonts.medium18}; 
+     color: ${theme.colours.greys.grey2};`
+    : "")};
+  border-radius: 10px;
   width: 100%;
   z-index: 100;
-  border-color: #c4c4c4;
+  border-color: ${({ theme }) => theme.colours.greys.grey2};
   & fieldset {
-    border-color: #c4c4c4;
+    border-color: ${({ theme }) => theme.colours.greys.grey2};
   }
   &.Mui-focused {
     & .MuiOutlinedInput-notchedOutline {
-      border-color: #c4c4c4;
+      border-color: ${({ theme }) => theme.colours.greys.grey2};
     }
   }
   .MuiOutlinedInput-notchedOutline {
-    border-color: #c4c4c4;
+    border-color: ${({ theme }) => theme.colours.greys.grey2};
   }
 `;
 
@@ -27,38 +32,42 @@ const StyledExpandIcon = styled(ExpandLessIcon)`
   top: 10px;
 `;
 
+const PlaceholderMenuItem = styled(MUIMenuItem)`
+  color: ${({ theme }) => theme.colours.greys.grey2};
+`;
+
 /** Custom Waterloop CMS Selector. The parent component determines what happens when the
  * value changes, including updating the value that's currently displayed in the field.
  *
- * @param className Allows for external styles to be applied to the
- *                    component using the styled components library className
- *                    prop needs to be passed to the parent JSX element.
- * @param value     The current value of the input.
- * @param onSelect  Callback to be called each time that the user selects a value.
- * @param items     An Array of items to be displayed in the selector dropdown.
+ * @param className     Allows for external styles to be applied to the
+ *                        component using the styled components library className
+ *                        prop needs to be passed to the parent JSX element.
+ * @param value         The current value of the input.
+ * @param onSelect      Callback to be called each time that the user selects a value.
+ * @param items         An Array of items to be displayed in the selector dropdown.
+ * @param placeholder   Optional placeholder text to display for unselected boxes (blank by default).
  */
 const Selector = ({
   className,
-  value,
+  value = "",
   onSelect,
   items,
+  placeholder = ""
 }) => {
-  const [selected, setSelected] = useState(value);
-
   const handleChange = (event) => {
-    if (event.target.value && typeof onSelect === 'function') {
+    if (!R.isNil(event.target.value) && typeof onSelect === 'function') {
       onSelect(event.target.value);
-      setSelected(event.target.value);
     }
   };
 
   return (
     <PrimarySelector
+      displayEmpty
       className={className}
       variant="outlined"
       color="primary"
       onChange={handleChange}
-      value={selected}
+      value={value}
       IconComponent={({ className: c }) => <StyledExpandIcon className={c} fontSize="large"/>}
       MenuProps={{
         anchorOrigin: {
@@ -72,6 +81,9 @@ const Selector = ({
         getContentAnchorEl: null,
       }}
     >
+      <PlaceholderMenuItem key={""} value={""} divider disabled>
+        {placeholder}
+      </PlaceholderMenuItem>
       {items.map((item) => (
         <MUIMenuItem key={item.id} value={item.id} divider>
           {item.text}
