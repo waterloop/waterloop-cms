@@ -22,7 +22,8 @@ const ListClosedIcon = styled.img.attrs({
 
 const Container = styled.div`
   overflow: visible;
-  z-index: 1; ${''/** Hides the top of the list under the List name container */}
+  z-index: 10; ${''/** Hides the top of the list under the List name container */}
+  background-color: ${({ theme }) => theme.colours.white};
 `;
 
 const ListNameContainer = styled.div`
@@ -57,8 +58,12 @@ const List = styled(({ open, ...props }) => <ul {...props}/>)`
   padding-inline-start: 0;
 
   ${''/* Cannot Use Transitions with "height: auto", so this calculates the height of the list based on the number of children */}
-  ${({ open, children }) => (open ? css`
-    height: calc(37px * ${Children.toArray(children).length} );
+  ${'' /* ${({ open, children }) => (open ? css` */}
+  ${({ open }) => (open ? css`
+    ${'' /* height: calc(37px * ${Children.toArray(children).length} ); */}
+    ${'' /* This does not transition, but the above does not work well with text wrapping */}
+    ${'' /*  TODO: This needs to get relooked at when I have more time */}
+    height: max-content;
   ` : css`
     height: 0px;
   `)}
