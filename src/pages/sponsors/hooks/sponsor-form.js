@@ -1,22 +1,16 @@
-import {
-  useReducer,
-  useCallback,
-  useEffect,
-  useMemo,
-} from 'react';
+import { useReducer, useCallback, useEffect, useMemo } from 'react';
 import api from '../../../api';
 import { useHistory } from 'react-router-dom';
 import FormData from 'form-data';
 
-import useSponsors from "../../../hooks/sponsors";
-import {toServerSponsor} from "../../../utils/sponsors/sponsor-utils";
-
+import useSponsors from '../../../hooks/sponsors';
+import { toServerSponsor } from '../../../utils/sponsors/sponsor-utils';
 
 const TODAY = new Date();
 
 // Used for setting sponsor join date boundaries:
 // Feel free to change these bounds, I don't know when Waterloop had its first sponsor lol.
-const MIN_YEAR = 2008;  
+const MIN_YEAR = 2008;
 const MAX_YEAR = TODAY.getFullYear() + 5;
 
 const initialState = (inputState) => ({
@@ -33,11 +27,11 @@ const initialState = (inputState) => ({
     termSeason: '',
     description: '',
     logoStr: '',
-    logoFile: null, 
+    logoFile: null,
     videoLink: '',
     lastUpdated: '',
     ...inputState, // May overwrite any of the above defaults
-  }
+  },
 });
 
 const reducer = (state, action) => {
@@ -51,7 +45,7 @@ const reducer = (state, action) => {
         exists: action.payload.exists,
         form: {
           ...state.form,
-          ...action.payload.sponsorData,  // This injects existing data for the chosen sponsor.
+          ...action.payload.sponsorData, // This injects existing data for the chosen sponsor.
           sponsorId: action.payload.sponsorId,
         },
       };
@@ -118,8 +112,8 @@ const reducer = (state, action) => {
           ...state.form,
           logoStr: action.payload.logoStr,
           logoFile: action.payload.logoFile,
-        }
-      }
+        },
+      };
     case 'UPDATE_VIDEO_LINK':
       return {
         ...state,
@@ -135,12 +129,11 @@ const reducer = (state, action) => {
   }
 };
 
-
 // Middleware:
 const useSponsorForm = (sponsorId, input = {}) => {
   const [state, dispatch] = useReducer(reducer, initialState(input));
   const history = useHistory();
-  const {sponsorTiers, sponsors} = useSponsors();
+  const { sponsorTiers, sponsors } = useSponsors();
 
   /**
    * Load Sponsor Data by ID:
@@ -149,7 +142,7 @@ const useSponsorForm = (sponsorId, input = {}) => {
     if (state.loading && sponsorTiers.length !== 0) {
       try {
         // Filter for matching sponsor value:
-        const sponsor = sponsors.filter(s => s.sponsorId === sponsorId);
+        const sponsor = sponsors.filter((s) => s.sponsorId === sponsorId);
         if (sponsor.length <= 1) {
           dispatch({
             type: 'LOAD_SUCCESS',
@@ -157,8 +150,8 @@ const useSponsorForm = (sponsorId, input = {}) => {
               sponsorId,
               sponsorTiers,
               sponsorData: sponsor[0],
-              exists: sponsor.length === 1
-            }
+              exists: sponsor.length === 1,
+            },
           });
         } else {
           throw new Error(
@@ -166,9 +159,9 @@ const useSponsorForm = (sponsorId, input = {}) => {
           );
         }
       } catch (err) {
-          dispatch({ type: 'LOAD_FAILURE', payload: err });
+        dispatch({ type: 'LOAD_FAILURE', payload: err });
       }
-    }  
+    }
   }, [state.loading, dispatch, sponsorId, sponsors, sponsorTiers]);
 
   /**
@@ -218,7 +211,7 @@ const useSponsorForm = (sponsorId, input = {}) => {
 
   const updateLogo = useCallback(
     (logoStr, logoFile) => {
-      dispatch({ type: 'UPDATE_LOGO', payload: {logoStr, logoFile} });
+      dispatch({ type: 'UPDATE_LOGO', payload: { logoStr, logoFile } });
     },
     [dispatch],
   );
@@ -242,7 +235,6 @@ const useSponsorForm = (sponsorId, input = {}) => {
     console.log(state.form);
     // TODO: Validation checks here.
 
-
     // Send data to server:
     try {
       const file = state.form.logoFile;
@@ -250,27 +242,26 @@ const useSponsorForm = (sponsorId, input = {}) => {
 
       if (file) {
         const data = new FormData();
-        
+
         data.append('files', file, file.name);
         const res = await api.formUpload(data);
-    
+
         // eslint-disable-next-line no-console
-        console.log("Done image upload!");
-        
+        console.log('Done image upload!');
+
         const imageUrl = res.data.data[0];
         if (!imageUrl) {
-          throw new Error("Failed to upload image.");
-
+          throw new Error('Failed to upload image.');
         } else {
           imageString = imageUrl;
         }
       } else if (!state.form.logoStr) {
-        throw new Error("Requirement not satisfied: Sponsor logo");  // TODO: Uncomment this.
+        throw new Error('Requirement not satisfied: Sponsor logo'); // TODO: Uncomment this.
       }
 
       const data = toServerSponsor({
         ...state.form,
-        logoStr: imageString
+        logoStr: imageString,
       });
 
       if (state.exists) {
@@ -278,10 +269,9 @@ const useSponsorForm = (sponsorId, input = {}) => {
       } else {
         await api.sponsors.addSponsor(data);
       }
-      
+
       // onSuccess:
       closeForm();
-
     } catch (e) {
       // TODO: Display "could not add/update" error to user as dialogue.
       // eslint-disable-next-line no-console
@@ -293,7 +283,6 @@ const useSponsorForm = (sponsorId, input = {}) => {
     try {
       await api.sponsors.deleteSponsor(sponsorId);
       closeForm();
-
     } catch (e) {
       // TODO: Display "could not delete" to user as dialogue.
       // eslint-disable-next-line no-console
@@ -301,7 +290,6 @@ const useSponsorForm = (sponsorId, input = {}) => {
     }
   }, [sponsorId, closeForm]);
   // END Save and close functions
-
 
   /** UTILITY FUNCTIONS: */
   /**
