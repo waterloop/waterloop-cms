@@ -18,18 +18,31 @@ const usePostings = () => {
   const getPostings = useCallback(
     async () => {
       try {
-        const response = await api.postings.getPostings();
-        const teams = await api.teams.getTeams();
-        return dateStringsToDates( // need to change, or check if teamname is already there to avoid doing this, wait if they always do this why not make joinTeamname bool default true?
-          response
-            .data
-            .map(
-              (item) => ({
-                ...item,
-                team: teams.data.find((team) => team.id === item.teamId).teamName,
-              }),
-            ),
-        );
+        const response = await api.postings.getPostings(); 
+        if (response.data[0].hasOwnProperty('team')) { //checking the first element for team in object (if there is, it will be in the rest of them)
+          return dateStringsToDates( 
+            response
+              .data
+              .map(
+                (item) => ({
+                  ...item
+                }),
+              ),
+          );
+        }
+        else {
+          const teams = await api.teams.getTeams();
+          return dateStringsToDates( 
+            response
+              .data
+              .map(
+                (item) => ({ 
+                  ...item,
+                  team: teams.data.find((team) => team.id === item.teamId).teamName,
+                }),
+              ),
+          );
+        }
       } catch (err) {
         if (process.env.NODE_ENV === 'development') {
           console.log(err);
