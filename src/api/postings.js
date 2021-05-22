@@ -1,5 +1,5 @@
-const getPostings = (server) => (joinTeamName = true) => server.get('/api/postings'); // is joinTeamName a part of the query?
-const getPostingById = (server) => (id, joinTeamname = true) => server.get(`/api/postings/${id}`);
+const getPostings = (server) => (joinTeamName = true) => server.get(`/api/postings${joinTeamName ? '?joinTeamName=true' : ''}`); // is joinTeamName a part of the query?
+const getPostingById = (server) => (id, joinTeamName = true) => server.get(`/api/postings/${id}${joinTeamName ? '?joinTeamName=true' : ''}`);
 
 const addRequirementToPosting = (server) => (postingId, requirement) => server.post(`/api/postings/${postingId}/requirement`, {
   requirement,
