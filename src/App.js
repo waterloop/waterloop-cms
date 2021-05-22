@@ -16,6 +16,7 @@ import * as userSelectors from './state/user/selectors';
 import { useSelector } from 'react-redux';
 import PostingsRouter from './pages/postings/Postings.router';
 import SponsorsRouter from './pages/sponsors/Sponsors.router';
+import NotFoundPage from './pages/NotFound';
 
 const App = () => {
   const token = useSelector(userSelectors.token);
@@ -61,6 +62,11 @@ const App = () => {
           {!token && <Redirect to="/sign-in" />}
           <TopBar />
           <TeamDescriptionsPage />
+        </Route>
+        <Route component = {NotFoundPage}>
+          {/* {!token && <Redirect to="/sign-in" />} */}
+          <TopBar />
+          <NotFoundPage />
         </Route>
       </Switch>
     </BrowserRouter>
