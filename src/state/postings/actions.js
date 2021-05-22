@@ -13,3 +13,11 @@ export const setPostingById = (id, posting) => ({
     id, posting,
   },
 });
+
+export const updateClosedState = (id, closedState) => ({
+  type: actionTypes.POSTINGS_UPDATE_CLOSED_STATE,
+  payload: {
+    id,
+    closedState,
+  },
+});

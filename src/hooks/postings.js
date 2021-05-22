@@ -4,6 +4,7 @@ import * as R from 'ramda';
 import api from '../api';
 import * as postingActions from '../state/postings/actions';
 import * as postingSelectors from '../state/postings/selectors';
+import { useHistory } from 'react-router';
 
 const dateStringsToDate = (data) => ({
   ...data,
@@ -13,6 +14,7 @@ const dateStringsToDate = (data) => ({
 
 const dateStringsToDates = R.map(dateStringsToDate);
 const usePostings = () => {
+  const history = useHistory();
   const dispatch = useDispatch();
   const postings = useSelector(postingSelectors.postings);
   const getPostings = useCallback(
@@ -52,17 +54,57 @@ const usePostings = () => {
     }, [],
   );
 
-  const reload = useCallback(async () => {
-    dispatch(postingActions.setPostings(await getPostings()));
+  const load = useCallback(async () => {
+    try {
+      dispatch(postingActions.setPostings(await getPostings()));
+    } catch {
+      if (process.env.NODE_ENV === 'development') {
+        console.log('Failed to load postings');
+      }
+    }
   }, [dispatch, getPostings]);
 
   useEffect(() => {
-    reload();
-  }, [reload]);
+    load();
+  }, [load]);
+
+  const updatePostingClosed = useCallback(async (id, closedState) => {
+    const boolClosedState = closedState === '1';
+    try {
+      const response = await api
+        .postings
+        .patchPosting({ closed: boolClosedState }, id);
+
+      if (response.status === 200) {
+        console.log('closedState', closedState);
+        dispatch(postingActions.updateClosedState(id, boolClosedState));
+      }
+    } catch (err) {
+      if (process.env.NODE_ENV === 'development') {
+        console.log(err);
+      }
+    }
+  }, [dispatch]);
+
+  const addPosting = useCallback(() => {
+    api.postings
+      .createNewPosting()
+      .then((response) => {
+        if (typeof response.data[0] === 'number') {
+          history.push(`/postings/${response.data[0]}`);
+        }
+      })
+      .catch((err) => {
+        if (process.env.NODE_ENV === 'development') {
+          console.log(err);
+        }
+      });
+  }, [history]);
 
   return {
     postings,
-    reload,
+    updatePostingClosed,
+    addPosting,
   };
 };
 

@@ -12,18 +12,19 @@ import UnstyledImagePreview from '../../../components/ImagePreview';
 
 const Container = styled.div`
   margin: ${({ theme }) => theme.pageMargin};
-  & input, textarea {
+  & input,
+  textarea {
     box-sizing: border-box;
   }
-  @media only screen and (max-width: ${({theme}) => theme.breakpoints.md}px) {
+  @media only screen and (max-width: ${({ theme }) => theme.breakpoints.md}px) {
     margin: ${({ theme }) => theme.mobilePageMargin};
   }
 `;
 
 const FormGroup = styled.div`
-  &>* {
+  & > * {
     margin-bottom: 20px;
-    
+
     &:last-child {
       margin-bottom: 40px;
     }
@@ -49,7 +50,7 @@ const InlineSpaced = styled.span`
   display: flex;
   flex-direction: row;
 
-  &>* {
+  & > * {
     margin-right: 15px;
     &:last-child {
       margin-right: 0;
@@ -59,7 +60,7 @@ const InlineSpaced = styled.span`
 
 const DateUpdated = styled.span`
   display: inherit;
-  &>* {
+  & > * {
     margin-right: 5px;
     &:last-child {
       margin-right: 0;
@@ -68,10 +69,10 @@ const DateUpdated = styled.span`
 `;
 
 const Text = styled.p`
-  font: ${({theme}) => theme.fonts.medium18}
+  font: ${({ theme }) => theme.fonts.medium18};
 `;
 const TextBold = styled.p`
-  font: ${({theme}) => theme.fonts.bold18}
+  font: ${({ theme }) => theme.fonts.bold18};
 `;
 
 const TextInput = styled(UnstyledTextInput)`
@@ -96,7 +97,7 @@ const NarrowSelector = styled(UnstyledSelector)`
 const ImagePreview = styled(UnstyledImagePreview)`
   max-width: 256px;
   width: auto;
-`
+`;
 
 // TODO: Abstract component as utility for forms:
 const ButtonContainer = styled.div`
@@ -104,10 +105,11 @@ const ButtonContainer = styled.div`
   justify-content: space-between;
 `;
 
-
 const EditSponsors = () => {
-  const { params: { id } } = useRouteMatch();
-  
+  const {
+    params: { id },
+  } = useRouteMatch();
+
   const {
     loading,
     terms,
@@ -139,78 +141,101 @@ const EditSponsors = () => {
     deleteForm,
   } = useSponsorForm(parseInt(id));
   return (
-    !loading && <Container id="sponsor-root">
-      <TopInfo>
-        <Button cancel onClick={closeForm}>
-          {buttonCopies.BACK}
-        </Button>
-        {lastUpdated && <DateUpdated>
-          <TextBold>{commonCopies.LAST_UPDATED_DATE}</TextBold>
-          <Text>{lastUpdated}</Text>
-        </DateUpdated>}
-      </TopInfo>
-      <FormGroup>
-        <FormContainer title={sponsorsCopies.NAME_LABEL}>
-          <TextInput 
-            placeholder={sponsorsCopies.NAME_PLACEHOLDER} 
-            value={name}
-            onChange={updateName}
-          />
-        </FormContainer>
-        <FormContainer title={sponsorsCopies.WEBSITE_LABEL}>
-          <TextInput 
-            placeholder={sponsorsCopies.WEBSITE_PLACEHOLDER} 
-            value={website}
-            onChange={updateWebsite} 
-          />
-        </FormContainer>
-        <FormContainer title={sponsorsCopies.TIER_LABEL}>
-          <Selector value={tierId} items={sponsorTiers} onSelect={updateTierId} placeholder={sponsorsCopies.TIER_PLACEHOLDER} />
-        </FormContainer>   
-        <FormContainer title={sponsorsCopies.START_DATE_LABEL}>
-          <InlineSpaced>
-            <NarrowSelector value={termSeason} items={terms} onSelect={updateTermSeason} placeholder={sponsorsCopies.START_DATE_TERM_PLACEHOLDER} />  
-            <NarrowSelector value={termYear} items={years} onSelect={updateTermYear} placeholder={sponsorsCopies.START_DATE_YEAR_PLACEHOLDER} />
-          </InlineSpaced>
-        </FormContainer>
-        <FormContainer title={sponsorsCopies.CONTRIBUTIONS_LABEL}>
-          <TextMultilineInput 
-            multiLine 
-            placeholder={sponsorsCopies.CONTRIBUTIONS_PLACEHOLDER}
-            value={description}
-            onChange={updateDescription}   
-          />
-        </FormContainer>
-        <FormContainer title={sponsorsCopies.LOGO_LABEL}>
-          <ImagePreview
-            // Use local image file if user uploaded new image,
-            // else use existing image URL.
-            src={logoFile ? window.URL.createObjectURL(logoFile) : logoStr}
-            onNew={(file) => {
-              updateLogo(file.name, file);
-            }}
-            onDelete={() => {
-              updateLogo('', null);
-            }}
-          />
-        </FormContainer>
-        <FormContainer title={sponsorsCopies.VIDEO_LINK_LABEL}>
-          <TextInput 
-            placeholder={sponsorsCopies.VIDEO_LINK_PLACEHOLDER} 
-            value={videoLink}
-            onChange={updateVideoLink}
-          />
-        </FormContainer>
-      </FormGroup>
-      <ButtonContainer>
-        <div>
-          <Button onClick={saveForm}>{buttonCopies.SAVE}</Button>
-          <Button cancel onClick={closeForm}>{buttonCopies.CANCEL}</Button>
-        </div>
-        <Button del onClick={deleteForm}>{buttonCopies.DELETE}</Button>
-      </ButtonContainer>
-    </Container>
+    !loading && (
+      <Container id="sponsor-root">
+        <TopInfo>
+          <Button cancel onClick={closeForm}>
+            {buttonCopies.BACK}
+          </Button>
+          {lastUpdated && (
+            <DateUpdated>
+              <TextBold>{commonCopies.LAST_UPDATED_DATE}</TextBold>
+              <Text>{lastUpdated}</Text>
+            </DateUpdated>
+          )}
+        </TopInfo>
+        <FormGroup>
+          <FormContainer title={sponsorsCopies.NAME_LABEL}>
+            <TextInput
+              placeholder={sponsorsCopies.NAME_PLACEHOLDER}
+              value={name}
+              onChange={updateName}
+            />
+          </FormContainer>
+          <FormContainer title={sponsorsCopies.WEBSITE_LABEL}>
+            <TextInput
+              placeholder={sponsorsCopies.WEBSITE_PLACEHOLDER}
+              value={website}
+              onChange={updateWebsite}
+            />
+          </FormContainer>
+          <FormContainer title={sponsorsCopies.TIER_LABEL}>
+            <Selector
+              value={tierId}
+              items={sponsorTiers}
+              onSelect={updateTierId}
+              placeholder={sponsorsCopies.TIER_PLACEHOLDER}
+            />
+          </FormContainer>
+          <FormContainer title={sponsorsCopies.START_DATE_LABEL}>
+            <InlineSpaced>
+              <NarrowSelector
+                value={termSeason}
+                items={terms}
+                onSelect={updateTermSeason}
+                placeholder={sponsorsCopies.START_DATE_TERM_PLACEHOLDER}
+              />
+              <NarrowSelector
+                value={termYear}
+                items={years}
+                onSelect={updateTermYear}
+                placeholder={sponsorsCopies.START_DATE_YEAR_PLACEHOLDER}
+              />
+            </InlineSpaced>
+          </FormContainer>
+          <FormContainer title={sponsorsCopies.CONTRIBUTIONS_LABEL}>
+            <TextMultilineInput
+              multiLine
+              placeholder={sponsorsCopies.CONTRIBUTIONS_PLACEHOLDER}
+              value={description}
+              onChange={updateDescription}
+            />
+          </FormContainer>
+          <FormContainer title={sponsorsCopies.LOGO_LABEL}>
+            <ImagePreview
+              // Use local image file if user uploaded new image,
+              // else use existing image URL.
+              src={logoFile ? window.URL.createObjectURL(logoFile) : logoStr}
+              onNew={(file) => {
+                updateLogo(file.name, file);
+              }}
+              onDelete={() => {
+                updateLogo('', null);
+              }}
+            />
+          </FormContainer>
+          <FormContainer title={sponsorsCopies.VIDEO_LINK_LABEL}>
+            <TextInput
+              placeholder={sponsorsCopies.VIDEO_LINK_PLACEHOLDER}
+              value={videoLink}
+              onChange={updateVideoLink}
+            />
+          </FormContainer>
+        </FormGroup>
+        <ButtonContainer>
+          <div>
+            <Button onClick={saveForm}>{buttonCopies.SAVE}</Button>
+            <Button cancel onClick={closeForm}>
+              {buttonCopies.CANCEL}
+            </Button>
+          </div>
+          <Button del onClick={deleteForm}>
+            {buttonCopies.DELETE}
+          </Button>
+        </ButtonContainer>
+      </Container>
+    )
   );
-}
+};
 
 export default EditSponsors;

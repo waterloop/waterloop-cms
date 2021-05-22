@@ -35,11 +35,10 @@ const Container = styled.div`
 `;
 
 const PostingsPage = () => {
-  const { postings, reload } = usePostings();
+  const { postings, updatePostingClosed, addPosting } = usePostings();
   const { headers } = useHeaders();
   const history = useHistory();
   const { url } = useRouteMatch();
-  const token = useSelector(userSelectors.token);
 
   const handleEditPosting = useCallback((id) => {
     // eslint-disable-next-line no-console
@@ -56,25 +55,8 @@ const PostingsPage = () => {
     (header) => <HeaderPreview key={header.id} onEdit={handleEditHeader(header.id)} {...header} />,
   );
 
-  const handleNewPosting = () => {
-    api.postings
-      .createNewPosting(token)
-      .then((response) => {
-        if (typeof response.data[0] === 'number') {
-          history.push(`/postings/${response.data[0]}`);
-        }
-      });
-  };
-
   const updateClosed = (id) => (closedState) => {
-    api
-      .postings
-      .patchPosting({ closed: closedState === '1' }, id)
-      .then((response) => {
-        if (response.status === 200) {
-          reload();
-        }
-      });
+    updatePostingClosed(id, closedState);
   };
 
   const tableHeaders = [
@@ -98,7 +80,7 @@ const PostingsPage = () => {
   return (
     <Container>
       {headerItems}
-      <NewOpeningButton onClick={handleNewPosting}>New Opening +</NewOpeningButton>
+      <NewOpeningButton onClick={addPosting}>New Opening +</NewOpeningButton>
       <ChartTitle>Team Openings</ChartTitle>
       <PreviewTable
         headers={tableHeaders}

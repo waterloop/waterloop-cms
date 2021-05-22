@@ -22,6 +22,27 @@ export default (state = initialState, { type, payload }) => {
         },
       };
 
+    case actionTypes.POSTINGS_UPDATE_CLOSED_STATE:
+      return {
+        ...state,
+        all: state.all.map((value) => {
+          if (value.id === payload.id) {
+            console.log(value);
+          }
+          return (
+            value.id === payload.id
+              ? { ...value, closed: payload.closedState }
+              : value
+          );
+        }),
+        byId: {
+          ...state.byId,
+          [payload.id]: {
+            ...state.byId[payload.id],
+            closed: payload.closedState,
+          },
+        },
+      };
     default:
       return { ...state };
   }
