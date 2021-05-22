@@ -12,7 +12,6 @@ const dateStringsToDate = (data) => ({
 });
 
 const dateStringsToDates = R.map(dateStringsToDate);
-
 const usePostings = () => {
   const dispatch = useDispatch();
   const postings = useSelector(postingSelectors.postings);
@@ -21,7 +20,7 @@ const usePostings = () => {
       try {
         const response = await api.postings.getPostings();
         const teams = await api.teams.getTeams();
-        return dateStringsToDates(
+        return dateStringsToDates( // need to change, or check if teamname is already there to avoid doing this, wait if they always do this why not make joinTeamname bool default true?
           response
             .data
             .map(

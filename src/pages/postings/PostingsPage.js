@@ -56,7 +56,7 @@ const PostingsPage = () => {
     (header) => <HeaderPreview key={header.id} onEdit={handleEditHeader(header.id)} {...header} />,
   );
 
-  const handelNewPosting = () => {
+  const handleNewPosting = () => {
     api.postings
       .createNewPosting(token)
       .then((response) => {
@@ -98,7 +98,7 @@ const PostingsPage = () => {
   return (
     <Container>
       {headerItems}
-      <NewOpeningButton onClick={handelNewPosting}>New Opening +</NewOpeningButton>
+      <NewOpeningButton onClick={handleNewPosting}>New Opening +</NewOpeningButton>
       <ChartTitle>Team Openings</ChartTitle>
       <PreviewTable
         headers={tableHeaders}
