@@ -21,10 +21,9 @@ const usePostings = () => {
     async () => {
       try {
         const response = await api.postings.getPostings(); 
-        if (response.data[0].hasOwnProperty('teamName')) { 
-          return dateStringsToDates( 
-            response.data);
-          }
+        if (response.data[0].hasOwnProperty('team')) { 
+          return dateStringsToDates(response.data);
+        }
         else {
           const teams = await api.teams.getTeams();
           return dateStringsToDates( 
