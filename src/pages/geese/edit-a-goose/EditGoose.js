@@ -1,14 +1,16 @@
 import React, { useState } from "react";
-import ImagePreview from "../../components/ImagePreview/index";
-import FormContainer from "../../components/FormContainer/index";
-import Button from "../../components/Button/index";
-import TextInput from "../../components/TextInput/index";
-import api from "../../api";
+import ImagePreview from "../../../components/ImagePreview/index";
+import FormContainer from "../../../components/FormContainer/index";
+import Button from "../../../components/Button/index";
+import TextInput from "../../../components/TextInput/index";
+import api from "../../../api";
+import { useHistory } from "react-router-dom";
 
 const EditGoose = () => {
   const [gooseName, setGooseName] = useState("");
   const [description, setDescription] = useState("");
   const [images, setImages] = useState([]);
+  const history = useHistory();
 
   const imageUpload = (image) => {
     // can't upload same image twice
@@ -28,8 +30,15 @@ const EditGoose = () => {
     setImages([]);
   };
 
+  const closeForm = () => {
+    history.push("/geese");
+  };
+
   return (
-    <div>
+    <div style={{ paddingLeft: 88 }}>
+      <Button cancel onClick={closeForm}>
+        &#60; Back
+      </Button>
       <div>
         <FormContainer
           title="Name (required)"
@@ -55,7 +64,7 @@ const EditGoose = () => {
           }
         />
       </div>
-      <div>
+      <div style={{ paddingBottom: 70 }}>
         <FormContainer
           title="Images (at least one is required)"
           children={`If this Goose is not selected as the "current Goose", 
