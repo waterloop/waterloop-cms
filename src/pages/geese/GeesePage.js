@@ -1,10 +1,11 @@
-import React, { useCallback } from 'react';
-import styled from 'styled-components';
-import UnstyledButton from '../../components/Button';
-import PreviewTable from '../../components/PreviewTable';
-import TableCell from '@material-ui/core/TableCell';
-import useGeeseInfo from '../../hooks/geese-info';
-import * as moment from 'moment';
+import React, { useCallback } from "react";
+import styled from "styled-components";
+import UnstyledButton from "../../components/Button";
+import PreviewTable from "../../components/PreviewTable";
+import TableCell from "@material-ui/core/TableCell";
+import useGeeseInfo from "../../hooks/geese-info";
+import * as moment from "moment";
+import { useHistory } from "react-router-dom";
 
 const Button = styled(UnstyledButton)``;
 
@@ -46,12 +47,12 @@ const TableHeader = styled.p`
 
 const headers = [
   {
-    id: 'name',
-    value: 'Goose',
+    id: "name",
+    value: "Goose",
   },
   {
-    id: 'updatedAt',
-    value: 'Last Updated',
+    id: "updatedAt",
+    value: "Last Updated",
   },
 ];
 
@@ -64,25 +65,27 @@ const RowComponent = ({ name, updatedAt }) => (
 
 const GeesePage = () => {
   const { geeseInfo } = useGeeseInfo();
-  const currentGoose = 'Goose V';
+  const history = useHistory();
+  const currentGoose = "Goose V";
 
   const geese = geeseInfo.map((goose) => ({
     id: goose.id,
     name: goose.name,
-    updatedAt: moment.utc(goose.updatedAt).local().format('MMMM D, YYYY'),
+    updatedAt: moment.utc(goose.updatedAt).local().format("MMMM D, YYYY"),
   }));
 
-  const onEdit = useCallback(() => {
-    console.log('Go to edit');
-  }, []);
+  const onEdit = useCallback(console.log("Go to edit"));
 
   const onPreview = useCallback(() => {
-    console.log('Go to preview');
+    console.log("Go to preview");
   }, []);
 
-  const onEditGoose = useCallback(() => {
-    console.log('Go to edit goose');
-  });
+  const onEditGoose = useCallback(
+    (id) => {
+      history.push(`/geese/${id}`);
+    },
+    [history]
+  );
 
   return (
     <Container>
@@ -90,12 +93,12 @@ const GeesePage = () => {
         Current Goose: <strong>{currentGoose}</strong>
       </CurrentGooseHeader>
       <ButtonContainer>
-        <Button label='Edit Description' secondary onClick={onEdit} />
-        <Button label='Preview' onClick={onPreview} />
+        <Button label="Edit Description" secondary onClick={onEdit} />
+        <Button label="Preview" onClick={onPreview} />
       </ButtonContainer>
       <TableLabelHeader>
         <TableHeader>All Geese</TableHeader>
-        <Button label='New Goose +' />
+        <Button label="New Goose +" />
       </TableLabelHeader>
       <PreviewTable
         headers={headers}
