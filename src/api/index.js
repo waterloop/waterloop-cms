@@ -5,6 +5,7 @@ import teams from './teams';
 import formUpload from './formUpload';
 import openingsDescription from './openings-description';
 import sponsors from './sponsors';
+import geeseInfo from './geese-info';
 
 export default {
   google: google(server),
@@ -13,4 +14,5 @@ export default {
   teams: teams(server),
   formUpload: formUpload(server),
   openingsDescription: openingsDescription(server),
+  geeseInfo: geeseInfo(server),
 };
