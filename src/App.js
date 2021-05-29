@@ -27,7 +27,7 @@ const App = () => {
         </Route>
         <Route path="/geese">
           <div>
-            {!token && <Redirect to="/sign-in" />}
+            {/* {!token && <Redirect to="/sign-in" />} */}
             <TopBar />
             <GeeseRouter />
           </div>
@@ -56,6 +56,11 @@ const App = () => {
           {!token && <Redirect to="/sign-in" />}
           <TopBar />
           <TeamDescriptionsPage />
+        </Route>
+        <Route component={NotFoundPage}>
+          {/* {!token && <Redirect to="/sign-in" />} */}
+          <TopBar />
+          <NotFoundPage />
         </Route>
       </Switch>
     </BrowserRouter>
