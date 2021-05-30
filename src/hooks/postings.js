@@ -22,8 +22,6 @@ const usePostings = () => {
       try {
         const joinTeamName = true;
         const response = await api.postings.getPostings(joinTeamName); //default boolean is false for joinTeamName, can just remove
-        console.log("response");
-        console.log(response);
         if (joinTeamName) {
           return dateStringsToDates(
             response
@@ -31,6 +29,7 @@ const usePostings = () => {
               .map((item) => ({
                 ...item,
                 team: item.teamName,
+                teamName: undefined,
               })
               )
           );
