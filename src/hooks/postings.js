@@ -20,8 +20,11 @@ const usePostings = () => {
   const getPostings = useCallback(
     async () => {
       try {
-        const response = await api.postings.getPostings(); //default boolean is false for joinTeamName, can just remove
-        if (response.data[0].hasOwnProperty('team')) {
+        const joinTeamName = true;
+        const response = await api.postings.getPostings(joinTeamName); //default boolean is false for joinTeamName, can just remove
+        console.log("response");
+        console.log(response);
+        if (joinTeamName) {
           return dateStringsToDates(
             response
               .data
