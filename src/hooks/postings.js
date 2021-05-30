@@ -21,16 +21,24 @@ const usePostings = () => {
     async () => {
       try {
         const response = await api.postings.getPostings(); //default boolean is false for joinTeamName, can just remove
-        if (response.data[0].hasOwnProperty('team')) { 
-          return dateStringsToDates(response.data);
+        if (response.data[0].hasOwnProperty('team')) {
+          return dateStringsToDates(
+            response
+              .data
+              .map((item) => ({
+                ...item,
+                team: item.teamName,
+              })
+              )
+          );
         }
         else {
           const teams = await api.teams.getTeams();
-          return dateStringsToDates( 
+          return dateStringsToDates(
             response
               .data
               .map(
-                (item) => ({ 
+                (item) => ({
                   ...item,
                   team: teams.data.find((team) => team.id === item.teamId).teamName,
                 }),
