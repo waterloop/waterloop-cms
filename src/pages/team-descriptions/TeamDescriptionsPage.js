@@ -1,59 +1,97 @@
-import React, { useCallback } from 'react';
+import React from 'react';
 import styled from 'styled-components';
+import { useHistory } from 'react-router-dom';
+
+import { buttonCopies, mainCopies } from './Copies';
 import MockData from './MockData';
-import UnstyledButton from '../../components/Button';
+import Button from '../../components/Button';
 import PreviewTable from '../../components/PreviewTable';
 import TableRow from './TableRow';
 
-const PageName = styled.div`
-    font: ${(props) => props.theme.fonts.medium24};
-    margin-bottom: 20px;
+const Container = styled.div`
+  margin: ${({ theme }) => theme.pageMargin};
+  & input,
+  textarea {
+    box-sizing: border-box;
+  }
+  @media only screen and (max-width: ${({ theme }) => theme.breakpoints.md}px) {
+    margin: ${({ theme }) => theme.mobilePageMargin};
+    text-align: center;
+  }
 `;
 
-const OuterContainer = styled.div`
-  font-family: 'IBM Plex Sans';
-  margin: ${(props) => props.theme.pageMargin};
+const PageDescriptionText = styled.h3`
+  margin-bottom: 20px;
+  font: ${({ theme }) => theme.fonts.medium24};
 `;
-const Button = styled(UnstyledButton)``;
-const ButtonContainer = styled.div`
-    display: flex;
+
+const TableLabelHeader = styled.span`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 30px;
+
+  @media only screen and (max-width: ${({ theme }) => theme.breakpoints.md}px) {
+    justify-content: center;
+    flex-direction: column;
     margin-bottom: 20px;
-    ${Button} {
-      margin-right: 16px;
-    }
+  }
 `;
+
+const TableLabel = styled.h1`
+  font: ${({ theme }) => theme.fonts.bold36};
+  font-style: italic;
+`;
+
+const ButtonContainer = styled.div`
+  & > * {
+    margin-right: 20px;
+    margin-top: 10px;
+    @media only screen and (max-width: ${({ theme }) =>
+        theme.breakpoints.md}px) {
+      margin-right: 0;
+    }
+  }
+`;
+
+const headers = [
+  { id: 'teamName', value: mainCopies.TEAM_NAME_COLUMN },
+  { id: 'lastUpdated', value: mainCopies.TEAM_LAST_UPDATED_COLUMN },
+];
 
 const TeamDescriptionsPage = () => {
-  const list = MockData;
-  const headers = [
-    {
-      id: 'teamName',
-      value: 'Team',
-    },
-    {
-      id: 'lastUpdated',
-      value: 'Last Updated',
-    },
-  ];
-
-  // eslint-disable-next-line no-unused-vars
-  const handleEdit = useCallback((teamId) => {
-    // TODO implement this function
-  }, [/* Add Dependencies if any */]);
+  const history = useHistory();
 
   return (
-    <>
-    <OuterContainer>
-      <PageName>
-        Teams Page Description
-      </PageName>
+    <Container>
+      <PageDescriptionText>{mainCopies.TEAM_PAGE_LABEL}</PageDescriptionText>
       <ButtonContainer>
-        <Button secondary>Edit description</Button>
-        <Button>Preview</Button>
+        <Button
+          label={buttonCopies.EDIT_DESCRIPTION}
+          secondary
+          link
+          to='team-descriptions/description'
+        />
+        <Button label={buttonCopies.PREVIEW} primary />
       </ButtonContainer>
-      <PreviewTable headers={headers} RowComponent={TableRow} onEdit={handleEdit} rows={list} />
-    </OuterContainer>
-    </>
+      <TableLabelHeader>
+        <TableLabel>{mainCopies.TABLE_LABEL}</TableLabel>
+        <Button
+          label={buttonCopies.NEW_TEAM}
+          primary
+          link
+          to={'team-descriptions/-1'}
+        />
+      </TableLabelHeader>
+      <PreviewTable
+        headers={headers}
+        RowComponent={TableRow}
+        onEdit={(teamId) => {
+          history.push(`team-descriptions/${teamId}`);
+        }}
+        rows={MockData}
+      />
+    </Container>
   );
 };
 
