@@ -1,15 +1,15 @@
-import React, { useState, useMemo, useEffect, useCallback } from 'react';
-import ImagePreview from '../../../components/ImagePreview/index';
-import FormContainer from '../../../components/FormContainer/index';
-import Button from '../../../components/Button/index';
-import TextInput from '../../../components/TextInput/index';
-import api from '../../../api';
-import { useHistory, useParams } from 'react-router-dom';
-import useGeeseInfo from '../../../hooks/geese-info';
+import React, { useState, useMemo, useEffect, useCallback } from "react";
+import ImagePreview from "../../../components/ImagePreview/index";
+import FormContainer from "../../../components/FormContainer/index";
+import Button from "../../../components/Button/index";
+import TextInput from "../../../components/TextInput/index";
+import api from "../../../api";
+import { useHistory, useParams } from "react-router-dom";
+import useGeeseInfo from "../../../hooks/geese-info";
 
 const EditGoose = () => {
-  const [gooseName, setGooseName] = useState('');
-  const [description, setDescription] = useState('');
+  const [gooseName, setGooseName] = useState("");
+  const [description, setDescription] = useState("");
   const [images, setImages] = useState([]);
   const [imageUrls, setImageUrls] = useState([]);
   const [imagesToDelete, setImagesToDelete] = useState([]);
@@ -24,9 +24,7 @@ const EditGoose = () => {
           if (params.gooseId) {
             const gooseId = parseInt(params.gooseId, 10);
             console.log(params.gooseId);
-            const gooseInfo = geeseInfo.find(
-              (goose) => goose.id === gooseId
-            );
+            const gooseInfo = geeseInfo.find((goose) => goose.id === gooseId);
             console.log(geeseInfo);
             console.log(gooseInfo);
             if (gooseInfo) {
@@ -52,7 +50,7 @@ const EditGoose = () => {
     setImages((prevImages) =>
       prevImages.filter((_prevImage, index) => {
         return index !== imageIndex;
-      }),
+      })
     );
   };
 
@@ -61,12 +59,12 @@ const EditGoose = () => {
     setImageUrls((prevImages) =>
       prevImages.filter((_prevImage, index) => {
         return index !== imageIndex;
-      }),
+      })
     );
   };
 
   const closeForm = () => {
-    history.push('/geese');
+    history.push("/geese");
   };
 
   const displayImages = useMemo(() => {
@@ -108,17 +106,17 @@ const EditGoose = () => {
         const data = new FormData();
 
         files.forEach((file) => {
-          data.append('files', file, file.name);
+          data.append("files", file, file.name);
         });
 
         const res = await api.formUpload(data);
 
         // eslint-disable-next-line no-console
-        console.log('Done image upload!');
+        console.log("Done image upload!");
 
         imageUrls = res.data.data;
         if (imageUrls.length === 0) {
-          throw new Error('Failed to upload image.');
+          throw new Error("Failed to upload image.");
         }
       }
 
@@ -133,16 +131,18 @@ const EditGoose = () => {
         await Promise.all(
           imagesToDelete.map((imageId) => {
             return api.geeseInfo.deleteGeeseImages(imageId);
-          }),
+          })
         );
-        await api.geeseInfo.addGeeseImages(
-          imageUrls.map((image) => {
-            return {
-              gooseId: params.gooseId,
-              imgDir: image,
-            };
-          }),
-        );
+        if (imageUrls.length) {
+          await api.geeseInfo.addGeeseImages(
+            imageUrls.map((image) => {
+              return {
+                gooseId: params.gooseId,
+                imgDir: image,
+              };
+            })
+          );
+        }
       } else {
         // TODO when new goose is implemented
         // const res = await api.geeseInfo.addGeeseInfo(gooseInfo);
