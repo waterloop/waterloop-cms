@@ -11,7 +11,7 @@ const Text = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
-  color: #2B2B2B;
+  color: #2b2b2b;
 `;
 
 const TableCell = styled(MUITableCell)``;
