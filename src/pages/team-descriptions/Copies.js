@@ -3,7 +3,7 @@ export const teamCopies = {
   DESCRIPTION_LABEL: 'Description (required)',
 
   NAME_PLACEHOLDER: 'Team name',
-  DESCRIPTION_PLACEHOLDER: 'Description'
+  DESCRIPTION_PLACEHOLDER: 'Description',
 };
 
 export const descriptionCopies = {

@@ -91,7 +91,7 @@ const ButtonContainer = styled.div`
   justify-content: space-between;
 `;
 
-const EditTeamDescriptions = () => {    
+const EditTeamDescriptions = () => {
   const {
     title,
     description,
@@ -109,7 +109,7 @@ const EditTeamDescriptions = () => {
   } = useTeamDescForm();
 
   return (
-    <Container id='team-root'>
+    <Container id="team-root">
       <TopInfo>
         <Button cancel onClick={closeForm}>
           {buttonCopies.BACK}
@@ -164,7 +164,9 @@ const EditTeamDescriptions = () => {
         <div>
           {/* TODO: Trigger onClick event handler using the saveForm function from team-desc hooks. */}
           <Button onClick={() => {}}>{buttonCopies.SAVE}</Button>
-          <Button cancel onClick={closeForm}>{buttonCopies.CANCEL}</Button>
+          <Button cancel onClick={closeForm}>
+            {buttonCopies.CANCEL}
+          </Button>
         </div>
       </ButtonContainer>
     </Container>

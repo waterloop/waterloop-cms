@@ -80,14 +80,14 @@ const useTeamDescForm = (input = {}) => {
     (title) => {
       dispatch({ type: 'UPDATE_TITLE', payload: title });
     },
-    [dispatch]
+    [dispatch],
   );
 
   const updateDescription = useCallback(
     (description) => {
       dispatch({ type: 'UPDATE_DESCRIPTION', payload: description });
     },
-    [dispatch]
+    [dispatch],
   );
 
   const updateImage = useCallback(
@@ -100,7 +100,7 @@ const useTeamDescForm = (input = {}) => {
         },
       });
     },
-    [dispatch, state.form.images, state.form.imageFiles]
+    [dispatch, state.form.images, state.form.imageFiles],
   );
 
   const deleteImage = useCallback(
@@ -113,10 +113,10 @@ const useTeamDescForm = (input = {}) => {
         },
       });
     },
-    [dispatch, state.form.images, state.form.imageFiles]
+    [dispatch, state.form.images, state.form.imageFiles],
   );
 
-   /**
+  /**
    * Save and close Functions
    */
   const closeForm = useCallback(() => {

@@ -83,7 +83,7 @@ const EditTeam = () => {
 
   const {
     // loading,
-    
+
     name,
     description,
     lastUpdated,
@@ -100,7 +100,7 @@ const EditTeam = () => {
 
   return (
     !loading && (
-      <Container id='team-root'>
+      <Container id="team-root">
         <TopInfo>
           <Button cancel onClick={closeForm}>
             {buttonCopies.BACK}

@@ -1,10 +1,5 @@
 import React from 'react';
-import {
-  Switch,
-  Route,
-  BrowserRouter,
-  Redirect,
-} from 'react-router-dom';
+import { Switch, Route, BrowserRouter, Redirect } from 'react-router-dom';
 
 import LandingPage from './pages/landing/LandingPage';
 import GeesePage from './pages/geese/GeesePage';
