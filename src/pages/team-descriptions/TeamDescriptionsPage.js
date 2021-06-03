@@ -1,12 +1,12 @@
-import React from "react";
-import styled from "styled-components";
-import { useHistory } from "react-router-dom";
+import React from 'react';
+import styled from 'styled-components';
+import { useHistory } from 'react-router-dom';
 
-import { buttonCopies, mainCopies } from "./Copies";
-import MockData from "./MockData";
-import Button from "../../components/Button";
-import PreviewTable from "../../components/PreviewTable";
-import TableRow from "./TableRow";
+import { buttonCopies, mainCopies } from './Copies';
+import MockData from './MockData';
+import Button from '../../components/Button';
+import PreviewTable from '../../components/PreviewTable';
+import TableRow from './TableRow';
 
 const Container = styled.div`
   margin: ${({ theme }) => theme.pageMargin};
@@ -55,8 +55,8 @@ const ButtonContainer = styled.div`
 `;
 
 const headers = [
-  { id: "teamName", value: mainCopies.TEAM_NAME_COLUMN },
-  { id: "lastUpdated", value: mainCopies.TEAM_LAST_UPDATED_COLUMN },
+  { id: 'teamName', value: mainCopies.TEAM_NAME_COLUMN },
+  { id: 'lastUpdated', value: mainCopies.TEAM_LAST_UPDATED_COLUMN },
 ];
 
 const TeamDescriptionsPage = () => {
