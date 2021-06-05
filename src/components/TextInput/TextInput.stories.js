@@ -19,6 +19,12 @@ SingleLineEmpty.args = {
   value: '',
 };
 
+export const SingleLineEmptyRequired = Template.bind({});
+SingleLineEmptyRequired.args = {
+  value: '',
+  required: true,
+};
+
 export const SingleLineFilled = Template.bind({});
 SingleLineFilled.args = {
   value: 'Text a user has entered',
@@ -28,6 +34,13 @@ export const MultiLineEmpty = Template.bind({});
 MultiLineEmpty.args = {
   value: '',
   multiLine: true,
+};
+
+export const MultiLineEmptyRequired = Template.bind({});
+MultiLineEmptyRequired.args = {
+  value: '',
+  multiLine: true,
+  required: true,
 };
 
 export const MultiLineFilled = Template.bind({});
