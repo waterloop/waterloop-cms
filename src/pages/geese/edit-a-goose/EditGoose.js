@@ -6,6 +6,8 @@ import TextInput from "../../../components/TextInput/index";
 import api from "../../../api";
 import { useHistory, useParams } from "react-router-dom";
 import useGeeseInfo from "../../../hooks/geese-info";
+import "./EditGoose.css";
+import * as moment from "moment";
 
 const EditGoose = () => {
   const [gooseName, setGooseName] = useState("");
@@ -23,10 +25,7 @@ const EditGoose = () => {
         try {
           if (params.gooseId) {
             const gooseId = parseInt(params.gooseId, 10);
-            console.log(params.gooseId);
             const gooseInfo = geeseInfo.find((goose) => goose.id === gooseId);
-            console.log(geeseInfo);
-            console.log(gooseInfo);
             if (gooseInfo) {
               setGooseName(gooseInfo.name);
               setDescription(gooseInfo.description);
@@ -72,6 +71,7 @@ const EditGoose = () => {
       ...images.map((image, index) => {
         return (
           <ImagePreview
+            className="image-card"
             src={URL.createObjectURL(image)}
             onDelete={() => {
               imageDelete(index);
@@ -83,6 +83,7 @@ const EditGoose = () => {
       ...imageUrls.map((image, index) => {
         return (
           <ImagePreview
+            className="image-card"
             src={image.imgDir}
             onDelete={() => {
               imageUrlDelete(index);
@@ -164,42 +165,68 @@ const EditGoose = () => {
     }
   }, [images, params, gooseName, description, closeForm]);
 
+  const getLastUpdated = () => {
+    const gooseObj = geeseInfo.filter((goose) => goose.id == params.gooseId)[0];
+    if (gooseObj) {
+      return moment.utc(gooseObj.updatedAt).local().format("MMMM D, YYYY");
+    }
+    return "";
+  };
+
   return (
-    <div style={{ paddingLeft: 88 }}>
-      <Button cancel onClick={closeForm}>
-        &#60; Back
-      </Button>
-      <div>
-        <FormContainer title="Name (required)">
-          <TextInput
-            value={gooseName}
-            onChange={setGooseName}
-            placeholder="Goose V"
-          />
-        </FormContainer>
+    <div className="edit-goose-page">
+      <div className="top-row">
+        <Button cancel onClick={closeForm}>
+          &#60; Back
+        </Button>
+        <p className="last-updated">{`Last updated: ${getLastUpdated()}`}</p>
       </div>
-      <div>
-        <FormContainer title="Description (required)">
-          <TextInput
-            value={description}
-            onChange={setDescription}
-            placeholder="Lorem ipsum dolor sit amet, consectetur adipiscing elit..."
-            multiLine={true}
-          />
-        </FormContainer>
-      </div>
-      <div style={{ paddingBottom: 70 }}>
-        <FormContainer title="Images (at least one is required)">
-          `If this Goose is not selected as the "current Goose", only the
-          leftmost image will be displayed. The images can be rearranged by
-          dragging them into the desired order.`{displayImages}
-          <ImagePreview onNew={imageUpload} />
-        </FormContainer>
-      </div>
-      <div>
-        <Button label="Save" onClick={saveForm} />
-        <Button label="Cancel" cancel={true} onClick={closeForm} />
-        <Button label="Delete" del={true} />
+
+      <div className="edit-goose-body">
+        <div>
+          <FormContainer title="Name (required)">
+            <TextInput
+              value={gooseName}
+              onChange={setGooseName}
+              placeholder="Goose V"
+              className="goose-info"
+            />
+          </FormContainer>
+        </div>
+        <div>
+          <FormContainer title="Description (required)">
+            <TextInput
+              value={description}
+              onChange={setDescription}
+              placeholder="Lorem ipsum dolor sit amet, consectetur adipiscing elit..."
+              multiLine={true}
+              className="goose-info"
+            />
+          </FormContainer>
+        </div>
+        <div className="goose-images">
+          <FormContainer title="Images (at least one is required)">
+            <div className="goose-info">
+              <p className="images-text">
+                If this Goose is not selected as the "current Goose", only the
+                leftmost image will be displayed.
+              </p>
+              <p className="images-text">
+                The images can be rearranged by dragging them into the desired
+                order.
+              </p>
+              <div className="image-cards">
+                {displayImages}
+                <ImagePreview onNew={imageUpload} />
+              </div>
+            </div>
+          </FormContainer>
+        </div>
+        <div className="goose-buttons">
+          <Button label="Save" onClick={saveForm} />
+          <Button label="Cancel" cancel={true} onClick={closeForm} />
+          <Button label="Delete" del={true} className="delete-button" />
+        </div>
       </div>
     </div>
   );

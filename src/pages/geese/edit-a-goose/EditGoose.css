@@ -1,0 +1,51 @@
+.edit-goose-page {
+  padding: 64px 88px 65px 58px;
+}
+
+.top-row {
+  display: flex;
+}
+
+.last-updated {
+  font-family: IBM Plex Sans;
+  font-size: 18px;
+  font-weight: 500;
+  text-align: right;
+  flex: auto;
+}
+
+.edit-goose-body {
+  padding-left: 30px;
+}
+
+.goose-info {
+  padding-left: 10px;
+}
+
+.goose-images {
+  margin-bottom: 60px;
+}
+
+.images-text {
+  font-family: IBM Plex Sans;
+  font-size: 18px;
+  color: #232535;
+  margin: 0;
+}
+
+.image-cards {
+  padding-top: 20px;
+  display: flex;
+}
+
+.image-card {
+  margin-right: 18px;
+}
+
+.goose-buttons {
+  padding-left: 10px;
+}
+
+.delete-button {
+  float: right;
+}
