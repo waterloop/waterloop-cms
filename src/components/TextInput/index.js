@@ -125,10 +125,7 @@ const TextInput = ({
   required = false,  /* Marks the input as required from the user. */
   requiredText = "This field cannot be blank.",
   isError = false, /* Marks an error state for the component. Also marks the input 
-                      as required from the user.
-                      isError should be passed through the FormController input rather
-                      than only here.
-                      */
+                      as required from the user. */
 }) => {
   return (
     <Container width={width} className={className}>

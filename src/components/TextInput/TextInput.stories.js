@@ -22,7 +22,7 @@ SingleLineEmpty.args = {
 export const SingleLineEmptyRequired = Template.bind({});
 SingleLineEmptyRequired.args = {
   value: '',
-  required: true,
+  isError: true,
 };
 
 export const SingleLineFilled = Template.bind({});
@@ -40,7 +40,7 @@ export const MultiLineEmptyRequired = Template.bind({});
 MultiLineEmptyRequired.args = {
   value: '',
   multiLine: true,
-  required: true,
+  isError: true,
 };
 
 export const MultiLineFilled = Template.bind({});

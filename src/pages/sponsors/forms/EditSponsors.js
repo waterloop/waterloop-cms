@@ -145,7 +145,11 @@ const EditSponsors = () => {
   } = useSponsorForm(parseInt(id));
 
   const [descriptionError, setDescriptionError] = useState(R.isEmpty(description));
-  const disableSaveButton = descriptionError;
+  const [termSeasonError, setTermSeasonError] = useState(R.isEmpty(termSeason));
+  const [termYearError, setTermYearError] = useState(R.isEmpty(termYear));
+  const [logoError, setLogoError] = useState(R.isEmpty(logoStr));
+
+  const disableSaveButton = descriptionError || termSeasonError || termYearError || logoError;
 
   return (
     !loading && (
@@ -184,19 +188,30 @@ const EditSponsors = () => {
               placeholder={sponsorsCopies.TIER_PLACEHOLDER}
             />
           </FormContainer>
-          <FormContainer title={sponsorsCopies.START_DATE_LABEL}>
+          <FormContainer 
+            title={sponsorsCopies.START_DATE_LABEL}
+            isError={termSeasonError || termYearError}
+            >
             <InlineSpaced>
               <NarrowSelector
                 value={termSeason}
                 items={terms}
-                onSelect={updateTermSeason}
+                onSelect={(value) => {
+                  setTermSeasonError(R.isEmpty(value));
+                  updateTermSeason(value);
+                }}
                 placeholder={sponsorsCopies.START_DATE_TERM_PLACEHOLDER}
+                isError={termSeasonError}
               />
               <NarrowSelector
                 value={termYear}
                 items={years}
-                onSelect={updateTermYear}
+                onSelect={(value) => {
+                  setTermYearError(R.isEmpty(value))
+                  updateTermYear(value)
+                }}
                 placeholder={sponsorsCopies.START_DATE_YEAR_PLACEHOLDER}
+                isError={termYearError}
               />
             </InlineSpaced>
           </FormContainer>
@@ -204,7 +219,7 @@ const EditSponsors = () => {
             title={sponsorsCopies.CONTRIBUTIONS_LABEL}
             isError={descriptionError}
             >
-            {(isError) => <TextMultilineInput
+            <TextMultilineInput
               multiLine
               placeholder={sponsorsCopies.CONTRIBUTIONS_PLACEHOLDER}
               value={description}
@@ -212,20 +227,27 @@ const EditSponsors = () => {
                 setDescriptionError(R.isEmpty(updatedValue));
                 updateDescription(updatedValue); 
               }}
-              isError={isError}
-            />}
+              isError={descriptionError}
+            />
           </FormContainer>
-          <FormContainer title={sponsorsCopies.LOGO_LABEL}>
+          <FormContainer 
+            title={sponsorsCopies.LOGO_LABEL}
+            requiredText={sponsorsCopies.LOGO_ERROR_TEXT}
+            isError={logoError}
+            >
             <ImagePreview
               // Use local image file if user uploaded new image,
               // else use existing image URL.
               src={logoFile ? window.URL.createObjectURL(logoFile) : logoStr}
               onNew={(file) => {
+                setLogoError(false);
                 updateLogo(file.name, file);
               }}
               onDelete={() => {
+                setLogoError(true);
                 updateLogo('', null);
               }}
+              isError={logoError}
             />
           </FormContainer>
           <FormContainer title={sponsorsCopies.VIDEO_LINK_LABEL}>

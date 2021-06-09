@@ -28,7 +28,7 @@ const Container = styled.div`
   height: 180px;
   background-color: ${({ theme }) => theme.colours.white};
 
-  border: ${({ theme }) => theme.borders.solidGrey1};
+  border: ${({ theme, error }) => error ? theme.borders.solidRed : theme.borders.solidGrey1};
   border-radius: 15px;
 
   &:hover {
@@ -79,6 +79,7 @@ const ImagePreview = ({
   alt = "image-preview-form-component",
   onDelete,
   onNew, // Takes in a File object as the only parameter
+  isError = false // Sets component as error state visually if true.
 }) => {
   const inputRef = useRef(null);
 
@@ -123,6 +124,7 @@ const ImagePreview = ({
     event.preventDefault();
   }, []);
 
+<<<<<<< HEAD
   return src ? (
     <Container className={className}>
       <CloseButton onClick={onDelete} />
@@ -138,6 +140,20 @@ const ImagePreview = ({
         <AddImageIcon /> Add a new Image
       </AddImage>
       {/* FileInput is a hidden element. We use it's ref to access the file upload api
+=======
+  return (
+    src ? (
+      <Container error={isError} className={className}>
+        <CloseButton onClick={onDelete}/>
+        <Image src={src} alt={alt} />
+      </Container>
+    ) : (
+      <Container error={isError} className={className}>
+        <AddImage onClick={handleNew} onDrop={handleFileDrop} onDragOver={handleDragOver}>
+          <AddImageIcon/> Add a new Image
+        </AddImage>
+        {/* FileInput is a hidden element. We use it's ref to access the file upload api
+>>>>>>> 570d8e2 (Update a few more components to use validation)
         without needing to try to style the input element itself.  */}
       <FileInput ref={inputRef} onChange={handleFileUpload} accept="image/*" />
     </Container>

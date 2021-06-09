@@ -14,6 +14,8 @@ export const sponsorsCopies = {
   START_DATE_YEAR_PLACEHOLDER: "Year",
   CONTRIBUTIONS_PLACEHOLDER: "How have we collaborated",
   VIDEO_LINK_PLACEHOLDER: "Sponsor video link",
+  
+  LOGO_ERROR_TEXT: "Please upload an image."
 }
 
 export const descriptionCopies = {
