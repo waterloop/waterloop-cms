@@ -16,7 +16,12 @@ const useSponsors = () => {
       try {
         const sponsorTiers = await api.sponsors.getSponsorTiers();
         const sponsorDesc = await api.sponsors.getSponsorDesc();
-        const response = await api.sponsors.getSponsors();
+        console.log(sponsorTiers);
+        console.log(sponsorDesc);
+
+        const joinTierName = true;
+        const response = await api.sponsors.getSponsors(joinTierName);
+        console.log(response);
 
         return {sponsorTiers: sponsorTiers.data.map(datum => ({
             id: datum.id,

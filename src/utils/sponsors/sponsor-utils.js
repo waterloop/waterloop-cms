@@ -21,7 +21,7 @@ export const fromServerSponsor = (sponsor) => ({
   sponsorId: sponsor.id,
   name: sponsor.name,
   website: sponsor.website,
-  tierId: sponsor.typeId,
+  tier: sponsor.type,
   ...timestampMillisecToTermSeasonYear(sponsor.joinDate),
   description: sponsor.contributions,
   logoStr: sponsor.logoDir,

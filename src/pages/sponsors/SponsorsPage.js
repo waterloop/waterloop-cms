@@ -84,12 +84,13 @@ const RowComponent = ({ name, lastUpdated, tier }) => (
 
 const SponsorsPage = () => {
   const { sponsorTiers, sponsors } = useSponsors();
+  console.log(sponsors)
   const tableRows = sponsors.map((sponsor) => {
     return {
       id: sponsor.sponsorId,
       name: sponsor.name,
       lastUpdated: sponsor.lastUpdated,
-      tier: sponsorTiers.filter((sTier) => sTier.id === sponsor.tierId)[0].text,
+      tier: sponsor.tier,
     };
   });
 
