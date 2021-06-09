@@ -84,7 +84,6 @@ const RowComponent = ({ name, lastUpdated, tier }) => (
 
 const SponsorsPage = () => {
   const { sponsorTiers, sponsors } = useSponsors();
-  console.log(sponsors)
   const tableRows = sponsors.map((sponsor) => {
     return {
       id: sponsor.sponsorId,
