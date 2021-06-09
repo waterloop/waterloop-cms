@@ -5,6 +5,7 @@ import theme from '../../theme';
 import ImagePreview from '../ImagePreview';
 import FormContainer from '.';
 import DropDownList from '../DropDownList';
+import TextInput from '../TextInput';
 
 export default {
   title: 'FormContainer',
@@ -59,3 +60,10 @@ SubmitImage.args = {
   title: 'Submit an Image',
   children: <ImagePreview />,
 };
+
+export const TextInputRequired = Template.bind({});
+TextInputRequired.args = {
+  title: 'Name (required)',
+  children: (isError) => <TextInput value='' isError={isError}/>,
+  isError: true,
+}

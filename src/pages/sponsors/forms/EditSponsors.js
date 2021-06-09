@@ -1,6 +1,7 @@
-import React from 'react';
+import React, {useState} from 'react';
 import useSponsorForm from '../hooks/sponsor-form';
 import { useRouteMatch } from 'react-router-dom';
+
 import styled from 'styled-components';
 import { commonCopies, sponsorsCopies, buttonCopies } from '../Copies';
 
@@ -9,6 +10,8 @@ import UnstyledTextInput from '../../../components/TextInput';
 import UnstyledSelector from '../../../components/Selector';
 import Button from '../../../components/Button';
 import UnstyledImagePreview from '../../../components/ImagePreview';
+
+import * as R from 'ramda';
 
 const Container = styled.div`
   margin: ${({ theme }) => theme.pageMargin};
@@ -140,6 +143,10 @@ const EditSponsors = () => {
     closeForm,
     deleteForm,
   } = useSponsorForm(parseInt(id));
+
+  const [descriptionError, setDescriptionError] = useState(R.isEmpty(description));
+  const disableSaveButton = descriptionError;
+
   return (
     !loading && (
       <Container id="sponsor-root">
@@ -193,13 +200,20 @@ const EditSponsors = () => {
               />
             </InlineSpaced>
           </FormContainer>
-          <FormContainer title={sponsorsCopies.CONTRIBUTIONS_LABEL}>
-            <TextMultilineInput
+          <FormContainer 
+            title={sponsorsCopies.CONTRIBUTIONS_LABEL}
+            isError={descriptionError}
+            >
+            {(isError) => <TextMultilineInput
               multiLine
               placeholder={sponsorsCopies.CONTRIBUTIONS_PLACEHOLDER}
               value={description}
-              onChange={updateDescription}
-            />
+              onChange={(updatedValue) => {
+                setDescriptionError(R.isEmpty(updatedValue));
+                updateDescription(updatedValue); 
+              }}
+              isError={isError}
+            />}
           </FormContainer>
           <FormContainer title={sponsorsCopies.LOGO_LABEL}>
             <ImagePreview
@@ -224,7 +238,7 @@ const EditSponsors = () => {
         </FormGroup>
         <ButtonContainer>
           <div>
-            <Button onClick={saveForm}>{buttonCopies.SAVE}</Button>
+            <Button disabled={disableSaveButton} onClick={saveForm}>{buttonCopies.SAVE}</Button>
             <Button cancel onClick={closeForm}>
               {buttonCopies.CANCEL}
             </Button>

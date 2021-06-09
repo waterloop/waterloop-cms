@@ -8,8 +8,9 @@ const ButtonBase = styled.button`
   border: none;
   border-radius: 15px;
   padding: 4px 22px;
-  cursor: pointer;
+  cursor: ${({ disabled }) => disabled ? 'not-allowed' : 'pointer'};
   width: max-content;
+  
 `;
 
 const PrimaryButton = styled(ButtonBase)`
@@ -71,6 +72,7 @@ const Button = ({
   to,
   className,
   children,
+  disabled = false,
 }) => {
   const ButtonComponent = getButtonComponent(secondary, cancel, del);
   const buttonText = label === undefined ? children : label;
@@ -78,12 +80,12 @@ const Button = ({
   return link
     ? (
       /* Used to use react-router Link Component, but it made styles very repetitive */
-      <ButtonComponent className={className} onClick={() => { history.push(to); }}>
+      <ButtonComponent className={className} disabled={disabled} onClick={() => { history.push(to); }}>
         {buttonText}
       </ButtonComponent>
     )
     : (
-      <ButtonComponent className={className} onClick={onClick}> {buttonText} </ButtonComponent>
+      <ButtonComponent className={className} disabled={disabled} onClick={onClick}> {buttonText} </ButtonComponent>
     );
 };
 

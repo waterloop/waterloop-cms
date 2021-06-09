@@ -2,7 +2,6 @@ import React from 'react';
 import styled from 'styled-components';
 import { Editor } from 'react-draft-wysiwyg';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
-import * as R from 'ramda';
 
 const Container = styled.div`
   width: 500px;
@@ -10,7 +9,7 @@ const Container = styled.div`
 
 // TODO: Only change to red when user clicks away from the text box.
 const TextInputContainer = styled.input`
-  border: ${({ theme, required }) => required ? theme.borders.solidRed : theme.borders.solidGrey1};
+  border: ${({ theme, error }) => error ? theme.borders.solidRed : theme.borders.solidGrey1};
   border-radius: 10px;
   height: 47px;
   width: 100%;
@@ -32,7 +31,7 @@ const TextInputContainer = styled.input`
 `;
 
 const TextAreaContainer = styled.textarea`
-  border: ${({ theme, required }) => required ? theme.borders.solidRed : theme.borders.solidGrey1};
+  border: ${({ theme, error }) => error ? theme.borders.solidRed : theme.borders.solidGrey1};
   border-radius: 10px;
   width: 100%;
   min-width: 500px;
@@ -106,6 +105,7 @@ To implement the richText support in textinput:
 - import getRichText and submitRichText (from rich text utils) into respective hook for first getting the info from database and saving it 
 https://docs.google.com/document/d/1_C9twf66rjGkE7HPAsEid-_ZddWcbDoLNw9e2EEkAA8/edit?usp=sharing 
 */
+
 const RequiredText = styled.p`
   color: ${({ theme }) => theme.colours.reds.red1};
   font: ${({ theme }) => theme.fonts.medium14};
@@ -123,7 +123,12 @@ const TextInput = ({
   placeholder = 'Place Holder Text',
   width,
   required = false,  /* Marks the input as required from the user. */
-  requiredText = "This field cannot be blank."
+  requiredText = "This field cannot be blank.",
+  isError = false, /* Marks an error state for the component. Also marks the input 
+                      as required from the user.
+                      isError should be passed through the FormController input rather
+                      than only here.
+                      */
 }) => {
   return (
     <Container width={width} className={className}>
@@ -140,7 +145,7 @@ const TextInput = ({
           </TARichContainer>
           :
           <TextAreaContainer
-            required={required && R.isEmpty(value)}
+            error={isError} // Error state.
             rows={rows}
             cols="60"
             placeholder={placeholder}
@@ -149,17 +154,12 @@ const TextInput = ({
           />
           : (
           <TextInputContainer
-            required={required && R.isEmpty(value)}
+            error={isError}
             placeholder={placeholder}
             value={value}
             onChange={(e) => onChange(e.target.value)}
           />
       )}
-      {required && R.isEmpty(value) && (
-      <RequiredText>
-        {requiredText}
-      </RequiredText>
-    )}
     </Container>
   )
 };
