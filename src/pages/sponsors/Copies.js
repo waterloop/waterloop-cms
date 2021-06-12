@@ -13,9 +13,7 @@ export const sponsorsCopies = {
   START_DATE_TERM_PLACEHOLDER: "Term",
   START_DATE_YEAR_PLACEHOLDER: "Year",
   CONTRIBUTIONS_PLACEHOLDER: "How have we collaborated",
-  VIDEO_LINK_PLACEHOLDER: "Sponsor video link",
-  
-  LOGO_ERROR_TEXT: "Please upload an image."
+  VIDEO_LINK_PLACEHOLDER: "Sponsor video link"
 }
 
 export const descriptionCopies = {
@@ -37,7 +35,8 @@ export const mainCopies = {
 }
 
 export const commonCopies = {
-  LAST_UPDATED_DATE: "Last updated:"
+  LAST_UPDATED_DATE: "Last updated:",
+  REQUIRED_IMAGE: "Please upload an image."
 }
 
 // TODO: Move this to utility function.

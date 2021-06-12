@@ -254,7 +254,7 @@ const EditSponsors = () => {
           </FormContainer>
           <FormContainer 
             title={sponsorsCopies.LOGO_LABEL}
-            requiredText={sponsorsCopies.LOGO_ERROR_TEXT}
+            requiredText={commonCopies.REQUIRED_IMAGE}
             isError={logoError}
             >
             <ImagePreview
@@ -299,5 +299,4 @@ const EditSponsors = () => {
 
 export default EditSponsors;
 
-// TODO: When user hovers over save button with error state, show to user text saying they have missing fields.
 // TODO: Make PR once sponsors field is ready. Ignore postings.

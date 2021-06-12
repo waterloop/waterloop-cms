@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import styled from 'styled-components';
 import { descriptionCopies, buttonCopies, commonCopies } from '../Copies';
 import useSponsorDescForm from '../hooks/sponsor-desc';
@@ -7,6 +7,8 @@ import UnstyledFormContainer from '../../../components/FormContainer';
 import UnstyledTextInput from '../../../components/TextInput';
 import Button from '../../../components/Button';
 import UnstyledImagePreview from '../../../components/ImagePreview';
+
+import * as R from 'ramda';
 
 const Container = styled.div`
   margin: ${({ theme }) => theme.pageMargin};
@@ -40,6 +42,10 @@ const ImagesContainer = styled.div`
   &>* {
     margin-right: 20px;
     margin-bottom: 20px;
+
+    &:only-child {
+      margin-bottom: 0;
+    }
   }
 `;
 
@@ -90,6 +96,11 @@ const ButtonContainer = styled.div`
   justify-content: space-between;
 `;
 
+const RequiredText = styled.p`
+  color: ${({ theme }) => theme.colours.reds.red1};
+  font: ${({ theme }) => theme.fonts.medium14};
+`;
+
 
 const EditPageDescription = () => {
   const {
@@ -108,6 +119,14 @@ const EditPageDescription = () => {
     closeForm
   } = useSponsorDescForm();
 
+  /* Validation states */
+  const [titleError, setTitleError] = useState(R.isEmpty(title));
+  const [descriptionError, setDescriptionError] = useState(R.isEmpty(description));
+  const [imagesError, setImagesError] = useState(R.isEmpty(images));
+
+
+  const reqNotFilled = titleError || descriptionError || imagesError;
+
   return (
     <Container id="sponsor-root">
       <TopInfo>
@@ -121,37 +140,57 @@ const EditPageDescription = () => {
         
       </TopInfo>
       <FormGroup>
-        <FormContainer title={descriptionCopies.TITLE_LABEL}>
+        <FormContainer title={descriptionCopies.TITLE_LABEL} isError={titleError}>
           <TextInput 
             placeholder={descriptionCopies.TITLE_PLACEHOLDER} 
             value={title}
-            onChange={updateTitle}
-            
+            isError={titleError}
+            onChange={(value) => {
+              setTitleError(R.isEmpty(value));
+              updateTitle(value);
+            }}
           />
         </FormContainer>
 
-        <FormContainer title={descriptionCopies.DESCRIPTION_LABEL}>
-          <TextMultilineInput  
-            multiline
+        <FormContainer title={descriptionCopies.DESCRIPTION_LABEL} isError={descriptionError}>
+          <TextMultilineInput 
+            multiLine 
             placeholder={descriptionCopies.DESCRIPTION_PLACEHOLDER}
             value={description}
-            onChange={updateDescription} 
+            isError={descriptionError}
+            onChange={(value) => {
+              setDescriptionError(R.isEmpty(value));
+              updateDescription(value);
+            }}  
           />
         </FormContainer>
-        <FormContainer title={descriptionCopies.IMAGES_LABEL}>
+        <FormContainer 
+          title={descriptionCopies.IMAGES_LABEL} 
+          isError={imagesError}
+          requiredText={commonCopies.REQUIRED_IMAGE}
+        >
           <ImagesContainer>
             {images.map((image, idx) =>
               <ImagePreview
                 key={image}
                 src={imageFiles[idx] ? window.URL.createObjectURL(imageFiles[idx]) : image}
                 onNew={() => {}}
-                onDelete={() => deleteImage(idx)}
+                onDelete={() => {
+                  // Check if this is the last image:
+                  setImagesError(R.isEmpty(images) || images.length <= 1);
+                  deleteImage(idx);
+                }}
               />  
             )}
             {/* Empty ImagePreview component to allow user to add new image. */}
             <ImagePreview
+              isError={imagesError}
               src={""}
-              onNew={(file) => updateImage(file.name, file)}
+              onNew={(file) => {
+                // Assume a valid image has been uploaded:
+                setImagesError(false);
+                updateImage(file.name, file);
+              }}
               onDelete={() => {}}
             />
           </ImagesContainer>
@@ -159,10 +198,11 @@ const EditPageDescription = () => {
       </FormGroup>
       <ButtonContainer>
         <div>
-          <Button onClick={saveForm}>{buttonCopies.SAVE}</Button>
+          <Button disabled={reqNotFilled} onClick={saveForm}>{buttonCopies.SAVE}</Button>
           <Button cancel onClick={closeForm}>{buttonCopies.CANCEL}</Button>
         </div>
       </ButtonContainer>
+      {reqNotFilled && <RequiredText>{buttonCopies.REQUIREMENTS_NOT_MET}</RequiredText>}
     </Container>
   );
 }
