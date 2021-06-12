@@ -74,7 +74,9 @@ const GeesePage = () => {
     updatedAt: moment.utc(goose.updatedAt).local().format("MMMM D, YYYY"),
   }));
 
-  const onEdit = useCallback(console.log("Go to edit"));
+  const onEdit = useCallback(() => {
+    console.log("Go to edit");
+  }, []);
 
   const onPreview = useCallback(() => {
     console.log("Go to preview");
