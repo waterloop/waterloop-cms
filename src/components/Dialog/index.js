@@ -4,30 +4,21 @@ import MUIDialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
-import Button from '../Button';
-import FormContainer from '../FormContainer';
-import TextInput from '../TextInput';
 
 const Dialog = ({
   open,
   title,
-  fieldLabel,
-  value,
-  onChange,
-  onSave,
-  onCancel,
+  actionChildren,
+  children,
+  wide
 }) => (
-  <MUIDialog open={open} maxWidth="md" fullWidth>
+  <MUIDialog open={open} maxWidth={wide ? "md" : "sm"} fullWidth>
     <DialogTitle>{title}</DialogTitle>
     <DialogContent>
-      <FormContainer title={fieldLabel}>
-      {/* TODO: CHANGE THIS TO OUR STYLED TEXT INPUT */}
-        <TextInput value={value} onChange={onChange} />
-      </FormContainer>
+      {children}
     </DialogContent>
     <DialogActions>
-      <Button onClick={onSave}>Save</Button>
-      <Button cancel onClick={onCancel}>Cancel</Button>
+      {actionChildren}
     </DialogActions>
   </MUIDialog>
 );
@@ -35,10 +26,8 @@ const Dialog = ({
 export default Dialog;
 Dialog.propTypes = {
   title: PropTypes.string,
-  fieldLabel: PropTypes.string,
   open: PropTypes.bool,
-  value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-  onChange: PropTypes.func,
-  onSave: PropTypes.func,
-  onCancel: PropTypes.func,
+  children: PropTypes.node,
+  actionChildren: PropTypes.node,
+  wide: PropTypes.bool
 };

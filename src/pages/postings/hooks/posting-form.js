@@ -6,6 +6,10 @@ import React, {
   useState,
 } from 'react';
 import Dialog from '../../../components/Dialog';
+import Button from '../../../components/Button';
+import FormContainer from '../../../components/FormContainer';
+import TextInput from '../../../components/TextInput';
+
 import api from '../../../api';
 import useTeams from '../../../hooks/teams';
 import { useHistory } from 'react-router-dom';
@@ -497,14 +501,20 @@ const usePostingForm = (postingId, input = {}) => {
 
   const renderAddNewDialog = () => (
     <Dialog
-      fieldLabel={state.dialog.title}
+      wide
       title={`Add new ${state.dialog.title}`}
-      value={state.dialog.value}
-      onSave={saveDialog}
-      onCancel={closeDialogWithoutSaving}
-      onChange={updateDialogValue}
       open={state.dialog.open}
-    />
+      actionChildren={
+        <>
+          <Button onClick={saveDialog}>Save</Button>
+          <Button cancel onClick={closeDialogWithoutSaving}>Cancel</Button>
+        </>
+      }
+    >
+      <FormContainer title={state.dialog.title}>
+        <TextInput value={state.dialog.value} onChange={updateDialogValue} />
+      </FormContainer>
+    </Dialog>
   );
   // END Dialog Functions
 
