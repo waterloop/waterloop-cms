@@ -1,5 +1,9 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
+import { EditorState, ContentState, convertFromHTML } from 'draft-js';
+import { Editor } from 'react-draft-wysiwyg';
+import { convertToHTML } from 'draft-convert';
+import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 
 const Container = styled.div`
   width: 500px;
@@ -31,6 +35,8 @@ const TextAreaContainer = styled.textarea`
   border: ${({ theme }) => theme.borders.solidGrey1};
   border-radius: 10px;
   width: 100%;
+  min-width: 500px;
+  max-width: 1200px;
   background-color: ${({ theme }) => theme.colours.white};
   font: ${({ theme }) => theme.fonts.medium14};
 
@@ -48,34 +54,134 @@ const TextAreaContainer = styled.textarea`
   }
 `;
 
+const TAContainer = styled.div`
+  .wrapper-class {
+    width: 100%;
+    min-width: 550px;
+    max-width: 1200px;
+    font: ${({ theme }) => theme.fonts.medium14};
+  
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+  
+    ::placeholder,
+    ::-webkit-input-placeholder {
+      font: ${({ theme }) => theme.fonts.medium18};
+      color: ${({ theme }) => theme.colours.greys.grey2};
+    }
+  }
+
+  .editor-class {
+    border: ${({ theme }) => theme.borders.solidGrey1};
+    border-radius: 10px;
+    width: 100%;
+    min-width: 500px;
+    max-width: 1200px;
+    min-height: 200px;
+
+    padding-left: 1rem;
+    padding-right: 1rem;
+
+    background-color: ${({ theme }) => theme.colours.white};
+    font: ${({ theme }) => theme.fonts.medium14};
+
+  }
+
+  .toolbar-class {
+    max-width:500px;
+  }
+
+  .toolbar-class a {
+    color: #000;
+  }
+
+
+`
+
 const TextInput = ({
   className /* Allows for external styles to be applied to the component
                 using the styled components library
                 className prop needs to be passed to the parent JSX element */,
-  multiLine = false,
+  multiLine = true,
+  richText = true,
   value /* The current value of the input */,
+  rows=10,  
   onChange /* Callback to be called each time that the user changes the input */,
-  rows = 10,
   placeholder = 'Place Holder Text',
   width,
-}) => (
-  <Container width={width} className={className}>
-    {multiLine ? (
-      <TextAreaContainer
-        rows={rows}
-        cols="60"
-        placeholder={placeholder}
-        value={value}
-        onChange={(e) => onChange(e.target.value)}
-      />
-    ) : (
-      <TextInputContainer
-        placeholder={placeholder}
-        value={value}
-        onChange={(e) => onChange(e.target.value)}
-      />
-    )}
-  </Container>
-);
+}) => {
+
+  // const [converting, setConverting] = useState(false)
+  
+  const [editorState, setEditorState] = useState(
+
+    () => {
+      const blocksFromHTML = convertFromHTML(value);
+      return EditorState.createWithContent(ContentState.createFromBlockArray(
+        blocksFromHTML.contentBlocks,
+        blocksFromHTML.entityMap,
+      ))
+    });
+
+  // const [convertedContent, setConvertedContent] = useState(null);
+
+  const handleEditorChange = (state) => {
+    setEditorState(state);
+    // if (!converting) {
+    //   setConverting(true);
+    //   convertContentToHTML();
+    // } 
+  }
+
+  //convert value into blocks, before passing into text input
+
+  // const convertContentToHTML = async () => {
+  //   let currentContentAsHTML = convertToHTML(editorState.getCurrentContent());
+  //   setConvertedContent(currentContentAsHTML);
+  //   onChange(convertedContent)
+  //   setConverting(false);
+  // }
+
+  // const createMarkup = (html) => {
+  //   return  {
+  //     __html: DOMPurify.sanitize(html)
+  //   }
+  // }
+
+  return (
+    <Container width={width} className={className}>
+      {multiLine ? (
+        richText ?
+          <TAContainer>
+            <Editor
+              editorState={editorState}
+              onEditorStateChange={handleEditorChange}
+              editorClassName="editor-class"
+              wrapperClassName="wrapper-class"
+              toolbarClassName="toolbar-class"
+            />
+            {/* <div className="preview" dangerouslySetInnerHTML={createMarkup(convertedContent)}></div> */}
+          </TAContainer>
+          :
+          <TextAreaContainer
+            rows={rows}
+            cols="60"
+            placeholder={placeholder}
+            value={value}
+            onChange={(e) => onChange(e.target.value)}
+          />
+
+      ) : (
+        <TextInputContainer
+          placeholder={placeholder}
+          value={value}
+          onChange={(e) => onChange(e.target.value)}
+        />
+      )}
+    </Container>
+  )
+};
 
 export default TextInput;
