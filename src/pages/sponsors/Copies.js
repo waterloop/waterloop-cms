@@ -49,5 +49,7 @@ export const buttonCopies = {
 
   PREVIEW: "Preview",
   EDIT_DESCRIPTION: "Edit description",
-  NEW_SPONSOR: "New sponsor +"
+  NEW_SPONSOR: "New sponsor +",
+
+  REQUIREMENTS_NOT_MET: "Please fill out all required fields."
 }

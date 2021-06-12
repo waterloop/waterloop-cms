@@ -108,6 +108,11 @@ const ButtonContainer = styled.div`
   justify-content: space-between;
 `;
 
+const RequiredText = styled.p`
+  color: ${({ theme }) => theme.colours.reds.red1};
+  font: ${({ theme }) => theme.fonts.medium14};
+`;
+
 const EditSponsors = () => {
   const {
     params: { id },
@@ -144,12 +149,17 @@ const EditSponsors = () => {
     deleteForm,
   } = useSponsorForm(parseInt(id));
 
+  /* Validation states */
+  const [nameError, setNameError] = useState(R.isEmpty(name));
+  const [websiteError, setWebsiteError] = useState(R.isEmpty(website));
+  const [tierIdError, setTierIdError] = useState(R.isEmpty(tierId));
   const [descriptionError, setDescriptionError] = useState(R.isEmpty(description));
   const [termSeasonError, setTermSeasonError] = useState(R.isEmpty(termSeason));
   const [termYearError, setTermYearError] = useState(R.isEmpty(termYear));
   const [logoError, setLogoError] = useState(R.isEmpty(logoStr));
 
-  const disableSaveButton = descriptionError || termSeasonError || termYearError || logoError;
+  const reqNotFilled = nameError || websiteError || tierIdError || 
+    descriptionError || termSeasonError || termYearError || logoError;
 
   return (
     !loading && (
@@ -166,25 +176,37 @@ const EditSponsors = () => {
           )}
         </TopInfo>
         <FormGroup>
-          <FormContainer title={sponsorsCopies.NAME_LABEL}>
+          <FormContainer title={sponsorsCopies.NAME_LABEL} isError={nameError} >
             <TextInput
               placeholder={sponsorsCopies.NAME_PLACEHOLDER}
               value={name}
-              onChange={updateName}
+              isError={nameError}
+              onChange={(value) => {
+                setNameError(R.isEmpty(value));
+                updateName(value);
+              }}
             />
           </FormContainer>
-          <FormContainer title={sponsorsCopies.WEBSITE_LABEL}>
+          <FormContainer title={sponsorsCopies.WEBSITE_LABEL} isError={websiteError}>
             <TextInput
               placeholder={sponsorsCopies.WEBSITE_PLACEHOLDER}
+              isError={websiteError}
               value={website}
-              onChange={updateWebsite}
+              onChange={(value) => {
+                setWebsiteError(R.isEmpty(value));
+                updateWebsite(value);
+              }}
             />
           </FormContainer>
-          <FormContainer title={sponsorsCopies.TIER_LABEL}>
+          <FormContainer title={sponsorsCopies.TIER_LABEL} isError={tierIdError}>
             <Selector
               value={tierId}
+              isError={tierIdError}
               items={sponsorTiers}
-              onSelect={updateTierId}
+              onSelect={(value) => {
+                setTierIdError(R.isEmpty(value));
+                updateTierId(value);
+              }}
               placeholder={sponsorsCopies.TIER_PLACEHOLDER}
             />
           </FormContainer>
@@ -260,7 +282,7 @@ const EditSponsors = () => {
         </FormGroup>
         <ButtonContainer>
           <div>
-            <Button disabled={disableSaveButton} onClick={saveForm}>{buttonCopies.SAVE}</Button>
+            <Button disabled={reqNotFilled} onClick={saveForm}>{buttonCopies.SAVE}</Button>
             <Button cancel onClick={closeForm}>
               {buttonCopies.CANCEL}
             </Button>
@@ -269,9 +291,13 @@ const EditSponsors = () => {
             {buttonCopies.DELETE}
           </Button>
         </ButtonContainer>
+        {reqNotFilled && <RequiredText>{buttonCopies.REQUIREMENTS_NOT_MET}</RequiredText>}
       </Container>
     )
   );
 };
 
 export default EditSponsors;
+
+// TODO: When user hovers over save button with error state, show to user text saying they have missing fields.
+// TODO: Make PR once sponsors field is ready. Ignore postings.
