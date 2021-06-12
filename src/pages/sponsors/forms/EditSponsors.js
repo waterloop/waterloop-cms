@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import useSponsorForm from '../hooks/sponsor-form';
 import { useRouteMatch } from 'react-router-dom';
 
@@ -150,16 +150,26 @@ const EditSponsors = () => {
   } = useSponsorForm(parseInt(id));
 
   /* Validation states */
-  const [nameError, setNameError] = useState(R.isEmpty(name));
-  const [websiteError, setWebsiteError] = useState(R.isEmpty(website));
-  const [tierIdError, setTierIdError] = useState(R.isEmpty(tierId));
-  const [descriptionError, setDescriptionError] = useState(R.isEmpty(description));
-  const [termSeasonError, setTermSeasonError] = useState(R.isEmpty(termSeason));
-  const [termYearError, setTermYearError] = useState(R.isEmpty(termYear));
-  const [logoError, setLogoError] = useState(R.isEmpty(logoStr));
+  const [nameError, setNameError] = useState(false);
+  const [websiteError, setWebsiteError] = useState(false);
+  const [tierIdError, setTierIdError] = useState(false);
+  const [termSeasonError, setTermSeasonError] = useState(false);
+  const [termYearError, setTermYearError] = useState(false);
+  const [descriptionError, setDescriptionError] = useState(false);
+  const [logoError, setLogoError] = useState(false);
 
   const reqNotFilled = nameError || websiteError || tierIdError || 
     descriptionError || termSeasonError || termYearError || logoError;
+
+    useEffect(() => {
+      setNameError(R.isEmpty(name));
+      setWebsiteError(R.isEmpty(website));
+      setTierIdError(R.isEmpty(tierId));
+      setTermSeasonError(R.isEmpty(termSeason));
+      setTermYearError(R.isEmpty(termYear));
+      setDescriptionError(R.isEmpty(description));
+      setLogoError(R.isEmpty(logoStr));
+    }, [name,website,tierId,description,termSeason,termYear,logoStr]);
 
   return (
     !loading && (
@@ -181,10 +191,7 @@ const EditSponsors = () => {
               placeholder={sponsorsCopies.NAME_PLACEHOLDER}
               value={name}
               isError={nameError}
-              onChange={(value) => {
-                setNameError(R.isEmpty(value));
-                updateName(value);
-              }}
+              onChange={updateName}
             />
           </FormContainer>
           <FormContainer title={sponsorsCopies.WEBSITE_LABEL} isError={websiteError}>
@@ -192,10 +199,7 @@ const EditSponsors = () => {
               placeholder={sponsorsCopies.WEBSITE_PLACEHOLDER}
               isError={websiteError}
               value={website}
-              onChange={(value) => {
-                setWebsiteError(R.isEmpty(value));
-                updateWebsite(value);
-              }}
+              onChange={updateWebsite}
             />
           </FormContainer>
           <FormContainer title={sponsorsCopies.TIER_LABEL} isError={tierIdError}>
@@ -203,10 +207,7 @@ const EditSponsors = () => {
               value={tierId}
               isError={tierIdError}
               items={sponsorTiers}
-              onSelect={(value) => {
-                setTierIdError(R.isEmpty(value));
-                updateTierId(value);
-              }}
+              onSelect={updateTierId}
               placeholder={sponsorsCopies.TIER_PLACEHOLDER}
             />
           </FormContainer>
@@ -218,20 +219,14 @@ const EditSponsors = () => {
               <NarrowSelector
                 value={termSeason}
                 items={terms}
-                onSelect={(value) => {
-                  setTermSeasonError(R.isEmpty(value));
-                  updateTermSeason(value);
-                }}
+                onSelect={updateTermSeason}
                 placeholder={sponsorsCopies.START_DATE_TERM_PLACEHOLDER}
                 isError={termSeasonError}
               />
               <NarrowSelector
                 value={termYear}
                 items={years}
-                onSelect={(value) => {
-                  setTermYearError(R.isEmpty(value))
-                  updateTermYear(value)
-                }}
+                onSelect={updateTermYear}
                 placeholder={sponsorsCopies.START_DATE_YEAR_PLACEHOLDER}
                 isError={termYearError}
               />
@@ -245,10 +240,7 @@ const EditSponsors = () => {
               multiLine
               placeholder={sponsorsCopies.CONTRIBUTIONS_PLACEHOLDER}
               value={description}
-              onChange={(updatedValue) => {
-                setDescriptionError(R.isEmpty(updatedValue));
-                updateDescription(updatedValue); 
-              }}
+              onChange={updateDescription}
               isError={descriptionError}
             />
           </FormContainer>
@@ -262,11 +254,9 @@ const EditSponsors = () => {
               // else use existing image URL.
               src={logoFile ? window.URL.createObjectURL(logoFile) : logoStr}
               onNew={(file) => {
-                setLogoError(false);
                 updateLogo(file.name, file);
               }}
               onDelete={() => {
-                setLogoError(true);
                 updateLogo('', null);
               }}
               isError={logoError}

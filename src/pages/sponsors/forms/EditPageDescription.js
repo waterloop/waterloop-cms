@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import styled from 'styled-components';
 import { descriptionCopies, buttonCopies, commonCopies } from '../Copies';
 import useSponsorDescForm from '../hooks/sponsor-desc';
@@ -120,12 +120,17 @@ const EditPageDescription = () => {
   } = useSponsorDescForm();
 
   /* Validation states */
-  const [titleError, setTitleError] = useState(R.isEmpty(title));
-  const [descriptionError, setDescriptionError] = useState(R.isEmpty(description));
-  const [imagesError, setImagesError] = useState(R.isEmpty(images));
-
+  const [titleError, setTitleError] = useState(false);
+  const [descriptionError, setDescriptionError] = useState(false);
+  const [imagesError, setImagesError] = useState(false);
 
   const reqNotFilled = titleError || descriptionError || imagesError;
+
+  useEffect(() => {
+    setTitleError(R.isEmpty(title));
+    setDescriptionError(R.isEmpty(description));
+    setImagesError(R.isEmpty(images));
+  }, [title,description,images]);
 
   return (
     <Container id="sponsor-root">
@@ -145,10 +150,7 @@ const EditPageDescription = () => {
             placeholder={descriptionCopies.TITLE_PLACEHOLDER} 
             value={title}
             isError={titleError}
-            onChange={(value) => {
-              setTitleError(R.isEmpty(value));
-              updateTitle(value);
-            }}
+            onChange={updateTitle}
           />
         </FormContainer>
 
@@ -158,10 +160,7 @@ const EditPageDescription = () => {
             placeholder={descriptionCopies.DESCRIPTION_PLACEHOLDER}
             value={description}
             isError={descriptionError}
-            onChange={(value) => {
-              setDescriptionError(R.isEmpty(value));
-              updateDescription(value);
-            }}  
+            onChange={updateDescription}  
           />
         </FormContainer>
         <FormContainer 
@@ -176,8 +175,6 @@ const EditPageDescription = () => {
                 src={imageFiles[idx] ? window.URL.createObjectURL(imageFiles[idx]) : image}
                 onNew={() => {}}
                 onDelete={() => {
-                  // Check if this is the last image:
-                  setImagesError(R.isEmpty(images) || images.length <= 1);
                   deleteImage(idx);
                 }}
               />  
@@ -187,8 +184,6 @@ const EditPageDescription = () => {
               isError={imagesError}
               src={""}
               onNew={(file) => {
-                // Assume a valid image has been uploaded:
-                setImagesError(false);
                 updateImage(file.name, file);
               }}
               onDelete={() => {}}
