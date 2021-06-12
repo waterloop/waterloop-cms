@@ -1,8 +1,9 @@
-import React, { useRef, useCallback } from "react";
-import PropTypes from "prop-types";
-import styled from "styled-components";
-import AddImageIconSvg from "./assets/addImageIcon.svg";
-import CloseIconSvg from "./assets/closeIcon.svg";
+import React, { useRef, useCallback } from 'react';
+import PropTypes from 'prop-types';
+import styled from 'styled-components';
+import AddImageIconSvg from './assets/addImageIcon.svg';
+import CloseIconSvg from './assets/closeIcon.svg';
+import * as R from 'ramda';
 
 const CloseButton = styled.img.attrs({
   src: CloseIconSvg,
@@ -88,17 +89,19 @@ const ImagePreview = ({
     inputRef.current.click();
   }, []);
 
-  const handleFileUpload = useCallback(
-    (event) => {
-      event.preventDefault();
-      const fileList = inputRef.current.files;
-      if (fileList.length === 1) {
-        // console.log(`File uploaded: ${fileList[0].name}`);
-        onNew(fileList[0]);
-      }
-    },
-    [onNew]
-  );
+  const handleFileUpload = useCallback((event) => {
+    event.preventDefault();
+    const fileList = inputRef.current.files;
+
+    if (fileList.length === 1) {
+      // console.log(`File uploaded: ${fileList[0].name}`);
+      onNew(R.clone(fileList[0]));
+    }
+
+    // Remove image file from inputRef since we no longer need that image to be stored on inputRef.:
+    // This fixes an issue where the same image can't be reuploaded if the user accidentally removes it.
+    event.target.value = "";
+  }, [onNew]);
 
   const handleFileDrop = useCallback(
     (event) => {

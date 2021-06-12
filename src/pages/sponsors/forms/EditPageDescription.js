@@ -171,7 +171,7 @@ const EditPageDescription = () => {
           <ImagesContainer>
             {images.map((image, idx) =>
               <ImagePreview
-                key={image}
+                key={idx}
                 src={imageFiles[idx] ? window.URL.createObjectURL(imageFiles[idx]) : image}
                 onNew={() => {}}
                 onDelete={() => {
