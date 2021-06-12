@@ -13,7 +13,6 @@ const dateStringsToDate = (data) => ({
 });
 
 const dateStringsToDates = R.map(dateStringsToDate);
-
 const usePostings = () => {
   const history = useHistory();
   const dispatch = useDispatch();
@@ -21,18 +20,33 @@ const usePostings = () => {
   const getPostings = useCallback(
     async () => {
       try {
-        const response = await api.postings.getPostings();
-        const teams = await api.teams.getTeams();
-        return dateStringsToDates(
-          response
-            .data
-            .map(
-              (item) => ({
+        const joinTeamName = true;
+        const response = await api.postings.getPostings(joinTeamName); //default boolean is false for joinTeamName, can just remove
+        if (joinTeamName) {
+          return dateStringsToDates(
+            response
+              .data
+              .map((item) => ({
                 ...item,
-                team: teams.data.find((team) => team.id === item.teamId).teamName,
-              }),
-            ),
-        );
+                team: item.teamName,
+                teamName: undefined,
+              })
+              )
+          );
+        }
+        else {
+          const teams = await api.teams.getTeams();
+          return dateStringsToDates(
+            response
+              .data
+              .map(
+                (item) => ({
+                  ...item,
+                  team: teams.data.find((team) => team.id === item.teamId).teamName,
+                }),
+              ),
+          );
+        }
       } catch (err) {
         if (process.env.NODE_ENV === 'development') {
           console.log(err);
