@@ -132,7 +132,7 @@ const useGooseForm = () => {
       }, [images, params, gooseName, description, closeForm, imagesToDelete]);
     
       const getLastUpdated = useCallback(() => {
-        const gooseInfo = geeseInfo.find((goose) => goose.id === params.gooseId);
+        const gooseInfo = geeseInfo.find((goose) => goose.id == params.gooseId);
         if (gooseInfo) {
           return moment.utc(gooseInfo.updatedAt).local().format('MMMM D, YYYY');
         }
