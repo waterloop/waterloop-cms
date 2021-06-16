@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
-//import { EditorState, ContentState, convertFromHTML } from 'draft-js';
-import { EditorState, convertFromRaw, convertToRaw, ContentState, convertFromHTML } from 'draft-js';
+import { EditorState, ContentState, convertFromHTML } from 'draft-js';
 import { Editor } from 'react-draft-wysiwyg';
-import { convertToHTML } from 'draft-convert';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';  
+import { getRichText } from '../../utils/rich-text/rich-text-utils';
+
 
 const Container = styled.div`
   width: 500px;
@@ -115,13 +115,7 @@ const TextInput = ({
 }) => {
   
   const [editorState, setEditorState] = useState(
-    () => {
-      const blocksFromHTML = convertFromHTML(value);
-      return EditorState.createWithContent(ContentState.createFromBlockArray(
-        blocksFromHTML.contentBlocks,
-        blocksFromHTML.entityMap,
-      ))
-    });
+    () => getRichText(value))
 
   const handleEditorChange = (state) => {
     setEditorState(state);
