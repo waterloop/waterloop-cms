@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import { EditorState, ContentState, convertFromHTML } from 'draft-js';
+//import { EditorState, ContentState, convertFromHTML } from 'draft-js';
+import { EditorState, convertFromRaw, convertToRaw, ContentState, convertFromHTML } from 'draft-js';
 import { Editor } from 'react-draft-wysiwyg';
 import { convertToHTML } from 'draft-convert';
-import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
+import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';  
 
 const Container = styled.div`
   width: 500px;
@@ -20,7 +21,7 @@ const TextInputContainer = styled.input`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding-left: 16px;
+  padding-left: 16px; 
   padding-right: 16px;
 
   ::placeholder,
@@ -112,11 +113,8 @@ const TextInput = ({
   placeholder = 'Place Holder Text',
   width,
 }) => {
-
-  // const [converting, setConverting] = useState(false)
   
   const [editorState, setEditorState] = useState(
-
     () => {
       const blocksFromHTML = convertFromHTML(value);
       return EditorState.createWithContent(ContentState.createFromBlockArray(
@@ -125,14 +123,9 @@ const TextInput = ({
       ))
     });
 
-  // const [convertedContent, setConvertedContent] = useState(null);
-
   const handleEditorChange = (state) => {
     setEditorState(state);
-    // if (!converting) {
-    //   setConverting(true);
-    //   convertContentToHTML();
-    // } 
+    onChange(editorState);
   }
 
   //convert value into blocks, before passing into text input
@@ -140,6 +133,7 @@ const TextInput = ({
   // const convertContentToHTML = async () => {
   //   let currentContentAsHTML = convertToHTML(editorState.getCurrentContent());
   //   setConvertedContent(currentContentAsHTML);
+  //   console.log(convertedContent);
   //   onChange(convertedContent)
   //   setConverting(false);
   // }

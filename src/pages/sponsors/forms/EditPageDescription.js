@@ -2,6 +2,9 @@ import React from 'react';
 import styled from 'styled-components';
 import { descriptionCopies, buttonCopies, commonCopies } from '../Copies';
 import useSponsorDescForm from '../hooks/sponsor-desc';
+import useRichText from '../../../hooks/rich-text';
+import { convertToHTML } from 'draft-convert';
+
 
 import UnstyledFormContainer from '../../../components/FormContainer';
 import UnstyledTextInput from '../../../components/TextInput';
@@ -108,6 +111,12 @@ const EditPageDescription = () => {
     closeForm
   } = useSponsorDescForm();
 
+  const onSubmit = () => { //how do I have a hook in a callback?
+    const newDesc = convertToHTML(description.getCurrentContent());
+    updateDescription(newDesc);
+    saveForm();
+  }
+
   return (
     <Container id="sponsor-root">
       <TopInfo>
@@ -158,7 +167,7 @@ const EditPageDescription = () => {
       </FormGroup>
       <ButtonContainer>
         <div>
-          <Button onClick={saveForm}>{buttonCopies.SAVE}</Button>
+          <Button onClick={onSubmit}>{buttonCopies.SAVE}</Button>
           <Button cancel onClick={closeForm}>{buttonCopies.CANCEL}</Button>
         </div>
       </ButtonContainer>
