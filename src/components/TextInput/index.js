@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, {useState} from 'react';
 import styled from 'styled-components';
-import { EditorState, ContentState, convertFromHTML } from 'draft-js';
 import { Editor } from 'react-draft-wysiwyg';
-import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';  
+import { EditorState } from 'draft-js';
+import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css'; 
 import { getRichText } from '../../utils/rich-text/rich-text-utils';
 
 
@@ -114,29 +114,16 @@ const TextInput = ({
   width,
 }) => {
   
-  const [editorState, setEditorState] = useState(
-    () => getRichText(value))
+  //making value an editor object does not seem to be working
+  //if I were to remove the getRichText method here and instead put it in the sponsor-desc hook, then it would not work...
+  const [editorState, setEditorState] = useState(value); 
 
-  const handleEditorChange = (state) => {
-    setEditorState(state);
+  //needs to 
+
+  const onEditorStateChange = (editorState) => {
+    setEditorState(editorState)
     onChange(editorState);
   }
-
-  //convert value into blocks, before passing into text input
-
-  // const convertContentToHTML = async () => {
-  //   let currentContentAsHTML = convertToHTML(editorState.getCurrentContent());
-  //   setConvertedContent(currentContentAsHTML);
-  //   console.log(convertedContent);
-  //   onChange(convertedContent)
-  //   setConverting(false);
-  // }
-
-  // const createMarkup = (html) => {
-  //   return  {
-  //     __html: DOMPurify.sanitize(html)
-  //   }
-  // }
 
   return (
     <Container width={width} className={className}>
@@ -145,7 +132,7 @@ const TextInput = ({
           <TAContainer>
             <Editor
               editorState={editorState}
-              onEditorStateChange={handleEditorChange}
+              onEditorStateChange={onEditorStateChange}
               editorClassName="editor-class"
               wrapperClassName="wrapper-class"
               toolbarClassName="toolbar-class"

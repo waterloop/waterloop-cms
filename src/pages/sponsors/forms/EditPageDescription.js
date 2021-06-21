@@ -2,7 +2,6 @@ import React from 'react';
 import styled from 'styled-components';
 import { descriptionCopies, buttonCopies, commonCopies } from '../Copies';
 import useSponsorDescForm from '../hooks/sponsor-desc';
-import { submitRichText } from '../../../utils/rich-text/rich-text-utils';
 
 import UnstyledFormContainer from '../../../components/FormContainer';
 import UnstyledTextInput from '../../../components/TextInput';
@@ -109,13 +108,7 @@ const EditPageDescription = () => {
     closeForm
   } = useSponsorDescForm();
 
-  const handleSubmit = () => {
-    console.log("?");
-    const newDesc = submitRichText(description);
-    console.log(newDesc);
-    updateDescription(newDesc);
-    saveForm();
-  }
+  console.log(description);
 
   return (
     <Container id="sponsor-root">
@@ -171,7 +164,7 @@ const EditPageDescription = () => {
           <h1>
           hi
           </h1>
-          <Button onClick={handleSubmit}>{buttonCopies.SAVE}</Button>
+          <Button onClick={saveForm}>{buttonCopies.SAVE}</Button>
           <Button cancel onClick={closeForm}>{buttonCopies.CANCEL}</Button>
         </div>
       </ButtonContainer>
