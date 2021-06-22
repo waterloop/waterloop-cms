@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import styled from 'styled-components';
 import { Editor } from 'react-draft-wysiwyg';
 import { EditorState } from 'draft-js';
-import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css'; 
+import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import { getRichText } from '../../utils/rich-text/rich-text-utils';
 
 
@@ -21,7 +21,7 @@ const TextInputContainer = styled.input`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding-left: 16px; 
+  padding-left: 16px;
   padding-right: 16px;
 
   ::placeholder,
@@ -61,12 +61,12 @@ const TAContainer = styled.div`
     min-width: 550px;
     max-width: 1200px;
     font: ${({ theme }) => theme.fonts.medium14};
-  
+
     display: flex;
     flex-direction: column;
     justify-content: space-between;
 
-  
+
     ::placeholder,
     ::-webkit-input-placeholder {
       font: ${({ theme }) => theme.fonts.medium18};
@@ -108,31 +108,19 @@ const TextInput = ({
   multiLine = true,
   richText = true,
   value /* The current value of the input */,
-  rows=10,  
+  rows=10,
   onChange /* Callback to be called each time that the user changes the input */,
   placeholder = 'Place Holder Text',
   width,
 }) => {
-  
-  //making value an editor object does not seem to be working
-  //if I were to remove the getRichText method here and instead put it in the sponsor-desc hook, then it would not work...
-  const [editorState, setEditorState] = useState(value); 
-
-  //needs to 
-
-  const onEditorStateChange = (editorState) => {
-    setEditorState(editorState)
-    onChange(editorState);
-  }
-
   return (
     <Container width={width} className={className}>
       {multiLine ? (
         richText ?
           <TAContainer>
             <Editor
-              editorState={editorState}
-              onEditorStateChange={onEditorStateChange}
+              editorState={value}
+              onEditorStateChange={onChange}
               editorClassName="editor-class"
               wrapperClassName="wrapper-class"
               toolbarClassName="toolbar-class"
