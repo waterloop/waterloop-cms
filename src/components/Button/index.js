@@ -10,7 +10,6 @@ const ButtonBase = styled.button`
   padding: 4px 22px;
   cursor: ${({ disabled }) => disabled ? 'not-allowed' : 'pointer'};
   width: max-content;
-  
 `;
 
 const PrimaryButton = styled(ButtonBase)`

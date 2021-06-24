@@ -117,7 +117,6 @@ const EditPostingsForm = () => {
       setRequirementsError(R.isEmpty(requirements));
       setInfoError(R.isEmpty(info));
       setTasksError(R.isEmpty(tasks));
-    // }, [title,subTeam,tierId,description,termSeason,termYear,logoStr]);
     }, [title, teamId, termYear, termSeason, deadline, timeCommitment, description, requirements, info, tasks, ]);
 
   return loading ? (

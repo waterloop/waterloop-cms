@@ -127,23 +127,6 @@ const ImagePreview = ({
     event.preventDefault();
   }, []);
 
-<<<<<<< HEAD
-  return src ? (
-    <Container className={className}>
-      <CloseButton onClick={onDelete} />
-      <Image src={src} alt={alt} />
-    </Container>
-  ) : (
-    <Container className={className}>
-      <AddImage
-        onClick={handleNew}
-        onDrop={handleFileDrop}
-        onDragOver={handleDragOver}
-      >
-        <AddImageIcon /> Add a new Image
-      </AddImage>
-      {/* FileInput is a hidden element. We use it's ref to access the file upload api
-=======
   return (
     src ? (
       <Container error={isError} className={className}>
@@ -156,7 +139,6 @@ const ImagePreview = ({
           <AddImageIcon/> Add a new Image
         </AddImage>
         {/* FileInput is a hidden element. We use it's ref to access the file upload api
->>>>>>> 570d8e2 (Update a few more components to use validation)
         without needing to try to style the input element itself.  */}
       <FileInput ref={inputRef} onChange={handleFileUpload} accept="image/*" />
     </Container>

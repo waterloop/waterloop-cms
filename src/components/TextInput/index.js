@@ -142,7 +142,7 @@ const TextInput = ({
           </TARichContainer>
           :
           <TextAreaContainer
-            error={isError} // Error state.
+            error={isError}
             rows={rows}
             cols="60"
             placeholder={placeholder}
