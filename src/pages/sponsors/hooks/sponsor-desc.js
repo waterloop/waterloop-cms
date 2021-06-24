@@ -7,8 +7,6 @@ import { useHistory } from 'react-router-dom';
 import api from '../../../api';
 import FormData from 'form-data';
 
-import { getRichText, submitRichText } from '../../../utils/rich-text/rich-text-utils';
-
 import useSponsors from "../../../hooks/sponsors";
 import * as R from 'ramda';
 import * as moment from 'moment';
@@ -91,12 +89,9 @@ const useSponsorDescForm = (input = {}) => {
   useEffect(() => {
     if (state.loading && !R.isNil(sponsorDesc)) {
       try {
-
-        //despite converting description to editor object, it still isnt working 
-        
         let data = {
           ...sponsorDesc,
-          description: getRichText(sponsorDesc.description), //getRichText(sponsorDesc.description)
+          description: sponsorDesc.description,
           imageFiles: Array(sponsorDesc.images.length).fill(null), 
           lastUpdated: moment.utc(sponsorDesc.updatedAt).local().format("MMMM D, YYYY")
         }
@@ -124,9 +119,9 @@ const useSponsorDescForm = (input = {}) => {
 
   const updateDescription = useCallback(
     (description) => {
-      dispatch({ type: 'UPDATE_DESCRIPTION', payload: description });//getRichText(description)
+      dispatch({ type: 'UPDATE_DESCRIPTION', payload: description });
     },
-    [dispatch],
+    [dispatch], 
   );
 
   const updateImage = useCallback(
@@ -161,7 +156,6 @@ const useSponsorDescForm = (input = {}) => {
     console.log(state.form);
     // TODO: Validation checks here.
 
-
     // Send data to server:
     try {
       const files = state.form.imageFiles;
@@ -193,9 +187,10 @@ const useSponsorDescForm = (input = {}) => {
       }));
 
       // Upload rest of data to server:
+
       let data = {
         title: state.form.title,
-        description: submitRichText(state.form.description),
+        description: state.form.description,
         images: imgStrings,
       };
 

@@ -108,8 +108,6 @@ const EditPageDescription = () => {
     closeForm
   } = useSponsorDescForm();
 
-  console.log(description);
-
   return (
     <Container id="sponsor-root">
       <TopInfo>
@@ -128,16 +126,16 @@ const EditPageDescription = () => {
             placeholder={descriptionCopies.TITLE_PLACEHOLDER} 
             value={title}
             onChange={updateTitle}
+            
           />
         </FormContainer>
 
         <FormContainer title={descriptionCopies.DESCRIPTION_LABEL}>
-          <TextMultilineInput 
-            multiLine 
+          <TextMultilineInput  
             placeholder={descriptionCopies.DESCRIPTION_PLACEHOLDER}
             value={description}
             onChange={updateDescription} 
-            richText
+            multiLine 
           />
         </FormContainer>
         <FormContainer title={descriptionCopies.IMAGES_LABEL}>
@@ -161,9 +159,6 @@ const EditPageDescription = () => {
       </FormGroup>
       <ButtonContainer>
         <div>
-          <h1>
-          hi
-          </h1>
           <Button onClick={saveForm}>{buttonCopies.SAVE}</Button>
           <Button cancel onClick={closeForm}>{buttonCopies.CANCEL}</Button>
         </div>

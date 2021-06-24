@@ -1,9 +1,7 @@
 import React, {useState} from 'react';
 import styled from 'styled-components';
 import { Editor } from 'react-draft-wysiwyg';
-import { EditorState } from 'draft-js';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
-import { getRichText } from '../../utils/rich-text/rich-text-utils';
 
 
 const Container = styled.div`
@@ -101,12 +99,19 @@ const TAContainer = styled.div`
 
 `
 
+/* 
+To implement the richText support in textinput:
+- need to set richText to true for the textinput component,
+- import getRichText and submitRichText (from rich text utils) into respective hook for first getting the info from database and saving it 
+https://docs.google.com/document/d/1_C9twf66rjGkE7HPAsEid-_ZddWcbDoLNw9e2EEkAA8/edit?usp=sharing 
+*/
+
 const TextInput = ({
   className /* Allows for external styles to be applied to the component
                 using the styled components library
                 className prop needs to be passed to the parent JSX element */,
-  multiLine = true,
-  richText = true,
+  multiLine,
+  richText, 
   value /* The current value of the input */,
   rows=10,
   onChange /* Callback to be called each time that the user changes the input */,
@@ -115,7 +120,7 @@ const TextInput = ({
 }) => {
   return (
     <Container width={width} className={className}>
-      {multiLine ? (
+      {multiLine ?
         richText ?
           <TAContainer>
             <Editor
@@ -125,7 +130,6 @@ const TextInput = ({
               wrapperClassName="wrapper-class"
               toolbarClassName="toolbar-class"
             />
-            {/* <div className="preview" dangerouslySetInnerHTML={createMarkup(convertedContent)}></div> */}
           </TAContainer>
           :
           <TextAreaContainer
@@ -136,7 +140,7 @@ const TextInput = ({
             onChange={(e) => onChange(e.target.value)}
           />
 
-      ) : (
+       : (
         <TextInputContainer
           placeholder={placeholder}
           value={value}

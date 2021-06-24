@@ -37,7 +37,7 @@ MultiLineFilled.args = {
 };
 
 export const RichTextUseStateExample = () => {
-  const [state, onChange] = React.useState(getRichText('<strong>Hello I am Strong</strong>'))
+  const [state, onChange] = React.useState(getRichText('<strong><p>Hello I am Strong</p></strong>'))
   const onClick = () => {
     // eslint-disable-next-line no-alert
     alert(submitRichText(state));
