@@ -72,23 +72,11 @@ const EditGoose = () => {
     imageUrlDelete,
     closeForm,
     saveForm,
+    deleteForm,
   } = useGooseForm();
 
   const displayImages = useMemo(() => {
     return [
-      ...images.map((image, index) => {
-        return (
-          <ImageCard key={`${image.filename}-${index}`}>
-            <ImagePreview
-            src={URL.createObjectURL(image)}
-            onDelete={() => {
-              imageDelete(index);
-            }}
-          />
-          </ImageCard>
-          
-        );
-      }),
       ...imageUrls.map((image, index) => {
         return (
           <ImageCard key={`${image.id}-${index}`}>
@@ -102,6 +90,20 @@ const EditGoose = () => {
           
         );
       }),
+      ...images.map((image, index) => {
+        return (
+          <ImageCard key={`${image.filename}-${index}`}>
+            <ImagePreview
+            src={URL.createObjectURL(image)}
+            onDelete={() => {
+              imageDelete(index);
+            }}
+          />
+          </ImageCard>
+          
+        );
+      }),
+      
     ];
   }, [images, imageUrls, imageUrlDelete, imageDelete]);
 
@@ -156,9 +158,9 @@ const EditGoose = () => {
 
         <GooseButtons>
           <Button label="Save" onClick={saveForm} />
-          <Button label="Cancel" cancel={true} onClick={closeForm} />
+          <Button label="Cancel" cancel onClick={closeForm} />
           <DeleteButton>
-            <Button label="Delete" del={true} />
+            <Button label="Delete" del onClick={deleteForm} />
           </DeleteButton>
         </GooseButtons>
       </EditGooseBody>

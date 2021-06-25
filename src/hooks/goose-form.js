@@ -1,4 +1,4 @@
-import {useState, useEffect, useCallback} from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
 import useGeeseInfo from '../hooks/geese-info';
 import api from '../api';
@@ -130,9 +130,16 @@ const useGooseForm = () => {
           console.error(e);
         }
       }, [images, params, gooseName, description, closeForm, imagesToDelete]);
+
+      const deleteForm = useCallback(async () => {
+        if (params.gooseId) {
+          await api.geeseInfo.deleteGeeseInfo(params.gooseId);
+        }
+        closeForm()
+      }, [params.gooseId, closeForm]);
     
       const getLastUpdated = useCallback(() => {
-        const gooseInfo = geeseInfo.find((goose) => goose.id == params.gooseId);
+        const gooseInfo = geeseInfo.find((goose) => goose.id === parseInt(params.gooseId, 10));
         if (gooseInfo) {
           return moment.utc(gooseInfo.updatedAt).local().format('MMMM D, YYYY');
         }
@@ -156,6 +163,7 @@ const useGooseForm = () => {
           imageUrlDelete,
           closeForm,
           saveForm,
+          deleteForm,
       }
 };
 
