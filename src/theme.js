@@ -8,6 +8,8 @@ const yellows = {
   yellow2: '#FED95A',
 };
 
+const red = '#ff0f0f';
+
 const blacks = {
   black1: '#000000',
   black2: '#465064',
@@ -56,6 +58,7 @@ export default {
   colours: {
     blues,
     yellows,
+    red,
     blacks,
     white,
     greys,

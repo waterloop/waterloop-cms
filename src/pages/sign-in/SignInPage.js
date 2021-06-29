@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React, { useState, useCallback } from 'react';
 import styled from 'styled-components';
 import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
@@ -88,10 +88,13 @@ const Container = styled.div`
 const SignInPage = () => {
   const dispatch = useDispatch();
   const history = useHistory();
+  const [errMsgVisible, showErrorMsg] = useState(false);
+
   const onAuthComplete = useCallback(
     (err, authPayload) => {
       if (err) {
         console.log('auth error:', err);
+        showErrorMsg(true);
         return;
       }
       dispatch(userActions.setUserAuth(authPayload));
@@ -105,7 +108,15 @@ const SignInPage = () => {
   return (
     <Container>
       <WaterloopCmsLogo />
-      <SignInBox onClick={signIn} />
+      <SignInBox 
+        errMsgVisible={errMsgVisible}
+        onClick={() => {
+          if (errMsgVisible) {
+            showErrorMsg(false);
+          }
+          signIn();
+        }}  
+      />
       <PodTrack>
         <Pod />
       </PodTrack>
