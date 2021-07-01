@@ -132,10 +132,10 @@ const EditPageDescription = () => {
 
         <FormContainer title={descriptionCopies.DESCRIPTION_LABEL}>
           <TextMultilineInput  
+            multiline
             placeholder={descriptionCopies.DESCRIPTION_PLACEHOLDER}
             value={description}
             onChange={updateDescription} 
-            multiLine 
           />
         </FormContainer>
         <FormContainer title={descriptionCopies.IMAGES_LABEL}>

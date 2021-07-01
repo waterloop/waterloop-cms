@@ -91,7 +91,6 @@ const useSponsorDescForm = (input = {}) => {
       try {
         let data = {
           ...sponsorDesc,
-          description: sponsorDesc.description,
           imageFiles: Array(sponsorDesc.images.length).fill(null), 
           lastUpdated: moment.utc(sponsorDesc.updatedAt).local().format("MMMM D, YYYY")
         }
