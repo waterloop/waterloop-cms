@@ -251,11 +251,10 @@ const useSponsorForm = (sponsorId, input = {}) => {
     history.push('/sponsors');
   }, [history]);
 
+  // TODO: Handle authentication errors (preferably from the backend.)
   const saveForm = useCallback(async () => {
     // eslint-disable-next-line no-console
     console.log(state.form);
-    // TODO: Validation checks here.
-
     // Send data to server:
     try {
       const file = state.form.logoFile;
@@ -294,7 +293,6 @@ const useSponsorForm = (sponsorId, input = {}) => {
       // onSuccess:
       closeForm();
     } catch (e) {
-      // TODO: Display "could not add/update" error to user as dialogue.
       updateFailure(`Could not add/update sponsor: ${e.message}`);
       // eslint-disable-next-line no-console
       console.error(e);
@@ -306,7 +304,6 @@ const useSponsorForm = (sponsorId, input = {}) => {
       await api.sponsors.deleteSponsor(sponsorId);
       closeForm();
     } catch (e) {
-      // TODO: Display "could not delete" to user as dialogue.
       updateFailure(`Could not delete sponsor: ${e.message}`);
       // eslint-disable-next-line no-console
       console.error(e);
@@ -340,6 +337,7 @@ const useSponsorForm = (sponsorId, input = {}) => {
     years,
     loading: state.loading,
     errMsg: state.userFriendlyErrorMessage,
+    sponsorExists: state.exists,
     sponsorTiers,
     updateName,
     updateWebsite,

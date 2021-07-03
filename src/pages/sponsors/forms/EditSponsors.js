@@ -125,6 +125,7 @@ const EditSponsors = () => {
     years,
     sponsorTiers,
     errMsg,
+    sponsorExists,
 
     name,
     website,
@@ -299,7 +300,7 @@ const EditSponsors = () => {
               {buttonCopies.CANCEL}
             </Button>
           </div>
-          <Button del onClick={deleteForm}>
+          <Button disabled={!sponsorExists} del onClick={deleteForm}>
             {buttonCopies.DELETE}
           </Button>
         </ButtonContainer>
