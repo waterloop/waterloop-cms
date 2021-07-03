@@ -36,7 +36,8 @@ export const mainCopies = {
 
 export const commonCopies = {
   LAST_UPDATED_DATE: "Last updated:",
-  REQUIRED_IMAGE: "Please upload an image."
+  REQUIRED_IMAGE: "Please upload an image.",
+  DIALOG_ERROR_TITLE: "Error"
 }
 
 // TODO: Move this to utility function.
@@ -45,6 +46,7 @@ export const buttonCopies = {
   SAVE: "Save",
   CANCEL: "Cancel",
   BACK: "< Back",
+  OK: "OK",
 
   PREVIEW: "Preview",
   EDIT_DESCRIPTION: "Edit description",

@@ -32,6 +32,7 @@ const reducer = (state, action) => {
       return {
         ...state,
         loading: false,
+        userFriendlyErrorMessage: "",
         form: {
           ...state.form,
           ...action.payload.data,
@@ -48,6 +49,7 @@ const reducer = (state, action) => {
     case 'UPDATE_TITLE':
       return {
         ...state,
+        userFriendlyErrorMessage: "",
         form: {
           ...state.form,
           title: action.payload,
@@ -56,6 +58,7 @@ const reducer = (state, action) => {
     case 'UPDATE_DESCRIPTION':
       return {
         ...state,
+        userFriendlyErrorMessage: "",
         form: {
           ...state.form,
           description: action.payload,
@@ -64,13 +67,21 @@ const reducer = (state, action) => {
     case 'UPDATE_IMAGES':
       return {
         ...state,
+        userFriendlyErrorMessage: "",
         form: {
           ...state.form,
           images: action.payload.images,
           imageFiles: action.payload.imageFiles
         }
       }
-
+    case 'UPDATE_FAILURE':
+      return {
+        ...state,
+        userFriendlyErrorMessage: action.payload,
+        form: {
+          ...state.form,
+        }
+      }
     default:
       return {
         ...state,
@@ -101,7 +112,7 @@ const useSponsorDescForm = (input = {}) => {
           }
         });
       } catch (err) {
-          dispatch({ type: 'LOAD_FAILURE', payload: err });
+          dispatch({ type: 'LOAD_FAILURE', payload: err.message });
       }
     }  
   }, [state.loading, dispatch, sponsorDesc]);
@@ -143,6 +154,12 @@ const useSponsorDescForm = (input = {}) => {
     [dispatch, state.form.images, state.form.imageFiles],
   );
 
+  const updateFailure = useCallback(
+    (err) => {
+      dispatch({ type: 'UPDATE_FAILURE', payload: err });
+    }
+  );
+
   /**
    * Save and close Functions
    */
@@ -153,7 +170,6 @@ const useSponsorDescForm = (input = {}) => {
   const saveForm = useCallback(async () => {
     // eslint-disable-next-line no-console
     console.log(state.form);
-    // TODO: Validation checks here.
 
     // Send data to server:
     try {
@@ -193,25 +209,31 @@ const useSponsorDescForm = (input = {}) => {
         images: imgStrings,
       };
 
-      await api.sponsors.updateSponsorDesc(data);
+      const res = await api.sponsors.updateSponsorDesc(data);
 
+      if (res.status != 200) {
+        console.log(res);
+        throw new Error(res.data);
+      }
       // onSuccess:
       closeForm();
 
     } catch (e) {
       // TODO: Display "could not add/update" error to user as dialogue.
       // eslint-disable-next-line no-console
-      console.error(e);
+      updateFailure(e.message);
     }
   }, [state.form, closeForm]);
 
   return {
     ...state.form,
     loading: state.loading,
+    errMsg: state.userFriendlyErrorMessage,
     updateTitle,
     updateDescription,
     updateImage,
     deleteImage,
+    updateFailure,
     saveForm,
     closeForm,
   };

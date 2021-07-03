@@ -8,6 +8,8 @@ import UnstyledTextInput from '../../../components/TextInput';
 import Button from '../../../components/Button';
 import UnstyledImagePreview from '../../../components/ImagePreview';
 
+import Dialog from '../../../components/Dialog';
+
 import * as R from 'ramda';
 
 const Container = styled.div`
@@ -109,11 +111,13 @@ const EditPageDescription = () => {
     images,
     imageFiles,
     lastUpdated,
+    errMsg,
 
     updateTitle,
     updateDescription,
     updateImage,
     deleteImage,
+    updateFailure,
 
     saveForm,
     closeForm
@@ -124,6 +128,8 @@ const EditPageDescription = () => {
   const [descriptionError, setDescriptionError] = useState(false);
   const [imagesError, setImagesError] = useState(false);
 
+  const [dialogOpen, setDialogOpen] = useState(false);
+
   const reqNotFilled = titleError || descriptionError || imagesError;
 
   useEffect(() => {
@@ -132,7 +138,24 @@ const EditPageDescription = () => {
     setImagesError(R.isEmpty(images));
   }, [title,description,images]);
 
+  useEffect(() => {
+    setDialogOpen(!!errMsg);
+  }, [errMsg])
+
   return (
+    <>
+    <Dialog
+      title={commonCopies.DIALOG_ERROR_TITLE}
+      actionChildren={
+        <Button onClick={() => {
+          setDialogOpen(false);
+          updateFailure("");
+        }}>{buttonCopies.OK}</Button>
+      }
+      open={dialogOpen}
+    >
+      <Text>{errMsg}</Text>  
+    </Dialog>
     <Container id="sponsor-root">
       <TopInfo>
         <Button cancel onClick={closeForm}>
@@ -199,6 +222,7 @@ const EditPageDescription = () => {
       </ButtonContainer>
       {reqNotFilled && <RequiredText>{buttonCopies.REQUIREMENTS_NOT_MET}</RequiredText>}
     </Container>
+    </>
   );
 }
 

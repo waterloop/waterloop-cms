@@ -10,6 +10,7 @@ import UnstyledTextInput from '../../../components/TextInput';
 import UnstyledSelector from '../../../components/Selector';
 import Button from '../../../components/Button';
 import UnstyledImagePreview from '../../../components/ImagePreview';
+import Dialog from '../../../components/Dialog';
 
 import * as R from 'ramda';
 
@@ -123,6 +124,7 @@ const EditSponsors = () => {
     terms,
     years,
     sponsorTiers,
+    errMsg,
 
     name,
     website,
@@ -143,6 +145,7 @@ const EditSponsors = () => {
     updateDescription,
     updateLogo,
     updateVideoLink,
+    updateFailure,
 
     saveForm,
     closeForm,
@@ -158,6 +161,8 @@ const EditSponsors = () => {
   const [descriptionError, setDescriptionError] = useState(false);
   const [logoError, setLogoError] = useState(false);
 
+  const [dialogOpen, setDialogOpen] = useState(false);
+
   const reqNotFilled = nameError || websiteError || tierIdError || 
     descriptionError || termSeasonError || termYearError || logoError;
 
@@ -171,8 +176,25 @@ const EditSponsors = () => {
       setLogoError(R.isEmpty(logoStr));
     }, [name,website,tierId,description,termSeason,termYear,logoStr]);
 
+    useEffect(() => {
+      setDialogOpen(!!errMsg);
+    }, [errMsg])
+
   return (
     !loading && (
+    <>
+      <Dialog
+        title={commonCopies.DIALOG_ERROR_TITLE}
+        open={dialogOpen}
+        actionChildren={
+          <Button onClick={() => {
+            setDialogOpen(false);
+            updateFailure("");
+          }}>{buttonCopies.OK}</Button>
+        }
+        >
+        <Text>{errMsg}</Text>
+      </Dialog>
       <Container id="sponsor-root">
         <TopInfo>
           <Button cancel onClick={closeForm}>
@@ -283,6 +305,7 @@ const EditSponsors = () => {
         </ButtonContainer>
         {reqNotFilled && <RequiredText>{buttonCopies.REQUIREMENTS_NOT_MET}</RequiredText>}
       </Container>
+    </>
     )
   );
 };
