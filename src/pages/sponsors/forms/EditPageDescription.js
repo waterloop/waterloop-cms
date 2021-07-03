@@ -103,6 +103,18 @@ const RequiredText = styled.p`
   font: ${({ theme }) => theme.fonts.medium14};
 `;
 
+const useRequirements = (reqs) => {
+  let res = {
+    titleError: R.isEmpty(reqs.title),
+    descriptionError: R.isEmpty(reqs.description),
+    imagesError: R.isEmpty(reqs.images)
+  }
+
+  return {
+    ...res,
+    reqNotFilled: !R.all(R.equals(false))(Object.values(res))
+  }
+}
 
 const EditPageDescription = () => {
   const {
@@ -123,20 +135,19 @@ const EditPageDescription = () => {
     closeForm
   } = useSponsorDescForm();
 
+  const {
+    titleError,
+    descriptionError,
+    imagesError,
+    reqNotFilled
+  } = useRequirements({
+    title,
+    description,
+    images
+  })
+
   /* Validation states */
-  const [titleError, setTitleError] = useState(false);
-  const [descriptionError, setDescriptionError] = useState(false);
-  const [imagesError, setImagesError] = useState(false);
-
   const [dialogOpen, setDialogOpen] = useState(false);
-
-  const reqNotFilled = titleError || descriptionError || imagesError;
-
-  useEffect(() => {
-    setTitleError(R.isEmpty(title));
-    setDescriptionError(R.isEmpty(description));
-    setImagesError(R.isEmpty(images));
-  }, [title,description,images]);
 
   useEffect(() => {
     setDialogOpen(!!errMsg);

@@ -293,7 +293,7 @@ const useSponsorForm = (sponsorId, input = {}) => {
       // onSuccess:
       closeForm();
     } catch (e) {
-      updateFailure(`Could not add/update sponsor: ${e.message}`);
+      updateFailure(`Could not ${state.exists ? "update" : "add"} sponsor: ${e.message}`);
       // eslint-disable-next-line no-console
       console.error(e);
     }

@@ -114,6 +114,23 @@ const RequiredText = styled.p`
   font: ${({ theme }) => theme.fonts.medium14};
 `;
 
+const useRequirements = (reqs) => {
+  let res = {
+    nameError: R.isEmpty(reqs.name),
+    websiteError: R.isEmpty(reqs.website),
+    tierIdError: R.isEmpty(reqs.tierId),
+    termSeasonError: R.isEmpty(reqs.termSeason),
+    termYearError: R.isEmpty(reqs.termYear),
+    descriptionError: R.isEmpty(reqs.description),
+    logoError: R.isEmpty(reqs.logoStr),
+  }
+
+  return {
+    ...res,
+    reqNotFilled: !R.all(R.equals(false))(Object.values(res))
+  }
+}
+
 const EditSponsors = () => {
   const {
     params: { id },
@@ -154,32 +171,30 @@ const EditSponsors = () => {
   } = useSponsorForm(parseInt(id));
 
   /* Validation states */
-  const [nameError, setNameError] = useState(false);
-  const [websiteError, setWebsiteError] = useState(false);
-  const [tierIdError, setTierIdError] = useState(false);
-  const [termSeasonError, setTermSeasonError] = useState(false);
-  const [termYearError, setTermYearError] = useState(false);
-  const [descriptionError, setDescriptionError] = useState(false);
-  const [logoError, setLogoError] = useState(false);
+  const {
+    nameError,
+    websiteError,
+    tierIdError,
+    termSeasonError,
+    termYearError,
+    descriptionError,
+    logoError,
+    reqNotFilled
+  } = useRequirements({
+    name,
+    website,
+    tierId,
+    termSeason,
+    termYear,
+    description,
+    logoStr
+  });
 
   const [dialogOpen, setDialogOpen] = useState(false);
 
-  const reqNotFilled = nameError || websiteError || tierIdError || 
-    descriptionError || termSeasonError || termYearError || logoError;
-
-    useEffect(() => {
-      setNameError(R.isEmpty(name));
-      setWebsiteError(R.isEmpty(website));
-      setTierIdError(R.isEmpty(tierId));
-      setTermSeasonError(R.isEmpty(termSeason));
-      setTermYearError(R.isEmpty(termYear));
-      setDescriptionError(R.isEmpty(description));
-      setLogoError(R.isEmpty(logoStr));
-    }, [name,website,tierId,description,termSeason,termYear,logoStr]);
-
-    useEffect(() => {
-      setDialogOpen(!!errMsg);
-    }, [errMsg])
+  useEffect(() => {
+    setDialogOpen(!R.isEmpty(errMsg));
+  }, [errMsg])
 
   return (
     !loading && (
