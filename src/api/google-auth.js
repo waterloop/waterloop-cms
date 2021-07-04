@@ -1,7 +1,13 @@
 const authenticate = (server) => (socket) => server.get(`/google?socketId=${socket.id}`);
 const getPicture = (server) => (userId) => server.get(`/google/picture/${userId}`);
 
-const checkToken = (server) => (idToken) => server.get(`/google?token=${idToken}`);
+const checkToken = (server) => (tokenId, accessToken) => server.post(`/google?tokenId=${tokenId}`, {}, {
+    headers: {
+      "Accept": 'application/json',
+      "Authorization": `Bearer ${accessToken}`,
+    }
+  }
+);
 
 export default (server) => ({
   authenticate: authenticate(server),

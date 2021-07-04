@@ -6,11 +6,11 @@ const useGoogleAuth = (onAuthComplete) => {
   const onSuccess = useCallback(
     (response) => {
       // https://github.com/anthonyjgrove/react-google-login/blob/7db5b9686a70ded6b090a9c01906ca978b00a54d/index.d.ts#L29
-      const { tokenId } = response;
+      const { tokenId, accessToken } = response;
       console.log('Begin auth');
       api
         .google
-        .checkToken(tokenId)
+        .checkToken(tokenId, accessToken)
         .then((checkTokenResponse) => {
           if (checkTokenResponse.status === 200) {
             const { userId } = checkTokenResponse.data;
@@ -26,7 +26,7 @@ const useGoogleAuth = (onAuthComplete) => {
     onSuccess,
     onFailure: (err) => { console.log('failed auth', err); },
     clientId: '538509890740-e3dai2feq6knjfdspqde5ogt2kme0chm.apps.googleusercontent.com',
-    prompt: 'consent select_account',
+    scope: 'profile email https://www.googleapis.com/auth/admin.directory.group.readonly',
   });
 
   return {
