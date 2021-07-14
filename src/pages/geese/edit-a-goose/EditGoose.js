@@ -5,6 +5,13 @@ import Button from '../../../components/Button/index';
 import TextInput from '../../../components/TextInput/index';
 import useGooseForm from '../../../hooks/goose-form'
 import styled from 'styled-components';
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle';
+import CloseIcon from '@material-ui/icons/Close';
+import IconButton from '@material-ui/core/IconButton';
 
 const EditGoosePage = styled.div`
   padding: 64px 88px 65px 58px;
@@ -58,7 +65,30 @@ const DeleteButton = styled.div`
   float: right;
 `;
 
-const EditGoose = () => {
+const ModalTitle = styled.div`
+  font-family: IBM Plex Sans;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 24px;
+  color: #2A2A2A;
+  display: flex;
+  justify-content: space-between;
+`;
+
+const ModalDescription = styled.div`
+  font-family: IBM Plex Sans;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 18px;
+  color: #2A2A2A;
+`;
+
+const RedDeleteButton = styled(Button)`
+  background-color: #D02027;
+  color: white;
+`;
+
+const EditGoose = ({ add }) => {
   const {
     gooseName, 
     setGooseName, 
@@ -73,6 +103,9 @@ const EditGoose = () => {
     closeForm,
     saveForm,
     deleteForm,
+    showModal,
+    openModal,
+    closeModal,
   } = useGooseForm();
 
   const displayImages = useMemo(() => {
@@ -159,9 +192,33 @@ const EditGoose = () => {
         <GooseButtons>
           <Button label="Save" onClick={saveForm} />
           <Button label="Cancel" cancel onClick={closeForm} />
-          <DeleteButton>
-            <Button label="Delete" del onClick={deleteForm} />
-          </DeleteButton>
+          {!add && (<DeleteButton>
+            <Button label="Delete" del onClick={openModal} />
+            <Dialog
+              open={showModal}
+              onClose={closeModal}
+            >
+              <DialogTitle>
+                <ModalTitle>
+                  Delete this Goose
+                  <IconButton>
+                    <CloseIcon onClick={closeModal}/>
+                  </IconButton>
+                </ModalTitle>
+              </DialogTitle>
+              <DialogContent>
+                <DialogContentText>
+                  <ModalDescription>
+                    Are you sure you want to delete this Goose? This process cannot be undone.
+                  </ModalDescription>
+                </DialogContentText>
+              </DialogContent>
+              <DialogActions>
+                <Button label="Cancel" cancel onClick={closeModal} />
+                <RedDeleteButton label="Delete" onClick={deleteForm} />
+              </DialogActions>
+            </Dialog>
+          </DeleteButton>)}
         </GooseButtons>
       </EditGooseBody>
     </EditGoosePage>

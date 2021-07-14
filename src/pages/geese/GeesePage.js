@@ -1,11 +1,11 @@
-import React, { useCallback } from "react";
-import styled from "styled-components";
-import UnstyledButton from "../../components/Button";
-import PreviewTable from "../../components/PreviewTable";
-import TableCell from "@material-ui/core/TableCell";
-import useGeeseInfo from "../../hooks/geese-info";
-import * as moment from "moment";
-import { useHistory } from "react-router-dom";
+import React, { useCallback } from 'react';
+import styled from 'styled-components';
+import UnstyledButton from '../../components/Button';
+import PreviewTable from '../../components/PreviewTable';
+import TableCell from '@material-ui/core/TableCell';
+import useGeeseInfo from '../../hooks/geese-info';
+import * as moment from 'moment';
+import { useHistory } from 'react-router-dom';
 
 const Button = styled(UnstyledButton)``;
 
@@ -47,12 +47,12 @@ const TableHeader = styled.p`
 
 const headers = [
   {
-    id: "name",
-    value: "Goose",
+    id: 'name',
+    value: 'Goose',
   },
   {
-    id: "updatedAt",
-    value: "Last Updated",
+    id: 'updatedAt',
+    value: 'Last Updated',
   },
 ];
 
@@ -66,21 +66,25 @@ const RowComponent = ({ name, updatedAt }) => (
 const GeesePage = () => {
   const { geeseInfo } = useGeeseInfo();
   const history = useHistory();
-  const currentGoose = "Goose V";
+  const currentGoose = 'Goose V';
 
   const geese = geeseInfo.map((goose) => ({
     id: goose.id,
     name: goose.name,
-    updatedAt: moment.utc(goose.updatedAt).local().format("MMMM D, YYYY"),
+    updatedAt: moment.utc(goose.updatedAt).local().format('MMMM D, YYYY'),
   }));
 
   const onEdit = useCallback(() => {
-    console.log("Go to edit");
+    console.log('Go to edit');
   }, []);
 
   const onPreview = useCallback(() => {
-    console.log("Go to preview");
+    console.log('Go to preview');
   }, []);
+
+  const addGoose = useCallback(() => { 
+    history.push('/geese/add');
+  }, [history]);
 
   const onEditGoose = useCallback(
     (id) => {
@@ -100,7 +104,7 @@ const GeesePage = () => {
       </ButtonContainer>
       <TableLabelHeader>
         <TableHeader>All Geese</TableHeader>
-        <Button label="New Goose +" />
+        <Button label="New Goose +" onClick={addGoose}/>
       </TableLabelHeader>
       <PreviewTable
         headers={headers}

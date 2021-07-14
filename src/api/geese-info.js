@@ -1,4 +1,4 @@
-const getGeeseInfo = (server) => () => server.get("/api/geese-info");
+const getGeeseInfo = (server) => () => server.get('/api/geese-info');
 const getGeeseImages = (server) => (id) =>
   server.get(`/api/geese-info/images/${id}`);
 const updateGeeseInfo = (server) => (id, updatedGeeseInfo) =>

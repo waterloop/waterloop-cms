@@ -10,6 +10,7 @@ const useGooseForm = () => {
     const [images, setImages] = useState([]);
     const [imageUrls, setImageUrls] = useState([]);
     const [imagesToDelete, setImagesToDelete] = useState([]);
+    const [showModal, setShowModal] = useState(false);
     const history = useHistory();
     const params = useParams();
     const { geeseInfo } = useGeeseInfo();
@@ -56,6 +57,14 @@ const useGooseForm = () => {
           })
         );
       }, [setImagesToDelete, setImageUrls, imageUrls]);
+
+      const openModal = useCallback(() => {
+        setShowModal(true);
+      })
+
+      const closeModal = useCallback(() => {
+        setShowModal(false);
+      })
     
       const closeForm = useCallback(() => {
         history.push('/geese');
@@ -78,9 +87,6 @@ const useGooseForm = () => {
     
             const res = await api.formUpload(data);
     
-            // eslint-disable-next-line no-console
-            console.log('Done image upload!');
-    
             imageUrls = res.data.data;
             if (imageUrls.length === 0) {
               throw new Error('Failed to upload image.');
@@ -93,35 +99,40 @@ const useGooseForm = () => {
             updatedAt: Date.now(),
           };
     
-          if (params.gooseId) {
-            await api.geeseInfo.updateGeeseInfo(params.gooseId, gooseInfo);
-            await Promise.all(
-              imagesToDelete.map((imageId) => {
-                return api.geeseInfo.deleteGeeseImages(imageId);
-              })
-            );
-            if (imageUrls.length) {
+          if (gooseName && description && imageUrls.length > 0) {
+            if (params.gooseId) {
+              await api.geeseInfo.updateGeeseInfo(params.gooseId, gooseInfo);
+              await Promise.all(
+                imagesToDelete.map((imageId) => {
+                  return api.geeseInfo.deleteGeeseImages(imageId);
+                })
+              );
+              if (imageUrls.length) {
+                await api.geeseInfo.addGeeseImages(
+                  imageUrls.map((image) => {
+                    return {
+                      gooseId: params.gooseId,
+                      imgDir: image,
+                    };
+                  })
+                );
+              }
+            } else {
+              // // TODO when new goose is implemented
+              const res = await api.geeseInfo.addGeeseInfo(gooseInfo);
               await api.geeseInfo.addGeeseImages(
                 imageUrls.map((image) => {
                   return {
-                    gooseId: params.gooseId,
+                    gooseId: res.data[0],
                     imgDir: image,
                   };
                 })
               );
-            }
+            } 
           } else {
-            // TODO when new goose is implemented
-            // const res = await api.geeseInfo.addGeeseInfo(gooseInfo);
-            // console.log(res);
-            // await api.geeseInfo.addGeeseImages(imageUrls.map((image) => {
-            //   return {
-            //     gooseId: ,
-            //     imgDir: image
-            //   }
-            // }))
+            throw new Error('Please fill all the required fields.');
           }
-    
+          
           // onSuccess:
           closeForm();
         } catch (e) {
@@ -164,6 +175,9 @@ const useGooseForm = () => {
           closeForm,
           saveForm,
           deleteForm,
+          showModal,
+          openModal,
+          closeModal,
       }
 };
 

@@ -10,6 +10,9 @@ const GeeseRouter = () => {
       <Route path={path} exact>
         <GeesePage />
       </Route>
+      <Route path={`${path}/add`}>
+        <EditGoose add />
+      </Route>
       <Route path={`${path}/:gooseId`}>
         <EditGoose />
       </Route>
