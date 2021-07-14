@@ -128,11 +128,11 @@ const useGooseForm = () => {
                   };
                 })
               );
-            } 
+            }
           } else {
             throw new Error('Please fill all the required fields.');
           }
-          
+
           // onSuccess:
           closeForm();
         } catch (e) {
