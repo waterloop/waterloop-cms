@@ -13,8 +13,8 @@ const useGoogleAuth = (onAuthComplete) => {
         .checkToken(tokenId, accessToken)
         .then((checkTokenResponse) => {
           if (checkTokenResponse.status === 200) {
-            const { userId } = checkTokenResponse.data;
-            onAuthComplete(null, { userId, tokenId });
+            const { userId, groupIds, accessToken } = checkTokenResponse.data;
+            onAuthComplete(null, { userId, tokenId, groupIds, accessToken });
           }
         })
         .catch((err) => onAuthComplete(err));
@@ -27,6 +27,7 @@ const useGoogleAuth = (onAuthComplete) => {
     onFailure: (err) => { console.log('failed auth', err); },
     clientId: '538509890740-e3dai2feq6knjfdspqde5ogt2kme0chm.apps.googleusercontent.com',
     scope: 'profile email https://www.googleapis.com/auth/admin.directory.group.readonly',
+    prompt: 'consent'
   });
 
   return {

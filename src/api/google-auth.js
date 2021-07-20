@@ -9,8 +9,21 @@ const checkToken = (server) => (tokenId, accessToken) => server.post(`/google?to
   }
 );
 
+const updateUserGroups = (server) => (groupIds, accessToken) => {
+  if (!groupIds) {
+    groupIds = [];
+  } 
+  return server.post('/google/groups?groupIds=' + groupIds.join(','), {}, {
+    headers: {
+      "Accept": 'application/json',
+      "Authorization": `Bearer ${accessToken}`,
+    }
+  })
+}
+
 export default (server) => ({
   authenticate: authenticate(server),
   getPicture: getPicture(server),
   checkToken: checkToken(server),
+  updateUserGroups: updateUserGroups(server),
 });

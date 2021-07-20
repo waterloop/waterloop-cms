@@ -11,6 +11,7 @@ import UnstyledSignInBox from './components/SignInBox';
 
 import * as userActions from '../../state/user/actions';
 import { addAuthTokenToRequests } from '../../api/server';
+import api from '../../api';
 
 const WaterloopCmsLogo = styled.img.attrs({
   src: WaterloopCmsLogoSVG,
@@ -97,9 +98,22 @@ const SignInPage = () => {
         showErrorMsg(true);
         return;
       }
-      dispatch(userActions.setUserAuth(authPayload));
-      addAuthTokenToRequests(authPayload.tokenId);
+      const {userId, tokenId, groupIds, accessToken} = authPayload;
+      dispatch(userActions.setUserAuth({userId, tokenId}));
+      addAuthTokenToRequests(tokenId);
       console.log('Auth Complete');
+      
+      api
+        .google
+        .updateUserGroups(groupIds, accessToken)
+        .then((resp) => {
+          console.log("Successfully updated membership info. for groups with IDs: " + resp.groupIds.join(', '));
+        })
+        .catch(e => {
+          console.log("Error: Failed to sync group membership info.");
+          console.log(e);
+        });
+      
       history.push('/');
     }, [dispatch, history],
   );
