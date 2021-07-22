@@ -104,7 +104,7 @@ const EditTeamDescriptions = () => {
     updateImage,
     deleteImage,
 
-    // saveForm,
+    saveForm,
     closeForm,
   } = useTeamDescForm();
 
@@ -162,8 +162,7 @@ const EditTeamDescriptions = () => {
       </FormGroup>
       <ButtonContainer>
         <div>
-          {/* TODO: Trigger onClick event handler using the saveForm function from team-desc hooks. */}
-          <Button onClick={() => {}}>{buttonCopies.SAVE}</Button>
+          <Button onClick={saveForm}>{buttonCopies.SAVE}</Button>
           <Button cancel onClick={closeForm}>
             {buttonCopies.CANCEL}
           </Button>

@@ -1,33 +1,42 @@
-import { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import api from '../api';
-import * as teamsActions from '../state/teams/actions';
-import * as teamsSelectors from '../state/teams/selectors';
+import { useCallback, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 
-const getTeams = async () => {
-  try {
-    const response = await api.teams.getTeams();
-    return response.data;
-  } catch (err) {
-    if (process.env.NODE_ENV === 'development') {
-      console.log(err);
-    }
-    throw err;
-  }
-};
+import api from "../api";
+import * as teamsActions from "../state/teams/actions";
+import * as teamsSelectors from "../state/teams/selectors";
 
 const useTeams = () => {
   const dispatch = useDispatch();
   const teams = useSelector(teamsSelectors.teams);
+  const teamDesc = useSelector(teamsSelectors.teamDesc);
+
+  const getTeams = useCallback(async () => {
+    try {
+      const teams = await api.teams.getTeams();
+      const teamDesc = await api.teams.getTeamDesc();
+
+      return {
+        teams: teams.data,
+        teamDesc: teamDesc.data,
+      };
+    } catch (err) {
+      if (process.env.NODE_ENV === "development") {
+        console.log(err);
+      }
+    }
+  }, []);
 
   useEffect(() => {
     (async () => {
-      dispatch(teamsActions.setTeams(await getTeams()));
+      const { teams, teamDesc } = await getTeams();
+      dispatch(teamsActions.setTeams(teams));
+      dispatch(teamsActions.setTeamDesc(teamDesc));
     })();
-  }, [dispatch]);
+  }, [dispatch, getTeams]);
 
   return {
     teams,
+    teamDesc,
   };
 };
 

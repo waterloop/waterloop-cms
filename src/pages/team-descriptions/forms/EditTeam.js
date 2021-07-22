@@ -1,12 +1,12 @@
-import React from 'react';
-import { useRouteMatch } from 'react-router-dom';
-import styled from 'styled-components';
+import React from "react";
+import { useParams } from "react-router-dom";
+import styled from "styled-components";
 
-import useTeamForm from '../hooks/team-form';
-import { commonCopies, teamCopies, buttonCopies } from '../Copies';
-import UnstyledFormContainer from '../../../components/FormContainer';
-import UnstyledTextInput from '../../../components/TextInput';
-import Button from '../../../components/Button';
+import useTeamForm from "../hooks/team-form";
+import { commonCopies, teamCopies, buttonCopies } from "../Copies";
+import UnstyledFormContainer from "../../../components/FormContainer";
+import UnstyledTextInput from "../../../components/TextInput";
+import Button from "../../../components/Button";
 
 const Container = styled.div`
   margin: ${({ theme }) => theme.pageMargin};
@@ -77,26 +77,22 @@ const ButtonContainer = styled.div`
 `;
 
 const EditTeam = () => {
-  const {
-    params: { id },
-  } = useRouteMatch();
+  const { id } = useParams();
 
   const {
-    // loading,
+    loading,
 
-    name,
+    teamName,
     description,
     lastUpdated,
 
     updateName,
     updateDescription,
 
-    // saveForm,
+    saveForm,
     closeForm,
-    // deleteForm,
+    deleteForm,
   } = useTeamForm(parseInt(id));
-
-  let loading = false; // Used for testing, DELETE when hooks is completely implemented.
 
   return (
     !loading && (
@@ -116,7 +112,7 @@ const EditTeam = () => {
           <FormContainer title={teamCopies.NAME_LABEL}>
             <TextInput
               placeholder={teamCopies.NAME_PLACEHOLDER}
-              value={name}
+              value={teamName}
               onChange={updateName}
             />
           </FormContainer>
@@ -131,14 +127,12 @@ const EditTeam = () => {
         </FormGroup>
         <ButtonContainer>
           <div>
-            {/* TODO: Trigger onClick event handler using the saveForm function from team-form hooks. */}
-            <Button onClick={() => {}}>{buttonCopies.SAVE}</Button>
+            <Button onClick={saveForm}>{buttonCopies.SAVE}</Button>
             <Button cancel onClick={closeForm}>
               {buttonCopies.CANCEL}
             </Button>
           </div>
-          {/* TODO: Trigger onClick event handler using the deleteForm function from team-form hooks. */}
-          <Button del onClick={() => {}}>
+          <Button del onClick={deleteForm}>
             {buttonCopies.DELETE}
           </Button>
         </ButtonContainer>
