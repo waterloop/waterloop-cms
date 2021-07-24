@@ -105,7 +105,7 @@ const SignInPage = () => {
       
       api
         .google
-        .updateUserGroups(groupIds, accessToken)
+        .updateUserGroups(userId, groupIds, accessToken)
         .then((resp) => {
           console.log("Successfully updated membership info. for groups with IDs: " + resp.groupIds.join(', '));
         })

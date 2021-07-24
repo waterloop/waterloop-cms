@@ -9,11 +9,11 @@ const checkToken = (server) => (tokenId, accessToken) => server.post(`/google?to
   }
 );
 
-const updateUserGroups = (server) => (groupIds, accessToken) => {
+const updateUserGroups = (server) => (userId, groupIds, accessToken) => {
   if (!groupIds) {
     groupIds = [];
   } 
-  return server.post('/google/groups?groupIds=' + groupIds.join(','), {}, {
+  return server.post('/google/groups?userId=' + userId + '&groupIds=' + groupIds.join(','), {}, {
     headers: {
       "Accept": 'application/json',
       "Authorization": `Bearer ${accessToken}`,
