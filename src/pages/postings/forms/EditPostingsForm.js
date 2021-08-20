@@ -53,6 +53,8 @@ const EditPostingsForm = () => {
     requirements,
     tasks,
     info,
+    skillsToBeLearned,
+    recommendedSkills,
     timeCommitment,
     terms,
     years,
@@ -75,6 +77,10 @@ const EditPostingsForm = () => {
     closeForm,
     renderAddNewDialog,
     deleteForm,
+    removeSkillToBeLearned,
+    addNewSkillToBeLearned,
+    removeRecommendedSkill,
+    addNewRecommendedSkill,
   } = usePostingForm(postingId);
 
   return loading ? (
@@ -168,9 +174,39 @@ const EditPostingsForm = () => {
                     text: t.task,
                   }),
                 )}
-                title="Additional Info"
+                title="Tasks"
                 onAdd={addNewTask}
                 onRemove={removeTask}
+              />
+          </FormContainer>
+        </Grid>
+        <Grid item xs={12} md={6}>
+          <FormContainer title="Recommended Skills">
+            <DropDownList
+                items={recommendedSkills.map(
+                  (t) => ({
+                    id: t.id,
+                    text: t.recommendedSkill,
+                  }),
+                )}
+                title="Recommended Skills"
+                onAdd={addNewRecommendedSkill}
+                onRemove={removeRecommendedSkill}
+              />
+          </FormContainer>
+        </Grid>
+        <Grid item xs={12} md={6}>
+          <FormContainer title="Skills to be Learned (required)">
+            <DropDownList
+                items={skillsToBeLearned.map(
+                  (t) => ({
+                    id: t.id,
+                    text: t.skillToBeLearned,
+                  }),
+                )}
+                title="Skills to Be learned"
+                onAdd={addNewSkillToBeLearned}
+                onRemove={removeSkillToBeLearned}
               />
           </FormContainer>
         </Grid>
