@@ -9,7 +9,7 @@ const TeamDescriptionsRouter = () => {
   const { path } = useRouteMatch();
   return (
     <Switch>
-      <Route exact path={path}>
+      <Route path={path} exact>
         <TeamDescriptionsPage />
       </Route>
       <Route path={`${path}/description`}>

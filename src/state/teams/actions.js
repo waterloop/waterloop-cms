@@ -6,3 +6,10 @@ export const setTeams = (teams) => ({
     teams,
   },
 });
+
+export const setTeamDesc = (teamDesc) => ({
+  type: actionTypes.TEAMS_SET_TEAM_DESC,
+  payload: {
+    teamDesc,
+  },
+});

@@ -1,12 +1,13 @@
-import React from 'react';
-import styled from 'styled-components';
-import { useHistory } from 'react-router-dom';
+import React from "react";
+import moment from "moment";
+import styled from "styled-components";
+import { useHistory } from "react-router-dom";
+import TableCell from "@material-ui/core/TableCell";
 
-import { buttonCopies, mainCopies } from './Copies';
-import MockData from './MockData';
-import Button from '../../components/Button';
-import PreviewTable from '../../components/PreviewTable';
-import TableRow from './TableRow';
+import useTeams from "../../hooks/teams";
+import { buttonCopies, mainCopies } from "./Copies";
+import Button from "../../components/Button";
+import PreviewTable from "../../components/PreviewTable";
 
 const Container = styled.div`
   margin: ${({ theme }) => theme.pageMargin};
@@ -23,6 +24,14 @@ const Container = styled.div`
 const PageDescriptionText = styled.h3`
   margin-bottom: 20px;
   font: ${({ theme }) => theme.fonts.medium24};
+`;
+
+const Text = styled.p`
+  font: ${({ theme }) => theme.fonts.medium18};
+`;
+
+const TextBold = styled.p`
+  font: ${({ theme }) => theme.fonts.bold18};
 `;
 
 const TableLabelHeader = styled.span`
@@ -55,12 +64,24 @@ const ButtonContainer = styled.div`
 `;
 
 const headers = [
-  { id: 'teamName', value: mainCopies.TEAM_NAME_COLUMN },
-  { id: 'lastUpdated', value: mainCopies.TEAM_LAST_UPDATED_COLUMN },
+  { id: "teamName", value: mainCopies.TEAM_NAME_COLUMN },
+  { id: "lastUpdated", value: mainCopies.TEAM_LAST_UPDATED_COLUMN },
 ];
+
+const RowComponent = ({ teamName, lastUpdated }) => (
+  <>
+    <TableCell>
+      <TextBold>{teamName}</TextBold>
+    </TableCell>
+    <TableCell>
+      <Text>{moment(lastUpdated).format("MMM Do, YYYY")}</Text>
+    </TableCell>
+  </>
+);
 
 const TeamDescriptionsPage = () => {
   const history = useHistory();
+  const { teams } = useTeams();
 
   return (
     <Container>
@@ -85,11 +106,11 @@ const TeamDescriptionsPage = () => {
       </TableLabelHeader>
       <PreviewTable
         headers={headers}
-        RowComponent={TableRow}
+        rows={teams}
+        RowComponent={RowComponent}
         onEdit={(teamId) => {
           history.push(`team-descriptions/${teamId}`);
         }}
-        rows={MockData}
       />
     </Container>
   );

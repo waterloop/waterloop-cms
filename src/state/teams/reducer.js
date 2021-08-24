@@ -1,8 +1,8 @@
-import * as actionTypes from '../action-types';
+import * as actionTypes from "../action-types";
 
 const initialState = {
-  all: [],
-  byId: {},
+  allTeams: [],
+  allTeamDesc: null,
 };
 
 export default (state = initialState, { type, payload }) => {
@@ -10,7 +10,13 @@ export default (state = initialState, { type, payload }) => {
     case actionTypes.TEAMS_SET_TEAMS:
       return {
         ...state,
-        all: payload.teams,
+        allTeams: payload.teams,
+      };
+
+    case actionTypes.TEAMS_SET_TEAM_DESC:
+      return {
+        ...state,
+        allTeamDesc: payload.teamDesc,
       };
 
     default:
