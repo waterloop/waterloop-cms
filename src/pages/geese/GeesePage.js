@@ -17,10 +17,6 @@ const CurrentGooseHeader = styled.p`
   font: ${({ theme }) => theme.fonts.medium24};
 `;
 
-const CurrentGooseValue = styled.p`
-  font: ${({ theme }) => theme.fonts.bold24};
-`;
-
 const ButtonContainer = styled.div`
   ${Button} {
     margin-right: 28px;
@@ -75,14 +71,16 @@ const GeesePage = () => {
   }));
 
   const onEdit = useCallback(() => {
+    // TODO: Implement functionality
     console.log('Go to edit');
   }, []);
 
   const onPreview = useCallback(() => {
+    // TODO: Implement functionality
     console.log('Go to preview');
   }, []);
 
-  const addGoose = useCallback(() => { 
+  const addGoose = useCallback(() => {
     history.push('/geese/add');
   }, [history]);
 
@@ -90,7 +88,7 @@ const GeesePage = () => {
     (id) => {
       history.push(`/geese/${id}`);
     },
-    [history]
+    [history],
   );
 
   return (
@@ -104,7 +102,7 @@ const GeesePage = () => {
       </ButtonContainer>
       <TableLabelHeader>
         <TableHeader>All Geese</TableHeader>
-        <Button label="New Goose +" onClick={addGoose}/>
+        <Button label="New Goose +" onClick={addGoose} />
       </TableLabelHeader>
       <PreviewTable
         headers={headers}

@@ -1,17 +1,17 @@
 import React from 'react';
 import { Switch, Route, BrowserRouter, Redirect } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 
+import * as userSelectors from './state/user/selectors';
+import TopBar from './components/TopBar';
 import LandingPage from './pages/landing/LandingPage';
-import GeeseRouter from './pages/geese/Geese.router';
 import FeaturesPage from './pages/features/FeaturesPage';
 import SignInPage from './pages/sign-in/SignInPage';
-import TeamDescriptionsRouter from './pages/team-descriptions/TeamDescriptions.router';
-import TopBar from './components/TopBar';
-import * as userSelectors from './state/user/selectors';
-import { useSelector } from 'react-redux';
+import NotFoundPage from './pages/NotFound';
 import PostingsRouter from './pages/postings/Postings.router';
 import SponsorsRouter from './pages/sponsors/Sponsors.router';
-import NotFoundPage from './pages/NotFound';
+import GeeseRouter from './pages/geese/Geese.router';
+import TeamDescriptionsRouter from './pages/team-descriptions/TeamDescriptions.router';
 
 const App = () => {
   const token = useSelector(userSelectors.token);
