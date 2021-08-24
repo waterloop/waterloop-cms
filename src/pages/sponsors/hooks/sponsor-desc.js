@@ -90,7 +90,7 @@ const useSponsorDescForm = (input = {}) => {
     if (state.loading && !R.isNil(sponsorDesc)) {
       try {
         let data = {
-          ...sponsorDesc, 
+          ...sponsorDesc,
           imageFiles: Array(sponsorDesc.images.length).fill(null), 
           lastUpdated: moment.utc(sponsorDesc.updatedAt).local().format("MMMM D, YYYY")
         }
@@ -120,7 +120,7 @@ const useSponsorDescForm = (input = {}) => {
     (description) => {
       dispatch({ type: 'UPDATE_DESCRIPTION', payload: description });
     },
-    [dispatch],
+    [dispatch], 
   );
 
   const updateImage = useCallback(
@@ -155,7 +155,6 @@ const useSponsorDescForm = (input = {}) => {
     console.log(state.form);
     // TODO: Validation checks here.
 
-
     // Send data to server:
     try {
       const files = state.form.imageFiles;
@@ -187,6 +186,7 @@ const useSponsorDescForm = (input = {}) => {
       }));
 
       // Upload rest of data to server:
+
       let data = {
         title: state.form.title,
         description: state.form.description,

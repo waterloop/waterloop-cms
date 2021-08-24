@@ -85,12 +85,23 @@ const RowComponent = ({ name, lastUpdated, tier }) => (
 const SponsorsPage = () => {
   const { sponsorTiers, sponsors } = useSponsors();
   const tableRows = sponsors.map((sponsor) => {
-    return {
-      id: sponsor.sponsorId,
-      name: sponsor.name,
-      lastUpdated: sponsor.lastUpdated,
-      tier: sponsorTiers.filter((sTier) => sTier.id === sponsor.tierId)[0].text,
-    };
+
+    if (sponsor.tier != undefined){
+      return {
+        id: sponsor.sponsorId,
+        name: sponsor.name,
+        lastUpdated: sponsor.lastUpdated,
+        tier: sponsor.tier,
+      };
+    } else {
+      return {
+        id: sponsor.sponsorId,
+        name: sponsor.name,
+        lastUpdated: sponsor.lastUpdated,
+        tier: sponsorTiers.filter((sTier) => sTier.id === sponsor.tierId)[0].text,
+      };
+    }
+    
   });
 
   const history = useHistory();

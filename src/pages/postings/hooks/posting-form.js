@@ -27,6 +27,8 @@ const initialState = (inputState) => ({
     tasks: [],
     info: [],
     timeCommitment: '',
+    skillsToBeLearned: [],
+    recommendedSkills: [],
     ...inputState, // May overwrite any of the above defaults
   },
   dialog: {
@@ -134,6 +136,22 @@ const reducer = (state, action) => {
         form: {
           ...state.form,
           info: state.form.info.filter((data) => data.id !== action.payload),
+        },
+      };
+    case 'REMOVE_RECOMMENDED_SKILL':
+      return {
+        ...state,
+        form: {
+          ...state.form,
+          recommendedSkills: state.form.recommendedSkills.filter((data) => data.id !== action.payload),
+        },
+      };
+    case 'REMOVE_SKILL_TO_BE_LEARNED':
+      return {
+        ...state,
+        form: {
+          ...state.form,
+          skillsToBeLearned: state.form.skillsToBeLearned.filter((data) => data.id !== action.payload),
         },
       };
     case 'OPEN_DIALOG':
@@ -311,6 +329,36 @@ const usePostingForm = (postingId, input = {}) => {
     },
     [dispatch, postingId],
   );
+
+  const removeRecommendedSkill = useCallback(
+    async (recommendedSkillId) => {
+      try {
+        await api.postings.removePostingRecommendedSkill(postingId, recommendedSkillId);
+        dispatch({ type: 'REMOVE_RECOMMENDED_SKILL', payload: recommendedSkillId });
+      } catch (err) {
+        if (process.env.NODE_ENV === 'development') {
+          // eslint-disable-next-line no-console
+          console.error(`[REMOVE INFO ERROR]: ${err}`);
+        }
+      }
+    },
+    [dispatch, postingId],
+  );
+
+  const removeSkillToBeLearned = useCallback(
+    async (skillToBeLearnedId) => {
+      try {
+        await api.postings.removePostingSkillToBeLearned(postingId, skillToBeLearnedId);
+        dispatch({ type: 'REMOVE_SKILL_TO_BE_LEARNED', payload: skillToBeLearnedId });
+      } catch (err) {
+        if (process.env.NODE_ENV === 'development') {
+          // eslint-disable-next-line no-console
+          console.error(`[REMOVE INFO ERROR]: ${err}`);
+        }
+      }
+    },
+    [dispatch, postingId],
+  );
   // END Form Functions
 
   /**
@@ -352,6 +400,30 @@ const usePostingForm = (postingId, input = {}) => {
     });
   }, [dispatch]);
 
+  const addNewRecommendedSkill = useCallback(() => {
+    dispatch({
+      type: 'OPEN_DIALOG',
+      payload: {
+        title: 'Recommended Skill',
+        value: '',
+        formField: 'recommendedSkills',
+        open: true,
+      },
+    });
+  }, [dispatch]);
+
+  const addNewSkillToBeLearned = useCallback(() => {
+    dispatch({
+      type: 'OPEN_DIALOG',
+      payload: {
+        title: 'Skill To Be Learned',
+        value: '',
+        formField: 'skillsToBeLearned',
+        open: true,
+      },
+    });
+  }, [dispatch]);
+
   const updateDialogValue = useCallback(
     (value) => {
       dispatch({ type: 'UPDATE_DIALOG_VALUE', payload: value });
@@ -381,6 +453,18 @@ const usePostingForm = (postingId, input = {}) => {
         }
         case 'tasks':
           response = await api.postings.addTaskToPosting(
+            postingId,
+            state.dialog.value,
+          );
+          break;
+        case 'skillsToBeLearned':
+          response = await api.postings.addSkillToBeLearnedToPosting(
+            postingId,
+            state.dialog.value,
+          );
+          break;
+        case 'recommendedSkills':
+          response = await api.postings.addRecommendedSkillToPosting(
             postingId,
             state.dialog.value,
           );
@@ -495,6 +579,10 @@ const usePostingForm = (postingId, input = {}) => {
     closeForm,
     deleteForm,
     renderAddNewDialog,
+    removeSkillToBeLearned,
+    addNewSkillToBeLearned,
+    removeRecommendedSkill,
+    addNewRecommendedSkill,
   };
 };
 
