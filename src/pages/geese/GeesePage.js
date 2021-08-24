@@ -5,6 +5,7 @@ import PreviewTable from '../../components/PreviewTable';
 import TableCell from '@material-ui/core/TableCell';
 import useGeeseInfo from '../../hooks/geese-info';
 import * as moment from 'moment';
+import { useHistory } from 'react-router-dom';
 
 const Button = styled(UnstyledButton)``;
 
@@ -14,10 +15,6 @@ const Container = styled.div`
 
 const CurrentGooseHeader = styled.p`
   font: ${({ theme }) => theme.fonts.medium24};
-`;
-
-const CurrentGooseValue = styled.p`
-  font: ${({ theme }) => theme.fonts.bold24};
 `;
 
 const ButtonContainer = styled.div`
@@ -64,6 +61,7 @@ const RowComponent = ({ name, updatedAt }) => (
 
 const GeesePage = () => {
   const { geeseInfo } = useGeeseInfo();
+  const history = useHistory();
   const currentGoose = 'Goose V';
 
   const geese = geeseInfo.map((goose) => ({
@@ -73,16 +71,25 @@ const GeesePage = () => {
   }));
 
   const onEdit = useCallback(() => {
+    // TODO: Implement functionality
     console.log('Go to edit');
   }, []);
 
   const onPreview = useCallback(() => {
+    // TODO: Implement functionality
     console.log('Go to preview');
   }, []);
 
-  const onEditGoose = useCallback(() => {
-    console.log('Go to edit goose');
-  });
+  const addGoose = useCallback(() => {
+    history.push('/geese/add');
+  }, [history]);
+
+  const onEditGoose = useCallback(
+    (id) => {
+      history.push(`/geese/${id}`);
+    },
+    [history],
+  );
 
   return (
     <Container>
@@ -90,12 +97,12 @@ const GeesePage = () => {
         Current Goose: <strong>{currentGoose}</strong>
       </CurrentGooseHeader>
       <ButtonContainer>
-        <Button label='Edit Description' secondary onClick={onEdit} />
-        <Button label='Preview' onClick={onPreview} />
+        <Button label="Edit Description" secondary onClick={onEdit} />
+        <Button label="Preview" onClick={onPreview} />
       </ButtonContainer>
       <TableLabelHeader>
         <TableHeader>All Geese</TableHeader>
-        <Button label='New Goose +' />
+        <Button label="New Goose +" onClick={addGoose} />
       </TableLabelHeader>
       <PreviewTable
         headers={headers}
