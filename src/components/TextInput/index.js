@@ -3,13 +3,13 @@ import styled from 'styled-components';
 import { Editor } from 'react-draft-wysiwyg';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 
-
 const Container = styled.div`
   width: 500px;
 `;
 
+// TODO: Only change to red when user clicks away from the text box.
 const TextInputContainer = styled.input`
-  border: ${({ theme }) => theme.borders.solidGrey1};
+  border: ${({ theme, error }) => error ? theme.borders.solidRed : theme.borders.solidGrey1};
   border-radius: 10px;
   height: 47px;
   width: 100%;
@@ -31,7 +31,7 @@ const TextInputContainer = styled.input`
 `;
 
 const TextAreaContainer = styled.textarea`
-  border: ${({ theme }) => theme.borders.solidGrey1};
+  border: ${({ theme, error }) => error ? theme.borders.solidRed : theme.borders.solidGrey1};
   border-radius: 10px;
   width: 100%;
   min-width: 500px;
@@ -53,7 +53,7 @@ const TextAreaContainer = styled.textarea`
   }
 `;
 
-const TAContainer = styled.div`
+const TARichContainer = styled.div`
   .wrapper-class {
     width: 100%;
     min-width: 550px;
@@ -106,6 +106,11 @@ To implement the richText support in textinput:
 https://docs.google.com/document/d/1_C9twf66rjGkE7HPAsEid-_ZddWcbDoLNw9e2EEkAA8/edit?usp=sharing 
 */
 
+const RequiredText = styled.p`
+  color: ${({ theme }) => theme.colours.reds.red1};
+  font: ${({ theme }) => theme.fonts.medium14};
+`;
+
 const TextInput = ({
   className /* Allows for external styles to be applied to the component
                 using the styled components library
@@ -117,12 +122,16 @@ const TextInput = ({
   onChange /* Callback to be called each time that the user changes the input */,
   placeholder = 'Place Holder Text',
   width,
+  required = false,  /* Marks the input as required from the user. */
+  requiredText = "This field cannot be blank.",
+  isError = false, /* Marks an error state for the component. Also marks the input 
+                      as required from the user. */
 }) => {
   return (
     <Container width={width} className={className}>
       {multiLine ?
         richText ?
-          <TAContainer>
+          <TARichContainer>
             <Editor
               editorState={value}
               onEditorStateChange={onChange}
@@ -130,22 +139,23 @@ const TextInput = ({
               wrapperClassName="wrapper-class"
               toolbarClassName="toolbar-class"
             />
-          </TAContainer>
+          </TARichContainer>
           :
           <TextAreaContainer
+            error={isError}
             rows={rows}
             cols="60"
             placeholder={placeholder}
             value={value}
             onChange={(e) => onChange(e.target.value)}
           />
-
-       : (
-        <TextInputContainer
-          placeholder={placeholder}
-          value={value}
-          onChange={(e) => onChange(e.target.value)}
-        />
+          : (
+          <TextInputContainer
+            error={isError}
+            placeholder={placeholder}
+            value={value}
+            onChange={(e) => onChange(e.target.value)}
+          />
       )}
     </Container>
   )
