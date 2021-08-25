@@ -142,7 +142,7 @@ const ImagePreview = ({
         without needing to try to style the input element itself.  */}
       <FileInput ref={inputRef} onChange={handleFileUpload} accept="image/*" />
     </Container>
-  );
+  ));
 };
 
 ImagePreview.propTypes = {
