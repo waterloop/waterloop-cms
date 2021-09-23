@@ -210,7 +210,8 @@ const EditPostingsForm = () => {
           </FormContainer>
         </Grid>
         <Grid item xs={12} md={6}>
-          <FormContainer title="Additional Info (required)" isError={infoError}>
+          <FormContainer title="Additional Info" > {//</Grid>isError={infoError}>
+          }
             <DropDownList
                 items={info.map(
                   (i) => ({
@@ -221,7 +222,7 @@ const EditPostingsForm = () => {
                 title="Additional Info"
                 onAdd={addNewInfo}
                 onRemove={removeInfo}
-                isError={infoError}
+                //isError={infoError}
               />
           </FormContainer>
         </Grid>
@@ -241,6 +242,7 @@ const EditPostingsForm = () => {
               />
           </FormContainer>
         </Grid>
+        
         <Grid item xs={12} md={6}>
           <FormContainer title="Recommended Skills">
             <DropDownList
@@ -256,8 +258,9 @@ const EditPostingsForm = () => {
               />
           </FormContainer>
         </Grid>
+
         <Grid item xs={12} md={6}>
-          <FormContainer title="Skills to be Learned (required)">
+          <FormContainer title="Skills to be Learned">
             <DropDownList
                 items={skillsToBeLearned.map(
                   (t) => ({
