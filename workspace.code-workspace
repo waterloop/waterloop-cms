@@ -1,0 +1,26 @@
+{
+  "folders": [
+    {
+      "path": "."
+    }
+  ],
+  "settings": {
+    "[javascript]": {
+        "editor.formatOnSave": false,
+        "editor.defaultFormatter": "esbenp.prettier-vscode",
+    },
+    "prettier.arrowParens": "always",
+    "prettier.bracketSpacing": true,
+    "prettier.endOfLine": "lf",
+    "prettier.htmlWhitespaceSensitivity": "css",
+    "prettier.jsxBracketSameLine": false,
+    "prettier.jsxSingleQuote": false,
+    "prettier.printWidth": 80,
+    "prettier.semi": true,
+    "prettier.singleQuote": true,
+    "prettier.tabWidth": 2,
+    "prettier.trailingComma": "all",
+    "prettier.useTabs": false,
+}
+
+}
