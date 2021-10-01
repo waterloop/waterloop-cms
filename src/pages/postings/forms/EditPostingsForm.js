@@ -247,8 +247,6 @@ const EditPostingsForm = () => {
         </Grid>
         <Grid item xs={12} md={6}>
           <FormContainer title="Additional Info">
-            {' '}
-            {}
             <DropDownList
               items={info.map((i) => ({
                 id: i.id,
