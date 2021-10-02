@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { useRouteMatch } from 'react-router-dom';
 import usePostingForm from '../hooks/posting-form';
@@ -48,7 +48,9 @@ const RequiredText = styled.p`
 `;
 
 const EditPostingsForm = () => {
-  const { params: { postingId } } = useRouteMatch();
+  const {
+    params: { postingId },
+  } = useRouteMatch();
   const {
     title,
     teamId,
@@ -102,27 +104,44 @@ const EditPostingsForm = () => {
   const [infoError, setInfoError] = useState(false);
   const [tasksError, setTasksError] = useState(false);
 
-  const reqNotFilled = nameError || subTeamError || termSeasonError || termYearError ||
-    deadlineError || timeCommitmentError || descriptionError ||
-    requirementsError || infoError || tasksError
+  const reqNotFilled =
+    nameError ||
+    subTeamError ||
+    termSeasonError ||
+    termYearError ||
+    deadlineError ||
+    timeCommitmentError ||
+    descriptionError ||
+    requirementsError ||
+    infoError ||
+    tasksError;
 
-    useEffect(() => {
-      setNameError(R.isEmpty(title));
-      setSubTeamError(R.isEmpty(teamId));
-      setTermSeasonError(R.isEmpty(termSeason));
-      setTermYearError(R.isEmpty(termYear));
-      setDeadlineError(R.isEmpty(deadline));
-      setTimeCommitmentError(R.isEmpty(timeCommitment));
-      setDescriptionError(R.isEmpty(description));
-      setRequirementsError(R.isEmpty(requirements));
-      setInfoError(R.isEmpty(info));
-      setTasksError(R.isEmpty(tasks));
-    }, [title, teamId, termYear, termSeason, deadline, timeCommitment, description, requirements, info, tasks, ]);
+  useEffect(() => {
+    setNameError(R.isEmpty(title));
+    setSubTeamError(R.isEmpty(teamId));
+    setTermSeasonError(R.isEmpty(termSeason));
+    setTermYearError(R.isEmpty(termYear));
+    setDeadlineError(R.isEmpty(deadline));
+    setTimeCommitmentError(R.isEmpty(timeCommitment));
+    setDescriptionError(R.isEmpty(description));
+    setRequirementsError(R.isEmpty(requirements));
+    setInfoError(R.isEmpty(info));
+    setTasksError(R.isEmpty(tasks));
+  }, [
+    title,
+    teamId,
+    termYear,
+    termSeason,
+    deadline,
+    timeCommitment,
+    description,
+    requirements,
+    info,
+    tasks,
+  ]);
 
   return loading ? (
-      <Container>
-        Loading
-      </Container>
+    <Container>Loading</Container>
   ) : (
     <Container>
       <Button cancel onClick={closeForm}>
@@ -150,58 +169,75 @@ const EditPostingsForm = () => {
           </FormContainer>
         </Grid>
         <Grid item xs={12} md={6}>
-          <FormContainer title="Term Year, Term Season (required)" isError={termSeasonError || termYearError}>
-           <TermContainer>
+          <FormContainer
+            title="Term Year, Term Season (required)"
+            isError={termSeasonError || termYearError}
+          >
+            <TermContainer>
               <TermSelector
                 value={termYear}
                 onSelect={updateTermYear}
                 items={years}
-                isError={termYearError}/>
+                isError={termYearError}
+              />
               <TermSelector
                 value={termSeason}
                 onSelect={updateTermSeason}
                 items={terms}
-                isError={termSeasonError}/>
+                isError={termSeasonError}
+              />
             </TermContainer>
           </FormContainer>
         </Grid>
         <Grid item xs={12} md={6}>
-          <FormContainer title="Application Deadline (required)" isError={deadlineError}>
-          <DatePicker
-            selected={deadline}
-            onChange={updateDeadline}
-            isError={deadlineError}/>
+          <FormContainer
+            title="Application Deadline (required)"
+            isError={deadlineError}
+          >
+            <DatePicker
+              selected={deadline}
+              onChange={updateDeadline}
+              isError={deadlineError}
+            />
           </FormContainer>
         </Grid>
         <Grid item xs={12}>
-          <FormContainer title="Time Commitment (required)" isError={timeCommitmentError}>
-          <TextInput
-            value={timeCommitment}
-            onChange={updateTimeCommitment}
-            placeholder="Time Commitment (required)"
-            isError={timeCommitmentError}/>
+          <FormContainer
+            title="Time Commitment (required)"
+            isError={timeCommitmentError}
+          >
+            <TextInput
+              value={timeCommitment}
+              onChange={updateTimeCommitment}
+              placeholder="Time Commitment (required)"
+              isError={timeCommitmentError}
+            />
           </FormContainer>
         </Grid>
         <Grid item xs={12}>
-          <FormContainer title="Description (required)" isError={descriptionError}>
-          <TextInput
-            value={description}
-            onChange={updateDescription}
-            placeholder="Description (required)"
+          <FormContainer
+            title="Description (required)"
             isError={descriptionError}
-            multiLine
-          />
+          >
+            <TextInput
+              value={description}
+              onChange={updateDescription}
+              placeholder="Description (required)"
+              isError={descriptionError}
+              multiLine
+            />
           </FormContainer>
         </Grid>
         <Grid item xs={12} md={6}>
-          <FormContainer title="Requirements (required)" isError={requirementsError}>
+          <FormContainer
+            title="Requirements (required)"
+            isError={requirementsError}
+          >
             <DropDownList
-              items={requirements.map(
-                (req) => ({
-                  id: req.id,
-                  text: req.requirement,
-                }),
-              )}
+              items={requirements.map((req) => ({
+                id: req.id,
+                text: req.requirement,
+              }))}
               title="Requirements"
               onAdd={addNewRequirement}
               onRemove={removeRequirement}
@@ -210,76 +246,77 @@ const EditPostingsForm = () => {
           </FormContainer>
         </Grid>
         <Grid item xs={12} md={6}>
-          <FormContainer title="Additional Info (required)" isError={infoError}>
+          <FormContainer title="Additional Info">
             <DropDownList
-                items={info.map(
-                  (i) => ({
-                    id: i.id,
-                    text: i.info,
-                  }),
-                )}
-                title="Additional Info"
-                onAdd={addNewInfo}
-                onRemove={removeInfo}
-                isError={infoError}
-              />
+              items={info.map((i) => ({
+                id: i.id,
+                text: i.info,
+              }))}
+              title="Additional Info"
+              onAdd={addNewInfo}
+              onRemove={removeInfo}
+            />
           </FormContainer>
         </Grid>
         <Grid item xs={12} md={6}>
           <FormContainer title="Tasks (required)" isError={tasksError}>
             <DropDownList
-                items={tasks.map(
-                  (t) => ({
-                    id: t.id,
-                    text: t.task,
-                  }),
-                )}
-                title="Tasks"
-                onAdd={addNewTask}
-                onRemove={removeTask}
-                isError={tasksError}
-              />
+              items={tasks.map((t) => ({
+                id: t.id,
+                text: t.task,
+              }))}
+              title="Tasks"
+              onAdd={addNewTask}
+              onRemove={removeTask}
+              isError={tasksError}
+            />
           </FormContainer>
         </Grid>
+
         <Grid item xs={12} md={6}>
           <FormContainer title="Recommended Skills">
             <DropDownList
-                items={recommendedSkills.map(
-                  (t) => ({
-                    id: t.id,
-                    text: t.recommendedSkill,
-                  }),
-                )}
-                title="Recommended Skills"
-                onAdd={addNewRecommendedSkill}
-                onRemove={removeRecommendedSkill}
-              />
+              items={recommendedSkills.map((t) => ({
+                id: t.id,
+                text: t.recommendedSkill,
+              }))}
+              title="Recommended Skills"
+              onAdd={addNewRecommendedSkill}
+              onRemove={removeRecommendedSkill}
+            />
           </FormContainer>
         </Grid>
+
         <Grid item xs={12} md={6}>
-          <FormContainer title="Skills to be Learned (required)">
+          <FormContainer title="Skills to be Learned">
             <DropDownList
-                items={skillsToBeLearned.map(
-                  (t) => ({
-                    id: t.id,
-                    text: t.skillToBeLearned,
-                  }),
-                )}
-                title="Skills to Be learned"
-                onAdd={addNewSkillToBeLearned}
-                onRemove={removeSkillToBeLearned}
-              />
+              items={skillsToBeLearned.map((t) => ({
+                id: t.id,
+                text: t.skillToBeLearned,
+              }))}
+              title="Skills to Be learned"
+              onAdd={addNewSkillToBeLearned}
+              onRemove={removeSkillToBeLearned}
+            />
           </FormContainer>
         </Grid>
       </GridContainer>
       <ButtonContainer>
         <div>
-          <Button disabled={reqNotFilled} onClick={saveForm}>Save</Button>
-          <Button cancel onClick={closeForm}>Cancel</Button>
+          <Button disabled={reqNotFilled} onClick={saveForm}>
+            Save
+          </Button>
+          <Button cancel onClick={closeForm}>
+            Cancel
+          </Button>
         </div>
-        <Button del onClick={deleteForm}>Delete</Button>
+        <Button del onClick={deleteForm}>
+          Delete
+        </Button>
       </ButtonContainer>
-      {reqNotFilled && <RequiredText>Please fill out all required fields.</RequiredText>}
+      {reqNotFilled && (
+        <RequiredText>Please fill out all required fields.</RequiredText>
+      )}
       {renderAddNewDialog()}
     </Container>
   );
