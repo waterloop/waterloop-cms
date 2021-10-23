@@ -107,7 +107,9 @@ const SignInPage = () => {
         .google
         .updateUserGroups(userId, groupIds, accessToken)
         .then((resp) => {
-          console.log("Successfully updated membership info. for groups with IDs: " + resp.groupIds.join(', '));
+          if (resp.data && resp.data.groupIds) {
+            console.log("Successfully updated membership info. for groups with IDs: " + resp.data.groupIds.join(', '));
+          }
         })
         .catch(e => {
           console.log("Error: Failed to sync group membership info.");
