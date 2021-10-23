@@ -16,7 +16,9 @@ const useSponsors = () => {
       try {
         const sponsorTiers = await api.sponsors.getSponsorTiers();
         const sponsorDesc = await api.sponsors.getSponsorDesc();
-        const response = await api.sponsors.getSponsors();
+
+        const joinTierName = true;
+        const response = await api.sponsors.getSponsors(joinTierName);
 
         return {sponsorTiers: sponsorTiers.data.map(datum => ({
             id: datum.id,

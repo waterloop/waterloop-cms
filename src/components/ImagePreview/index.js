@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import AddImageIconSvg from './assets/addImageIcon.svg';
 import CloseIconSvg from './assets/closeIcon.svg';
+import * as R from 'ramda';
 
 const CloseButton = styled.img.attrs({
   src: CloseIconSvg,
@@ -28,7 +29,7 @@ const Container = styled.div`
   height: 180px;
   background-color: ${({ theme }) => theme.colours.white};
 
-  border: ${({ theme }) => theme.borders.solidGrey1};
+  border: ${({ theme, error }) => error ? theme.borders.solidRed : theme.borders.solidGrey1};
   border-radius: 15px;
 
   &:hover {
@@ -60,7 +61,7 @@ const AddImage = styled.div`
 `;
 
 const FileInput = styled.input.attrs({
-  type: 'file',
+  type: "file",
 })`
   visibility: hidden;
   width: 0px;
@@ -76,9 +77,10 @@ const AddImageIcon = styled.img.attrs({
 const ImagePreview = ({
   className,
   src,
-  alt = 'image-preview-form-component',
+  alt = "image-preview-form-component",
   onDelete,
   onNew, // Takes in a File object as the only parameter
+  isError = false // Sets component as error state visually if true.
 }) => {
   const inputRef = useRef(null);
 
@@ -90,10 +92,15 @@ const ImagePreview = ({
   const handleFileUpload = useCallback((event) => {
     event.preventDefault();
     const fileList = inputRef.current.files;
+
     if (fileList.length === 1) {
       // console.log(`File uploaded: ${fileList[0].name}`);
-      onNew(fileList[0]);
+      onNew(R.clone(fileList[0]));
     }
+
+    // Remove image file from inputRef since we no longer need that image to be stored on inputRef.:
+    // This fixes an issue where the same image can't be reuploaded if the user accidentally removes it.
+    event.target.value = "";
   }, [onNew]);
 
   const handleFileDrop = useCallback(
@@ -113,7 +120,7 @@ const ImagePreview = ({
         onNew(file);
       }
     },
-    [onNew],
+    [onNew]
   );
 
   const handleDragOver = useCallback((event) => {
@@ -122,29 +129,28 @@ const ImagePreview = ({
 
   return (
     src ? (
-      <Container className={className}>
+      <Container error={isError} className={className}>
         <CloseButton onClick={onDelete}/>
         <Image src={src} alt={alt} />
       </Container>
     ) : (
-      <Container className={className}>
+      <Container error={isError} className={className}>
         <AddImage onClick={handleNew} onDrop={handleFileDrop} onDragOver={handleDragOver}>
           <AddImageIcon/> Add a new Image
         </AddImage>
         {/* FileInput is a hidden element. We use it's ref to access the file upload api
         without needing to try to style the input element itself.  */}
-        <FileInput ref={inputRef} onChange={handleFileUpload} accept="image/*"/>
-      </Container>
-    )
-  );
+      <FileInput ref={inputRef} onChange={handleFileUpload} accept="image/*" />
+    </Container>
+  ));
 };
 
 ImagePreview.propTypes = {
   className: PropTypes.string,
   src: PropTypes.string,
   alt: PropTypes.string,
-  onNew: PropTypes.func.isRequired,
-  onDelete: PropTypes.func.isRequired,
+  onNew: PropTypes.func,
+  onDelete: PropTypes.func,
 };
 
 export default ImagePreview;

@@ -58,3 +58,28 @@ NonEmptyValue.args = {
   className: styles.testClass,
   placeholder: 'This is a placeholder'
 };
+
+export const ErrorState = Template.bind({});
+ErrorState.args = {
+  value: 1,
+  items: [
+    { id: 1, text: 'Text a user has entered' },
+    {
+      id: 2,
+      text: '(Note that a test class overrides the selector css in storybook)',
+    },
+    { id: 3, text: 'Geese are our new overlords' },
+    {
+      id: 4,
+      text:
+        'long text Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum',
+    },
+    { id: 5, text: 'Test1' },
+    { id: 6, text: 'Test2' },
+    { id: 7, text: 'Test3' },
+    { id: 8, text: 'Test4' },
+  ],
+  className: styles.testClass,
+  placeholder: 'This is a placeholder',
+  isError: true
+};

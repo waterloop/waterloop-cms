@@ -17,17 +17,33 @@ export const toServerSponsor = (sponsor) => {
   }
 };
 
-export const fromServerSponsor = (sponsor) => ({
-  sponsorId: sponsor.id,
-  name: sponsor.name,
-  website: sponsor.website,
-  tierId: sponsor.typeId,
-  ...timestampMillisecToTermSeasonYear(sponsor.joinDate),
-  description: sponsor.contributions,
-  logoStr: sponsor.logoDir,
-  videoLink: sponsor.youtube,
-  lastUpdated: moment.utc(sponsor.updatedAt).local().format("MMMM D, YYYY")
-});
+export const fromServerSponsor = (sponsor) => {
+  if(sponsor.type != undefined){
+    return {
+      sponsorId: sponsor.id,
+      name: sponsor.name,
+      website: sponsor.website,
+      tier: sponsor.type,
+      ...timestampMillisecToTermSeasonYear(sponsor.joinDate),
+      description: sponsor.contributions,
+      logoStr: sponsor.logoDir,
+      videoLink: sponsor.youtube,
+      lastUpdated: moment.utc(sponsor.updatedAt).local().format("MMMM D, YYYY")
+    }
+  } else {
+    return {
+      sponsorId: sponsor.id,
+      name: sponsor.name,
+      website: sponsor.website,
+      tierId: sponsor.typeId,
+      ...timestampMillisecToTermSeasonYear(sponsor.joinDate),
+      description: sponsor.contributions,
+      logoStr: sponsor.logoDir,
+      videoLink: sponsor.youtube,
+      lastUpdated: moment.utc(sponsor.updatedAt).local().format("MMMM D, YYYY")
+    }
+  }
+};
 
 const termSeasonYearToTimestampMillisec = (season, year) => {
   let month;

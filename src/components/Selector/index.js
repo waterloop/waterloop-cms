@@ -13,17 +13,17 @@ const PrimarySelector = styled(MUISelector)`
   border-radius: 10px;
   width: 100%;
   z-index: 100;
-  border-color: ${({ theme }) => theme.colours.greys.grey2};
+  border-color: ${({ theme, error }) => error ? theme.colours.reds.red1 : theme.colours.greys.grey2};
   & fieldset {
-    border-color: ${({ theme }) => theme.colours.greys.grey2};
+    border-color: ${({ theme, error }) => error ? theme.colours.reds.red1 : theme.colours.greys.grey2};
   }
   &.Mui-focused {
     & .MuiOutlinedInput-notchedOutline {
-      border-color: ${({ theme }) => theme.colours.greys.grey2};
+      border-color: ${({ theme, error }) => error ? theme.colours.reds.red1 : theme.colours.greys.grey2};
     }
   }
   .MuiOutlinedInput-notchedOutline {
-    border-color: ${({ theme }) => theme.colours.greys.grey2};
+    border-color: ${({ theme, error }) => error ? theme.colours.reds.red1 : theme.colours.greys.grey2};
   }
 `;
 
@@ -46,13 +46,15 @@ const PlaceholderMenuItem = styled(MUIMenuItem)`
  * @param onSelect      Callback to be called each time that the user selects a value.
  * @param items         An Array of items to be displayed in the selector dropdown.
  * @param placeholder   Optional placeholder text to display for unselected boxes (blank by default).
+ * @param isError       Optional status to mark the selector component as an error state.
  */
 const Selector = ({
   className,
   value = "",
   onSelect,
   items,
-  placeholder = ""
+  placeholder = "",
+  isError = false,
 }) => {
   const handleChange = (event) => {
     if (!R.isNil(event.target.value) && typeof onSelect === 'function') {
@@ -62,6 +64,7 @@ const Selector = ({
 
   return (
     <PrimarySelector
+      error={isError}
       displayEmpty
       className={className}
       variant="outlined"

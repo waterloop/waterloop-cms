@@ -1,21 +1,17 @@
 import React from 'react';
-import {
-  Switch,
-  Route,
-  BrowserRouter,
-  Redirect,
-} from 'react-router-dom';
+import { Switch, Route, BrowserRouter, Redirect } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 
+import * as userSelectors from './state/user/selectors';
+import TopBar from './components/TopBar';
 import LandingPage from './pages/landing/LandingPage';
-import GeesePage from './pages/geese/GeesePage';
 import FeaturesPage from './pages/features/FeaturesPage';
 import SignInPage from './pages/sign-in/SignInPage';
-import TeamDescriptionsPage from './pages/descriptions/TeamDescriptionsPage';
-import TopBar from './components/TopBar';
-import * as userSelectors from './state/user/selectors';
-import { useSelector } from 'react-redux';
+import NotFoundPage from './pages/NotFound';
 import PostingsRouter from './pages/postings/Postings.router';
 import SponsorsRouter from './pages/sponsors/Sponsors.router';
+import GeeseRouter from './pages/geese/Geese.router';
+import TeamDescriptionsRouter from './pages/team-descriptions/TeamDescriptions.router';
 
 const App = () => {
   const token = useSelector(userSelectors.token);
@@ -30,11 +26,11 @@ const App = () => {
             <LandingPage />
           </div>
         </Route>
-        <Route path="/geese" exact>
+        <Route path="/geese">
           <div>
-            {!token && <Redirect to="/sign-in" />}
+            {/* {!token && <Redirect to="/sign-in" />} */}
             <TopBar />
-            <GeesePage />
+            <GeeseRouter />
           </div>
         </Route>
         <Route path="/features" exact>
@@ -57,10 +53,15 @@ const App = () => {
           <TopBar />
           <SponsorsRouter />
         </Route>
-        <Route path="/team-descriptions" exact>
+        <Route path="/team-descriptions">
           {!token && <Redirect to="/sign-in" />}
           <TopBar />
-          <TeamDescriptionsPage />
+          <TeamDescriptionsRouter />
+        </Route>
+        <Route component={NotFoundPage}>
+          {/* {!token && <Redirect to="/sign-in" />} */}
+          <TopBar />
+          <NotFoundPage />
         </Route>
       </Switch>
     </BrowserRouter>

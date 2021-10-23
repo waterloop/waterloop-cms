@@ -13,7 +13,7 @@ export const sponsorsCopies = {
   START_DATE_TERM_PLACEHOLDER: "Term",
   START_DATE_YEAR_PLACEHOLDER: "Year",
   CONTRIBUTIONS_PLACEHOLDER: "How have we collaborated",
-  VIDEO_LINK_PLACEHOLDER: "Sponsor video link",
+  VIDEO_LINK_PLACEHOLDER: "Sponsor video link"
 }
 
 export const descriptionCopies = {
@@ -35,7 +35,9 @@ export const mainCopies = {
 }
 
 export const commonCopies = {
-  LAST_UPDATED_DATE: "Last updated:"
+  LAST_UPDATED_DATE: "Last updated:",
+  REQUIRED_IMAGE: "Please upload an image.",
+  DIALOG_ERROR_TITLE: "Error"
 }
 
 // TODO: Move this to utility function.
@@ -44,8 +46,11 @@ export const buttonCopies = {
   SAVE: "Save",
   CANCEL: "Cancel",
   BACK: "< Back",
+  OK: "OK",
 
   PREVIEW: "Preview",
   EDIT_DESCRIPTION: "Edit description",
-  NEW_SPONSOR: "New sponsor +"
+  NEW_SPONSOR: "New sponsor +",
+
+  REQUIREMENTS_NOT_MET: "Please fill out all required fields."
 }

@@ -43,6 +43,7 @@ const reducer = (state, action) => {
         sponsorTiers: action.payload.sponsorTiers,
         loading: false,
         exists: action.payload.exists,
+        userFriendlyErrorMessage: '',
         form: {
           ...state.form,
           ...action.payload.sponsorData, // This injects existing data for the chosen sponsor.
@@ -60,6 +61,7 @@ const reducer = (state, action) => {
     case 'UPDATE_SPONSOR_NAME':
       return {
         ...state,
+        userFriendlyErrorMessage: '',
         form: {
           ...state.form,
           name: action.payload,
@@ -68,6 +70,7 @@ const reducer = (state, action) => {
     case 'UPDATE_SPONSOR_WEBSITE':
       return {
         ...state,
+        userFriendlyErrorMessage: '',
         form: {
           ...state.form,
           website: action.payload,
@@ -76,6 +79,7 @@ const reducer = (state, action) => {
     case 'UPDATE_SPONSOR_TIER_ID':
       return {
         ...state,
+        userFriendlyErrorMessage: '',
         form: {
           ...state.form,
           tierId: action.payload,
@@ -84,6 +88,7 @@ const reducer = (state, action) => {
     case 'UPDATE_TERM_SEASON':
       return {
         ...state,
+        userFriendlyErrorMessage: '',
         form: {
           ...state.form,
           termSeason: action.payload,
@@ -92,6 +97,7 @@ const reducer = (state, action) => {
     case 'UPDATE_TERM_YEAR':
       return {
         ...state,
+        userFriendlyErrorMessage: '',
         form: {
           ...state.form,
           termYear: action.payload,
@@ -100,6 +106,7 @@ const reducer = (state, action) => {
     case 'UPDATE_DESCRIPTION':
       return {
         ...state,
+        userFriendlyErrorMessage: '',
         form: {
           ...state.form,
           description: action.payload,
@@ -108,6 +115,7 @@ const reducer = (state, action) => {
     case 'UPDATE_LOGO':
       return {
         ...state,
+        userFriendlyErrorMessage: '',
         form: {
           ...state.form,
           logoStr: action.payload.logoStr,
@@ -117,10 +125,16 @@ const reducer = (state, action) => {
     case 'UPDATE_VIDEO_LINK':
       return {
         ...state,
+        userFriendlyErrorMessage: '',
         form: {
           ...state.form,
           videoLink: action.payload,
         },
+      };
+    case 'UPDATE_FAILURE':
+      return {
+        ...state,
+        userFriendlyErrorMessage: action.payload,
       };
     default:
       return {
@@ -223,6 +237,13 @@ const useSponsorForm = (sponsorId, input = {}) => {
     [dispatch],
   );
 
+  const updateFailure = useCallback(
+    (err) => {
+      dispatch({ type: 'UPDATE_FAILURE', payload: err });
+    },
+    [dispatch],
+  );
+
   /**
    * Save and close Functions
    */
@@ -230,11 +251,10 @@ const useSponsorForm = (sponsorId, input = {}) => {
     history.push('/sponsors');
   }, [history]);
 
+  // TODO: Handle authentication errors (preferably from the backend.)
   const saveForm = useCallback(async () => {
     // eslint-disable-next-line no-console
     console.log(state.form);
-    // TODO: Validation checks here.
-
     // Send data to server:
     try {
       const file = state.form.logoFile;
@@ -273,7 +293,7 @@ const useSponsorForm = (sponsorId, input = {}) => {
       // onSuccess:
       closeForm();
     } catch (e) {
-      // TODO: Display "could not add/update" error to user as dialogue.
+      updateFailure(`Could not ${state.exists ? "update" : "add"} sponsor: ${e.message}`);
       // eslint-disable-next-line no-console
       console.error(e);
     }
@@ -284,7 +304,7 @@ const useSponsorForm = (sponsorId, input = {}) => {
       await api.sponsors.deleteSponsor(sponsorId);
       closeForm();
     } catch (e) {
-      // TODO: Display "could not delete" to user as dialogue.
+      updateFailure(`Could not delete sponsor: ${e.message}`);
       // eslint-disable-next-line no-console
       console.error(e);
     }
@@ -316,6 +336,8 @@ const useSponsorForm = (sponsorId, input = {}) => {
     ],
     years,
     loading: state.loading,
+    errMsg: state.userFriendlyErrorMessage,
+    sponsorExists: state.exists,
     sponsorTiers,
     updateName,
     updateWebsite,
@@ -325,6 +347,7 @@ const useSponsorForm = (sponsorId, input = {}) => {
     updateDescription,
     updateLogo,
     updateVideoLink,
+    updateFailure,
     saveForm,
     closeForm,
     deleteForm,

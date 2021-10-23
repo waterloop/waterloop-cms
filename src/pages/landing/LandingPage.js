@@ -54,11 +54,7 @@ const sections = [
     editLink: '/team-descriptions',
     previewLink: 'https://teamwaterloop.ca/team',
     icon: TeamDescriptionsPageSVG,
-  },
-  {
-    name: 'Descriptions',
-    to: '/descriptions',
-  },
+  }
 ];
 
 const LandingPage = () => {

@@ -1,6 +1,7 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import useSponsorForm from '../hooks/sponsor-form';
 import { useRouteMatch } from 'react-router-dom';
+
 import styled from 'styled-components';
 import { commonCopies, sponsorsCopies, buttonCopies } from '../Copies';
 
@@ -9,6 +10,9 @@ import UnstyledTextInput from '../../../components/TextInput';
 import UnstyledSelector from '../../../components/Selector';
 import Button from '../../../components/Button';
 import UnstyledImagePreview from '../../../components/ImagePreview';
+import Dialog from '../../../components/Dialog';
+
+import * as R from 'ramda';
 
 const Container = styled.div`
   margin: ${({ theme }) => theme.pageMargin};
@@ -105,6 +109,28 @@ const ButtonContainer = styled.div`
   justify-content: space-between;
 `;
 
+const RequiredText = styled.p`
+  color: ${({ theme }) => theme.colours.reds.red1};
+  font: ${({ theme }) => theme.fonts.medium14};
+`;
+
+const useRequirements = (reqs) => {
+  let res = {
+    nameError: R.isEmpty(reqs.name),
+    websiteError: R.isEmpty(reqs.website),
+    tierIdError: R.isEmpty(reqs.tierId),
+    termSeasonError: R.isEmpty(reqs.termSeason),
+    termYearError: R.isEmpty(reqs.termYear),
+    descriptionError: R.isEmpty(reqs.description),
+    logoError: R.isEmpty(reqs.logoStr),
+  }
+
+  return {
+    ...res,
+    reqNotFilled: !R.all(R.equals(false))(Object.values(res))
+  }
+}
+
 const EditSponsors = () => {
   const {
     params: { id },
@@ -115,6 +141,8 @@ const EditSponsors = () => {
     terms,
     years,
     sponsorTiers,
+    errMsg,
+    sponsorExists,
 
     name,
     website,
@@ -135,13 +163,54 @@ const EditSponsors = () => {
     updateDescription,
     updateLogo,
     updateVideoLink,
+    updateFailure,
 
     saveForm,
     closeForm,
     deleteForm,
   } = useSponsorForm(parseInt(id));
+
+  /* Validation states */
+  const {
+    nameError,
+    websiteError,
+    tierIdError,
+    termSeasonError,
+    termYearError,
+    descriptionError,
+    logoError,
+    reqNotFilled
+  } = useRequirements({
+    name,
+    website,
+    tierId,
+    termSeason,
+    termYear,
+    description,
+    logoStr
+  });
+
+  const [dialogOpen, setDialogOpen] = useState(false);
+
+  useEffect(() => {
+    setDialogOpen(!R.isEmpty(errMsg));
+  }, [errMsg])
+
   return (
     !loading && (
+    <>
+      <Dialog
+        title={commonCopies.DIALOG_ERROR_TITLE}
+        open={dialogOpen}
+        actionChildren={
+          <Button onClick={() => {
+            setDialogOpen(false);
+            updateFailure("");
+          }}>{buttonCopies.OK}</Button>
+        }
+        >
+        <Text>{errMsg}</Text>
+      </Dialog>
       <Container id="sponsor-root">
         <TopInfo>
           <Button cancel onClick={closeForm}>
@@ -155,53 +224,69 @@ const EditSponsors = () => {
           )}
         </TopInfo>
         <FormGroup>
-          <FormContainer title={sponsorsCopies.NAME_LABEL}>
+          <FormContainer title={sponsorsCopies.NAME_LABEL} isError={nameError} >
             <TextInput
               placeholder={sponsorsCopies.NAME_PLACEHOLDER}
               value={name}
+              isError={nameError}
               onChange={updateName}
             />
           </FormContainer>
-          <FormContainer title={sponsorsCopies.WEBSITE_LABEL}>
+          <FormContainer title={sponsorsCopies.WEBSITE_LABEL} isError={websiteError}>
             <TextInput
               placeholder={sponsorsCopies.WEBSITE_PLACEHOLDER}
+              isError={websiteError}
               value={website}
               onChange={updateWebsite}
             />
           </FormContainer>
-          <FormContainer title={sponsorsCopies.TIER_LABEL}>
+          <FormContainer title={sponsorsCopies.TIER_LABEL} isError={tierIdError}>
             <Selector
               value={tierId}
+              isError={tierIdError}
               items={sponsorTiers}
               onSelect={updateTierId}
               placeholder={sponsorsCopies.TIER_PLACEHOLDER}
             />
           </FormContainer>
-          <FormContainer title={sponsorsCopies.START_DATE_LABEL}>
+          <FormContainer 
+            title={sponsorsCopies.START_DATE_LABEL}
+            isError={termSeasonError || termYearError}
+            >
             <InlineSpaced>
               <NarrowSelector
                 value={termSeason}
                 items={terms}
                 onSelect={updateTermSeason}
                 placeholder={sponsorsCopies.START_DATE_TERM_PLACEHOLDER}
+                isError={termSeasonError}
               />
               <NarrowSelector
                 value={termYear}
                 items={years}
                 onSelect={updateTermYear}
                 placeholder={sponsorsCopies.START_DATE_YEAR_PLACEHOLDER}
+                isError={termYearError}
               />
             </InlineSpaced>
           </FormContainer>
-          <FormContainer title={sponsorsCopies.CONTRIBUTIONS_LABEL}>
+          <FormContainer 
+            title={sponsorsCopies.CONTRIBUTIONS_LABEL}
+            isError={descriptionError}
+            >
             <TextMultilineInput
               multiLine
               placeholder={sponsorsCopies.CONTRIBUTIONS_PLACEHOLDER}
               value={description}
               onChange={updateDescription}
+              isError={descriptionError}
             />
           </FormContainer>
-          <FormContainer title={sponsorsCopies.LOGO_LABEL}>
+          <FormContainer 
+            title={sponsorsCopies.LOGO_LABEL}
+            requiredText={commonCopies.REQUIRED_IMAGE}
+            isError={logoError}
+            >
             <ImagePreview
               // Use local image file if user uploaded new image,
               // else use existing image URL.
@@ -212,6 +297,7 @@ const EditSponsors = () => {
               onDelete={() => {
                 updateLogo('', null);
               }}
+              isError={logoError}
             />
           </FormContainer>
           <FormContainer title={sponsorsCopies.VIDEO_LINK_LABEL}>
@@ -224,18 +310,22 @@ const EditSponsors = () => {
         </FormGroup>
         <ButtonContainer>
           <div>
-            <Button onClick={saveForm}>{buttonCopies.SAVE}</Button>
+            <Button disabled={reqNotFilled} onClick={saveForm}>{buttonCopies.SAVE}</Button>
             <Button cancel onClick={closeForm}>
               {buttonCopies.CANCEL}
             </Button>
           </div>
-          <Button del onClick={deleteForm}>
+          <Button disabled={!sponsorExists} del onClick={deleteForm}>
             {buttonCopies.DELETE}
           </Button>
         </ButtonContainer>
+        {reqNotFilled && <RequiredText>{buttonCopies.REQUIREMENTS_NOT_MET}</RequiredText>}
       </Container>
+    </>
     )
   );
 };
 
 export default EditSponsors;
+
+// TODO: Make PR once sponsors field is ready. Ignore postings.
