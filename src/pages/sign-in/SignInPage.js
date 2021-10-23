@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React, { useState, useCallback } from 'react';
 import styled from 'styled-components';
 import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
@@ -11,107 +11,138 @@ import UnstyledSignInBox from './components/SignInBox';
 
 import * as userActions from '../../state/user/actions';
 import { addAuthTokenToRequests } from '../../api/server';
+import api from '../../api';
 
 const WaterloopCmsLogo = styled.img.attrs({
-  src: WaterloopCmsLogoSVG,
+    src: WaterloopCmsLogoSVG,
 })`
-  position: absolute;
-  top: 20px;
-  right: calc(min(48px, 2%));
-  max-width: 96%;
+    position: absolute;
+    top: 20px;
+    right: calc(min(48px, 2%));
+    max-width: 96%;
 `;
 
 const Buildings = styled.img.attrs({
-  src: BuildingsSVG,
+    src: BuildingsSVG,
 })`
-  width: auto;
-  height: 75%;
+    width: auto;
+    height: 75%;
 
-  @media screen and (max-width:  ${({ theme }) => theme.breakpoints.lg}px) {
-    display: none;
-  }
+    @media screen and (max-width: ${({ theme }) => theme.breakpoints.lg}px) {
+        display: none;
+    }
 `;
 
 const Pod = styled.img.attrs({
-  src: PodSVG,
+    src: PodSVG,
 })``;
 
 const PodTrack = styled.div`
-  background-color: ${({ theme }) => theme.colours.yellows.yellow1};
-  height: 100px;
-  width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
+    background-color: ${({ theme }) => theme.colours.yellows.yellow1};
+    height: 100px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
 
-  @media screen and (max-width:  ${({ theme }) => theme.breakpoints.md}px) {
-    justify-content: center;
-  }
-
-  @media screen and (max-height:  655px) {
-    display: none;
-  }
-
-  ${Pod} {
-    margin-left: 20%;
-    @media screen and (max-width:  ${({ theme }) => theme.breakpoints.md}px) {
-      margin-left: 16px;
-      margin-right: 16px;
+    @media screen and (max-width: ${({ theme }) => theme.breakpoints.md}px) {
+        justify-content: center;
     }
-  }
+
+    @media screen and (max-height: 655px) {
+        display: none;
+    }
+
+    ${Pod} {
+        margin-left: 20%;
+        @media screen and (max-width: ${({ theme }) =>
+                theme.breakpoints.md}px) {
+            margin-left: 16px;
+            margin-right: 16px;
+        }
+    }
 `;
 
 const SignInBox = styled(UnstyledSignInBox)`
-  top: calc(min(20%, 267px));
-  position: absolute;
-  left: calc(min(84px, 5%));
-  max-width: 90%;
+    top: calc(min(20%, 267px));
+    position: absolute;
+    left: calc(min(84px, 5%));
+    max-width: 90%;
 `;
 
 const Container = styled.div`
-  background-color: ${({ theme }) => theme.colours.blues.blue1};
-  height: 100vh;
-  width: 100vw;
+    background-color: ${({ theme }) => theme.colours.blues.blue1};
+    height: 100vh;
+    width: 100vw;
 
-  ${Buildings} {
-    position: absolute;
-    bottom: 32px;
-    right: 48px;
-  }
+    ${Buildings} {
+        position: absolute;
+        bottom: 32px;
+        right: 48px;
+    }
 
-  ${PodTrack} {
-    position: absolute;
-    bottom: calc(min(120px, 10%));
-  }
+    ${PodTrack} {
+        position: absolute;
+        bottom: calc(min(120px, 10%));
+    }
 `;
 
 const SignInPage = () => {
-  const dispatch = useDispatch();
-  const history = useHistory();
-  const onAuthComplete = useCallback(
-    (err, authPayload) => {
-      if (err) {
-        console.log('auth error:', err);
-        return;
-      }
-      dispatch(userActions.setUserAuth(authPayload));
-      addAuthTokenToRequests(authPayload.tokenId);
-      console.log('Auth Complete');
-      history.push('/');
-    }, [dispatch, history],
-  );
+    const dispatch = useDispatch();
+    const history = useHistory();
+    const [errMsgVisible, showErrorMsg] = useState(false);
 
-  const { signIn } = useGoogleAuth(onAuthComplete);
-  return (
-    <Container>
-      <WaterloopCmsLogo />
-      <SignInBox onClick={signIn} />
-      <PodTrack>
-        <Pod />
-      </PodTrack>
-      <Buildings />
-    </Container>
-  );
+    const onAuthComplete = useCallback(
+        (err, authPayload) => {
+            if (err) {
+                console.log('auth error:', err);
+                showErrorMsg(true);
+                return;
+            }
+            const { userId, tokenId, groupIds, accessToken } = authPayload;
+            dispatch(userActions.setUserAuth({ userId, tokenId }));
+            addAuthTokenToRequests(tokenId);
+            console.log('Auth Complete');
+
+            api.google
+                .updateUserGroups(userId, groupIds, accessToken)
+                .then((resp) => {
+                    if (resp.data && resp.data.groupIds) {
+                        console.log(
+                            'Successfully updated membership info. for groups with IDs: ' +
+                                resp.data.groupIds.join(', '),
+                        );
+                    }
+                })
+                .catch((e) => {
+                    console.log('Error: Failed to sync group membership info.');
+                    console.log(e);
+                });
+
+            history.push('/');
+        },
+        [dispatch, history],
+    );
+
+    const { signIn } = useGoogleAuth(onAuthComplete);
+    return (
+        <Container>
+            <WaterloopCmsLogo />
+            <SignInBox
+                errMsgVisible={errMsgVisible}
+                onClick={() => {
+                    if (errMsgVisible) {
+                        showErrorMsg(false);
+                    }
+                    signIn();
+                }}
+            />
+            <PodTrack>
+                <Pod />
+            </PodTrack>
+            <Buildings />
+        </Container>
+    );
 };
 
 export default SignInPage;
