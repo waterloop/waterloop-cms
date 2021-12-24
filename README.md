@@ -4,6 +4,11 @@
 
 Content on our main website is being constantly added and updated on a term-by-term basis. Having to update this data directly from within the codebase, or the database, would be a hassle. Also, we want executives on the team who don’t work on the website codebase to be able to update the content as well. The CMS solves these issues, making updating data on the website quick and simple for all authorized executives on the team.
 
+## Setup
+
+1. Install dependencies with `yarn add`
+2. Run with `yarn start`
+
 ## 💻 Technologies
 
 - [ReactJS](https://reactjs.org/)
