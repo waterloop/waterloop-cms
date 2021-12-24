@@ -6,7 +6,7 @@ Content on our main website is being constantly added and updated on a term-by-t
 
 ## Setup
 
-1. Install dependencies with `yarn add`
+1. Install dependencies with `yarn install --frozen-lockfile`
 2. Run with `yarn start`
 
 ## 💻 Technologies
