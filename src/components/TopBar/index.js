@@ -45,7 +45,6 @@ const ProfileDropdown = styled(UnstyledProfileDropdown)`
   z-index: 1800;
 `;
 
-
 const ProfilePicture = styled.img`
   height: 40px;
   width: 40px;
