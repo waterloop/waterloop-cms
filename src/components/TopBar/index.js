@@ -8,8 +8,6 @@ import MUIIconButton from '@material-ui/core/IconButton';
 import NavIconSVG from './assets/nav-icon.svg';
 import WaterloopLogoSVG from './assets/topbar-logo.svg';
 import UnstyledDesktopMenu from './DesktopMenu';
-import UnstyledProfileDropdown from './ProfileDropdown';
-import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
 
 const AppBar = styled(MUIAppBar)`
   background-color: ${({ theme }) => theme.colours.blues.blue1};
@@ -38,13 +36,6 @@ const DesktopMenu = styled(UnstyledDesktopMenu)`
   z-index: 1800;
 `;
 
-const ProfileDropdown = styled(UnstyledProfileDropdown)`
-  position: absolute;
-  top: 60px;
-  right: 50px;
-  z-index: 1800;
-`;
-
 const ProfilePicture = styled.img`
   height: 40px;
   width: 40px;
@@ -54,7 +45,6 @@ const ProfilePicture = styled.img`
 
 const TopBar = () => {
   const [menuOpen, setMenuOpen] = React.useState(false);
-  const [dropdownOpen, setDropdownOpen] = React.useState(false);
   const { profilePicture } = useProfilePicture();
 
   return (
@@ -69,17 +59,11 @@ const TopBar = () => {
               <NavIcon />
             </IconButton>
           </div>
-            <IconButton edge="end" aria-label="menu" onClick={() => setDropdownOpen(!dropdownOpen)}>
-              <ProfilePicture src={profilePicture} alt="profile"/>
-              <ArrowDropDownIcon style={{fill: "white"}}/>
-            </IconButton>
+          <ProfilePicture src={profilePicture} alt="profile" />
         </Toolbar>
       </AppBar>
       {menuOpen && (
         <DesktopMenu onClose={() => setMenuOpen(false)} />
-      )}
-      {dropdownOpen && (
-        <ProfileDropdown onClose={() => setDropdownOpen(false)} />
       )}
     </div>
   );
