@@ -5,6 +5,7 @@ import GeesePageSVG from '../../assets/page-icons/geese.svg';
 import RecruitmentPageSVG from '../../assets/page-icons/recruitment.svg';
 import SponsorsPageSVG from '../../assets/page-icons/sponsors.svg';
 import TeamDescriptionsPageSVG from '../../assets/page-icons/team-descriptions.svg';
+import BlogPostsPageSVG from '../../assets/page-icons/blog-posts.svg';
 import UnstyledSection from './components/Section';
 import Grid from '@material-ui/core/Grid';
 
@@ -20,8 +21,8 @@ const Container = styled.div`
   justify-content: center;
 
   padding-top: 96px;
-  padding-right: calc(min(256px, 10%));
-  padding-left: calc(min(128px, 10%));
+  padding-right: calc(min(256px, 5%));
+  padding-left: calc(min(128px, 5%));
 `;
 
 const sections = [
@@ -55,11 +56,18 @@ const sections = [
     previewLink: 'https://teamwaterloop.ca/team',
     icon: TeamDescriptionsPageSVG,
   }
+  ,
+  {
+    name: 'Blog Posts',
+    editLink: '/blog-posts',
+    previewLink: 'https://teamwaterloop.ca/blogs',
+    icon: BlogPostsPageSVG,
+  }
 ];
 
 const LandingPage = () => {
   const sectionItems = sections.map((section) => (
-    <Grid key={section.name} item xs={12} sm={6} md={4} lg={3} justify="center" container>
+    <Grid key={section.name} item xs={12} sm={6} md={4} lg={4} justify="center" container>
       <Section {...section} />
     </Grid>
   ));
