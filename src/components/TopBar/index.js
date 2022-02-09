@@ -41,13 +41,14 @@ const DesktopMenu = styled(UnstyledDesktopMenu)`
 const ProfileDropdown = styled(UnstyledProfileDropdown)`
   position: absolute;
   top: 60px;
-  right: 50px;
+  right: 62px;
   z-index: 1800;
 `;
 
 const ProfilePicture = styled.img`
   height: 40px;
   width: 40px;
+  margin-left: 10px;
   border-radius: 20px;
   cursor: pointer;
 `;
@@ -70,8 +71,8 @@ const TopBar = () => {
             </IconButton>
           </div>
           <IconButton edge="end" aria-label="menu" onClick={() => setDropdownOpen(!dropdownOpen)}>
-              <ProfilePicture src={profilePicture} alt="profile"/>
               <ArrowDropDownIcon style={{fill: "white"}}/>
+              <ProfilePicture src={profilePicture} alt="profile"/>
           </IconButton>
         </Toolbar>
       </AppBar>
