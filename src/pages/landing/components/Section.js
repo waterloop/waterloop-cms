@@ -39,8 +39,8 @@ const Container = styled.div`
   align-items: center;
   justify-content: center;
   padding: 32px;
-  padding-right: calc(min(96px, 20%));
-  padding-left: calc(min(96px, 20%));
+  padding-right: calc(min(180px, 30%));
+  padding-left: calc(min(180px, 30%));
 `;
 
 const PageTitle = styled(MUITypography)`

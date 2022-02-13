@@ -8,6 +8,7 @@ import GeesePageSVG from '../../assets/page-icons/geese.svg';
 import RecruitmentPageSVG from '../../assets/page-icons/recruitment.svg';
 import SponsorsPageSVG from '../../assets/page-icons/sponsors.svg';
 import TeamDescriptionsPageSVG from '../../assets/page-icons/team-descriptions.svg';
+import BlogPostsPageSVG from '../../assets/page-icons/blog-posts.svg';
 import UnstyledPagePreview from './PagePreview';
 
 const PagePreview = styled(UnstyledPagePreview)``;
@@ -75,6 +76,9 @@ const DesktopMenu = ({ className, onClose }) => {
           </Grid>
           <Grid xs={4}>
             <PagePreview icon={RecruitmentPageSVG} onClick={handleClick('/postings')} pageName="Current Openings" />
+          </Grid>
+          <Grid xs={4}>
+            <PagePreview icon={BlogPostsPageSVG} onClick={handleClick('/blog-posts')} pageName="Blog Posts" />
           </Grid>
         </MainBox>
       </Container>
