@@ -1,18 +1,19 @@
 {
-  "name": "cms-frontend",
-  "version": "1.0.1",
+  "name": "waterloop-cms",
+  "version": "1.5.1",
   "private": true,
   "homepage": "/",
+  "engines": {
+    "node": ">=16.0.0",
+    "npm": "please-use-yarn",
+    "yarn": ">=1.0.0"
+  },
   "dependencies": {
     "@material-ui/core": "^4.11.0",
     "@material-ui/icons": "^4.11.2",
     "@mui/icons-material": "^5.3.1",
     "@mui/material": "^5.4.0",
-    "@testing-library/jest-dom": "^4.2.4",
-    "@testing-library/react": "^9.3.2",
-    "@testing-library/user-event": "^7.1.2",
     "axios": "^0.21.1",
-    "dompurify": "^2.2.9",
     "draft-convert": "^2.1.11",
     "draft-js": "^0.11.7",
     "form-data": "^4.0.0",
@@ -45,17 +46,6 @@
     "predeploy": "cross-env NODE_ENV=production react-scripts build",
     "deploy": "rm -rf ../cms-server/frontend/build &&  mv ./build ../cms-server/frontend/build"
   },
-  "eslintConfig": {
-    "extends": [
-      "react-app",
-      "./node_modules/eslint-config-airbnb-base/rules/best-practices.js",
-      "./node_modules/eslint-config-airbnb-base/rules/errors.js",
-      "./node_modules/eslint-config-airbnb-base/rules/node.js",
-      "./node_modules/eslint-config-airbnb-base/rules/style.js",
-      "./node_modules/eslint-config-airbnb-base/rules/variables.js",
-      "./node_modules/eslint-config-airbnb-base/rules/es6.js"
-    ]
-  },
   "browserslist": {
     "production": [
       ">0.2%",
@@ -77,6 +67,9 @@
     "@storybook/node-logger": "^6.1.11",
     "@storybook/preset-create-react-app": "^3.1.5",
     "@storybook/react": "^6.1.11",
+    "@testing-library/jest-dom": "^4.2.4",
+    "@testing-library/react": "^9.3.2",
+    "@testing-library/user-event": "^7.1.2",
     "babel-loader": "8.1.0",
     "cross-env": "^7.0.3",
     "eslint-config-airbnb": "^18.2.0",

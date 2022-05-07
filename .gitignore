@@ -23,3 +23,13 @@ yarn-debug.log*
 yarn-error.log*
 
 package-lock.json
+
+# backend
+lib/
+*.sqlite3
+.env
+
+/src/backend/api/file-upload/**/*.json
+/scripts/sql/*
+
+tmp/

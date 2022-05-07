@@ -1,0 +1,42 @@
+[
+  {
+    "id": 1,
+    "name": "Walmart",
+    "tierName": "Hypersonic",
+    "joinDate": 1609459569000,
+    "website": "www.example.com",
+    "contributions": "I supplied Waterloop parts, including the LIM.",
+    "youtube": "dQw4w9WgXcQ",
+    "logoDir": "walmart.png"
+  },
+  {
+    "id": 2,
+    "name": "Walmart2",
+    "tierName": "Supersonic",
+    "joinDate": 1609450000000,
+    "website": "www.example2.com",
+    "youtube": null,
+    "contributions": "I prevented the geese from sabotaging the Waterloop pod.",
+    "logoDir": "kmart.png"
+  },
+  {
+    "id": 3,
+    "tierName": "Transsonic",
+    "typeId": 3,
+    "joinDate": 100000000000,
+    "website": "www.example3.com",
+    "contributions": "I'm just here for the credit. I paid $1 for this tier.",
+    "youtube": "oHSuyTrKwdg",
+    "logoDir": "mcdonalds.png"
+  },
+  {
+    "id": 4,
+    "name": "TotallyAWalmart",
+    "tierName": "Sonic",
+    "joinDate": 2147483647000,
+    "website": null,
+    "contributions": "Uhh... I definitely didn't hack into the site and steal this tier from another company...",
+    "youtube": "dQw4w9WgXcQ",
+    "logoDir": "default_logo.png"
+  }
+]

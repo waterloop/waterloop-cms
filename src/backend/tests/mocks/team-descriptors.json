@@ -1,0 +1,11 @@
+[
+  {
+    "id": 1,
+    "teamName": "WebTeam",
+    "description": "A team"
+  },
+  {
+    "id": 2, "teamName": "Team Hub",
+    "description": "Another Team"
+  }
+]

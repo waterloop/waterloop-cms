@@ -1,6 +1,7 @@
 import axios from 'axios';
 
-const baseUrl = process.env.NODE_ENV === 'production' ? '' : 'http://localhost:9000';
+const baseUrl =
+  process.env.NODE_ENV === 'production' ? '' : 'http://localhost:9000';
 
 export const server = axios.create({
   baseURL: baseUrl,

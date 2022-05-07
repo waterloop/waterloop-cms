@@ -1,0 +1,10 @@
+./frontend
+./lib
+
+lib/
+node_modules/
+*.sqlite3
+
+/src/api/file-upload/**/*.json
+
+

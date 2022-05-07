@@ -1,0 +1,28 @@
+{
+  "id": 1,
+  "title": "Front End developer",
+  "teamId": 1,
+  "deadline": 1582866000000,
+  "lastUpdated": 1582866000000,
+  "location": "on campus",
+  "termYear": 2020,
+  "termSeason": "WINTER",
+  "description": "Description of the Posting",
+  "closed": 1,
+  "timeCommitment": "8-10 Hours a Week",
+  "requirements": [
+    { "requirement": "This is a Requirement - 1", "id": 1 },
+    { "requirement": "This is a Requirement - 4", "id": 4 },
+    { "requirement": "This is a Requirement - 7", "id": 7 }
+  ],
+  "tasks": [
+    { "task": "Example Task: Have fun! - 1/1", "id": 1 },
+    { "task": "Example Task: Have fun! - 4/1", "id": 4 },
+    { "task": "Example Task: Have fun! - 7/1", "id": 7 }
+  ],
+  "info": [
+    { "info": "Example Info about the posting: - 1/1", "id": 1 },
+    { "info": "Example Info about the posting: - 4/1", "id": 4 },
+    { "info": "Example Info about the posting: - 7/1", "id": 7 }
+  ]
+}

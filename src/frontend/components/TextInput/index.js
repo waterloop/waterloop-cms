@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+/* eslint-disable import/no-unresolved */
 import { Editor } from 'react-draft-wysiwyg';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 
@@ -9,7 +10,8 @@ const Container = styled.div`
 
 // TODO: Only change to red when user clicks away from the text box.
 const TextInputContainer = styled.input`
-  border: ${({ theme, error }) => error ? theme.borders.solidRed : theme.borders.solidGrey1};
+  border: ${({ theme, error }) =>
+    error ? theme.borders.solidRed : theme.borders.solidGrey1};
   border-radius: 10px;
   height: 47px;
   width: 100%;
@@ -31,7 +33,8 @@ const TextInputContainer = styled.input`
 `;
 
 const TextAreaContainer = styled.textarea`
-  border: ${({ theme, error }) => error ? theme.borders.solidRed : theme.borders.solidGrey1};
+  border: ${({ theme, error }) =>
+    error ? theme.borders.solidRed : theme.borders.solidGrey1};
   border-radius: 10px;
   width: 100%;
   min-width: 500px;
@@ -64,7 +67,6 @@ const TARichContainer = styled.div`
     flex-direction: column;
     justify-content: space-between;
 
-
     ::placeholder,
     ::-webkit-input-placeholder {
       font: ${({ theme }) => theme.fonts.medium18};
@@ -85,19 +87,16 @@ const TARichContainer = styled.div`
 
     background-color: ${({ theme }) => theme.colours.white};
     font: ${({ theme }) => theme.fonts.medium14};
-
   }
 
   .toolbar-class {
-    max-width:500px;
+    max-width: 500px;
   }
 
   .toolbar-class a {
     color: #000;
   }
-
-
-`
+`;
 
 /* 
 To implement the richText support in textinput:
@@ -116,21 +115,21 @@ const TextInput = ({
                 using the styled components library
                 className prop needs to be passed to the parent JSX element */,
   multiLine,
-  richText, 
+  richText,
   value /* The current value of the input */,
-  rows=10,
+  rows = 10,
   onChange /* Callback to be called each time that the user changes the input */,
   placeholder = 'Place Holder Text',
   width,
-  required = false,  /* Marks the input as required from the user. */
-  requiredText = "This field cannot be blank.",
-  isError = false, /* Marks an error state for the component. Also marks the input 
-                      as required from the user. */
+  required = false /* Marks the input as required from the user. */,
+  requiredText = 'This field cannot be blank.',
+  isError = false /* Marks an error state for the component. Also marks the input 
+                      as required from the user. */,
 }) => {
   return (
     <Container width={width} className={className}>
-      {multiLine ?
-        richText ?
+      {multiLine ? (
+        richText ? (
           <TARichContainer>
             <Editor
               editorState={value}
@@ -140,7 +139,7 @@ const TextInput = ({
               toolbarClassName="toolbar-class"
             />
           </TARichContainer>
-          :
+        ) : (
           <TextAreaContainer
             error={isError}
             rows={rows}
@@ -149,16 +148,17 @@ const TextInput = ({
             value={value}
             onChange={(e) => onChange(e.target.value)}
           />
-          : (
-          <TextInputContainer
-            error={isError}
-            placeholder={placeholder}
-            value={value}
-            onChange={(e) => onChange(e.target.value)}
-          />
+        )
+      ) : (
+        <TextInputContainer
+          error={isError}
+          placeholder={placeholder}
+          value={value}
+          onChange={(e) => onChange(e.target.value)}
+        />
       )}
     </Container>
-  )
+  );
 };
 
 export default TextInput;
