@@ -1,4 +1,4 @@
-const connection = require('../../knexfile')[process.env.NODE_ENV || 'test']; // TODO - Fix this
+const connection = require('../../../knexfile')[process.env.NODE_ENV || 'test']; // TODO - Fix this
 export const db = require('knex')(connection);
 import users from './users';
 import teamDescriptors from './team-descriptors';
@@ -11,31 +11,31 @@ import newsletterRecipients from './newsletter-recipient';
 import blogs from './blogs';
 
 export default {
-	users: {
-		...users(db),
-	},
-	teamDescriptors: {
-		...teamDescriptors(db),
-	},
-	postings: {
-		...postings(db),
-	},
-	sponsors: {
-		...sponsors(db)
-	},
-	geeseInfo: {
-		...geeseInfo(db)
-	},
-	openingsDescription: {
-		...openingsDescription(db),
-	},
-	newsletterRecipients: {
-		...newsletterRecipients(db),
-	},
-	featurePermissions: {
-		...featurePermissions(db)
-	},
-	blogs: {
-		...blogs(db)
-	}
+  users: {
+    ...users(db),
+  },
+  teamDescriptors: {
+    ...teamDescriptors(db),
+  },
+  postings: {
+    ...postings(db),
+  },
+  sponsors: {
+    ...sponsors(db),
+  },
+  geeseInfo: {
+    ...geeseInfo(db),
+  },
+  openingsDescription: {
+    ...openingsDescription(db),
+  },
+  newsletterRecipients: {
+    ...newsletterRecipients(db),
+  },
+  featurePermissions: {
+    ...featurePermissions(db),
+  },
+  blogs: {
+    ...blogs(db),
+  },
 };
