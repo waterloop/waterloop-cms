@@ -68,7 +68,7 @@ app.use(
       'https://teamwaterloop.ca', // Always allow the main site
     ],
     credentials: true,
-  })
+  }),
 );
 
 /**
@@ -83,7 +83,7 @@ const sessionConfig = {
   secret: process.env.SESSION_SECRET,
   resave: true,
   saveUninitialized: true,
-  cookie: { secure: process.env.NODE_ENV === 'production'}
+  cookie: { secure: process.env.NODE_ENV === 'production' },
 };
 if (process.env.NODE_ENV === 'production') {
   sessionConfig.store = new (require('express-pg-session')(session))();
@@ -108,8 +108,6 @@ app.use((err, req, res, next) => {
   next();
 });
 
-
-
 if (process.env.NODE_ENV !== 'production') {
   /**
    * @brief Development File Server
@@ -118,32 +116,34 @@ if (process.env.NODE_ENV !== 'production') {
    * saved to a GOOGLE CLOUD STORAGE Bucket to keep persistance across deploys
    *
    */
-  if (!fs.existsSync(global.fileStorageDirectory)){
+  if (!fs.existsSync(global.fileStorageDirectory)) {
     fs.mkdirSync(global.fileStorageDirectory);
   }
 
   app.get('/waterloop/tmp/:fileName', (req, res) => {
-    const { params: { fileName }} = req;
+    const {
+      params: { fileName },
+    } = req;
 
-      res.sendFile(`${global.fileStorageDirectory}${fileName}`);
+    res.sendFile(`${global.fileStorageDirectory}${fileName}`);
   });
 
   /**
    * Remove All files from the tmp directory when the server is closed.
    * This should prevent bloating a developer's filesystem
    */
-  app.on("close", () => {
+  app.on('close', () => {
     fs.readdirSync(global.fileStorageDirectory).forEach((path) => {
       fs.rmSync(path);
-    })
-  })
+    });
+  });
 }
 
 /* These need to be the last routes */
-app.use(express.static('frontend/build'));
+app.use(express.static('./frontend/build'));
 app.get('*', (req, res) => {
-  res.sendFile('index.html', { root: path.join(__dirname, '../frontend/build') });
-})
+  res.sendFile('index.html', { root: path.join(__dirname, '../../build') });
+});
 
 if (process.env.NODE_ENV === 'production') {
   app.listen(port);
