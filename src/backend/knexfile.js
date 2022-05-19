@@ -1,5 +1,5 @@
-
 require('dotenv').config();
+const path = require('path');
 // Update with your config settings.
 let config;
 if (process.env.NODE_ENV === 'production') {
@@ -7,7 +7,7 @@ if (process.env.NODE_ENV === 'production') {
   config = parse(process.env.DATABASE_URL);
   // NOTE: Comment this out if you're testing the production environment on a local postgres database!
   config.ssl = {
-    rejectUnauthorized: false
+    rejectUnauthorized: false,
   };
 }
 
@@ -17,16 +17,20 @@ module.exports = {
     connection: 'postgresql://docker:docker@localhost:5434',
     useNullAsDefault: true,
     migrations: {
-      tableName: 'knex_migrations'
-    }
+      tableName: 'knex_migrations',
+    },
   },
   test: {
     client: 'pg',
     connection: 'postgresql://docker:docker@localhost:5454',
     useNullAsDefault: true,
     migrations: {
-      tableName: 'knex_migrations'
-    }
+      tableName: 'knex_migrations',
+      directory: path.join(__dirname, './migrations'),
+    },
+    seeds: {
+      directory: path.join(__dirname, './seeds'),
+    },
   },
 
   staging: {
@@ -34,15 +38,15 @@ module.exports = {
     connection: {
       database: 'my_db',
       user: 'username',
-      password: 'password'
+      password: 'password',
     },
     pool: {
       min: 2,
-      max: 10
+      max: 10,
     },
     migrations: {
-      tableName: 'knex_migrations'
-    }
+      tableName: 'knex_migrations',
+    },
   },
 
   production: {
@@ -50,11 +54,11 @@ module.exports = {
     connection: config,
     pool: {
       min: 2,
-      max: 10
+      max: 10,
     },
     migrations: {
-      tableName: 'knex_migrations'
-    }
+      tableName: 'knex_migrations',
+    },
   },
 
   /**KNEX-specific custom utility functions */
@@ -65,11 +69,12 @@ module.exports = {
    * Required since knex.js doesn't have this functionality built in.
    * Uses SQLite or Postgres trigger statements depending on the environment.
    */
-   onUpdateTrigger: (table) =>
-     `CREATE TRIGGER ${table}_updated_at
+  onUpdateTrigger: (table) =>
+    `CREATE TRIGGER ${table}_updated_at
        BEFORE UPDATE ON ${table}
        FOR EACH ROW
        EXECUTE PROCEDURE on_update_timestamp()
      `,
-     ENV_IS_STAGING_OR_PROD: process.env.NODE_ENV === 'production' || process.env.NODE_ENV === "staging",
+  ENV_IS_STAGING_OR_PROD:
+    process.env.NODE_ENV === 'production' || process.env.NODE_ENV === 'staging',
 };

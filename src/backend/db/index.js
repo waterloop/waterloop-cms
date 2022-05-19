@@ -1,4 +1,4 @@
-const connection = require('../../../knexfile')[process.env.NODE_ENV || 'test']; // TODO - Fix this
+const connection = require('../knexfile')[process.env.NODE_ENV || 'test'];
 export const db = require('knex')(connection);
 import users from './users';
 import teamDescriptors from './team-descriptors';

@@ -140,7 +140,7 @@ if (process.env.NODE_ENV !== 'production') {
 }
 
 /* These need to be the last routes */
-app.use(express.static('./frontend/build'));
+app.use(express.static('./build'));
 app.get('*', (req, res) => {
   res.sendFile('index.html', { root: path.join(__dirname, '../../build') });
 });

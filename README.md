@@ -8,8 +8,8 @@ Content on our main website is being constantly added and updated on a term-by-t
 
 0. Ensure you have `node v16`, `yarn v1.*` and `Docker Desktop` installed. See onboarding docs for more info.
 1. Install dependencies with `yarn install --frozen-lockfile`
-2. Start the backend by running `yarn docker:dev`, then by running `yarn dev`
-3. Launch the frontend with `yarn start`
+2. Start the backend by running `yarn docker:dev`, then open a new terminal and run `yarn dev`
+3. Launch the frontend in a new terminal with `yarn start:frontend`
 
 ## 💻 Technologies
 

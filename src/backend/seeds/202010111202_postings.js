@@ -1,6 +1,6 @@
 const R = require('ramda');
 const { ENV_IS_STAGING_OR_PROD } = require('../knexfile');
-const { parseTimeFromRequest } = require('../src/backend/utils/db-dates');
+const { parseTimeFromRequest } = require('../utils/db-dates');
 
 const Posting = (id, date, team_id) => ({
   title: 'Front End developer',
