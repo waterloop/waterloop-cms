@@ -1,5 +1,5 @@
 const { ENV_IS_STAGING_OR_PROD } = require('../knexfile');
-const { parseTimeFromRequest } = require('../src/backend/utils/db-dates');
+const { parseTimeFromRequest } = require('../utils/db-dates');
 
 if (!ENV_IS_STAGING_OR_PROD) {
   exports.seed = function (knex) {
