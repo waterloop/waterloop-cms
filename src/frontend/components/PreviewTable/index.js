@@ -57,6 +57,27 @@ const EditButton = styled.button`
   }
 `;
 
+const SummaryBtn = styled.button`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  width: 95px;
+  height: 36px;
+  border: 1px solid ${(props) => props.theme.colours.yellows.yellow2};
+  font: ${(props) => props.theme.fonts.bold18};
+  line-height: 23px;
+  background-color: ${(props) => props.theme.colours.yellows.yellow2};
+  color: ${(props) => props.theme.colours.blacks.black3};
+  box-sizing: border-box;
+  border-radius: 15px;
+  cursor: pointer;
+
+  &:hover {
+    background-color: ${(props) => props.theme.colours.greys.grey2};
+    border: 1px solid ${(props) => props.theme.colours.greys.grey2};
+  }
+`;
+
 const EditButtonText = styled.div`
   margin-left: 12px;
 `;
@@ -67,7 +88,9 @@ const EditButtonIcon = styled.img`
 
 const TableCell = styled(MUITableCell)``;
 
-const PreviewTable = ({ className, headers, rows, RowComponent, onEdit }) => {
+const PreviewTable = ({
+  className, headers, rows, RowComponent, onEdit, onSummary
+}) => {
   const { sortedRows, onSort } = useSortedRows(rows);
 
   const headerItems = headers.map((header) => (
@@ -80,17 +103,32 @@ const PreviewTable = ({ className, headers, rows, RowComponent, onEdit }) => {
     />
   ));
 
-  const sortedRowItems = sortedRows.rows.map((row) => (
-    <BodyRow key={row.id}>
-      <RowComponent {...row} />
-      <TableCell>
-        <EditButton onClick={() => onEdit(row.id)}>
-          <EditButtonText>Edit</EditButtonText>
-          <EditButtonIcon src={EditIcon} alt="edit" />
-        </EditButton>
-      </TableCell>
-    </BodyRow>
-  ));
+  const sortedRowItems = sortedRows.rows.map(
+    (row) => (
+      <BodyRow key={row.id}>
+        <RowComponent
+          {...row}
+        />
+        {onEdit
+         ? <TableCell>
+            <EditButton onClick={() => onEdit(row.id)}>
+              <EditButtonText>Edit</EditButtonText>
+              <EditButtonIcon src={EditIcon} alt="edit" />
+            </EditButton>
+          </TableCell>
+          :<></>
+        }
+        {onSummary
+         ? <TableCell>
+            <SummaryBtn onClick={() => onSummary(row.summary)}>
+              Summary
+            </SummaryBtn>
+          </TableCell>
+          :<></>
+        }
+      </BodyRow>
+    ),
+  );
 
   return (
     <TableContainer component={Chart} className={className}>

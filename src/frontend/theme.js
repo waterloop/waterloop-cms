@@ -50,6 +50,13 @@ const mediums = {
     medium24: '500 24px IBM Plex Sans',
 };
 
+const lights = {
+    light12: '300 12px IBM Plex Sans',
+    light14: '300 14px IBM Plex Sans',
+    light18: '300 18px IBM Plex Sans',
+    light24: '300 24px IBM Plex Sans',
+};
+
 const shadows = {
     shadow1: '0 4px 4px 0px rgba(0, 0, 0, 0.25)',
 };
@@ -74,6 +81,7 @@ export default {
     fonts: {
         ...bolds,
         ...mediums,
+        ...lights,
     },
     shadows,
     borders,

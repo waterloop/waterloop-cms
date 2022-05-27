@@ -64,7 +64,7 @@ const GeesePage = () => {
   const history = useHistory();
   const currentGoose = 'Goose V';
 
-  const geese = geeseInfo.map((goose) => ({
+  const geese = geeseInfo?.map((goose) => ({
     id: goose.id,
     name: goose.name,
     updatedAt: moment.utc(goose.updatedAt).local().format('MMMM D, YYYY'),
