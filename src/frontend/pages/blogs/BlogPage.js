@@ -131,12 +131,12 @@ const SummaryDesc = styled.p`
 
 const headers = [
   {id: 'title', value: 'Blog'},
+  {id: 'updatedAt', value: 'Date'},
   {id: 'author', value: 'Author'},
-  {id: 'updatedAt', value: 'Last Updated'},
   {id: 'link', value: 'Medium Link'}
 ];
 
-const RowComponent = ({ title, author, updatedAt, link }) => (
+const RowComponent = ({ title, updatedAt, author, link }) => (
   <>
     <TableCell>
       <TextBold>{title}</TextBold>
