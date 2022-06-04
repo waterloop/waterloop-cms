@@ -17,6 +17,8 @@ if (!ENV_IS_STAGING_OR_PROD) {
             link: 'string',
             image: 'https://picsum.photos/200/300',
             closed: true,
+            category: 'Media Appearance',
+            visibility: 'Public',
           },
           {
             author: 'John Doe',
@@ -27,6 +29,8 @@ if (!ENV_IS_STAGING_OR_PROD) {
             link: 'string',
             image: 'https://picsum.photos/200/300',
             closed: false,
+            category: 'Blog',
+            visibility: 'Public',
           },
           {
             author: 'John Doe',
@@ -37,6 +41,8 @@ if (!ENV_IS_STAGING_OR_PROD) {
             link: 'string',
             image: 'https://picsum.photos/200/300',
             closed: false,
+            category: 'Media Appearance',
+            visibility: 'Hidden',
           },
           {
             author: 'John Doe',
@@ -47,6 +53,8 @@ if (!ENV_IS_STAGING_OR_PROD) {
             link: 'string',
             image: 'https://picsum.photos/200/300',
             closed: true,
+            category: 'Blog',
+            visibility: 'Hidden',
           },
         ]);
       });

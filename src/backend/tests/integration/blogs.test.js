@@ -48,6 +48,8 @@ describe('Blog Routes', () => {
               'link',
               'image',
               'closed',
+              'visibility', 
+              'category'
             ]);
           });
           done();
@@ -78,6 +80,8 @@ describe('Blog Routes', () => {
               'link',
               'image',
               'closed',
+              'visibility', 
+              'category'
             ]);
           });
           done();
@@ -97,6 +101,9 @@ describe('Blog Routes', () => {
           date: '22-Aug-2021',
           link: 'https://test.com',
           image: 'https://picsum.photos/200/300',
+          closed: true,
+          visibility: 'Public', 
+          category: 'Blog'
         })
         .end((err, res) => {
           if (err) {
@@ -114,6 +121,8 @@ describe('Blog Routes', () => {
               'link',
               'image',
               'closed',
+              'visibility', 
+              'category'
             ]);
           });
           done();
@@ -143,11 +152,15 @@ describe('Blog Routes', () => {
       .request(app)
       .post('/api/blogs')
       .send({
+        author: 'Evan',
         title: 'test',
         summary: "Testing the '/api/blogs/add' route lorem ipsum ssomething something I want to exceed the 200 character limit how the heck are you btw my days been great hbu as;ldkfjas;ldfjas;ldkfjas;dlkfjasd;lkfjasl;dfjlas;kdjflkasdasd",
         date: '22-Aug-2021',
         link: 'https://test.com',
         image: 'https://picsum.photos/200/300',
+        closed: true,
+        visibility: 'Public', 
+        category: 'Blog'
       })
       .end((err, res) => {
         if (err) {
@@ -162,11 +175,15 @@ describe('Blog Routes', () => {
       .request(app)
       .post('/api/blogs')
       .send({
+        author: 'Evan',
         title: 'test',
         summary: "",
         date: '22-Aug-2021',
         link: 'https://test.com',
         image: 'https://picsum.photos/200/300',
+        closed: true,
+        visibility: 'Public', 
+        category: 'Blog'
       })
       .end((err, res) => {
         if (err) {
@@ -190,6 +207,9 @@ describe('Blog Routes', () => {
           date: '06-Oct-2021',
           link: 'https://test.com',
           image: 'https://picsum.photos/200/300',
+          closed: true,
+          visibility: 'Public', 
+          category: 'Blog'
         })
         .end((err, res) => {
           res.should.have.status(200);
@@ -207,6 +227,9 @@ describe('Blog Routes', () => {
           date: '06-Oct-2021',
           link: 'https://test.com',
           image: 'https://picsum.photos/200/300',
+          closed: true,
+          visibility: 'Public', 
+          category: 'Blog'
         })
         .end((err, res) => {
           if (err) {
