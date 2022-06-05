@@ -12,7 +12,7 @@ import PostingsRouter from './pages/postings/Postings.router';
 import SponsorsRouter from './pages/sponsors/Sponsors.router';
 import GeeseRouter from './pages/geese/Geese.router';
 import TeamDescriptionsRouter from './pages/team-descriptions/TeamDescriptions.router';
-import BlogsRouter from './pages/blogs/Blogs.Router';
+import BlogsRouter from './pages/blogs/Blogs.router';
 
 const App = () => {
   const token = useSelector(userSelectors.token);
