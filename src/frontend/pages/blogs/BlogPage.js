@@ -5,7 +5,6 @@ import PreviewTable from '../../components/PreviewTable';
 import TableCell from '@material-ui/core/TableCell';
 import useBlogInfo from '../../hooks/blogs'
 import { useHistory } from 'react-router-dom';
-import closeIcon from './assets/closeIcon.svg';
 
 const Button = styled(UnstyledButton)``;
 
