@@ -10,6 +10,7 @@ import MUITableRow from '@material-ui/core/TableRow';
 import MUITableContainer from '@material-ui/core/TableContainer';
 import MUITableHead from '@material-ui/core/TableHead';
 import useSortedRows from './hooks/sorted-rows';
+import Button from '../../components/Button';
 
 const Table = styled(MUITable)``;
 const TableBody = styled(MUITableBody)``;
@@ -57,27 +58,6 @@ const EditButton = styled.button`
   }
 `;
 
-const SummaryBtn = styled.button`
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  width: 95px;
-  height: 36px;
-  border: 1px solid ${(props) => props.theme.colours.yellows.yellow2};
-  font: ${(props) => props.theme.fonts.bold18};
-  line-height: 23px;
-  background-color: ${(props) => props.theme.colours.yellows.yellow2};
-  color: ${(props) => props.theme.colours.blacks.black3};
-  box-sizing: border-box;
-  border-radius: 15px;
-  cursor: pointer;
-
-  &:hover {
-    background-color: ${(props) => props.theme.colours.greys.grey2};
-    border: 1px solid ${(props) => props.theme.colours.greys.grey2};
-  }
-`;
-
 const EditButtonText = styled.div`
   margin-left: 12px;
 `;
@@ -118,13 +98,13 @@ const PreviewTable = ({
           </TableCell>
           :<></>
         }
-        {onSummary
-         ? <TableCell>
-            <SummaryBtn onClick={() => onSummary(row.summary)}>
-              Summary
-            </SummaryBtn>
+        {onSummary &&
+         <TableCell>
+            <Button
+              label="Summary"
+              onClick={() => onSummary(row.summary)}
+            />
           </TableCell>
-          :<></>
         }
       </BodyRow>
     ),

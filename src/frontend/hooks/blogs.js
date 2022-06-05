@@ -22,9 +22,8 @@ const useBlogInfo = () => {
     })();
   }, [dispatch]);
 
-  console.log(blogInfo)
   return {
-    blogInfo,
+    blogInfo
   };
 };
 
