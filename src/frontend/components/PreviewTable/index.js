@@ -10,6 +10,7 @@ import MUITableRow from '@material-ui/core/TableRow';
 import MUITableContainer from '@material-ui/core/TableContainer';
 import MUITableHead from '@material-ui/core/TableHead';
 import useSortedRows from './hooks/sorted-rows';
+import Button from '../../components/Button';
 
 const Table = styled(MUITable)``;
 const TableBody = styled(MUITableBody)``;
@@ -68,7 +69,7 @@ const EditButtonIcon = styled.img`
 const TableCell = styled(MUITableCell)``;
 
 const PreviewTable = ({
-  className, headers, rows, RowComponent, onEdit,
+  className, headers, rows, RowComponent, onEdit, onSummary
 }) => {
   const { sortedRows, onSort } = useSortedRows(rows);
 
@@ -90,12 +91,23 @@ const PreviewTable = ({
         <RowComponent
           {...row}
         />
-        <TableCell>
-          <EditButton onClick={() => onEdit(row.id)}>
-            <EditButtonText>Edit</EditButtonText>
-            <EditButtonIcon src={EditIcon} alt="edit" />
-          </EditButton>
-        </TableCell>
+        {onEdit
+         ? <TableCell>
+            <EditButton onClick={() => onEdit(row.id)}>
+              <EditButtonText>Edit</EditButtonText>
+              <EditButtonIcon src={EditIcon} alt="edit" />
+            </EditButton>
+          </TableCell>
+          :<></>
+        }
+        {onSummary &&
+         <TableCell>
+            <Button
+              label="Summary"
+              onClick={() => onSummary(row.summary)}
+            />
+          </TableCell>
+        }
       </BodyRow>
     ),
   );

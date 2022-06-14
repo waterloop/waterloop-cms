@@ -7,6 +7,8 @@ exports.up = knex => knex.schema.createTable('blogs', table => {
     table.string('link');
     table.string('image');
     table.boolean('closed');
+    table.string('visibility');
+    table.string('category');
   });
   
   exports.down = knex =>
