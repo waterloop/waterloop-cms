@@ -76,10 +76,9 @@ const EditPostingsForm = () => {
     updateDescription,
     updateSubteam,
     updateDeadline,
-    addNewRequirement,
+    updateRequirements,
     addNewTask,
     addNewInfo,
-    removeRequirement,
     removeTask,
     removeInfo,
     saveForm,
@@ -124,7 +123,7 @@ const EditPostingsForm = () => {
     setDeadlineError(R.isEmpty(deadline));
     setTimeCommitmentError(R.isEmpty(timeCommitment));
     setDescriptionError(R.isEmpty(description));
-    setRequirementsError(R.isEmpty(requirements));
+    setRequirementsError(!requirements.getCurrentContent().hasText());
     setInfoError(R.isEmpty(info));
     setTasksError(R.isEmpty(tasks));
   }, [
@@ -233,7 +232,15 @@ const EditPostingsForm = () => {
             title="Requirements (required)"
             isError={requirementsError}
           >
-            <DropDownList
+            <TextInput
+              value={requirements}
+              onChange={updateRequirements}
+              placeholder="Requirements (required)"
+              isError={requirementsError}
+              multiLine
+              richText
+            />
+            {/* <DropDownList
               items={requirements.map((req) => ({
                 id: req.id,
                 text: req.requirement,
@@ -242,7 +249,7 @@ const EditPostingsForm = () => {
               onAdd={addNewRequirement}
               onRemove={removeRequirement}
               isError={requirementsError}
-            />
+            /> */}
           </FormContainer>
         </Grid>
         <Grid item xs={12} md={6}>

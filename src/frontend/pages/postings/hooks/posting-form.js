@@ -13,6 +13,8 @@ import TextInput from '../../../components/TextInput';
 import api from '../../../api';
 import useTeams from '../../../hooks/teams';
 import { useHistory } from 'react-router-dom';
+import { EditorState, ContentState } from 'draft-js';
+import { convertArrayToEditorStateBulletedList } from '../../../utils/rich-text/rich-text-utils';
 
 const today = new Date();
 
@@ -27,7 +29,7 @@ const initialState = (inputState) => ({
     termYear: today.getFullYear(),
     termSeason: 'WINTER',
     description: '',
-    requirements: [],
+    requirements: EditorState.createEmpty(),
     tasks: [],
     info: [],
     timeCommitment: '',
@@ -116,16 +118,14 @@ const reducer = (state, action) => {
           deadline: action.payload,
         },
       };
-    case 'REMOVE_REQUIREMENT':
+    case 'UPDATE_REQUIREMENTS':
       return {
         ...state,
         form: {
           ...state.form,
-          requirements: state.form.requirements.filter(
-            (data) => data.id !== action.payload,
-          ),
-        },
-      };
+          requirements: action.payload
+        }
+      }
     case 'REMOVE_TASK':
       return {
         ...state,
@@ -223,6 +223,7 @@ const usePostingForm = (postingId, input = {}) => {
               payload: {
                 ...response.data,
                 deadline: new Date(response.data.deadline),
+                requirements: convertArrayToEditorStateBulletedList(response.data.requirements.map(req => req.requirement))
               },
             });
           } else {
@@ -289,20 +290,14 @@ const usePostingForm = (postingId, input = {}) => {
     [dispatch],
   );
 
-  const removeRequirement = useCallback(
-    async (requirementId) => {
-      try {
-        await api.postings.removePostingRequirement(postingId, requirementId);
-        dispatch({ type: 'REMOVE_REQUIREMENT', payload: requirementId });
-      } catch (err) {
-        if (process.env.NODE_ENV === 'development') {
-          // eslint-disable-next-line no-console
-          console.error(`[REMOVE REQUIREMENT ERROR]: ${err}`);
-        }
-      }
-    },
-    [dispatch, postingId],
-  );
+  const updateRequirements = useCallback(
+    (requirements) => {
+      dispatch({
+        type: 'UPDATE_REQUIREMENTS',
+        payload: requirements,
+      })
+    }
+  )
 
   const removeTask = useCallback(
     async (taskId) => {
@@ -368,18 +363,6 @@ const usePostingForm = (postingId, input = {}) => {
   /**
    * Dialog Functions
    */
-  const addNewRequirement = useCallback(() => {
-    dispatch({
-      type: 'OPEN_DIALOG',
-      payload: {
-        title: 'Requirement',
-        value: '',
-        formField: 'requirements',
-        open: true,
-      },
-    });
-  }, [dispatch]);
-
   const addNewTask = useCallback(() => {
     dispatch({
       type: 'OPEN_DIALOG',
@@ -440,14 +423,6 @@ const usePostingForm = (postingId, input = {}) => {
       let response;
       console.log(state.dialog);
       switch (state.dialog.formField) {
-        case 'requirements': {
-          // Response holds a list of requirements that includes the new item
-          response = await api.postings.addRequirementToPosting(
-            postingId,
-            state.dialog.value,
-          );
-          break;
-        }
         case 'info': {
           response = await api.postings.addInfoToPosting(
             postingId,
@@ -527,7 +502,11 @@ const usePostingForm = (postingId, input = {}) => {
   }, [history]);
 
   const saveForm = useCallback(() => {
-    api.postings.patchPosting(state.form, postingId).then(() => {
+    const form = {
+      ...state.form,
+      requirements: state.form.requirements.getCurrentContent().getPlainText().split('\n').map((req, i) => ({ requirement: req, id: i }))
+    }
+    api.postings.patchPosting(form, postingId).then(() => {
       closeForm();
     });
   }, [state.form, postingId, closeForm]);
@@ -579,10 +558,9 @@ const usePostingForm = (postingId, input = {}) => {
     updateDescription,
     updateSubteam,
     updateDeadline,
-    addNewRequirement,
+    updateRequirements,
     addNewTask,
     addNewInfo,
-    removeRequirement,
     removeTask,
     removeInfo,
     saveForm,

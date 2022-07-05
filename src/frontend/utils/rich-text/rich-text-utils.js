@@ -1,4 +1,5 @@
-import { EditorState, ContentState, convertFromHTML } from 'draft-js';
+import { EditorState, ContentState, ContentBlock, convertFromHTML, genKey, CharacterMetadata } from 'draft-js';
+import { List, Repeat } from 'immutable'
 import { convertToHTML } from 'draft-convert';
 
 export const getRichText = (value) => {
@@ -26,4 +27,19 @@ export const submitRichText = (value) => { // value should be an EditorState Obj
     const currentContentAsHTML = convertToHTML(currentContent);
 
     return currentContentAsHTML
+}
+
+export const convertArrayToEditorStateBulletedList = (strArr) => {
+  // Creates a bullet point (Content Block) for every string
+  const contentBlocksArray = strArr.map(str => {
+    return new ContentBlock({
+      key: genKey(),
+      type: 'unordered-list-item',
+      characterList: new List(Repeat(CharacterMetadata.create(), str.length)),
+      text: str
+    });
+  });
+
+  // Converts the array of bullet points (Content Block(s)) to EditorState to be used 
+  return EditorState.createWithContent(ContentState.createFromBlockArray(contentBlocksArray))
 }
