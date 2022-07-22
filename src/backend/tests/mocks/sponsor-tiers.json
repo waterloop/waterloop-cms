@@ -2,5 +2,6 @@
   {"id": 1, "type": "Hypersonic"},
   {"id": 2, "type": "Supersonic"},
   {"id": 3, "type": "Transsonic"},
-  {"id": 4, "type": "Sonic"}
+  {"id": 4, "type": "Sonic"},
+  {"id": 5, "type": "Old Sponsor"}
 ]
