@@ -201,52 +201,84 @@ const updatePostingData = (db, postingId, postingData) => db('postings')
   .where({ id: postingId })
   .update(fromPosting(postingData));
 
-const updatePostingRequirement = async (db, { id, requirement }) => db('posting_requirements')
-  .where({ id })
-  .update({ requirement });
+const updatePostingRequirements = async (db, postingId, requirements) => {
+  await db('posting_requirements')
+  .where({ posting_id: postingId })
+  .del();
 
-const updatePostingTask = async (db, { id, task }) => db('posting_tasks')
-  .where({ id })
-  .update({ task });
+  await db('posting_requirements')
+  .insert(R.map(requirement => ({
+    posting_id: postingId,
+    requirement
+  }), requirements))
+}
 
-const updatePostingInfo = async (db, { id, info }) => db('posting_info')
-  .where({ id })
-  .update({ info });
+const updatePostingInfo = async (db, postingId, info) => {
+  await db('posting_info')
+  .where({ posting_id: postingId })
+  .del();
 
-const updatePostingSkillToBeLearned = async (db, { id, skillToBeLearned }) => db('posting_skills_to_be_learned')
-  .where({ id })
-  .update({ skill_to_be_learned: skillToBeLearned });
+  await db('posting_info')
+  .insert(R.map(info => ({
+    posting_id: postingId,
+    info
+  }), info))
+}
 
-const updatePostingRecommendedSkill = async (db, { id, recommendedSkill }) => db('posting_recommended_skills')
-  .where({ id })
-  .update({ recommended_skill: recommendedSkill });
+const updatePostingTasks = async (db, postingId, tasks) => {
+  await db('posting_tasks')
+  .where({ posting_id: postingId })
+  .del();
+
+  await db('posting_tasks')
+  .insert(R.map(task => ({
+    posting_id: postingId,
+    task
+  }), tasks))
+}
+
+const updatePostingRecommendedSkills = async (db, postingId, recommendedSkills) => {
+  await db('posting_recommended_skills')
+  .where({ posting_id: postingId })
+  .del();
+
+  await db('posting_recommended_skills')
+  .insert(R.map(recommendedSkill => ({
+    posting_id: postingId,
+    recommended_skill: recommendedSkill
+  }), recommendedSkills))
+}
+
+const updatePostingSkillsToBeLearned = async (db, postingId, skillsToBeLearned) => {
+  await db('posting_skills_to_be_learned')
+  .where({ posting_id: postingId })
+  .del();
+
+  await db('posting_skills_to_be_learned')
+  .insert(R.map(skillToBeLearned => ({
+    posting_id: postingId,
+    skill_to_be_learned: skillToBeLearned
+  }), skillsToBeLearned))
+}
 
 const updatePosting = (db) => async (postingId, posting) => {
+  
   const { recommendedSkills, skillsToBeLearned, requirements, tasks, info, ...postingData } = posting;
   postingData.lastUpdated = parseTimeFromRequest((new Date()).getTime());
 
   const promises = [];
   !R.isNil(postingData) && promises.push(updatePostingData(db, postingId, postingData));
 
-  !R.isNil(requirements) && requirements.length > 0 && requirements.map((requirement) => {
-    !R.isNil(requirement) && promises.push(updatePostingRequirement(db, requirement))
-  });
+  !R.isNil(requirements) && requirements.length > 0 && promises.push(updatePostingRequirements(db, postingId, requirements))
 
-  !R.isNil(tasks) && tasks.length > 0 && tasks.map((task) => {
-    promises.push(updatePostingTask(db, task));
-  });
+  !R.isNil(info) && info.length > 0 && promises.push(updatePostingInfo(db, postingId, info))
 
-  !R.isNil(info) && info.length > 0 && info.map((i) => {
-    promises.push(updatePostingInfo(db, i));
-  });
+  !R.isNil(tasks) && tasks.length > 0 && promises.push(updatePostingTasks(db, postingId, tasks))
 
-  !R.isNil(recommendedSkills) && recommendedSkills.length > 0 && recommendedSkills.map((i) => {
-    promises.push(updatePostingRecommendedSkill(db, i));
-  });
+  !R.isNil(recommendedSkills) && recommendedSkills.length > 0 && promises.push(updatePostingRecommendedSkills(db, postingId, recommendedSkills))
 
-  !R.isNil(skillsToBeLearned) && skillsToBeLearned.length > 0 && skillsToBeLearned.map((i) => {
-    promises.push(updatePostingSkillToBeLearned(db, i));
-  });
+  !R.isNil(skillsToBeLearned) && skillsToBeLearned.length > 0 && promises.push(updatePostingSkillsToBeLearned(db, postingId, skillsToBeLearned))
+
   return Promise.all(promises);
 };
 

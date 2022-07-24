@@ -30,7 +30,7 @@ export const submitRichText = (value) => { // value should be an EditorState Obj
 }
 
 export const convertArrayToEditorStateBulletedList = (strArr) => {
-  // Creates a bullet point (Content Block) for every string
+  // Creates a bullet point (Content Block) for every array element
   const contentBlocksArray = strArr.map(str => {
     return new ContentBlock({
       key: genKey(),
@@ -42,4 +42,8 @@ export const convertArrayToEditorStateBulletedList = (strArr) => {
 
   // Converts the array of bullet points (Content Block(s)) to EditorState to be used 
   return EditorState.createWithContent(ContentState.createFromBlockArray(contentBlocksArray))
+}
+
+export const convertEditorStateBulletListToArray = (editorState) => {
+  return editorState.getCurrentContent().getPlainText().split('\n')
 }
