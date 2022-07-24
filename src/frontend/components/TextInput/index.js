@@ -118,6 +118,7 @@ const TextInput = ({
   richText,
   value /* The current value of the input */,
   rows = 10,
+  toolbar,
   onChange /* Callback to be called each time that the user changes the input */,
   placeholder = 'Place Holder Text',
   width,
@@ -137,6 +138,7 @@ const TextInput = ({
               editorClassName="editor-class"
               wrapperClassName="wrapper-class"
               toolbarClassName="toolbar-class"
+              toolbar={toolbar}
             />
           </TARichContainer>
         ) : (

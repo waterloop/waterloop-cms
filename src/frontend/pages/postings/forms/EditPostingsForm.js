@@ -152,7 +152,7 @@ const EditPostingsForm = () => {
           </FormContainer>
         </Grid>
         <Grid item xs={12} md={6}>
-          <FormContainer title="Sub Team(required)" isError={subTeamError}>
+          <FormContainer title="Sub Team (required)" isError={subTeamError}>
             <Selector
               value={teamId}
               onSelect={updateSubteam}
@@ -229,6 +229,7 @@ const EditPostingsForm = () => {
             <TextInput
               value={requirements}
               onChange={updateRequirements}
+              toolbar={{ options: ['list'] }}
               placeholder="Requirements (required)"
               isError={requirementsError}
               multiLine
@@ -237,10 +238,11 @@ const EditPostingsForm = () => {
           </FormContainer>
         </Grid>
         <Grid item xs={12} md={6}>
-          <FormContainer title="Additional Info" isError={infoError}>
+          <FormContainer title="Additional Info (required)" isError={infoError}>
             <TextInput
                 value={info}
                 onChange={updateInfo}
+                toolbar={{ options: ['list'] }}
                 placeholder="Additional Info (required)"
                 isError={infoError}
                 multiLine
@@ -253,6 +255,7 @@ const EditPostingsForm = () => {
             <TextInput
               value={tasks}
               onChange={updateTasks}
+              toolbar={{ options: ['list'] }}
               placeholder="Tasks (required)"
               isError={tasksError}
               multiLine
@@ -265,6 +268,7 @@ const EditPostingsForm = () => {
           <FormContainer title="Recommended Skills">
             <TextInput
                 value={recommendedSkills}
+                toolbar={{ options: ['list'] }}
                 onChange={updateRecommendedSkills}
                 placeholder="Recommended Skills"
                 multiLine
@@ -277,6 +281,7 @@ const EditPostingsForm = () => {
           <FormContainer title="Skills to be Learned">
           <TextInput
                 value={skillsToBeLearned}
+                toolbar={{ options: ['list'] }}
                 onChange={updateSkillsToBeLearned}
                 placeholder="Skills to be Learned"
                 multiLine
