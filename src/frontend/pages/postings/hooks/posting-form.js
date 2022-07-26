@@ -13,7 +13,10 @@ import api from '../../../api';
 import useTeams from '../../../hooks/teams';
 import { useHistory } from 'react-router-dom';
 import { EditorState, ContentState } from 'draft-js';
-import { convertArrayToEditorStateBulletedList, convertEditorStateBulletListToArray } from '../../../utils/rich-text/rich-text-utils';
+import {
+  convertArrayToEditorStateBulletedList,
+  convertEditorStateBulletListToArray,
+} from '../../../utils/rich-text/rich-text-utils';
 
 const today = new Date();
 
@@ -116,41 +119,41 @@ const reducer = (state, action) => {
         ...state,
         form: {
           ...state.form,
-          requirements: action.payload
-        }
-      }
+          requirements: action.payload,
+        },
+      };
     case 'UPDATE_INFO':
       return {
         ...state,
         form: {
           ...state.form,
-          info: action.payload
-        }
-      }
-      case 'UPDATE_TASKS':
-        return {
-          ...state,
-          form: {
-            ...state.form,
-            tasks: action.payload
-          }
-        }
-        case 'UPDATE_RECOMMENDED_SKILLS':
-          return {
-            ...state,
-            form: {
-              ...state.form,
-              recommendedSkills: action.payload
-            }
-          }
-          case 'UPDATE_SKILLS_TO_BE_LEARNED':
-            return {
-              ...state,
-              form: {
-                ...state.form,
-                skillsToBeLearned: action.payload
-              }
-            }
+          info: action.payload,
+        },
+      };
+    case 'UPDATE_TASKS':
+      return {
+        ...state,
+        form: {
+          ...state.form,
+          tasks: action.payload,
+        },
+      };
+    case 'UPDATE_RECOMMENDED_SKILLS':
+      return {
+        ...state,
+        form: {
+          ...state.form,
+          recommendedSkills: action.payload,
+        },
+      };
+    case 'UPDATE_SKILLS_TO_BE_LEARNED':
+      return {
+        ...state,
+        form: {
+          ...state.form,
+          skillsToBeLearned: action.payload,
+        },
+      };
     default:
       return {
         ...state,
@@ -179,11 +182,25 @@ const usePostingForm = (postingId, input = {}) => {
               payload: {
                 ...response.data,
                 deadline: new Date(response.data.deadline),
-                requirements: convertArrayToEditorStateBulletedList(response.data.requirements.map(req => req.requirement)),
-                info: convertArrayToEditorStateBulletedList(response.data.info.map(info => info.info)),
-                tasks: convertArrayToEditorStateBulletedList(response.data.tasks.map(task => task.task)),
-                recommendedSkills: convertArrayToEditorStateBulletedList(response.data.recommendedSkills.map(skill => skill.recommendedSkill)),
-                skillsToBeLearned: convertArrayToEditorStateBulletedList(response.data.skillsToBeLearned.map(skill => skill.skillToBeLearned))
+                requirements: convertArrayToEditorStateBulletedList(
+                  response.data.requirements.map((req) => req.requirement),
+                ),
+                info: convertArrayToEditorStateBulletedList(
+                  response.data.info.map((info) => info.info),
+                ),
+                tasks: convertArrayToEditorStateBulletedList(
+                  response.data.tasks.map((task) => task.task),
+                ),
+                recommendedSkills: convertArrayToEditorStateBulletedList(
+                  response.data.recommendedSkills.map(
+                    (skill) => skill.recommendedSkill,
+                  ),
+                ),
+                skillsToBeLearned: convertArrayToEditorStateBulletedList(
+                  response.data.skillsToBeLearned.map(
+                    (skill) => skill.skillToBeLearned,
+                  ),
+                ),
               },
             });
           } else {
@@ -250,51 +267,41 @@ const usePostingForm = (postingId, input = {}) => {
     [dispatch],
   );
 
-  const updateRequirements = useCallback(
-    (requirements) => {
-      dispatch({
-        type: 'UPDATE_REQUIREMENTS',
-        payload: requirements,
-      })
-    }
-  )
+  const updateRequirements = useCallback((requirements) => {
+    dispatch({
+      type: 'UPDATE_REQUIREMENTS',
+      payload: requirements,
+    });
+  });
 
-  const updateInfo = useCallback(
-    (info) => {
-      dispatch({
-        type: 'UPDATE_INFO',
-        payload: info,
-      })
-    }
-  )
+  const updateInfo = useCallback((info) => {
+    dispatch({
+      type: 'UPDATE_INFO',
+      payload: info,
+    });
+  });
 
-  const updateTasks = useCallback(
-    (tasks) => {
-      dispatch({
-        type: 'UPDATE_TASKS',
-        payload: tasks,
-      })
-    }
-  )
+  const updateTasks = useCallback((tasks) => {
+    dispatch({
+      type: 'UPDATE_TASKS',
+      payload: tasks,
+    });
+  });
 
-  const updateRecommendedSkills = useCallback(
-    (recommendedSkills) => {
-      dispatch({
-        type: 'UPDATE_RECOMMENDED_SKILLS',
-        payload: recommendedSkills,
-      })
-    }
-  )
+  const updateRecommendedSkills = useCallback((recommendedSkills) => {
+    dispatch({
+      type: 'UPDATE_RECOMMENDED_SKILLS',
+      payload: recommendedSkills,
+    });
+  });
 
-  const updateSkillsToBeLearned = useCallback(
-    (skillsToBeLearned) => {
-      dispatch({
-        type: 'UPDATE_SKILLS_TO_BE_LEARNED',
-        payload: skillsToBeLearned,
-      })
-    }
-  )
-  
+  const updateSkillsToBeLearned = useCallback((skillsToBeLearned) => {
+    dispatch({
+      type: 'UPDATE_SKILLS_TO_BE_LEARNED',
+      payload: skillsToBeLearned,
+    });
+  });
+
   /**
    * Save and close Functions
    */
@@ -306,21 +313,25 @@ const usePostingForm = (postingId, input = {}) => {
   const saveForm = useCallback(() => {
     const form = {
       ...state.form,
-      requirements: convertEditorStateBulletListToArray(state.form.requirements),
+      requirements: convertEditorStateBulletListToArray(
+        state.form.requirements,
+      ),
       info: convertEditorStateBulletListToArray(state.form.info),
       tasks: convertEditorStateBulletListToArray(state.form.tasks),
-      recommendedSkills: convertEditorStateBulletListToArray(state.form.recommendedSkills),
-      skillsToBeLearned: convertEditorStateBulletListToArray(state.form.skillsToBeLearned)
-    }
+      recommendedSkills: convertEditorStateBulletListToArray(
+        state.form.recommendedSkills,
+      ),
+      skillsToBeLearned: convertEditorStateBulletListToArray(
+        state.form.skillsToBeLearned,
+      ),
+    };
     api.postings.patchPosting(form, postingId).then(() => {
       closeForm();
     });
   }, [state.form, postingId, closeForm]);
 
   const deleteForm = useCallback(() => {
-    api.postings
-      .deletePosting(postingId)
-      .then(() => closeForm());
+    api.postings.deletePosting(postingId).then(() => closeForm());
   }, [postingId, closeForm]);
   // END Save and close functions
 
@@ -328,7 +339,7 @@ const usePostingForm = (postingId, input = {}) => {
    * Calculate Years for Selector. Add the year that is
    * currently attached to the posting if it is in the past.
    */
-  const [currentYear] = useState((new Date()).getFullYear());
+  const [currentYear] = useState(new Date().getFullYear());
   const years = useMemo(() => {
     const tempYears = [
       { id: currentYear, text: `${currentYear}` },

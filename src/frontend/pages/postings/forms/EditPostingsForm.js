@@ -240,14 +240,14 @@ const EditPostingsForm = () => {
         <Grid item xs={12} md={6}>
           <FormContainer title="Additional Info (required)" isError={infoError}>
             <TextInput
-                value={info}
-                onChange={updateInfo}
-                toolbar={{ options: ['list'] }}
-                placeholder="Additional Info (required)"
-                isError={infoError}
-                multiLine
-                richText
-              />
+              value={info}
+              onChange={updateInfo}
+              toolbar={{ options: ['list'] }}
+              placeholder="Additional Info (required)"
+              isError={infoError}
+              multiLine
+              richText
+            />
           </FormContainer>
         </Grid>
         <Grid item xs={12} md={6}>
@@ -267,25 +267,25 @@ const EditPostingsForm = () => {
         <Grid item xs={12} md={6}>
           <FormContainer title="Recommended Skills">
             <TextInput
-                value={recommendedSkills}
-                toolbar={{ options: ['list'] }}
-                onChange={updateRecommendedSkills}
-                placeholder="Recommended Skills"
-                multiLine
-                richText
+              value={recommendedSkills}
+              toolbar={{ options: ['list'] }}
+              onChange={updateRecommendedSkills}
+              placeholder="Recommended Skills"
+              multiLine
+              richText
             />
           </FormContainer>
         </Grid>
 
         <Grid item xs={12} md={6}>
           <FormContainer title="Skills to be Learned">
-          <TextInput
-                value={skillsToBeLearned}
-                toolbar={{ options: ['list'] }}
-                onChange={updateSkillsToBeLearned}
-                placeholder="Skills to be Learned"
-                multiLine
-                richText
+            <TextInput
+              value={skillsToBeLearned}
+              toolbar={{ options: ['list'] }}
+              onChange={updateSkillsToBeLearned}
+              placeholder="Skills to be Learned"
+              multiLine
+              richText
             />
           </FormContainer>
         </Grid>
