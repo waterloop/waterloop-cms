@@ -55,7 +55,6 @@ const EditPostingsForm = () => {
     title,
     teamId,
     deadline,
-    // location,
     termYear,
     termSeason,
     description,
@@ -76,20 +75,14 @@ const EditPostingsForm = () => {
     updateDescription,
     updateSubteam,
     updateDeadline,
-    addNewRequirement,
-    addNewTask,
-    addNewInfo,
-    removeRequirement,
-    removeTask,
-    removeInfo,
+    updateRequirements,
+    updateInfo,
+    updateTasks,
+    updateRecommendedSkills,
+    updateSkillsToBeLearned,
     saveForm,
     closeForm,
-    renderAddNewDialog,
     deleteForm,
-    removeSkillToBeLearned,
-    addNewSkillToBeLearned,
-    removeRecommendedSkill,
-    addNewRecommendedSkill,
   } = usePostingForm(postingId);
 
   /* Validation states */
@@ -124,9 +117,9 @@ const EditPostingsForm = () => {
     setDeadlineError(R.isEmpty(deadline));
     setTimeCommitmentError(R.isEmpty(timeCommitment));
     setDescriptionError(R.isEmpty(description));
-    setRequirementsError(R.isEmpty(requirements));
-    setInfoError(R.isEmpty(info));
-    setTasksError(R.isEmpty(tasks));
+    setRequirementsError(!requirements.getCurrentContent().hasText());
+    setInfoError(!info.getCurrentContent().hasText());
+    setTasksError(!tasks.getCurrentContent().hasText());
   }, [
     title,
     teamId,
@@ -159,7 +152,7 @@ const EditPostingsForm = () => {
           </FormContainer>
         </Grid>
         <Grid item xs={12} md={6}>
-          <FormContainer title="Sub Team(required)" isError={subTeamError}>
+          <FormContainer title="Sub Team (required)" isError={subTeamError}>
             <Selector
               value={teamId}
               onSelect={updateSubteam}
@@ -233,70 +226,66 @@ const EditPostingsForm = () => {
             title="Requirements (required)"
             isError={requirementsError}
           >
-            <DropDownList
-              items={requirements.map((req) => ({
-                id: req.id,
-                text: req.requirement,
-              }))}
-              title="Requirements"
-              onAdd={addNewRequirement}
-              onRemove={removeRequirement}
+            <TextInput
+              value={requirements}
+              onChange={updateRequirements}
+              toolbar={{ options: ['list'] }}
+              placeholder="Requirements (required)"
               isError={requirementsError}
+              multiLine
+              richText
             />
           </FormContainer>
         </Grid>
         <Grid item xs={12} md={6}>
-          <FormContainer title="Additional Info">
-            <DropDownList
-              items={info.map((i) => ({
-                id: i.id,
-                text: i.info,
-              }))}
-              title="Additional Info"
-              onAdd={addNewInfo}
-              onRemove={removeInfo}
+          <FormContainer title="Additional Info (required)" isError={infoError}>
+            <TextInput
+              value={info}
+              onChange={updateInfo}
+              toolbar={{ options: ['list'] }}
+              placeholder="Additional Info (required)"
+              isError={infoError}
+              multiLine
+              richText
             />
           </FormContainer>
         </Grid>
         <Grid item xs={12} md={6}>
           <FormContainer title="Tasks (required)" isError={tasksError}>
-            <DropDownList
-              items={tasks.map((t) => ({
-                id: t.id,
-                text: t.task,
-              }))}
-              title="Tasks"
-              onAdd={addNewTask}
-              onRemove={removeTask}
+            <TextInput
+              value={tasks}
+              onChange={updateTasks}
+              toolbar={{ options: ['list'] }}
+              placeholder="Tasks (required)"
               isError={tasksError}
+              multiLine
+              richText
             />
           </FormContainer>
         </Grid>
 
         <Grid item xs={12} md={6}>
           <FormContainer title="Recommended Skills">
-            <DropDownList
-              items={recommendedSkills.map((t) => ({
-                id: t.id,
-                text: t.recommendedSkill,
-              }))}
-              title="Recommended Skills"
-              onAdd={addNewRecommendedSkill}
-              onRemove={removeRecommendedSkill}
+            <TextInput
+              value={recommendedSkills}
+              toolbar={{ options: ['list'] }}
+              onChange={updateRecommendedSkills}
+              placeholder="Recommended Skills"
+              multiLine
+              richText
             />
           </FormContainer>
         </Grid>
 
         <Grid item xs={12} md={6}>
           <FormContainer title="Skills to be Learned">
-            <DropDownList
-              items={skillsToBeLearned.map((t) => ({
-                id: t.id,
-                text: t.skillToBeLearned,
-              }))}
-              title="Skills to Be learned"
-              onAdd={addNewSkillToBeLearned}
-              onRemove={removeSkillToBeLearned}
+            <TextInput
+              value={skillsToBeLearned}
+              toolbar={{ options: ['list'] }}
+              onChange={updateSkillsToBeLearned}
+              placeholder="Skills to be Learned"
+              multiLine
+              richText
             />
           </FormContainer>
         </Grid>
@@ -317,7 +306,6 @@ const EditPostingsForm = () => {
       {reqNotFilled && (
         <RequiredText>Please fill out all required fields.</RequiredText>
       )}
-      {renderAddNewDialog()}
     </Container>
   );
 };
