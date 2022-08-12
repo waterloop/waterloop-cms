@@ -41,22 +41,24 @@ const TableHeader = styled.p`
 `;
 
 const headers = [
-  {id: 'title', value: 'Blog'},
+  {id: 'title', value: 'Title'},
   {id: 'updatedAt', value: 'Date'},
   {id: 'author', value: 'Author'},
-  {id: 'link', value: 'Medium Link'}
+  {id: 'visibility', value: 'Visibility'},
+  {id: 'category', value: 'Category'}
 ];
 
-const RowComponent = ({ title, updatedAt, author, link }) => (
+const RowComponent = ({ title, updatedAt, author, link, category, visibility}) => (
   <>
     <TableCell>
-      <TextBold>{title}</TextBold>
+      <TextBold>
+        <LinkButton as="a" href={link}>{title}</LinkButton>
+      </TextBold>
     </TableCell>
     <TableCell>{updatedAt}</TableCell>
     <TableCell>{author}</TableCell>
-    <TableCell>
-      <LinkButton as="a" href={link}>Link</LinkButton>
-    </TableCell>
+    <TableCell>{category}</TableCell>
+    <TableCell>{visibility}</TableCell>
   </>
 );
 
@@ -70,16 +72,18 @@ const BlogPage = () => {
     author: blog.author,
     updatedAt: blog.date,
     link: blog.link,
-    summary: blog.summary
+    summary: blog.summary,
+    visibility: blog.visibility,
+    category: blog.category,
   }));
 
   const addBlog = useCallback(() => {
-    history.push('/blog/add');
+    history.push('/blog-posts/add');
   }, [history]);
 
   const onEditBlog = useCallback(
     (id) => {
-      history.push(`/blog/${id}`);
+      history.push(`/blog-posts/${id}`);
     },
     [history],
   );

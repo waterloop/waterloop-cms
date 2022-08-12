@@ -2,7 +2,7 @@ import React from 'react';
 import { Switch, Route, useRouteMatch } from 'react-router-dom';
 
 import BlogPage from './BlogPage';
-import AddBlog from './add-a-blog/AddBlog'
+import EditBlog from './edit-a-blog/EditBlog'
 
 const BlogsRouter = () => {
   const { path } = useRouteMatch();
@@ -12,7 +12,10 @@ const BlogsRouter = () => {
         <BlogPage />
       </Route>
       <Route path={`${path}/add`}>
-        <AddBlog add />
+        <EditBlog add />
+      </Route>
+      <Route path={`${path}/:blogId`}>
+        <EditBlog />
       </Route>
     </Switch>
   );
