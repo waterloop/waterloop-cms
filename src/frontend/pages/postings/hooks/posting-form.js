@@ -14,6 +14,8 @@ import api from '../../../api';
 import useTeams from '../../../hooks/teams';
 import { useHistory } from 'react-router-dom';
 
+import { dateToUTC, dateToLocalTime } from '../../../utils/datetime';
+
 const today = new Date();
 
 const initialState = (inputState) => ({
@@ -147,7 +149,9 @@ const reducer = (state, action) => {
         ...state,
         form: {
           ...state.form,
-          recommendedSkills: state.form.recommendedSkills.filter((data) => data.id !== action.payload),
+          recommendedSkills: state.form.recommendedSkills.filter(
+            (data) => data.id !== action.payload,
+          ),
         },
       };
     case 'REMOVE_SKILL_TO_BE_LEARNED':
@@ -155,7 +159,9 @@ const reducer = (state, action) => {
         ...state,
         form: {
           ...state.form,
-          skillsToBeLearned: state.form.skillsToBeLearned.filter((data) => data.id !== action.payload),
+          skillsToBeLearned: state.form.skillsToBeLearned.filter(
+            (data) => data.id !== action.payload,
+          ),
         },
       };
     case 'OPEN_DIALOG':
@@ -218,11 +224,15 @@ const usePostingForm = (postingId, input = {}) => {
         .getPostingById(postingId)
         .then((response) => {
           if (response && response.status === 200) {
+            const tmp = dateToLocalTime(response.data.deadline);
+            // const tmp = response.data.deadline;
+            console.log(`client date is ${tmp}`);
             dispatch({
               type: 'LOAD_SUCCESS',
               payload: {
                 ...response.data,
-                deadline: new Date(response.data.deadline),
+                // deadline: dateToLocalTime(response.data.deadline), // Convert to local time; server stores as UTC.
+                deadline: tmp, // Convert to local time; server stores as UTC.
               },
             });
           } else {
@@ -337,8 +347,14 @@ const usePostingForm = (postingId, input = {}) => {
   const removeRecommendedSkill = useCallback(
     async (recommendedSkillId) => {
       try {
-        await api.postings.removePostingRecommendedSkill(postingId, recommendedSkillId);
-        dispatch({ type: 'REMOVE_RECOMMENDED_SKILL', payload: recommendedSkillId });
+        await api.postings.removePostingRecommendedSkill(
+          postingId,
+          recommendedSkillId,
+        );
+        dispatch({
+          type: 'REMOVE_RECOMMENDED_SKILL',
+          payload: recommendedSkillId,
+        });
       } catch (err) {
         if (process.env.NODE_ENV === 'development') {
           // eslint-disable-next-line no-console
@@ -352,8 +368,14 @@ const usePostingForm = (postingId, input = {}) => {
   const removeSkillToBeLearned = useCallback(
     async (skillToBeLearnedId) => {
       try {
-        await api.postings.removePostingSkillToBeLearned(postingId, skillToBeLearnedId);
-        dispatch({ type: 'REMOVE_SKILL_TO_BE_LEARNED', payload: skillToBeLearnedId });
+        await api.postings.removePostingSkillToBeLearned(
+          postingId,
+          skillToBeLearnedId,
+        );
+        dispatch({
+          type: 'REMOVE_SKILL_TO_BE_LEARNED',
+          payload: skillToBeLearnedId,
+        });
       } catch (err) {
         if (process.env.NODE_ENV === 'development') {
           // eslint-disable-next-line no-console
@@ -507,7 +529,9 @@ const usePostingForm = (postingId, input = {}) => {
       actionChildren={
         <>
           <Button onClick={saveDialog}>Save</Button>
-          <Button cancel onClick={closeDialogWithoutSaving}>Cancel</Button>
+          <Button cancel onClick={closeDialogWithoutSaving}>
+            Cancel
+          </Button>
         </>
       }
     >
@@ -527,15 +551,13 @@ const usePostingForm = (postingId, input = {}) => {
   }, [history]);
 
   const saveForm = useCallback(() => {
-    api.postings.patchPosting(state.form, postingId).then(() => {
+    api.postings.patchPosting({ ...state.form }, postingId).then(() => {
       closeForm();
     });
   }, [state.form, postingId, closeForm]);
 
   const deleteForm = useCallback(() => {
-    api.postings
-      .deletePosting(postingId)
-      .then(() => closeForm());
+    api.postings.deletePosting(postingId).then(() => closeForm());
   }, [postingId, closeForm]);
   // END Save and close functions
 
@@ -543,7 +565,7 @@ const usePostingForm = (postingId, input = {}) => {
    * Calculate Years for Selector. Add the year that is
    * currently attached to the posting if it is in the past.
    */
-  const [currentYear] = useState((new Date()).getFullYear());
+  const [currentYear] = useState(new Date().getFullYear());
   const years = useMemo(() => {
     const tempYears = [
       { id: currentYear, text: `${currentYear}` },
