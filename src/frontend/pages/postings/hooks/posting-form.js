@@ -14,7 +14,7 @@ import api from '../../../api';
 import useTeams from '../../../hooks/teams';
 import { useHistory } from 'react-router-dom';
 
-import { dateToUTC, dateToLocalTime } from '../../../utils/datetime';
+import { dateToLocalTime } from '../../../utils/datetime';
 
 const today = new Date();
 
@@ -224,15 +224,11 @@ const usePostingForm = (postingId, input = {}) => {
         .getPostingById(postingId)
         .then((response) => {
           if (response && response.status === 200) {
-            const tmp = dateToLocalTime(response.data.deadline);
-            // const tmp = response.data.deadline;
-            console.log(`client date is ${tmp}`);
             dispatch({
               type: 'LOAD_SUCCESS',
               payload: {
                 ...response.data,
-                // deadline: dateToLocalTime(response.data.deadline), // Convert to local time; server stores as UTC.
-                deadline: tmp, // Convert to local time; server stores as UTC.
+                deadline: dateToLocalTime(response.data.deadline), // Convert to local time; server stores as UTC.
               },
             });
           } else {
