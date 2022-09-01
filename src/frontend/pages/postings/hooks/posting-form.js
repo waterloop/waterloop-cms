@@ -18,6 +18,8 @@ import {
   convertEditorStateBulletListToArray,
 } from '../../../utils/rich-text/rich-text-utils';
 
+import { dateToLocalTime } from '../../../utils/datetime';
+
 const today = new Date();
 
 const initialState = (inputState) => ({

@@ -17,6 +17,7 @@ if (!ENV_IS_STAGING_OR_PROD) {
           { type: 'Transsonic' },
           { type: 'Sonic' },
           { type: 'Supporter' },
+          { type: 'Old Sponsor'},
         ]);
       })
       .then(async () => {
@@ -73,6 +74,7 @@ if (!ENV_IS_STAGING_OR_PROD) {
           { type: 'Transsonic' },
           { type: 'Sonic' },
           { type: 'Supporter' },
+          { type: 'Old Sponsor'},
         ]);
       });
   };
