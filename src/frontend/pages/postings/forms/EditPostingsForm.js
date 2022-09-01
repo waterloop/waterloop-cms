@@ -196,7 +196,12 @@ const EditPostingsForm = () => {
           >
             <DatePicker
               selected={deadline}
-              onChange={updateDeadline}
+              onChange={(newDeadline) => {
+                newDeadline.setDate(newDeadline.getDate());
+                newDeadline.setHours(23, 59, 59, 999);
+                console.log(newDeadline);
+                updateDeadline(newDeadline);
+              }}
               isError={deadlineError}
             />
           </FormContainer>

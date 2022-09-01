@@ -20,7 +20,7 @@ export const validateRequest = (req, res, next) => {
   }
   const [type, token] = authorization.split(' ');
   if (type !== 'Bearer') {
-    console.log("Auth Error, (not a bearer token)", authorization, type, token);
+    console.log('Auth Error, (not a bearer token)', authorization, type, token);
     res.sendStatus(403);
     return;
   }
@@ -34,6 +34,7 @@ export const validateRequest = (req, res, next) => {
       const {
         hd, // host domain
       } = payload;
+
       if (hd !== 'waterloop.ca') {
         res.sendStatus(403);
       }
@@ -64,76 +65,106 @@ router.post('/', (req, res) => {
         family_name,
         given_name,
       } = payload;
+
       if (hd !== 'waterloop.ca') {
         throw {
           status: 403,
           msg: 'Attempted Sign in from not waterloop.ca account',
         };
       }
-      return db.users.getById(userId).then((userQueryResp) => {
-        if (userQueryResp === -1) {
-          // No user found so make one
-          return db.users
-            .createUser(email, given_name, family_name, userId)
-            .then(() => db.users.getById(userId));
-        }
 
-        // Check that the access token was sent along in the request
-        const authHeader = req.get("Authorization");
-        if (!authHeader) {
-          res.status(401).set('WWW-Authenticate', 'Bearer').send('No auth header found.').end();
-          return;
-        }
-        const [type, accessToken] = authHeader.split(' ');
-        if (type !== "Bearer" || !accessToken) {
-          res.status(401).set('WWW-Authenticate', 'Bearer').send('No bearer token found.').end();
-          return;
-        }
+      return db.users
+        .getById(userId)
+        .then((userQueryResp) => {
+          if (userQueryResp === -1) {
+            // No user found so make one
+            //// TODO: Set the user as admin if they are one here.
+            db.users
+              .createUser(email, given_name, family_name, userId)
+              .then(() => db.users.getById(userId))
+              .catch((err) => {
+                console.error(err);
+                return {};
+              });
+          }
+          // Check that the access token was sent along in the request
+          const authHeader = req.get('Authorization');
+          if (!authHeader) {
+            res
+              .status(401)
+              .set('WWW-Authenticate', 'Bearer')
+              .send('No auth header found.')
+              .end();
+            return;
+          }
+          const [type, accessToken] = authHeader.split(' ');
+          if (type !== 'Bearer' || !accessToken) {
+            res
+              .status(401)
+              .set('WWW-Authenticate', 'Bearer')
+              .send('No bearer token found.')
+              .end();
+            return;
+          }
 
-        // Check whether the user has admin priveleges (admins can edit content using the CMS)
-        db.featurePermissions
-          .getAllowedActions(userId, accessToken)
-          .then((resp) => {
+          // Check whether the user has admin priveleges (admins can edit content using the CMS)
+          db.featurePermissions
+            .getAllowedActions(userId, accessToken)
+            .then((resp) => {
               console.log(resp);
-              const {allowedActions, groupIds} = resp;
-              if (allowedActions.includes('Edit Content')) {  // The user has permission to log in to the CMS
-                res.send({ userId, groupIds, accessToken }).status(200);
+              const { allowedActions, groupIds } = resp;
+              if (allowedActions.includes('Edit Content')) {
+                // The user has permission to log in to the CMS
+                res.send({ userId, groupIds, accessToken }).status(200).end();
               } else {
-                res.statusMessage = "ERROR: User does not have permission to edit website content.";
+                res.statusMessage =
+                  'ERROR: User does not have permission to edit website content.';
                 res.status(403).end();
-              }            
-          });
-    })
-    .catch((err) => {
-      console.log(`${err.status}: ${err.msg}`);
-      res.sendStatus(err.status || 400);
+              }
+            });
+        })
+        .catch((err) => {
+          console.log(err);
+          console.log(`${err.status}: ${err.msg}`);
+          res.sendStatus(err.status || 400);
+        });
     });
-  })
 });
 
 router.post('/groups', (req, res) => {
-  const {userId, groupIds} = req.query;
+  const { userId, groupIds } = req.query;
   const groupIdsArray = groupIds.split(',');
 
   // Check that the access token was sent along in the request
-  const authHeader = req.get("Authorization");
+  const authHeader = req.get('Authorization');
   if (!authHeader) {
-    res.status(401).set('WWW-Authenticate', 'Bearer').send('No auth header found.').end();
+    res
+      .status(401)
+      .set('WWW-Authenticate', 'Bearer')
+      .send('No auth header found.')
+      .end();
     return;
   }
 
   const [type, accessToken] = authHeader.split(' ');
-  if (type !== "Bearer" || !accessToken) {
-    res.status(401).set('WWW-Authenticate', 'Bearer').send('No bearer token found.').end();
+  if (type !== 'Bearer' || !accessToken) {
+    res
+      .status(401)
+      .set('WWW-Authenticate', 'Bearer')
+      .send('No bearer token found.')
+      .end();
     return;
   }
 
-  db.featurePermissions.
-    updateUserGroups(userId, groupIdsArray, accessToken)
+  db.featurePermissions
+    .updateUserGroups(userId, groupIdsArray, accessToken)
     .then((resp) => {
       res.send(resp).status(200);
-    }).catch(err => {
-      console.log("Error: Failed to sync group membership info. with data from Google Groups.");
+    })
+    .catch((err) => {
+      console.log(
+        'Error: Failed to sync group membership info. with data from Google Groups.',
+      );
       res.sendStatus(err.status || 400);
     });
 });
