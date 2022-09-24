@@ -8,7 +8,7 @@ import {
 } from 'draft-js';
 import { List, Repeat } from 'immutable';
 import { convertToHTML } from 'draft-convert';
-import R, { isEmpty } from 'ramda';
+import * as R from 'ramda';
 
 export const getRichText = (value) => {
   // text from database are generally html blocks e.g <h3>description</h3>, so we are required to convert it to just strings
@@ -41,15 +41,16 @@ export const submitRichText = (value) => {
 export const convertArrayToEditorStateBulletedList = (strArr) => {
   // Creates a bullet point (Content Block) for every array element
 
-  // TODO: Don't create bullet points for empty strings.
-  const contentBlocksArray = strArr.map((str) => {
-    return new ContentBlock({
-      key: genKey(),
-      type: 'unordered-list-item',
-      characterList: new List(Repeat(CharacterMetadata.create(), str.length)),
-      text: str,
+  const contentBlocksArray = strArr
+    .filter((str) => !R.isEmpty(str))
+    .map((str) => {
+      return new ContentBlock({
+        key: genKey(),
+        type: 'unordered-list-item',
+        characterList: new List(Repeat(CharacterMetadata.create(), str.length)),
+        text: str,
+      });
     });
-  });
 
   // Converts the array of bullet points (Content Block(s)) to EditorState to be used
   return EditorState.createWithContent(
