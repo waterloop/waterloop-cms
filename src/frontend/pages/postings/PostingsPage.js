@@ -15,14 +15,14 @@ import * as userSelectors from '../../state/user/selectors';
 const ChartTitle = styled.div`
   font-style: italic;
   font: ${({ theme }) => theme.fonts.bold36};
-  color: #2B2B2B;
+  color: #2b2b2b;
   margin-bottom: 8px;
 `;
 
 const NewOpeningButton = styled(Button)`
   align-self: flex-end;
   margin-top: 8px;
-  margin-bottom: -16px
+  margin-bottom: -16px;
 `;
 
 const HeaderPreview = styled(UnstyledHeaderPreview)`
@@ -40,20 +40,27 @@ const PostingsPage = () => {
   const history = useHistory();
   const { url } = useRouteMatch();
 
-  const handleEditPosting = useCallback((id) => {
-    // eslint-disable-next-line no-console
-    console.log(`Edit the Posting with id ${id}`);
-    history.push(`${url}/${id}`);
-  }, [history, url]);
+  const handleEditPosting = useCallback(
+    (id) => {
+      // eslint-disable-next-line no-console
+      console.log(`Edit the Posting with id ${id}`);
+      history.push(`${url}/${id}`);
+    },
+    [history, url],
+  );
 
   const handleEditHeader = (id) => () => {
     // eslint-disable-next-line no-console
     console.log(`Edit the Header with id ${id}`);
   };
 
-  const headerItems = headers.map(
-    (header) => <HeaderPreview key={header.id} onEdit={handleEditHeader(header.id)} {...header} />,
-  );
+  const headerItems = headers.map((header) => (
+    <HeaderPreview
+      key={header.id}
+      onEdit={handleEditHeader(header.id)}
+      {...header}
+    />
+  ));
 
   const updateClosed = (id) => (closedState) => {
     updatePostingClosed(id, closedState);
@@ -84,7 +91,10 @@ const PostingsPage = () => {
       <ChartTitle>Team Openings</ChartTitle>
       <PreviewTable
         headers={tableHeaders}
-        rows={postings.map((posting) => ({ ...posting, onClosedChanged: updateClosed(posting.id) }))}
+        rows={postings.map((posting) => ({
+          ...posting,
+          onClosedChanged: updateClosed(posting.id),
+        }))}
         RowComponent={PostingPreview}
         onEdit={handleEditPosting}
       />

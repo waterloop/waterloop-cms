@@ -6,7 +6,6 @@ import Selector from '../../components/Selector';
 
 const TableCell = styled(MUITableCell)``;
 
-
 const ChartInfoText = styled.div`
   position: relative;
   height: 24px;
@@ -15,7 +14,7 @@ const ChartInfoText = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
-  color: #2B2B2B;
+  color: #2b2b2b;
 `;
 
 const LastUpdatedText = styled.div`
@@ -29,7 +28,7 @@ const LastUpdatedText = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
-  color: #2B2B2B;
+  color: #2b2b2b;
 `;
 
 const PostingsPreview = ({
@@ -47,10 +46,19 @@ const PostingsPreview = ({
       <ChartInfoText>{team}</ChartInfoText>
     </TableCell>
     <TableCell>
-      <LastUpdatedText>{moment(lastUpdated.getTime()).format('MMM Do, YYYY')}</LastUpdatedText>
+      <LastUpdatedText>
+        {moment(lastUpdated.getTime()).format('MMM Do, YYYY')}
+      </LastUpdatedText>
     </TableCell>
     <TableCell>
-      <Selector onSelect={onClosedChanged} value={(closed ? '1' : '0')} items={[{ id: '1', text: 'closed' }, { id: '0', text: 'open' }]}/>
+      <Selector
+        onSelect={onClosedChanged}
+        value={closed ? '1' : '0'}
+        items={[
+          { id: '1', text: 'closed' },
+          { id: '0', text: 'open' },
+        ]}
+      />
     </TableCell>
   </>
 );

@@ -6,24 +6,29 @@ import ExpandLessIcon from '@material-ui/icons/ExpandLess';
 import * as R from 'ramda';
 
 const PrimarySelector = styled(MUISelector)`
-  ${({ value, theme }) => (value === "" ? 
-    `font: ${theme.fonts.medium18}; 
+  ${({ value, theme }) =>
+    value === ''
+      ? `font: ${theme.fonts.medium18}; 
      color: ${theme.colours.greys.grey2};`
-    : "")};
+      : ''};
   border-radius: 10px;
   width: 100%;
   z-index: 100;
-  border-color: ${({ theme, error }) => error ? theme.colours.reds.red1 : theme.colours.greys.grey2};
+  border-color: ${({ theme, error }) =>
+    error ? theme.colours.reds.red1 : theme.colours.greys.grey2};
   & fieldset {
-    border-color: ${({ theme, error }) => error ? theme.colours.reds.red1 : theme.colours.greys.grey2};
+    border-color: ${({ theme, error }) =>
+      error ? theme.colours.reds.red1 : theme.colours.greys.grey2};
   }
   &.Mui-focused {
     & .MuiOutlinedInput-notchedOutline {
-      border-color: ${({ theme, error }) => error ? theme.colours.reds.red1 : theme.colours.greys.grey2};
+      border-color: ${({ theme, error }) =>
+        error ? theme.colours.reds.red1 : theme.colours.greys.grey2};
     }
   }
   .MuiOutlinedInput-notchedOutline {
-    border-color: ${({ theme, error }) => error ? theme.colours.reds.red1 : theme.colours.greys.grey2};
+    border-color: ${({ theme, error }) =>
+      error ? theme.colours.reds.red1 : theme.colours.greys.grey2};
   }
 `;
 
@@ -50,10 +55,10 @@ const PlaceholderMenuItem = styled(MUIMenuItem)`
  */
 const Selector = ({
   className,
-  value = "",
+  value = '',
   onSelect,
   items,
-  placeholder = "",
+  placeholder = '',
   isError = false,
 }) => {
   const handleChange = (event) => {
@@ -71,7 +76,9 @@ const Selector = ({
       color="primary"
       onChange={handleChange}
       value={value}
-      IconComponent={({ className: c }) => <StyledExpandIcon className={c} fontSize="large"/>}
+      IconComponent={({ className: c }) => (
+        <StyledExpandIcon className={c} fontSize="large" />
+      )}
       MenuProps={{
         anchorOrigin: {
           vertical: 'bottom',
@@ -84,7 +91,7 @@ const Selector = ({
         getContentAnchorEl: null,
       }}
     >
-      <PlaceholderMenuItem key={""} value={""} divider disabled>
+      <PlaceholderMenuItem key={''} value={''} divider disabled>
         {placeholder}
       </PlaceholderMenuItem>
       {items.map((item) => (

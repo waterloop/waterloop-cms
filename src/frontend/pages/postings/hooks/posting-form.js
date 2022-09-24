@@ -5,7 +5,6 @@ import React, {
   useMemo,
   useState,
 } from 'react';
-import Dialog from '../../../components/Dialog';
 import Button from '../../../components/Button';
 import FormContainer from '../../../components/FormContainer';
 import TextInput from '../../../components/TextInput';
@@ -13,6 +12,11 @@ import TextInput from '../../../components/TextInput';
 import api from '../../../api';
 import useTeams from '../../../hooks/teams';
 import { useHistory } from 'react-router-dom';
+import { EditorState, ContentState } from 'draft-js';
+import {
+  convertArrayToEditorStateBulletedList,
+  convertEditorStateBulletListToArray,
+} from '../../../utils/rich-text/rich-text-utils';
 
 import { dateToLocalTime } from '../../../utils/datetime';
 
@@ -29,19 +33,13 @@ const initialState = (inputState) => ({
     termYear: today.getFullYear(),
     termSeason: 'WINTER',
     description: '',
-    requirements: [],
-    tasks: [],
-    info: [],
+    requirements: EditorState.createEmpty(),
+    tasks: EditorState.createEmpty(),
+    info: EditorState.createEmpty(),
     timeCommitment: '',
-    skillsToBeLearned: [],
-    recommendedSkills: [],
+    skillsToBeLearned: EditorState.createEmpty(),
+    recommendedSkills: EditorState.createEmpty(),
     ...inputState, // May overwrite any of the above defaults
-  },
-  dialog: {
-    title: '',
-    value: '',
-    formField: '',
-    open: false,
   },
 });
 
@@ -118,87 +116,44 @@ const reducer = (state, action) => {
           deadline: action.payload,
         },
       };
-    case 'REMOVE_REQUIREMENT':
+    case 'UPDATE_REQUIREMENTS':
       return {
         ...state,
         form: {
           ...state.form,
-          requirements: state.form.requirements.filter(
-            (data) => data.id !== action.payload,
-          ),
+          requirements: action.payload,
         },
       };
-    case 'REMOVE_TASK':
+    case 'UPDATE_INFO':
       return {
         ...state,
         form: {
           ...state.form,
-          tasks: state.form.tasks.filter((data) => data.id !== action.payload),
+          info: action.payload,
         },
       };
-    case 'REMOVE_ADDITIONAL_INFORMATION':
+    case 'UPDATE_TASKS':
       return {
         ...state,
         form: {
           ...state.form,
-          info: state.form.info.filter((data) => data.id !== action.payload),
+          tasks: action.payload,
         },
       };
-    case 'REMOVE_RECOMMENDED_SKILL':
+    case 'UPDATE_RECOMMENDED_SKILLS':
       return {
         ...state,
         form: {
           ...state.form,
-          recommendedSkills: state.form.recommendedSkills.filter(
-            (data) => data.id !== action.payload,
-          ),
+          recommendedSkills: action.payload,
         },
       };
-    case 'REMOVE_SKILL_TO_BE_LEARNED':
+    case 'UPDATE_SKILLS_TO_BE_LEARNED':
       return {
         ...state,
         form: {
           ...state.form,
-          skillsToBeLearned: state.form.skillsToBeLearned.filter(
-            (data) => data.id !== action.payload,
-          ),
-        },
-      };
-    case 'OPEN_DIALOG':
-      return {
-        ...state,
-        dialog: action.payload,
-      };
-    case 'UPDATE_DIALOG_VALUE':
-      return {
-        ...state,
-        dialog: {
-          ...state.dialog,
-          value: action.payload,
-        },
-      };
-    case 'SAVE_DIALOG_VALUE_TO_FORM':
-      return {
-        ...state,
-        form: {
-          ...state.form,
-          [state.dialog.formField]: action.payload,
-        },
-        dialog: {
-          open: false,
-          formField: '',
-          title: '',
-          value: '',
-        },
-      };
-    case 'CLOSE_DIALOG_WITHOUT_SAVING':
-      return {
-        ...state,
-        dialog: {
-          open: false,
-          formField: '',
-          title: '',
-          value: '',
+          skillsToBeLearned: action.payload,
         },
       };
     default:
@@ -228,7 +183,26 @@ const usePostingForm = (postingId, input = {}) => {
               type: 'LOAD_SUCCESS',
               payload: {
                 ...response.data,
-                deadline: dateToLocalTime(response.data.deadline), // Convert to local time; server stores as UTC.
+                deadline: new Date(response.data.deadline),
+                requirements: convertArrayToEditorStateBulletedList(
+                  response.data.requirements.map((req) => req.requirement),
+                ),
+                info: convertArrayToEditorStateBulletedList(
+                  response.data.info.map((info) => info.info),
+                ),
+                tasks: convertArrayToEditorStateBulletedList(
+                  response.data.tasks.map((task) => task.task),
+                ),
+                recommendedSkills: convertArrayToEditorStateBulletedList(
+                  response.data.recommendedSkills.map(
+                    (skill) => skill.recommendedSkill,
+                  ),
+                ),
+                skillsToBeLearned: convertArrayToEditorStateBulletedList(
+                  response.data.skillsToBeLearned.map(
+                    (skill) => skill.skillToBeLearned,
+                  ),
+                ),
               },
             });
           } else {
@@ -295,248 +269,40 @@ const usePostingForm = (postingId, input = {}) => {
     [dispatch],
   );
 
-  const removeRequirement = useCallback(
-    async (requirementId) => {
-      try {
-        await api.postings.removePostingRequirement(postingId, requirementId);
-        dispatch({ type: 'REMOVE_REQUIREMENT', payload: requirementId });
-      } catch (err) {
-        if (process.env.NODE_ENV === 'development') {
-          // eslint-disable-next-line no-console
-          console.error(`[REMOVE REQUIREMENT ERROR]: ${err}`);
-        }
-      }
-    },
-    [dispatch, postingId],
-  );
-
-  const removeTask = useCallback(
-    async (taskId) => {
-      try {
-        await api.postings.removePostingTask(postingId, taskId);
-        dispatch({ type: 'REMOVE_TASK', payload: taskId });
-      } catch (err) {
-        if (process.env.NODE_ENV === 'development') {
-          // eslint-disable-next-line no-console
-          console.error(`[REMOVE TASK ERROR]: ${err}`);
-        }
-      }
-    },
-    [dispatch, postingId],
-  );
-
-  const removeInfo = useCallback(
-    async (infoId) => {
-      try {
-        await api.postings.removePostingInfo(postingId, infoId);
-        dispatch({ type: 'REMOVE_ADDITIONAL_INFORMATION', payload: infoId });
-      } catch (err) {
-        if (process.env.NODE_ENV === 'development') {
-          // eslint-disable-next-line no-console
-          console.error(`[REMOVE INFO ERROR]: ${err}`);
-        }
-      }
-    },
-    [dispatch, postingId],
-  );
-
-  const removeRecommendedSkill = useCallback(
-    async (recommendedSkillId) => {
-      try {
-        await api.postings.removePostingRecommendedSkill(
-          postingId,
-          recommendedSkillId,
-        );
-        dispatch({
-          type: 'REMOVE_RECOMMENDED_SKILL',
-          payload: recommendedSkillId,
-        });
-      } catch (err) {
-        if (process.env.NODE_ENV === 'development') {
-          // eslint-disable-next-line no-console
-          console.error(`[REMOVE INFO ERROR]: ${err}`);
-        }
-      }
-    },
-    [dispatch, postingId],
-  );
-
-  const removeSkillToBeLearned = useCallback(
-    async (skillToBeLearnedId) => {
-      try {
-        await api.postings.removePostingSkillToBeLearned(
-          postingId,
-          skillToBeLearnedId,
-        );
-        dispatch({
-          type: 'REMOVE_SKILL_TO_BE_LEARNED',
-          payload: skillToBeLearnedId,
-        });
-      } catch (err) {
-        if (process.env.NODE_ENV === 'development') {
-          // eslint-disable-next-line no-console
-          console.error(`[REMOVE INFO ERROR]: ${err}`);
-        }
-      }
-    },
-    [dispatch, postingId],
-  );
-  // END Form Functions
-
-  /**
-   * Dialog Functions
-   */
-  const addNewRequirement = useCallback(() => {
+  const updateRequirements = useCallback((requirements) => {
     dispatch({
-      type: 'OPEN_DIALOG',
-      payload: {
-        title: 'Requirement',
-        value: '',
-        formField: 'requirements',
-        open: true,
-      },
+      type: 'UPDATE_REQUIREMENTS',
+      payload: requirements,
     });
-  }, [dispatch]);
+  });
 
-  const addNewTask = useCallback(() => {
+  const updateInfo = useCallback((info) => {
     dispatch({
-      type: 'OPEN_DIALOG',
-      payload: {
-        title: 'Task',
-        value: '',
-        formField: 'tasks',
-        open: true,
-      },
+      type: 'UPDATE_INFO',
+      payload: info,
     });
-  }, [dispatch]);
+  });
 
-  const addNewInfo = useCallback(() => {
+  const updateTasks = useCallback((tasks) => {
     dispatch({
-      type: 'OPEN_DIALOG',
-      payload: {
-        title: 'Info',
-        value: '',
-        formField: 'info',
-        open: true,
-      },
+      type: 'UPDATE_TASKS',
+      payload: tasks,
     });
-  }, [dispatch]);
+  });
 
-  const addNewRecommendedSkill = useCallback(() => {
+  const updateRecommendedSkills = useCallback((recommendedSkills) => {
     dispatch({
-      type: 'OPEN_DIALOG',
-      payload: {
-        title: 'Recommended Skill',
-        value: '',
-        formField: 'recommendedSkills',
-        open: true,
-      },
+      type: 'UPDATE_RECOMMENDED_SKILLS',
+      payload: recommendedSkills,
     });
-  }, [dispatch]);
+  });
 
-  const addNewSkillToBeLearned = useCallback(() => {
+  const updateSkillsToBeLearned = useCallback((skillsToBeLearned) => {
     dispatch({
-      type: 'OPEN_DIALOG',
-      payload: {
-        title: 'Skill To Be Learned',
-        value: '',
-        formField: 'skillsToBeLearned',
-        open: true,
-      },
+      type: 'UPDATE_SKILLS_TO_BE_LEARNED',
+      payload: skillsToBeLearned,
     });
-  }, [dispatch]);
-
-  const updateDialogValue = useCallback(
-    (value) => {
-      dispatch({ type: 'UPDATE_DIALOG_VALUE', payload: value });
-    },
-    [dispatch],
-  );
-
-  const saveDialog = useCallback(async () => {
-    try {
-      let response;
-      console.log(state.dialog);
-      switch (state.dialog.formField) {
-        case 'requirements': {
-          // Response holds a list of requirements that includes the new item
-          response = await api.postings.addRequirementToPosting(
-            postingId,
-            state.dialog.value,
-          );
-          break;
-        }
-        case 'info': {
-          response = await api.postings.addInfoToPosting(
-            postingId,
-            state.dialog.value,
-          );
-          break;
-        }
-        case 'tasks':
-          response = await api.postings.addTaskToPosting(
-            postingId,
-            state.dialog.value,
-          );
-          break;
-        case 'skillsToBeLearned':
-          response = await api.postings.addSkillToBeLearnedToPosting(
-            postingId,
-            state.dialog.value,
-          );
-          break;
-        case 'recommendedSkills':
-          response = await api.postings.addRecommendedSkillToPosting(
-            postingId,
-            state.dialog.value,
-          );
-          break;
-        default:
-          return null;
-      }
-      if (response && response.status === 200 && response.data) {
-        dispatch({ type: 'SAVE_DIALOG_VALUE_TO_FORM', payload: response.data });
-      } else {
-        if (process.env.NODE_ENV === 'development') {
-          // eslint-disable-next-line no-console
-          console.log(response);
-        }
-        throw new Error(response.error);
-      }
-      return true;
-    } catch (err) {
-      if (process.env.NODE_ENV === 'development') {
-        // eslint-disable-next-line no-console
-        console.error(err);
-      }
-      return false;
-    }
-  }, [dispatch, state.dialog, postingId]);
-
-  const closeDialogWithoutSaving = useCallback(() => {
-    dispatch({ type: 'CLOSE_DIALOG_WITHOUT_SAVING' });
-  }, [dispatch]);
-
-  const renderAddNewDialog = () => (
-    <Dialog
-      wide
-      title={`Add new ${state.dialog.title}`}
-      open={state.dialog.open}
-      actionChildren={
-        <>
-          <Button onClick={saveDialog}>Save</Button>
-          <Button cancel onClick={closeDialogWithoutSaving}>
-            Cancel
-          </Button>
-        </>
-      }
-    >
-      <FormContainer title={state.dialog.title}>
-        <TextInput value={state.dialog.value} onChange={updateDialogValue} />
-      </FormContainer>
-    </Dialog>
-  );
-  // END Dialog Functions
+  });
 
   /**
    * Save and close Functions
@@ -547,7 +313,21 @@ const usePostingForm = (postingId, input = {}) => {
   }, [history]);
 
   const saveForm = useCallback(() => {
-    api.postings.patchPosting({ ...state.form }, postingId).then(() => {
+    const form = {
+      ...state.form,
+      requirements: convertEditorStateBulletListToArray(
+        state.form.requirements,
+      ),
+      info: convertEditorStateBulletListToArray(state.form.info),
+      tasks: convertEditorStateBulletListToArray(state.form.tasks),
+      recommendedSkills: convertEditorStateBulletListToArray(
+        state.form.recommendedSkills,
+      ),
+      skillsToBeLearned: convertEditorStateBulletListToArray(
+        state.form.skillsToBeLearned,
+      ),
+    };
+    api.postings.patchPosting(form, postingId).then(() => {
       closeForm();
     });
   }, [state.form, postingId, closeForm]);
@@ -597,20 +377,14 @@ const usePostingForm = (postingId, input = {}) => {
     updateDescription,
     updateSubteam,
     updateDeadline,
-    addNewRequirement,
-    addNewTask,
-    addNewInfo,
-    removeRequirement,
-    removeTask,
-    removeInfo,
+    updateRequirements,
+    updateInfo,
+    updateTasks,
+    updateRecommendedSkills,
+    updateSkillsToBeLearned,
     saveForm,
     closeForm,
     deleteForm,
-    renderAddNewDialog,
-    removeSkillToBeLearned,
-    addNewSkillToBeLearned,
-    removeRecommendedSkill,
-    addNewRecommendedSkill,
   };
 };
 

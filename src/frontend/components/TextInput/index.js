@@ -105,11 +105,6 @@ To implement the richText support in textinput:
 https://docs.google.com/document/d/1_C9twf66rjGkE7HPAsEid-_ZddWcbDoLNw9e2EEkAA8/edit?usp=sharing 
 */
 
-const RequiredText = styled.p`
-  color: ${({ theme }) => theme.colours.reds.red1};
-  font: ${({ theme }) => theme.fonts.medium14};
-`;
-
 const TextInput = ({
   className /* Allows for external styles to be applied to the component
                 using the styled components library
@@ -118,11 +113,10 @@ const TextInput = ({
   richText,
   value /* The current value of the input */,
   rows = 10,
+  toolbar,
   onChange /* Callback to be called each time that the user changes the input */,
   placeholder = 'Place Holder Text',
   width,
-  required = false /* Marks the input as required from the user. */,
-  requiredText = 'This field cannot be blank.',
   isError = false /* Marks an error state for the component. Also marks the input 
                       as required from the user. */,
 }) => {
@@ -137,6 +131,8 @@ const TextInput = ({
               editorClassName="editor-class"
               wrapperClassName="wrapper-class"
               toolbarClassName="toolbar-class"
+              toolbar={toolbar}
+              placeholder={placeholder}
             />
           </TARichContainer>
         ) : (
