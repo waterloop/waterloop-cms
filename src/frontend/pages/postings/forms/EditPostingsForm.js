@@ -12,6 +12,9 @@ import TextInput from '../../../components/TextInput';
 
 import * as R from 'ramda';
 
+const RICH_TEXT_MULTILINE_PROMPT =
+  'Please enter each point in a separate line. The app will automatically convert these lines to bullet points. Blank / numbered lines will be ignored.';
+
 const DatePicker = styled(UnstyledDatePicker)`
   width: 100%;
   font: ${({ theme }) => theme.fonts.medium14};
@@ -235,7 +238,7 @@ const EditPostingsForm = () => {
               value={requirements}
               onChange={updateRequirements}
               toolbar={{ options: ['list'] }}
-              placeholder="Requirements (required)"
+              placeholder={RICH_TEXT_MULTILINE_PROMPT}
               isError={requirementsError}
               multiLine
               richText
@@ -248,7 +251,7 @@ const EditPostingsForm = () => {
               value={info}
               onChange={updateInfo}
               toolbar={{ options: ['list'] }}
-              placeholder="Additional Info (required)"
+              placeholder={RICH_TEXT_MULTILINE_PROMPT}
               isError={infoError}
               multiLine
               richText
@@ -261,7 +264,7 @@ const EditPostingsForm = () => {
               value={tasks}
               onChange={updateTasks}
               toolbar={{ options: ['list'] }}
-              placeholder="Tasks (required)"
+              placeholder={RICH_TEXT_MULTILINE_PROMPT}
               isError={tasksError}
               multiLine
               richText
@@ -275,7 +278,7 @@ const EditPostingsForm = () => {
               value={recommendedSkills}
               toolbar={{ options: ['list'] }}
               onChange={updateRecommendedSkills}
-              placeholder="Recommended Skills"
+              placeholder={RICH_TEXT_MULTILINE_PROMPT}
               multiLine
               richText
             />
@@ -288,7 +291,7 @@ const EditPostingsForm = () => {
               value={skillsToBeLearned}
               toolbar={{ options: ['list'] }}
               onChange={updateSkillsToBeLearned}
-              placeholder="Skills to be Learned"
+              placeholder={RICH_TEXT_MULTILINE_PROMPT}
               multiLine
               richText
             />
