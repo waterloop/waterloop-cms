@@ -6,7 +6,7 @@ const initialState = {
 
 const reducer = (state = initialState, action) => {
   switch (action.type) {
-    case actionTypes.GET_BLOG_INFO:
+    case actionTypes.UPDATE_BLOG_INFO:
       return {
         ...state,
         allBlogInfo: action.payload,

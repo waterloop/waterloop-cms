@@ -4,7 +4,7 @@ import useBlogInfo from '../hooks/blogs';
 import api from '../api';
 
 const useBlogForm = () => {
-  const [blogTitle, setblogTitle] = useState('');
+  const [blogTitle, setBlogTitle] = useState('');
   const [author, setAuthor] = useState('');
   const [summary, setSummary] = useState('');
   const [date, setDate] = useState('');
@@ -29,7 +29,7 @@ const useBlogForm = () => {
             const blogId = parseInt(params.blogId, 10);
             const blogToEdit = blogInfo.posts.find((blog) => blog.id === blogId); 
             if (blogToEdit) {
-              setblogTitle(blogToEdit.title); 
+              setBlogTitle(blogToEdit.title); 
               setAuthor(blogToEdit.author);
               setSummary(blogToEdit.summary);
               setDate(blogToEdit.date);
@@ -45,7 +45,7 @@ const useBlogForm = () => {
         }
       })();
     }
-  }, [setblogTitle, setAuthor, setSummary, setDate, setLink, 
+  }, [setBlogTitle, setAuthor, setSummary, setDate, setLink, 
       setCurrentImageURL, setClosed, setVisibility, setCategory]);
 
   const imageUpload = useCallback(
@@ -84,7 +84,7 @@ const useBlogForm = () => {
     if (date === "") { tmpErrors.push("date cannot be blank") }
     if (category === "") {  tmpErrors.push("category cannot be blank") }
 
-    if (currentImageURL == '' && uploadedImageURL == '') {
+    if (currentImageURL === '' && uploadedImageURL === '') {
           tmpErrors.push( "One image is required")
         }
 
@@ -99,10 +99,10 @@ const useBlogForm = () => {
 
     setErrors(tmpErrors);
 
-    if (tmpErrors.length == 0) {
+    if (tmpErrors.length === 0) {
       return true; // checks passed
     }
-    return false // cheks failed
+    return false // checks failed
   }
 
   // Begin submitting form
@@ -111,7 +111,8 @@ const useBlogForm = () => {
     if(!allFieldsAreFilled()) return;
 
     try {
-      if (uploadedImageURL != '') {
+      let imageToUpload = "";
+      if (uploadedImageURL !== '') {
         // Send new image to google storage
         const file = uploadedImageURL;
 
@@ -124,12 +125,10 @@ const useBlogForm = () => {
         if (imageUrls.length === 0) {
           throw new Error('Failed to upload image.');
         }
+        imageToUpload = res.data.data[0];
+      } else {
+        imageToUpload = currentImageURL;
       }
-
-      // Prepare image url to store in DB
-      const googleStorageImageLink = "https://storage.googleapis.com/waterloop_cms_image_upload/"
-       // Either keep the current image or save the name of the uploaded file (date-name)
-      const imageToUpload = uploadedImageURL == '' ? currentImageURL : `${googleStorageImageLink}${Date.now()}-${uploadedImageURL.name.replaceAll(' ', '-')}`
 
       const blogData = {
         title: blogTitle,
@@ -153,8 +152,7 @@ const useBlogForm = () => {
         } else {
           // add a NEW blog (no id) with the new blogData we just defined
           const res = await api.blogs.addBlog(blogData);
-          const data = await res.data
-          console.log("Tried to add a new blog, status: " , data)
+          console.log("Tried to add a new blog, status: " , res.data)
         }
       }
 
@@ -175,7 +173,7 @@ const useBlogForm = () => {
   }, [params.blogId, closeForm]);
 
   return {
-    blogTitle, setblogTitle,
+    blogTitle, setBlogTitle,
     author, setAuthor,
     summary, setSummary,
     date, setDate,

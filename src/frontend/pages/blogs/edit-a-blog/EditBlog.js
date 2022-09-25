@@ -32,9 +32,8 @@ const EditBlogBody = styled.div`
 `;
 
 const ImagesText = styled.div`
-  font-family: IBM Plex Sans;
-  font-size: 18px;
-  color: #232535;
+  font: ${({ theme }) => theme.fonts.light18};
+  color: ${({ theme }) => theme.colours.blues.blue1};
   margin: 0;
 `;
 
@@ -74,10 +73,7 @@ const ModalTitle = styled.div`
 `;
 
 const ModalDescription = styled.div`
-  font-family: IBM Plex Sans;
-  font-style: normal;
-  font-weight: normal;
-  font-size: 18px;
+  font: ${({ theme }) => theme.fonts.light18};
   color: #2A2A2A;
 `;
 
@@ -99,7 +95,7 @@ const RedDeleteButton = styled(Button)`
 
 const EditBlog = ({ add }) => {
   const {
-    blogTitle, setblogTitle,
+    blogTitle, setBlogTitle,
     author, setAuthor,
     summary, setSummary,
     date, setDate,
@@ -163,10 +159,10 @@ const EditBlog = ({ add }) => {
   const updateVisibilityCatagory = (value) => {
     switch (value){
       case 2:
-        setVisibility("Hidden")
+        setVisibility("Public");
         break;
       default:
-        setVisibility("Public")
+        setVisibility("Hidden");
         break;
     }
   }
@@ -194,7 +190,7 @@ const EditBlog = ({ add }) => {
         <FormContainer title="Blog Title (required)">
           <TextInput
             value={blogTitle}
-            onChange={setblogTitle}
+            onChange={setBlogTitle}
             placeholder="Blog Title"
           />
         </FormContainer>
@@ -212,7 +208,7 @@ const EditBlog = ({ add }) => {
             <TextInput
             value={summary}
             onChange={setSummary}
-            placeholder="Lorem ipsum dolor sit amet, consectetur adipiscing elit..."
+            placeholder="A brief summary of the blog post ..."
             multiLine={true}
           />
           </BlogInfo>

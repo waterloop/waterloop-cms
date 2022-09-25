@@ -4,8 +4,8 @@ const deleteBlog = (server) => (id) =>
   server.delete(`/api/blogs/${id}`);
 const editBlog = (server) => (id, updatedBlogs) =>
   server.patch(`/api/blogs/${id}`, updatedBlogs);
-const addBlog = (server) => (Blogs) =>
-  server.post('/api/blogs/', Blogs);
+const addBlog = (server) => (blogs) =>
+  server.post('/api/blogs/', blogs);
 
 export default (server) => ({
   getBlogs: getBlogs(server),
