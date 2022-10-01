@@ -23,10 +23,11 @@ const reducer = (state, { payload, type }) => {
             case 'string':
               return a[headerId].localeCompare(b[headerId]);
             case 'number':
-              return (a[headerId] - b[headerId]);
+            case 'boolean':
+              return a[headerId] - b[headerId];
             case 'object':
               if (a[headerId] instanceof Date) {
-                return (b[headerId].getTime() - a[headerId].getTime());
+                return b[headerId].getTime() - a[headerId].getTime();
               }
               return 0;
             default:
@@ -46,10 +47,11 @@ const reducer = (state, { payload, type }) => {
             case 'string':
               return a[headerId].localeCompare(b[headerId]);
             case 'number':
-              return (a[headerId] - b[headerId]);
+            case 'boolean':
+              return a[headerId] - b[headerId];
             case 'object':
               if (a[headerId] instanceof Date) {
-                return (b[headerId].getTime() - a[headerId].getTime());
+                return b[headerId].getTime() - a[headerId].getTime();
               }
               return 0;
             default:
@@ -89,10 +91,16 @@ const useSortedRows = (rows) => {
     };
   }, [rows]);
 
-  const onSort = useCallback((headerId) => {
-    const type = state.ascending && state.headerId === headerId ? SORT_DESCENDING : SORT_ASCENDING;
-    dispatch({ type, payload: { headerId } });
-  }, [dispatch, state.ascending, state.headerId]);
+  const onSort = useCallback(
+    (headerId) => {
+      const type =
+        state.ascending && state.headerId === headerId
+          ? SORT_DESCENDING
+          : SORT_ASCENDING;
+      dispatch({ type, payload: { headerId } });
+    },
+    [dispatch, state.ascending, state.headerId],
+  );
 
   return {
     sortedRows: state,

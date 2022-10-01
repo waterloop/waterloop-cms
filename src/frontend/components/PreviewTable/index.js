@@ -17,7 +17,7 @@ const TableRow = styled(MUITableRow)``;
 const TableContainer = styled(MUITableContainer)``;
 
 const TableHead = styled(MUITableHead)`
-  background: #F4F4F4;
+  background: #f4f4f4;
 `;
 
 const BodyRow = styled(MUITableRow)`
@@ -32,7 +32,7 @@ const Chart = styled.div`
   display: flex;
   flex-direction: column;
   flex-basis: 70%;
-  border: 2px solid #C4C4C4;
+  border: 2px solid #c4c4c4;
   border-radius: 10px 10px 0px 0px;
 `;
 
@@ -67,53 +67,43 @@ const EditButtonIcon = styled.img`
 
 const TableCell = styled(MUITableCell)``;
 
-const PreviewTable = ({
-  className, headers, rows, RowComponent, onEdit,
-}) => {
+const PreviewTable = ({ className, headers, rows, RowComponent, onEdit }) => {
   const { sortedRows, onSort } = useSortedRows(rows);
 
-  const headerItems = headers.map(
-    (header) => (
-      <HeaderCell
-        key={header.id}
-        title={header.value}
-        onSort={() => onSort(header.id)}
-        sorted={header.id === sortedRows.headerId}
-        ascending={sortedRows.ascending}
-      />
-    ),
-  );
+  const headerItems = headers.map((header) => (
+    <HeaderCell
+      key={header.id}
+      title={header.value}
+      onSort={() => onSort(header.id)}
+      sorted={header.id === sortedRows.headerId}
+      ascending={sortedRows.ascending}
+    />
+  ));
 
-  const sortedRowItems = sortedRows.rows.map(
-    (row) => (
-      <BodyRow key={row.id}>
-        <RowComponent
-          {...row}
-        />
-        <TableCell>
-          <EditButton onClick={() => onEdit(row.id)}>
-            <EditButtonText>Edit</EditButtonText>
-            <EditButtonIcon src={EditIcon} alt="edit" />
-          </EditButton>
-        </TableCell>
-      </BodyRow>
-    ),
-  );
+  const sortedRowItems = sortedRows.rows.map((row) => (
+    <BodyRow key={row.id}>
+      <RowComponent {...row} />
+      <TableCell>
+        <EditButton onClick={() => onEdit(row.id)}>
+          <EditButtonText>Edit</EditButtonText>
+          <EditButtonIcon src={EditIcon} alt="edit" />
+        </EditButton>
+      </TableCell>
+    </BodyRow>
+  ));
 
   return (
     <TableContainer component={Chart} className={className}>
-    <Table>
-      <TableHead>
-        <TableRow>
-          {headerItems}
-          <TableCell/> {/** Place holder column for the edit button */}
-        </TableRow>
-      </TableHead>
-      <TableBody>
-        {sortedRowItems}
-      </TableBody>
-    </Table>
-  </TableContainer>
+      <Table>
+        <TableHead>
+          <TableRow>
+            {headerItems}
+            <TableCell /> {/** Place holder column for the edit button */}
+          </TableRow>
+        </TableHead>
+        <TableBody>{sortedRowItems}</TableBody>
+      </Table>
+    </TableContainer>
   );
 };
 
@@ -123,13 +113,16 @@ const PreviewTable = ({
  */
 PreviewTable.propTypes = {
   className: PropTypes.string,
-  headers: PropTypes.arrayOf(PropTypes.shape({
-    id: PropTypes.string, /** The id values correspond to properties of a row */
-    value: PropTypes.string,
-  })),
+  headers: PropTypes.arrayOf(
+    PropTypes.shape({
+      id:
+        PropTypes.string /** The id values correspond to properties of a row */,
+      value: PropTypes.string,
+    }),
+  ),
   rows: PropTypes.arrayOf(PropTypes.object),
   RowComponent: PropTypes.element,
-  onEdit: PropTypes.func, /** (rowId) => void */
+  onEdit: PropTypes.func /** (rowId) => void */,
 };
 
 export default PreviewTable;
