@@ -1,6 +1,7 @@
 import React from 'react';
 import { Switch, Route, BrowserRouter, Redirect } from 'react-router-dom';
 import { useSelector } from 'react-redux';
+import Cookies from 'js-cookie';
 
 import * as userSelectors from './state/user/selectors';
 import TopBar from './components/TopBar';
@@ -12,9 +13,16 @@ import PostingsRouter from './pages/postings/Postings.router';
 import SponsorsRouter from './pages/sponsors/Sponsors.router';
 import GeeseRouter from './pages/geese/Geese.router';
 import TeamDescriptionsRouter from './pages/team-descriptions/TeamDescriptions.router';
+import { addAuthTokenToRequests } from './api/server';
 
 const App = () => {
-  const token = useSelector(userSelectors.token);
+  let token = useSelector(userSelectors.token);
+  if (!token) {
+    token = Cookies.get('tokenId');
+    if (token) {
+      addAuthTokenToRequests(token);
+    }
+  }
 
   return (
     <BrowserRouter>
