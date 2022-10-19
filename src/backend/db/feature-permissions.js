@@ -80,7 +80,7 @@ const getGAdminClient = (accessToken) => {
   const jwtClient = new JWT({
     scopes: ['https://www.googleapis.com/auth/admin.directory.group'],
     email: 'waterloop-467@waterloop-cms.iam.gserviceaccount.com',
-    key: '',
+    key: process.env.JWT_KEY,
     subject: 'steven.x@waterloop.ca',
   });
 
