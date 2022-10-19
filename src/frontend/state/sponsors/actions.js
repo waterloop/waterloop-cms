@@ -17,6 +17,6 @@ export const setSponsorDesc = (sponsorDesc) => ({
 export const setSponsorTiers = (sponsorTiers) => ({
   type: actionTypes.SPONSORS_SET_SPONSOR_TIERS,
   payload: {
-    sponsorTiers
+    sponsorTiers,
   },
 });
