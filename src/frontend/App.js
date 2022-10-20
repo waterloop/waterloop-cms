@@ -16,12 +16,9 @@ import TeamDescriptionsRouter from './pages/team-descriptions/TeamDescriptions.r
 import { addAuthTokenToRequests } from './api/server';
 
 const App = () => {
-  let token = useSelector(userSelectors.token);
-  if (!token) {
-    token = Cookies.get('tokenId');
-    if (token) {
-      addAuthTokenToRequests(token);
-    }
+  let token = useSelector(userSelectors.token) || Cookies.get('tokenId');
+  if (token) {
+    addAuthTokenToRequests(token);
   }
 
   return (
