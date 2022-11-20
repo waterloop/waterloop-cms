@@ -196,10 +196,11 @@ describe('Blog Routes', () => {
   });
 
   describe('PATCH /api/blogs/:id', () => {
-    it('should edit the blog in the database if "id" exists', (done) => {
-      chai
+    it('should edit the blog in the database if "id" exists', async () => {
+      const blogList = await db('blogs');
+      return chai
         .request(app)
-        .patch(`/api/blogs/1`)
+        .patch(`/api/blogs/${blogList[0].id}`)
         .send({
           author: 'Parth',
           title: 'test',
@@ -211,9 +212,8 @@ describe('Blog Routes', () => {
           visibility: 'Public', 
           category: 'Blog'
         })
-        .end((err, res) => {
-          res.should.have.status(200);
-          done();
+        .then((res) => {
+          expect(res).to.have.status(200);
         });
     });
     it('should return 404 if the blog is not found', (done) => {
@@ -242,16 +242,13 @@ describe('Blog Routes', () => {
   });
 
   describe('DELETE /api/blogs/:id', () => {
-    it('should delete a blog from the database if "id" exists', (done) => {
-      chai
+    it('should delete a blog from the database if "id" exists', async () => {
+      const blogList = await db('blogs');
+      return chai
         .request(app)
-        .delete(`/api/blogs/2`)
-        .end((err, res) => {
-          if (err) {
-            console.error(err);
-          }
+        .delete(`/api/blogs/${blogList[0].id}`)
+        .then((res) => {
           expect(res).to.have.status(200);
-          done();
         });
     });
     it('should return a 404 if "id" does not exist', (done) => {
