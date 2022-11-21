@@ -45,7 +45,7 @@ const useBlogForm = () => {
         }
       })();
     }
-  }, [setBlogTitle, setAuthor, setSummary, setDate, setLink, 
+  }, [blogInfo, params, setBlogTitle, setAuthor, setSummary, setDate, setLink, 
       setCurrentImageURL, setClosed, setVisibility, setCategory]);
 
   const imageUpload = useCallback(
@@ -80,6 +80,9 @@ const useBlogForm = () => {
     if (blogTitle === "") { tmpErrors.push("title cannot be blank") }
     if (author === "") { tmpErrors.push("author cannot be blank") }
     if (summary === "") { tmpErrors.push("summary cannot be blank") }
+    else if (summary.length > 200){
+      tmpErrors.push(`Summary must be between 1-200 characters, currently: ${summary.length}`)
+    }
     if (link === "") { tmpErrors.push("link cannot be blank") }
     if (date === "") { tmpErrors.push("date cannot be blank") }
     if (category === "") {  tmpErrors.push("category cannot be blank") }
@@ -88,13 +91,9 @@ const useBlogForm = () => {
           tmpErrors.push( "One image is required")
         }
 
-    const pattern = /^(([0-9])|([0-2][0-9])|([3][0-1]))\-(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)\-\d{4}$/;
+    const pattern = /^(([0-9])|([0-2][0-9])|([3][0-1]))-(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)-\d{4}$/;
     if (!pattern.test(date)){
-      tmpErrors.push("date must be in day-month-year form")
-    }
-
-    if (summary.length > 200 || summary.length < 1){
-      tmpErrors.push(`Summary must be between 1-200 characters, currently: ${summary.length}`)
+      tmpErrors.push("date must be in day-month-year form (Ensure month starts with a capital)")
     }
 
     setErrors(tmpErrors);

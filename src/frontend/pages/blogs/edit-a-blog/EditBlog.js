@@ -238,7 +238,7 @@ const EditBlog = ({ add }) => {
               />
         </FormContainer>
 
-        <FormContainer title="Visibility (required)">
+        <FormContainer title="Visibility (required: public by default)">
           <Selector
                 value={visibility === "Hidden"? 1 : 2}
                 items={[{id: 1, text: "Hidden"}, {id: 2, text: "Public"}]}
