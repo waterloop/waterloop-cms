@@ -1,3 +1,6 @@
+const pg = require('pg');
+delete pg.native; // Fix pg-native import requirement
+
 require('dotenv').config();
 const path = require('path');
 // Update with your config settings.

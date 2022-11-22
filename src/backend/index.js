@@ -1,4 +1,5 @@
 import path from 'path';
+
 /** Used for the development file storage */
 if (process.env.NODE_ENV !== 'production') {
   global.rootDirectory = path.resolve(__dirname);
@@ -8,10 +9,9 @@ if (process.env.NODE_ENV !== 'production') {
 require('dotenv').config();
 import express from 'express';
 import session from 'express-session';
-import csrf from 'csurf';
 import cookieParser from 'cookie-parser';
 import cors from 'cors';
-import socketio from 'socket.io';
+// import socketio from 'socket.io'; // unused, add package when needed.
 import http from 'http';
 import multer from 'multer';
 import googleAuth from './google-auth';
@@ -20,7 +20,7 @@ import fs from 'fs';
 import api from './api';
 
 // setup middleware
-const csrfProtection = csrf({ cookie: true });
+// TODO: find another CSRF implementation, csurf is deprecated.
 
 const app = express();
 const server = http.createServer(app);
@@ -90,13 +90,13 @@ if (process.env.NODE_ENV === 'production') {
 }
 app.use(session(sessionConfig));
 
-/**
+/**NOTE: UNUSED FOR NOW
  * @brief Websocket Initialization:
  * The following enables us to create web socket connections
  * with the frontend in the event that real time communication is required.
  */
-const io = socketio(server, { origins: '*:*' });
-app.set('io', io); // allows us to access io from the req obj
+// const io = socketio(server, { origins: '*:*' });
+// app.set('io', io); // allows us to access io from the req obj
 
 app.use('/google', googleAuth);
 app.use('/api', api);

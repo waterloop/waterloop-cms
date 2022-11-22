@@ -3,12 +3,12 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import HeaderCell from './HeaderCell';
 import EditIcon from './assets/EditIcon.svg';
-import MUITableCell from '@material-ui/core/TableCell';
-import MUITable from '@material-ui/core/Table';
-import MUITableBody from '@material-ui/core/TableBody';
-import MUITableRow from '@material-ui/core/TableRow';
-import MUITableContainer from '@material-ui/core/TableContainer';
-import MUITableHead from '@material-ui/core/TableHead';
+import MUITableCell from '@mui/material/TableCell';
+import MUITable from '@mui/material/Table';
+import MUITableBody from '@mui/material/TableBody';
+import MUITableRow from '@mui/material/TableRow';
+import MUITableContainer from '@mui/material/TableContainer';
+import MUITableHead from '@mui/material/TableHead';
 import useSortedRows from './hooks/sorted-rows';
 
 const Table = styled(MUITable)``;

@@ -15,7 +15,6 @@ const useGeeseInfo = () => {
         const newGeeseInfo = geeseInfoResponse.data;
 
         dispatch(geeseInfoActions.updateGeeseInfo(newGeeseInfo));
-        console.log(newGeeseInfo);
       } catch (err) {
         console.error(err);
       }

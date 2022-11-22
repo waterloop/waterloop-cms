@@ -1,8 +1,8 @@
 import React from 'react';
 import { useHistory } from 'react-router-dom';
 import styled from 'styled-components';
-import MUIGrid from '@material-ui/core/Grid';
-import ClickAwayListener from '@material-ui/core/ClickAwayListener';
+import MUIGrid from '@mui/material/Grid';
+import ClickAwayListener from '@mui/material/ClickAwayListener';
 import FeaturesPageSVG from '../../assets/page-icons/features.svg';
 import GeesePageSVG from '../../assets/page-icons/geese.svg';
 import RecruitmentPageSVG from '../../assets/page-icons/recruitment.svg';
@@ -35,10 +35,9 @@ const MainBox = styled(Grid).attrs({ container: true })`
   padding-right: 16px;
 
   ${Grid} {
-    padding-top:16px;
+    padding-top: 16px;
     padding-bottom: 16px;
   }
-
 `;
 const Container = styled.div`
   ${Arrow} {
@@ -63,22 +62,46 @@ const DesktopMenu = ({ className, onClose }) => {
         <Arrow />
         <MainBox>
           <Grid xs={4}>
-            <PagePreview icon={GeesePageSVG} onClick={handleClick('/geese')} pageName="Geese" />
+            <PagePreview
+              icon={GeesePageSVG}
+              onClick={handleClick('/geese')}
+              pageName="Geese"
+            />
           </Grid>
           <Grid xs={4}>
-            <PagePreview icon={FeaturesPageSVG} onClick={handleClick('/features')} pageName="Features" />
+            <PagePreview
+              icon={FeaturesPageSVG}
+              onClick={handleClick('/features')}
+              pageName="Features"
+            />
           </Grid>
           <Grid xs={4}>
-            <PagePreview icon={TeamDescriptionsPageSVG} onClick={handleClick('/team-descriptions')} pageName="Team Descriptions" />
+            <PagePreview
+              icon={TeamDescriptionsPageSVG}
+              onClick={handleClick('/team-descriptions')}
+              pageName="Team Descriptions"
+            />
           </Grid>
           <Grid xs={4}>
-            <PagePreview icon={SponsorsPageSVG} onClick={handleClick('/sponsors')} pageName="Sponsors Descriptions" />
+            <PagePreview
+              icon={SponsorsPageSVG}
+              onClick={handleClick('/sponsors')}
+              pageName="Sponsors Descriptions"
+            />
           </Grid>
           <Grid xs={4}>
-            <PagePreview icon={RecruitmentPageSVG} onClick={handleClick('/postings')} pageName="Current Openings" />
+            <PagePreview
+              icon={RecruitmentPageSVG}
+              onClick={handleClick('/postings')}
+              pageName="Current Openings"
+            />
           </Grid>
           <Grid xs={4}>
-            <PagePreview icon={BlogPostsPageSVG} onClick={handleClick('/blog-posts')} pageName="Blog Posts" />
+            <PagePreview
+              icon={BlogPostsPageSVG}
+              onClick={handleClick('/blog-posts')}
+              pageName="Blog Posts"
+            />
           </Grid>
         </MainBox>
       </Container>

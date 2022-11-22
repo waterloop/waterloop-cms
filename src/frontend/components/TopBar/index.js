@@ -2,14 +2,14 @@ import React from 'react';
 import styled from 'styled-components';
 import useProfilePicture from '../../hooks/profile-picture';
 import { Link } from 'react-router-dom';
-import MUIAppBar from '@material-ui/core/AppBar';
-import MUIToolbar from '@material-ui/core/Toolbar';
-import MUIIconButton from '@material-ui/core/IconButton';
+import MUIAppBar from '@mui/material/AppBar';
+import MUIToolbar from '@mui/material/Toolbar';
+import MUIIconButton from '@mui/material/IconButton';
 import NavIconSVG from './assets/nav-icon.svg';
 import WaterloopLogoSVG from './assets/topbar-logo.svg';
 import UnstyledDesktopMenu from './DesktopMenu';
 import UnstyledProfileDropdown from './ProfileDropdown';
-import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
+import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 
 const AppBar = styled(MUIAppBar)`
   background-color: ${({ theme }) => theme.colours.blues.blue1};
@@ -63,22 +63,28 @@ const TopBar = () => {
       <AppBar position="relative">
         <Toolbar>
           <div>
-            <IconButton edge="start" aria-label="menu" component={Link} to='/'>
+            <IconButton edge="start" aria-label="menu" component={Link} to="/">
               <WaterloopLogo />
             </IconButton>
-            <IconButton edge="start" aria-label="menu" onClick={() => setMenuOpen(!menuOpen)}>
+            <IconButton
+              edge="start"
+              aria-label="menu"
+              onClick={() => setMenuOpen(!menuOpen)}
+            >
               <NavIcon />
             </IconButton>
           </div>
-          <IconButton edge="end" aria-label="menu" onClick={() => setDropdownOpen(!dropdownOpen)}>
-              <ArrowDropDownIcon style={{fill: "white"}}/>
-              <ProfilePicture src={profilePicture} alt="profile"/>
+          <IconButton
+            edge="end"
+            aria-label="menu"
+            onClick={() => setDropdownOpen(!dropdownOpen)}
+          >
+            <ArrowDropDownIcon style={{ fill: 'white' }} />
+            <ProfilePicture src={profilePicture} alt="profile" />
           </IconButton>
         </Toolbar>
       </AppBar>
-      {menuOpen && (
-        <DesktopMenu onClose={() => setMenuOpen(false)} />
-      )}
+      {menuOpen && <DesktopMenu onClose={() => setMenuOpen(false)} />}
       {dropdownOpen && (
         <ProfileDropdown onClose={() => setDropdownOpen(false)} />
       )}

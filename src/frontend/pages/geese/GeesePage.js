@@ -2,7 +2,7 @@ import React, { useCallback } from 'react';
 import styled from 'styled-components';
 import UnstyledButton from '../../components/Button';
 import PreviewTable from '../../components/PreviewTable';
-import TableCell from '@material-ui/core/TableCell';
+import TableCell from '@mui/material/TableCell';
 import useGeeseInfo from '../../hooks/geese-info';
 import * as moment from 'moment';
 import { useHistory } from 'react-router-dom';
