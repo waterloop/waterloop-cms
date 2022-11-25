@@ -3,17 +3,18 @@ import * as R from 'ramda';
 const getFeatures = (db) => () =>
   db('geese-features')
     .then((features) => {
-      return { success: 'Y', features };
+      return { features };
     })
     .catch((error) => {
-      return { success: 'N', features: [] };
+      console.error(`Error in getFeatures: ${err}`);
+      throw err;
     });
 
 const getFeatureById = (db) => (id) =>
   db('geese-features')
     .where({ id })
     .then((res) => {
-      return R.isEmpty(res) ? res : res[0];
+      return res;
     })
     .catch((err) => {
       console.error(`Error in getFeatureById: ${err}`);
@@ -57,7 +58,6 @@ const addFeature = (db) => (features) =>
     })
     .returning(['id', 'name', 'picture', 'description'])
     .then((response) => {
-      console.log(response);
       return response;
     })
     .catch((err) => {

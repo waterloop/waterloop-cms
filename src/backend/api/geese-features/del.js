@@ -4,7 +4,7 @@ export default (req, res) => {
   db.geeseFeatures
     .deleteFeature(req.params.id)
     .then((response) => {
-      if (response === 1) {
+      if (response) {
         res.status(200).send('Deletion successful');
       } else {
         res.status(404).send('Could not find feature to delete');

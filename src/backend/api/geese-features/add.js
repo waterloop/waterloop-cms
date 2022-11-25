@@ -11,6 +11,6 @@ export default (req, res) => {
     })
     .catch((err) => {
       console.log(`Could not add feature: ${err}`);
-      res.sendStatus(500);
+      res.sendStatus(403);
     });
 };

@@ -7,7 +7,7 @@ export default (req, res) => {
   db.geeseFeatures
     .editFeature(id, updatedFeatureInfo)
     .then((response) => {
-      if (response.length === 1) {
+      if (response) {
         res.status(200).send('Edit successful');
       } else {
         res.status(404).send('Could not find feature to edit');

@@ -8,7 +8,7 @@ export default (req, res) => {
       if (R.isEmpty(feature)) {
         res.sendStatus(404);
       } else {
-        res.send(feature);
+        res.send(feature[0]);
       }
     })
     .catch((err) => {
