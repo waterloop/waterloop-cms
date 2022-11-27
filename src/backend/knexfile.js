@@ -1,6 +1,3 @@
-const pg = require('pg');
-delete pg.native; // Fix pg-native import requirement
-
 require('dotenv').config();
 const path = require('path');
 // Update with your config settings.
@@ -8,10 +5,6 @@ let config;
 if (process.env.NODE_ENV === 'production') {
   const { parse } = require('pg-connection-string');
   config = parse(process.env.DATABASE_URL);
-  // NOTE: Comment this out if you're testing the production environment on a local postgres database!
-  config.ssl = {
-    rejectUnauthorized: false,
-  };
 }
 
 module.exports = {
