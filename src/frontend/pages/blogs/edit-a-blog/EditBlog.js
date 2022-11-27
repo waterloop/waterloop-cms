@@ -117,7 +117,7 @@ const EditBlog = ({ add }) => {
   } = useBlogForm();
 
   const displayImages = useMemo(() => {
-     return [
+     return (
        <div>
           {currentImageURL != '' && 
             <ImageCard>
@@ -140,7 +140,7 @@ const EditBlog = ({ add }) => {
           </ImageCard>
           }
         </div>
-        ]; 
+        ); 
       }, [currentImageURL, uploadedImageURL]);
 
 
@@ -148,7 +148,7 @@ const EditBlog = ({ add }) => {
       return [
         ...errors.map((error, index) => {
           return (
-            <ErrorMessage key={error}>
+            <ErrorMessage key={`${error}-${index}`}>
               {`${index+1}. `}{error}
             </ErrorMessage>
           );
@@ -268,11 +268,12 @@ const EditBlog = ({ add }) => {
           </FormContainer>
         </BlogImages>
 
-        {(errors.length > 0) && 
-          <ErrorTitle>
-            Errors:
+        {(errors.length > 0) &&
+          <>
+            <ErrorTitle> Errors: </ErrorTitle>
             {errorList}
-          </ErrorTitle>}
+          </>
+          }
 
         <BlogButtons>
           <Button label="Save" onClick={saveForm} />

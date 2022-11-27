@@ -14,7 +14,7 @@ if (!ENV_IS_STAGING_OR_PROD) {
             summary:
               'Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptas accusantium dolorem, beatae possimus nesciunt ab? Illum atque doloremque fugit ipsam quibusdam eveniet magnam quod',
             date: '23-May-2021',
-            link: 'string',
+            link: 'https://example.com/',
             image: 'https://storage.googleapis.com/waterloop_cms_image_upload/1614225359133-waterloop1.png',
             closed: true,
             category: 'Media Appearance',
@@ -26,7 +26,7 @@ if (!ENV_IS_STAGING_OR_PROD) {
             summary:
               'Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptas accusantium dolorem, beatae possimus nesciunt ab? Illum atque doloremque fugit ipsam quibusdam eveniet magnam quod',
             date: '20-May-2021',
-            link: 'string',
+            link: 'https://example.com/',
             image: 'https://storage.googleapis.com/waterloop_cms_image_upload/1614225359139-waterloop2.png',
             closed: false,
             category: 'Blog',
@@ -38,7 +38,7 @@ if (!ENV_IS_STAGING_OR_PROD) {
             summary:
               'Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptas accusantium dolorem, beatae possimus nesciunt ab? Illum atque doloremque fugit ipsam quibusdam eveniet magnam quod',
             date: '10-May-2021',
-            link: 'string',
+            link: 'https://example.com/',
             image: 'https://storage.googleapis.com/waterloop_cms_image_upload/1614226228513-waterloop1.png',
             closed: false,
             category: 'Media Appearance',
@@ -50,7 +50,7 @@ if (!ENV_IS_STAGING_OR_PROD) {
             summary:
               'Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptas accusantium dolorem, beatae possimus nesciunt ab? Illum atque doloremque fugit ipsam quibusdam eveniet magnam quod',
             date: '1-May-2021',
-            link: 'string',
+            link: 'https://example.com/',
             image: 'https://storage.googleapis.com/waterloop_cms_image_upload/1614482400810-waterloop2.png',
             closed: true,
             category: 'Blog',

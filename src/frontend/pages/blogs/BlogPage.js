@@ -44,15 +44,15 @@ const headers = [
   {id: 'title', value: 'Title'},
   {id: 'updatedAt', value: 'Date'},
   {id: 'author', value: 'Author'},
+  {id: 'category', value: 'Category'},
   {id: 'visibility', value: 'Visibility'},
-  {id: 'category', value: 'Category'}
 ];
 
 const RowComponent = ({ title, updatedAt, author, link, category, visibility}) => (
   <>
     <TableCell>
       <TextBold>
-        <LinkButton as="a" href={link}>{title}</LinkButton>
+        <LinkButton as="a" href={link} target="_blank">{title}</LinkButton>
       </TextBold>
     </TableCell>
     <TableCell>{updatedAt}</TableCell>
