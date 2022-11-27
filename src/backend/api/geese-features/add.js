@@ -7,10 +7,12 @@ export default (req, res) => {
     .then((response) => {
       if (response) {
         res.send(response);
+      } else {
+        res.sendStatus(403);
       }
     })
     .catch((err) => {
       console.log(`Could not add feature: ${err}`);
-      res.sendStatus(403);
+      res.sendStatus(500);
     });
 };
