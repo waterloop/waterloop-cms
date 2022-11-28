@@ -1,3 +1,5 @@
+# syntax=docker/dockerfile:1
+
 # Using node 16
 FROM node:16-slim
 
@@ -5,20 +7,32 @@ FROM node:16-slim
 RUN rm -rf /etc/localtime
 RUN ln -s /usr/share/zoneinfo/America/New_York /etc/localtime
 
-# WORKDIR /waterloop
-
-# COPY src ./src/
-# COPY migrations ./migrations/
-# COPY seeds ./seeds/
-
-# Copy over remaining files
-# COPY .env .babelrc package.json package-lock.json knexfile.js ./
+WORKDIR /waterloop
+ENV PATH /waterloop/node_modules/.bin:$PATH
 
 # Initialize dependencies
-# ENV NODE_ENV=test
-# RUN npm install
-# RUN npm install -g knex
-# RUN npm run build
-EXPOSE 9000
+ENV NODE_ENV=production
+ENV NODE_OPTIONS="--max-old-space-size=4096"
 
-CMD ["bash"]
+COPY .babelrc package.json yarn.lock fix.js .npmrc .nvmrc ./
+
+RUN npm install -g knex
+RUN yarn install --production
+
+# add missing dependencies
+RUN yarn add mssql http2
+
+# copy files over here after installing deps, to skip reinstalling deps
+COPY src ./src
+COPY public ./public
+COPY .env.prod ./.env
+
+# build project
+RUN yarn build
+
+EXPOSE 9000-9002
+EXPOSE 3000-3002
+
+# enable swap memory, then run yarn start:
+# https://community.fly.io/t/swap-memory/2749
+CMD /bin/bash -c "fallocate -l $(($(stat -f -c "(%a*%s/10)*7" .))) _swapfile && mkswap _swapfile && swapon _swapfile;" && yarn start

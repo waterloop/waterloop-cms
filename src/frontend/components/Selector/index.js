@@ -1,8 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
-import MUISelector from '@material-ui/core/Select';
-import MUIMenuItem from '@material-ui/core/MenuItem';
-import ExpandLessIcon from '@material-ui/icons/ExpandLess';
+import MUISelector from '@mui/material/Select';
+import MUIMenuItem from '@mui/material/MenuItem';
+import ExpandLessIcon from '@mui/icons-material/ExpandLess';
 import * as R from 'ramda';
 
 const PrimarySelector = styled(MUISelector)`

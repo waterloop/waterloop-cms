@@ -5,8 +5,8 @@ import theme from '../../theme';
 import { ThemeProvider } from 'styled-components';
 import {
   ThemeProvider as MuiThemeProvider,
-  StylesProvider,
-} from '@material-ui/styles';
+  StyledEngineProvider,
+} from '@mui/material/styles';
 
 export default {
   title: 'Selector',
@@ -15,24 +15,24 @@ export default {
     value: { control: 'text' },
     items: { control: 'object' },
     className: { control: 'text' },
-    placeholder: { control: 'text' }
+    placeholder: { control: 'text' },
   },
 };
 
 const Template = (args) => (
   <ThemeProvider theme={theme}>
-    <StylesProvider injectFirst>
+    <StyledEngineProvider injectFirst>
       <MuiThemeProvider>
         <Selector {...args} />
       </MuiThemeProvider>
-    </StylesProvider>
+    </StyledEngineProvider>
   </ThemeProvider>
 );
 
 export const EmptyValue = Template.bind({});
 EmptyValue.args = {
   items: [],
-  placeholder: 'This is a placeholder'
+  placeholder: 'This is a placeholder',
 };
 
 export const NonEmptyValue = Template.bind({});
@@ -56,7 +56,7 @@ NonEmptyValue.args = {
     { id: 8, text: 'Test4' },
   ],
   className: styles.testClass,
-  placeholder: 'This is a placeholder'
+  placeholder: 'This is a placeholder',
 };
 
 export const ErrorState = Template.bind({});
@@ -81,5 +81,5 @@ ErrorState.args = {
   ],
   className: styles.testClass,
   placeholder: 'This is a placeholder',
-  isError: true
+  isError: true,
 };

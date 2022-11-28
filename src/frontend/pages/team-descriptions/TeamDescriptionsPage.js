@@ -1,13 +1,13 @@
-import React from "react";
-import moment from "moment";
-import styled from "styled-components";
-import { useHistory } from "react-router-dom";
-import TableCell from "@material-ui/core/TableCell";
+import React from 'react';
+import moment from 'moment';
+import styled from 'styled-components';
+import { useHistory } from 'react-router-dom';
+import TableCell from '@mui/material/TableCell';
 
-import useTeams from "../../hooks/teams";
-import { buttonCopies, mainCopies } from "./Copies";
-import Button from "../../components/Button";
-import PreviewTable from "../../components/PreviewTable";
+import useTeams from '../../hooks/teams';
+import { buttonCopies, mainCopies } from './Copies';
+import Button from '../../components/Button';
+import PreviewTable from '../../components/PreviewTable';
 
 const Container = styled.div`
   margin: ${({ theme }) => theme.pageMargin};
@@ -64,8 +64,8 @@ const ButtonContainer = styled.div`
 `;
 
 const headers = [
-  { id: "teamName", value: mainCopies.TEAM_NAME_COLUMN },
-  { id: "lastUpdated", value: mainCopies.TEAM_LAST_UPDATED_COLUMN },
+  { id: 'teamName', value: mainCopies.TEAM_NAME_COLUMN },
+  { id: 'lastUpdated', value: mainCopies.TEAM_LAST_UPDATED_COLUMN },
 ];
 
 const RowComponent = ({ teamName, lastUpdated }) => (
@@ -74,7 +74,7 @@ const RowComponent = ({ teamName, lastUpdated }) => (
       <TextBold>{teamName}</TextBold>
     </TableCell>
     <TableCell>
-      <Text>{moment(lastUpdated).format("MMM Do, YYYY")}</Text>
+      <Text>{moment(lastUpdated).format('MMM Do, YYYY')}</Text>
     </TableCell>
   </>
 );

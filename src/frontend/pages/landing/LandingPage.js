@@ -7,7 +7,7 @@ import SponsorsPageSVG from '../../assets/page-icons/sponsors.svg';
 import TeamDescriptionsPageSVG from '../../assets/page-icons/team-descriptions.svg';
 import BlogPostsPageSVG from '../../assets/page-icons/blog-posts.svg';
 import UnstyledSection from './components/Section';
-import Grid from '@material-ui/core/Grid';
+import Grid from '@mui/material/Grid';
 
 const Section = styled(UnstyledSection)`
   margin-left: 16px;
@@ -55,19 +55,27 @@ const sections = [
     editLink: '/team-descriptions',
     previewLink: 'https://teamwaterloop.ca/team',
     icon: TeamDescriptionsPageSVG,
-  }
-  ,
+  },
   {
     name: 'Blog Posts',
     editLink: '/blog-posts',
     previewLink: 'https://teamwaterloop.ca/blogs',
     icon: BlogPostsPageSVG,
-  }
+  },
 ];
 
 const LandingPage = () => {
   const sectionItems = sections.map((section) => (
-    <Grid key={section.name} item xs={12} sm={6} md={4} lg={4} justify="center" container>
+    <Grid
+      key={section.name}
+      item
+      xs={12}
+      sm={6}
+      md={4}
+      lg={4}
+      justify="center"
+      container
+    >
       <Section {...section} />
     </Grid>
   ));
