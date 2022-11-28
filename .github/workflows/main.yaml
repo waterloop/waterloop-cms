@@ -17,7 +17,7 @@ jobs:
       - name: Install dependencies
         run: yarn install --frozen-lockfile
       - name: Setup Docker container
-        run: yarn docker:dev
+        run: docker-compose run --detach --service-ports dev-db
       - name: Setup backend
         run: yarn:dev
       - name: Run unit tests
