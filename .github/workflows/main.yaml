@@ -19,7 +19,7 @@ jobs:
       - name: Setup Docker container
         run: docker-compose run --detach --service-ports dev-db
       - name: Setup backend
-        run: yarn:dev
+        run: yarn dev
       - name: Run unit tests
         run: yarn test:unit
       - name: Run integration tests
