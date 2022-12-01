@@ -26,17 +26,17 @@ const initialState = (inputState) => ({
   loading: true,
   userFriendlyErrorMessage: '',
   form: {
-    title: '',
+    title: 'New Title',
     teamId: 1,
     deadline: today,
-    location: '',
+    location: 'On Site',
     termYear: today.getFullYear(),
     termSeason: 'WINTER',
-    description: '',
+    description: 'Enter Description',
     requirements: EditorState.createEmpty(),
     tasks: EditorState.createEmpty(),
     info: EditorState.createEmpty(),
-    timeCommitment: '',
+    timeCommitment: '8-10 Hours a Week',
     skillsToBeLearned: EditorState.createEmpty(),
     recommendedSkills: EditorState.createEmpty(),
     ...inputState, // May overwrite any of the above defaults
@@ -175,7 +175,14 @@ const usePostingForm = (postingId, input = {}) => {
    */
   useEffect(() => {
     if (state.loading) {
-      api.postings
+      if(postingId == -1){
+        dispatch({
+          type: 'LOAD_SUCCESS',
+        
+        });
+      }
+      else{
+        api.postings
         .getPostingById(postingId)
         .then((response) => {
           if (response && response.status === 200) {
@@ -214,6 +221,8 @@ const usePostingForm = (postingId, input = {}) => {
         .catch((err) => {
           dispatch({ type: 'LOAD_FAILURE', payload: err });
         });
+      }
+
     }
   }, [state.loading, dispatch, postingId]);
 
@@ -313,23 +322,45 @@ const usePostingForm = (postingId, input = {}) => {
   }, [history]);
 
   const saveForm = useCallback(() => {
-    const form = {
-      ...state.form,
-      requirements: convertEditorStateBulletListToArray(
-        state.form.requirements,
-      ),
-      info: convertEditorStateBulletListToArray(state.form.info),
-      tasks: convertEditorStateBulletListToArray(state.form.tasks),
-      recommendedSkills: convertEditorStateBulletListToArray(
-        state.form.recommendedSkills,
-      ),
-      skillsToBeLearned: convertEditorStateBulletListToArray(
-        state.form.skillsToBeLearned,
-      ),
-    };
-    api.postings.patchPosting(form, postingId).then(() => {
-      closeForm();
-    });
+    if(postingId == -1){
+      const form = {
+        ...state.form,
+        requirements: convertEditorStateBulletListToArray(
+          state.form.requirements,
+        ),
+        info: convertEditorStateBulletListToArray(state.form.info),
+        tasks: convertEditorStateBulletListToArray(state.form.tasks),
+        recommendedSkills: convertEditorStateBulletListToArray(
+          state.form.recommendedSkills,
+        ),
+        skillsToBeLearned: convertEditorStateBulletListToArray(
+          state.form.skillsToBeLearned,
+        ),
+      };
+      api.postings.createNewPosting(form).then((res) => {
+        console.log(res)
+        closeForm();
+      });
+    }
+    else {
+      const form = {
+        ...state.form,
+        requirements: convertEditorStateBulletListToArray(
+          state.form.requirements,
+        ),
+        info: convertEditorStateBulletListToArray(state.form.info),
+        tasks: convertEditorStateBulletListToArray(state.form.tasks),
+        recommendedSkills: convertEditorStateBulletListToArray(
+          state.form.recommendedSkills,
+        ),
+        skillsToBeLearned: convertEditorStateBulletListToArray(
+          state.form.skillsToBeLearned,
+        ),
+      };
+      api.postings.patchPosting(form, postingId).then(() => {
+        closeForm();
+      });
+    }
   }, [state.form, postingId, closeForm]);
 
   const deleteForm = useCallback(() => {

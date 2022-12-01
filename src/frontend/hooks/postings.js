@@ -85,18 +85,8 @@ const usePostings = () => {
   );
 
   const addPosting = useCallback(() => {
-    api.postings
-      .createNewPosting()
-      .then((response) => {
-        if (typeof response.data[0] === 'number') {
-          history.push(`/postings/${response.data[0]}`);
-        }
-      })
-      .catch((err) => {
-        if (process.env.NODE_ENV === 'development') {
-          console.log(err);
-        }
-      });
+
+      history.push(`/postings/-1`);
   }, [history]);
 
   return {
