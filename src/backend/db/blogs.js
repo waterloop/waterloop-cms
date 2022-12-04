@@ -40,7 +40,7 @@ const editBlog = (db) => (id, blogInfo) => db('blogs')
     .update({
       ...blogInfo
     })
-    .returning(['id','title','author','summary','date','link','image', 'closed'])
+    .returning(['id','title','author','summary','date','link','image', 'closed', 'visibility', 'category'])
     .then((response) => {
       return response;
     }).catch((err) => {
@@ -52,7 +52,7 @@ const addBlog = (db) => (blogs) => db('blogs')
   .insert({
       ...blogs,
   })
-  .returning(['id','title','author','summary','date','link','image', 'closed'])
+  .returning(['id','title','author','summary','date','link','image', 'closed', 'visibility', 'category'])
   .then((response) => {
     console.log(response);
     return response;

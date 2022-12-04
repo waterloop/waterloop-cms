@@ -4,6 +4,7 @@ import postingsReducer from './postings/reducer';
 import teamsReducer from './teams/reducer';
 import sponsorsReducer from './sponsors/reducer';
 import geeseInfoReducer from './geese-info/reducer';
+import blogInfoReducer from './blogs/reducer';
 
 export default combineReducers({
   user: userReducer,
@@ -11,4 +12,5 @@ export default combineReducers({
   teams: teamsReducer,
   sponsors: sponsorsReducer,
   geeseInfo: geeseInfoReducer,
+  blogInfo: blogInfoReducer
 });
