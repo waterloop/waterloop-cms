@@ -38,4 +38,7 @@ lib/
 /src/backend/api/file-upload/**/*.json
 /scripts/sql/*
 
+
+
+
 tmp/
