@@ -20,6 +20,9 @@ jobs:
         run: yarn install --frozen-lockfile
       - name: Setup Docker container
         run: docker-compose run --detach --service-ports test-db
+      - name: Sleep for 5 seconds
+        run: sleep 5s
+        shell: bash
       - name: Migrate database
         run: yarn test:migrate:latest
       - name: Run seed files
