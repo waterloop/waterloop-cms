@@ -1,8 +1,8 @@
-name: main-ci
-run-name: Running tests on ${{ github.actor }}'s PR
+name: Run CI
+run-name: Running unit and integration tests on ${{ github.actor }}'s ${{ github.head_ref }} branch
 on: [pull_request]
 jobs:
-  build:
+  pull_request_ci:
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -17,9 +17,11 @@ jobs:
       - name: Install dependencies
         run: yarn install --frozen-lockfile
       - name: Setup Docker container
-        run: docker-compose run --detach --service-ports dev-db
-      - name: Setup backend
-        run: yarn dev
+        run: docker-compose run --detach --service-ports test-db
+      - name: Migrate database
+        run: yarn test:migrate:latest
+      - name: Run seed files
+        run: yarn test:seed
       - name: Run unit tests
         run: yarn test:unit
       - name: Run integration tests
