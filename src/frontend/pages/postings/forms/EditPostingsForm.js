@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { useRouteMatch } from 'react-router-dom';
 import usePostingForm from '../hooks/posting-form';
-import Grid from '@material-ui/core/Grid';
+import Grid from '@mui/material/Grid';
 import UnstyledDatePicker from 'react-datepicker';
 import Button from '../../../components/Button';
 import FormContainer from '../../../components/FormContainer';

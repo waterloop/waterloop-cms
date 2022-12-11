@@ -21,7 +21,9 @@ router.patch('/:id', [
   body('date').isString().matches(/^(([0-9])|([0-2][0-9])|([3][0-1]))\-(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)\-\d{4}$/),
   body('link').isString(),
   body('image').isString(),
-  body('closed').isBoolean()
+  body('closed').isBoolean(),
+  body('visibility').isString(),
+  body('category').isString(),
 ], validationCheck, editBlog);
 
 router.post('/', [
@@ -32,6 +34,8 @@ router.post('/', [
     body('link').isString(),
     body('image').isString(),
     body('closed').isBoolean(),
+    body('visibility').isString(),
+    body('category').isString(),
   ], validationCheck, add);
 
 export default router;

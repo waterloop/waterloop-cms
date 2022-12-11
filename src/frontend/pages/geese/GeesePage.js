@@ -2,7 +2,7 @@ import React, { useCallback } from 'react';
 import styled from 'styled-components';
 import UnstyledButton from '../../components/Button';
 import PreviewTable from '../../components/PreviewTable';
-import TableCell from '@material-ui/core/TableCell';
+import TableCell from '@mui/material/TableCell';
 import useGeeseInfo from '../../hooks/geese-info';
 import * as moment from 'moment';
 import { useHistory } from 'react-router-dom';
@@ -64,7 +64,7 @@ const GeesePage = () => {
   const history = useHistory();
   const currentGoose = 'Goose V';
 
-  const geese = geeseInfo.map((goose) => ({
+  const geese = geeseInfo?.map((goose) => ({
     id: goose.id,
     name: goose.name,
     updatedAt: moment.utc(goose.updatedAt).local().format('MMMM D, YYYY'),

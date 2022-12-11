@@ -1,7 +1,7 @@
 import React from 'react';
 import moment from 'moment';
 import styled from 'styled-components';
-import MUITableCell from '@material-ui/core/TableCell';
+import MUITableCell from '@mui/material/TableCell';
 import Selector from '../../components/Selector';
 
 const TableCell = styled(MUITableCell)``;

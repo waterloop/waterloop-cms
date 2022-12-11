@@ -31,6 +31,9 @@ package-lock.json
 lib/
 *.sqlite3
 .env
+.env.prod
+*.dump
+*.log
 
 /src/backend/api/file-upload/**/*.json
 /scripts/sql/*

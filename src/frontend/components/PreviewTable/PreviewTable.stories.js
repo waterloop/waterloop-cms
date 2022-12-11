@@ -1,7 +1,7 @@
 import React from 'react';
 import { ThemeProvider } from 'styled-components';
 import theme from '../../theme';
-import TableCell from '@material-ui/core/TableCell';
+import TableCell from '@mui/material/TableCell';
 
 import PreviewTable from '.';
 
@@ -11,7 +11,11 @@ export default {
   argTypes: {},
 };
 
-const Template = (args) => <ThemeProvider theme={theme}><PreviewTable {...args} /></ThemeProvider>;
+const Template = (args) => (
+  <ThemeProvider theme={theme}>
+    <PreviewTable {...args} />
+  </ThemeProvider>
+);
 
 const RowComponent = ({ columnOne, columnTwo, columnThree }) => (
   <>

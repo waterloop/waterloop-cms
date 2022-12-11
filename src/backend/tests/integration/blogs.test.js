@@ -48,6 +48,8 @@ describe('Blog Routes', () => {
               'link',
               'image',
               'closed',
+              'visibility', 
+              'category'
             ]);
           });
           done();
@@ -78,6 +80,8 @@ describe('Blog Routes', () => {
               'link',
               'image',
               'closed',
+              'visibility', 
+              'category'
             ]);
           });
           done();
@@ -97,6 +101,9 @@ describe('Blog Routes', () => {
           date: '22-Aug-2021',
           link: 'https://test.com',
           image: 'https://picsum.photos/200/300',
+          closed: true,
+          visibility: 'Public', 
+          category: 'Blog'
         })
         .end((err, res) => {
           if (err) {
@@ -114,6 +121,8 @@ describe('Blog Routes', () => {
               'link',
               'image',
               'closed',
+              'visibility', 
+              'category'
             ]);
           });
           done();
@@ -143,11 +152,15 @@ describe('Blog Routes', () => {
       .request(app)
       .post('/api/blogs')
       .send({
+        author: 'Evan',
         title: 'test',
         summary: "Testing the '/api/blogs/add' route lorem ipsum ssomething something I want to exceed the 200 character limit how the heck are you btw my days been great hbu as;ldkfjas;ldfjas;ldkfjas;dlkfjasd;lkfjasl;dfjlas;kdjflkasdasd",
         date: '22-Aug-2021',
         link: 'https://test.com',
         image: 'https://picsum.photos/200/300',
+        closed: true,
+        visibility: 'Public', 
+        category: 'Blog'
       })
       .end((err, res) => {
         if (err) {
@@ -162,11 +175,15 @@ describe('Blog Routes', () => {
       .request(app)
       .post('/api/blogs')
       .send({
+        author: 'Evan',
         title: 'test',
         summary: "",
         date: '22-Aug-2021',
         link: 'https://test.com',
         image: 'https://picsum.photos/200/300',
+        closed: true,
+        visibility: 'Public', 
+        category: 'Blog'
       })
       .end((err, res) => {
         if (err) {
@@ -179,10 +196,11 @@ describe('Blog Routes', () => {
   });
 
   describe('PATCH /api/blogs/:id', () => {
-    it('should edit the blog in the database if "id" exists', (done) => {
-      chai
+    it('should edit the blog in the database if "id" exists', async () => {
+      const blogList = await db('blogs');
+      return chai
         .request(app)
-        .patch(`/api/blogs/1`)
+        .patch(`/api/blogs/${blogList[0].id}`)
         .send({
           author: 'Parth',
           title: 'test',
@@ -190,10 +208,12 @@ describe('Blog Routes', () => {
           date: '06-Oct-2021',
           link: 'https://test.com',
           image: 'https://picsum.photos/200/300',
+          closed: true,
+          visibility: 'Public', 
+          category: 'Blog'
         })
-        .end((err, res) => {
-          res.should.have.status(200);
-          done();
+        .then((res) => {
+          expect(res).to.have.status(200);
         });
     });
     it('should return 404 if the blog is not found', (done) => {
@@ -207,6 +227,9 @@ describe('Blog Routes', () => {
           date: '06-Oct-2021',
           link: 'https://test.com',
           image: 'https://picsum.photos/200/300',
+          closed: true,
+          visibility: 'Public', 
+          category: 'Blog'
         })
         .end((err, res) => {
           if (err) {
@@ -219,16 +242,13 @@ describe('Blog Routes', () => {
   });
 
   describe('DELETE /api/blogs/:id', () => {
-    it('should delete a blog from the database if "id" exists', (done) => {
-      chai
+    it('should delete a blog from the database if "id" exists', async () => {
+      const blogList = await db('blogs');
+      return chai
         .request(app)
-        .delete(`/api/blogs/2`)
-        .end((err, res) => {
-          if (err) {
-            console.error(err);
-          }
+        .delete(`/api/blogs/${blogList[0].id}`)
+        .then((res) => {
           expect(res).to.have.status(200);
-          done();
         });
     });
     it('should return a 404 if "id" does not exist', (done) => {
