@@ -16,6 +16,8 @@ jobs:
           cache: yarn
       - name: Setup docker-compose
         uses: KengoTODA/actions-setup-docker-compose@v1.0.9
+        with:
+          version: '2.12.2'
       - name: Install dependencies
         run: yarn install --frozen-lockfile
       - name: Setup Docker container
