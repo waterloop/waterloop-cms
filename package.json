@@ -24,7 +24,7 @@
     "test:all": "yarn test:unit && yarn test:integration",
     "docker:test": "docker-compose run --service-ports test-db ",
     "docker:dev": "docker-compose run --service-ports dev-db ",
-    "dev": "yarn migrate && yarn seed && cross-env NODE_ENV=development nodemon --exec ./node_modules/.bin/babel-node src/backend/index.js",
+    "dev": "yarn migrate && yarn seed && cross-env NODE_ENV=development nodemon --ignore ./src/frontend --ignore ./src/index.js --exec ./node_modules/.bin/babel-node src/backend/index.js",
     "prebuild": "yarn build:frontend && node ./src/backend/scripts/generate-gcp-key.js",
     "build": "cross-env NODE_ENV=production babel src/backend --out-dir lib --copy-files",
     "start": "cross-env NODE_ENV=production babel-node lib/index.js",
@@ -82,7 +82,6 @@
     "react-google-login": "^5.2.2",
     "react-redux": "^7.2.1",
     "react-router-dom": "^5.2.0",
-    "react-scripts": "3.4.3",
     "redux": "^4.0.5",
     "styled-components": "^5.2.1",
     "typeface-ibm-plex-sans": "^1.1.13"
@@ -109,6 +108,7 @@
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.3.2",
     "@testing-library/user-event": "^7.1.2",
+    "babel-plugin-root-import": "^6.6.0",
     "chai": "^4.2.0",
     "chai-http": "^4.3.0",
     "eslint-config-airbnb": "^18.2.0",
@@ -117,6 +117,8 @@
     "eslint-plugin-prettier": "^3.1.4",
     "esm": "^3.2.25",
     "mocha": "^8.2.0",
+    "react-scripts": "3.4.3",
     "redux-devtools-extension": "^2.13.8"
-  }
+  },
+  "packageManager": "yarn@3.3.0"
 }
