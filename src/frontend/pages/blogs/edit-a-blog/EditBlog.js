@@ -3,15 +3,15 @@ import ImagePreview from '../../../components/ImagePreview/index';
 import FormContainer from '../../../components/FormContainer/index';
 import Button from '../../../components/Button/index';
 import TextInput from '../../../components/TextInput/index';
-import useBlogForm from '../../../hooks/blog-form'
+import useBlogForm from '../../../hooks/blog-form';
 import styled from 'styled-components';
-import Dialog from '@material-ui/core/Dialog';
-import DialogActions from '@material-ui/core/DialogActions';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
-import DialogTitle from '@material-ui/core/DialogTitle';
-import CloseIcon from '@material-ui/icons/Close';
-import IconButton from '@material-ui/core/IconButton';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogTitle from '@mui/material/DialogTitle';
+import CloseIcon from '@mui/icons-material/Close';
+import IconButton from '@mui/material/IconButton';
 import UnstyledSelector from '../../../components/Selector';
 
 const EditBlogPage = styled.div`
@@ -67,14 +67,14 @@ const ModalTitle = styled.div`
   font-style: normal;
   font-weight: bold;
   font-size: 24px;
-  color: #2A2A2A;
+  color: #2a2a2a;
   display: flex;
   justify-content: space-between;
 `;
 
 const ModalDescription = styled.div`
   font: ${({ theme }) => theme.fonts.light18};
-  color: #2A2A2A;
+  color: #2a2a2a;
 `;
 
 const ErrorMessage = styled.p`
@@ -89,22 +89,30 @@ const ErrorTitle = styled.p`
 `;
 
 const RedDeleteButton = styled(Button)`
-  background-color: #D02027;
+  background-color: #d02027;
   color: white;
 `;
 
 const EditBlog = ({ add }) => {
   const {
-    blogTitle, setBlogTitle,
-    author, setAuthor,
-    summary, setSummary,
-    date, setDate,
-    link, setLink,
+    blogTitle,
+    setBlogTitle,
+    author,
+    setAuthor,
+    summary,
+    setSummary,
+    date,
+    setDate,
+    link,
+    setLink,
     currentImageURL,
     uploadedImageURL,
-    closed, setClosed,
-    visibility, setVisibility,
-    category, setCategory,
+    closed,
+    setClosed,
+    visibility,
+    setVisibility,
+    category,
+    setCategory,
     errors,
     imageUpload,
     imageDelete,
@@ -117,66 +125,66 @@ const EditBlog = ({ add }) => {
   } = useBlogForm();
 
   const displayImages = useMemo(() => {
-     return (
-       <div>
-          {currentImageURL != '' && 
-            <ImageCard>
-              <ImagePreview
-                src={currentImageURL}
-                onDelete={() => {
-                  imageDelete(); 
-                }}
-              />
+    return (
+      <div>
+        {currentImageURL != '' && (
+          <ImageCard>
+            <ImagePreview
+              src={currentImageURL}
+              onDelete={() => {
+                imageDelete();
+              }}
+            />
           </ImageCard>
-          }
-          {uploadedImageURL != '' && 
-            <ImageCard>
-              <ImagePreview
-                src={URL.createObjectURL(uploadedImageURL)}
-                onDelete={() => {
-                  imageDelete(); 
-                }}
-              />
+        )}
+        {uploadedImageURL != '' && (
+          <ImageCard>
+            <ImagePreview
+              src={URL.createObjectURL(uploadedImageURL)}
+              onDelete={() => {
+                imageDelete();
+              }}
+            />
           </ImageCard>
-          }
-        </div>
-        ); 
-      }, [currentImageURL, uploadedImageURL]);
+        )}
+      </div>
+    );
+  }, [currentImageURL, uploadedImageURL]);
 
-
-    const errorList = useMemo(() => {
-      return [
-        ...errors.map((error, index) => {
-          return (
-            <ErrorMessage key={`${error}-${index}`}>
-              {`${index+1}. `}{error}
-            </ErrorMessage>
-          );
-        })
-      ];
-    }, [errors]);
+  const errorList = useMemo(() => {
+    return [
+      ...errors.map((error, index) => {
+        return (
+          <ErrorMessage key={`${error}-${index}`}>
+            {`${index + 1}. `}
+            {error}
+          </ErrorMessage>
+        );
+      }),
+    ];
+  }, [errors]);
 
   const updateVisibilityCatagory = (value) => {
-    switch (value){
+    switch (value) {
       case 2:
-        setVisibility("Public");
+        setVisibility('Public');
         break;
       default:
-        setVisibility("Hidden");
+        setVisibility('Hidden');
         break;
     }
-  }
+  };
 
   const updateClosedCatagory = (value) => {
-    switch (value){
+    switch (value) {
       case 1:
-        setClosed(true)
+        setClosed(true);
         break;
       default:
-        setClosed(false)
+        setClosed(false);
         break;
     }
-  }
+  };
 
   return (
     <EditBlogPage>
@@ -196,21 +204,17 @@ const EditBlog = ({ add }) => {
         </FormContainer>
 
         <FormContainer title="Author (required)">
-          <TextInput
-            value={author}
-            onChange={setAuthor}
-            placeholder="Author"
-          />
+          <TextInput value={author} onChange={setAuthor} placeholder="Author" />
         </FormContainer>
 
         <FormContainer title="Summary (required)">
           <BlogInfo>
             <TextInput
-            value={summary}
-            onChange={setSummary}
-            placeholder="A brief summary of the blog post ..."
-            multiLine={true}
-          />
+              value={summary}
+              onChange={setSummary}
+              placeholder="A brief summary of the blog post ..."
+              multiLine={true}
+            />
           </BlogInfo>
         </FormContainer>
 
@@ -232,18 +236,24 @@ const EditBlog = ({ add }) => {
 
         <FormContainer title="Closed (required: open by default)">
           <Selector
-                value={closed? 1 : 2}
-                items={[{id: 1, text: "True"}, {id: 2, text: "False"}]}
-                onSelect={updateClosedCatagory}
-              />
+            value={closed ? 1 : 2}
+            items={[
+              { id: 1, text: 'True' },
+              { id: 2, text: 'False' },
+            ]}
+            onSelect={updateClosedCatagory}
+          />
         </FormContainer>
 
         <FormContainer title="Visibility (required: public by default)">
           <Selector
-                value={visibility === "Hidden"? 1 : 2}
-                items={[{id: 1, text: "Hidden"}, {id: 2, text: "Public"}]}
-                onSelect={updateVisibilityCatagory}
-              />
+            value={visibility === 'Hidden' ? 1 : 2}
+            items={[
+              { id: 1, text: 'Hidden' },
+              { id: 2, text: 'Public' },
+            ]}
+            onSelect={updateVisibilityCatagory}
+          />
         </FormContainer>
 
         <FormContainer title="Category (required)">
@@ -257,9 +267,7 @@ const EditBlog = ({ add }) => {
         <BlogImages>
           <FormContainer title="Image (required)">
             <BlogInfo>
-              <ImagesText>
-                Upload only one image
-              </ImagesText>
+              <ImagesText>Upload only one image</ImagesText>
               <ImageCards>
                 {displayImages}
                 <ImagePreview onNew={imageUpload} />
@@ -268,43 +276,43 @@ const EditBlog = ({ add }) => {
           </FormContainer>
         </BlogImages>
 
-        {(errors.length > 0) &&
+        {errors.length > 0 && (
           <>
             <ErrorTitle> Errors: </ErrorTitle>
             {errorList}
           </>
-          }
+        )}
 
         <BlogButtons>
           <Button label="Save" onClick={saveForm} />
           <Button label="Cancel" cancel onClick={closeForm} />
-          {!add && (<DeleteButton>
-            <Button label="Delete" del onClick={openModal} />
-            <Dialog
-              open={showModal}
-              onClose={closeModal}
-            >
-              <DialogTitle>
-                <ModalTitle>
-                  Delete this Blog
-                  <IconButton>
-                    <CloseIcon onClick={closeModal}/>
-                  </IconButton>
-                </ModalTitle>
-              </DialogTitle>
-              <DialogContent>
-                <DialogContentText>
-                  <ModalDescription>
-                    Are you sure you want to delete this Blog? This process cannot be undone.
-                  </ModalDescription>
-                </DialogContentText>
-              </DialogContent>
-              <DialogActions>
-                <Button label="Cancel" cancel onClick={closeModal} />
-                <RedDeleteButton label="Delete" onClick={deleteForm} />
-              </DialogActions>
-            </Dialog>
-          </DeleteButton>)}
+          {!add && (
+            <DeleteButton>
+              <Button label="Delete" del onClick={openModal} />
+              <Dialog open={showModal} onClose={closeModal}>
+                <DialogTitle>
+                  <ModalTitle>
+                    Delete this Blog
+                    <IconButton>
+                      <CloseIcon onClick={closeModal} />
+                    </IconButton>
+                  </ModalTitle>
+                </DialogTitle>
+                <DialogContent>
+                  <DialogContentText>
+                    <ModalDescription>
+                      Are you sure you want to delete this Blog? This process
+                      cannot be undone.
+                    </ModalDescription>
+                  </DialogContentText>
+                </DialogContent>
+                <DialogActions>
+                  <Button label="Cancel" cancel onClick={closeModal} />
+                  <RedDeleteButton label="Delete" onClick={deleteForm} />
+                </DialogActions>
+              </Dialog>
+            </DeleteButton>
+          )}
         </BlogButtons>
       </EditBlogBody>
     </EditBlogPage>

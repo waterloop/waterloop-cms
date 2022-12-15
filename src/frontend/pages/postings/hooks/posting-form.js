@@ -167,62 +167,57 @@ const usePostingForm = (postingId, input = {}) => {
   const [state, dispatch] = useReducer(reducer, initialState(input));
   const { teams } = useTeams();
   const history = useHistory();
-  useEffect(() => {
-    console.log('teams', teams);
-  }, [teams]);
+
   /**
    * Load Posting Data By posting ID
    */
   useEffect(() => {
     if (state.loading) {
-      if(postingId == -1){
+      if (postingId == -1) {
         dispatch({
           type: 'LOAD_SUCCESS',
-        
         });
-      }
-      else{
+      } else {
         api.postings
-        .getPostingById(postingId)
-        .then((response) => {
-          if (response && response.status === 200) {
-            dispatch({
-              type: 'LOAD_SUCCESS',
-              payload: {
-                ...response.data,
-                deadline: new Date(response.data.deadline),
-                requirements: convertArrayToEditorStateBulletedList(
-                  response.data.requirements.map((req) => req.requirement),
-                ),
-                info: convertArrayToEditorStateBulletedList(
-                  response.data.info.map((info) => info.info),
-                ),
-                tasks: convertArrayToEditorStateBulletedList(
-                  response.data.tasks.map((task) => task.task),
-                ),
-                recommendedSkills: convertArrayToEditorStateBulletedList(
-                  response.data.recommendedSkills.map(
-                    (skill) => skill.recommendedSkill,
+          .getPostingById(postingId)
+          .then((response) => {
+            if (response && response.status === 200) {
+              dispatch({
+                type: 'LOAD_SUCCESS',
+                payload: {
+                  ...response.data,
+                  deadline: new Date(response.data.deadline),
+                  requirements: convertArrayToEditorStateBulletedList(
+                    response.data.requirements.map((req) => req.requirement),
                   ),
-                ),
-                skillsToBeLearned: convertArrayToEditorStateBulletedList(
-                  response.data.skillsToBeLearned.map(
-                    (skill) => skill.skillToBeLearned,
+                  info: convertArrayToEditorStateBulletedList(
+                    response.data.info.map((info) => info.info),
                   ),
-                ),
-              },
-            });
-          } else {
-            throw new Error(
-              'Failed to Load Resources, please refresh the page. If you continue to experience difficulties, please contact the web team',
-            );
-          }
-        })
-        .catch((err) => {
-          dispatch({ type: 'LOAD_FAILURE', payload: err });
-        });
+                  tasks: convertArrayToEditorStateBulletedList(
+                    response.data.tasks.map((task) => task.task),
+                  ),
+                  recommendedSkills: convertArrayToEditorStateBulletedList(
+                    response.data.recommendedSkills.map(
+                      (skill) => skill.recommendedSkill,
+                    ),
+                  ),
+                  skillsToBeLearned: convertArrayToEditorStateBulletedList(
+                    response.data.skillsToBeLearned.map(
+                      (skill) => skill.skillToBeLearned,
+                    ),
+                  ),
+                },
+              });
+            } else {
+              throw new Error(
+                'Failed to Load Resources, please refresh the page. If you continue to experience difficulties, please contact the web team',
+              );
+            }
+          })
+          .catch((err) => {
+            dispatch({ type: 'LOAD_FAILURE', payload: err });
+          });
       }
-
     }
   }, [state.loading, dispatch, postingId]);
 
@@ -322,7 +317,7 @@ const usePostingForm = (postingId, input = {}) => {
   }, [history]);
 
   const saveForm = useCallback(() => {
-    if(postingId == -1){
+    if (postingId == -1) {
       const form = {
         ...state.form,
         requirements: convertEditorStateBulletListToArray(
@@ -338,11 +333,9 @@ const usePostingForm = (postingId, input = {}) => {
         ),
       };
       api.postings.createNewPosting(form).then((res) => {
-        console.log(res)
         closeForm();
       });
-    }
-    else {
+    } else {
       const form = {
         ...state.form,
         requirements: convertEditorStateBulletListToArray(

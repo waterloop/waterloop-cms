@@ -1,9 +1,9 @@
-import React, { useCallback} from 'react';
+import React, { useCallback } from 'react';
 import styled from 'styled-components';
 import UnstyledButton from '../../components/Button';
 import PreviewTable from '../../components/PreviewTable';
-import TableCell from '@material-ui/core/TableCell';
-import useBlogInfo from '../../hooks/blogs'
+import TableCell from '@mui/material/TableCell';
+import useBlogInfo from '../../hooks/blogs';
 import { useHistory } from 'react-router-dom';
 
 const Button = styled(UnstyledButton)``;
@@ -41,18 +41,27 @@ const TableHeader = styled.p`
 `;
 
 const headers = [
-  {id: 'title', value: 'Title'},
-  {id: 'updatedAt', value: 'Date'},
-  {id: 'author', value: 'Author'},
-  {id: 'category', value: 'Category'},
-  {id: 'visibility', value: 'Visibility'},
+  { id: 'title', value: 'Title' },
+  { id: 'updatedAt', value: 'Date' },
+  { id: 'author', value: 'Author' },
+  { id: 'category', value: 'Category' },
+  { id: 'visibility', value: 'Visibility' },
 ];
 
-const RowComponent = ({ title, updatedAt, author, link, category, visibility}) => (
+const RowComponent = ({
+  title,
+  updatedAt,
+  author,
+  link,
+  category,
+  visibility,
+}) => (
   <>
     <TableCell>
       <TextBold>
-        <LinkButton as="a" href={link} target="_blank">{title}</LinkButton>
+        <LinkButton as="a" href={link} target="_blank">
+          {title}
+        </LinkButton>
       </TextBold>
     </TableCell>
     <TableCell>{updatedAt}</TableCell>
@@ -94,15 +103,16 @@ const BlogPage = () => {
         <TableHeader>Blogs</TableHeader>
         <Button label="New Blog +" onClick={addBlog} />
       </TableLabelHeader>
-      {(blogInfo && blogInfo.success === 'Y') ?
-      <PreviewTable
-        headers={headers}
-        RowComponent={RowComponent}
-        rows={blogs}
-        onEdit={onEditBlog}
-      />
-      : <TextBold>Sorry, there was an error displaying the blogs</TextBold>
-      }
+      {blogInfo && blogInfo.success === 'Y' ? (
+        <PreviewTable
+          headers={headers}
+          RowComponent={RowComponent}
+          rows={blogs}
+          onEdit={onEditBlog}
+        />
+      ) : (
+        <TextBold>Sorry, there was an error displaying the blogs</TextBold>
+      )}
     </Container>
   );
 };
