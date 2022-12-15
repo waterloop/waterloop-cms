@@ -8,19 +8,19 @@ RUN rm -rf /etc/localtime
 RUN ln -s /usr/share/zoneinfo/America/New_York /etc/localtime
 
 WORKDIR /waterloop
-ENV PATH /waterloop/node_modules/.bin:$PATH
 
 # Initialize dependencies
 ENV NODE_ENV=production
 ENV NODE_OPTIONS="--max-old-space-size=4096"
 
-COPY .babelrc package.json yarn.lock fix.js .npmrc .nvmrc ./
+COPY .babelrc.js package.json yarn.lock fix.js .nvmrc .yarnrc.yml ./
+COPY .yarn/releases ./.yarn/releases
+COPY .yarn/plugins ./.yarn/plugins
 
-RUN npm install -g knex
-RUN yarn install --production
+# similar to `yarn install --production` for Yarn 2.x version.
+RUN yarn workspaces focus -A --production
 
 # add missing dependencies
-RUN yarn add mssql http2
 
 # copy files over here after installing deps, to skip reinstalling deps
 COPY src ./src
