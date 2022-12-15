@@ -2,6 +2,7 @@ import React, { useState, useCallback } from 'react';
 import styled from 'styled-components';
 import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
+import Cookies from 'js-cookie';
 import useGoogleAuth from '../../hooks/google-auth';
 
 import BuildingsSVG from './assets/buildings.svg';
@@ -100,9 +101,10 @@ const SignInPage = () => {
       }
       const { userId, tokenId, groupIds, accessToken } = authPayload;
       dispatch(userActions.setUserAuth({ userId, tokenId }));
+      Cookies.set('tokenId', tokenId, { expires: 1 });
       addAuthTokenToRequests(tokenId);
       console.log('Auth Complete');
-
+      // TODO: store accessToken in browser storage.
       api.google
         .updateUserGroups(userId, groupIds, accessToken)
         .then((resp) => {

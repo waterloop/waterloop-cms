@@ -3,13 +3,14 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import HeaderCell from './HeaderCell';
 import EditIcon from './assets/EditIcon.svg';
-import MUITableCell from '@material-ui/core/TableCell';
-import MUITable from '@material-ui/core/Table';
-import MUITableBody from '@material-ui/core/TableBody';
-import MUITableRow from '@material-ui/core/TableRow';
-import MUITableContainer from '@material-ui/core/TableContainer';
-import MUITableHead from '@material-ui/core/TableHead';
+import MUITableCell from '@mui/material/TableCell';
+import MUITable from '@mui/material/Table';
+import MUITableBody from '@mui/material/TableBody';
+import MUITableRow from '@mui/material/TableRow';
+import MUITableContainer from '@mui/material/TableContainer';
+import MUITableHead from '@mui/material/TableHead';
 import useSortedRows from './hooks/sorted-rows';
+import Button from '../../components/Button';
 
 const Table = styled(MUITable)``;
 const TableBody = styled(MUITableBody)``;
@@ -67,7 +68,9 @@ const EditButtonIcon = styled.img`
 
 const TableCell = styled(MUITableCell)``;
 
-const PreviewTable = ({ className, headers, rows, RowComponent, onEdit }) => {
+const PreviewTable = ({
+  className, headers, rows, RowComponent, onEdit, onSummary
+}) => {
   const { sortedRows, onSort } = useSortedRows(rows);
 
   const headerItems = headers.map((header) => (
@@ -80,17 +83,32 @@ const PreviewTable = ({ className, headers, rows, RowComponent, onEdit }) => {
     />
   ));
 
-  const sortedRowItems = sortedRows.rows.map((row) => (
-    <BodyRow key={row.id}>
-      <RowComponent {...row} />
-      <TableCell>
-        <EditButton onClick={() => onEdit(row.id)}>
-          <EditButtonText>Edit</EditButtonText>
-          <EditButtonIcon src={EditIcon} alt="edit" />
-        </EditButton>
-      </TableCell>
-    </BodyRow>
-  ));
+  const sortedRowItems = sortedRows.rows.map(
+    (row) => (
+      <BodyRow key={row.id}>
+        <RowComponent
+          {...row}
+        />
+        {onEdit
+         ? <TableCell>
+            <EditButton onClick={() => onEdit(row.id)}>
+              <EditButtonText>Edit</EditButtonText>
+              <EditButtonIcon src={EditIcon} alt="edit" />
+            </EditButton>
+          </TableCell>
+          :<></>
+        }
+        {onSummary &&
+         <TableCell>
+            <Button
+              label="Summary"
+              onClick={() => onSummary(row.summary)}
+            />
+          </TableCell>
+        }
+      </BodyRow>
+    ),
+  );
 
   return (
     <TableContainer component={Chart} className={className}>

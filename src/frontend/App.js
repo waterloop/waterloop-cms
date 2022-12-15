@@ -1,6 +1,7 @@
 import React from 'react';
 import { Switch, Route, BrowserRouter, Redirect } from 'react-router-dom';
 import { useSelector } from 'react-redux';
+import Cookies from 'js-cookie';
 
 import * as userSelectors from './state/user/selectors';
 import TopBar from './components/TopBar';
@@ -12,9 +13,14 @@ import PostingsRouter from './pages/postings/Postings.router';
 import SponsorsRouter from './pages/sponsors/Sponsors.router';
 import GeeseRouter from './pages/geese/Geese.router';
 import TeamDescriptionsRouter from './pages/team-descriptions/TeamDescriptions.router';
+import { addAuthTokenToRequests } from './api/server';
+import BlogsRouter from './pages/blogs/Blogs.Router';
 
 const App = () => {
-  const token = useSelector(userSelectors.token);
+  let token = useSelector(userSelectors.token) || Cookies.get('tokenId');
+  if (token) {
+    addAuthTokenToRequests(token);
+  }
 
   return (
     <BrowserRouter>
@@ -57,6 +63,11 @@ const App = () => {
           {!token && <Redirect to="/sign-in" />}
           <TopBar />
           <TeamDescriptionsRouter />
+        </Route>
+        <Route path="/blog-posts">
+          {!token && <Redirect to="/sign-in" />}
+          <TopBar />
+          <BlogsRouter />
         </Route>
         <Route component={NotFoundPage}>
           {/* {!token && <Redirect to="/sign-in" />} */}

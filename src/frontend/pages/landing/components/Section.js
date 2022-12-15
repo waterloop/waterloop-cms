@@ -1,7 +1,7 @@
 import React, { useCallback } from 'react';
 import { useHistory } from 'react-router-dom';
 import styled from 'styled-components';
-import MUITypography from '@material-ui/core/Typography';
+import MUITypography from '@mui/material/Typography';
 import EDITSVG from './assets/edit.svg';
 import PreviewSVG from './assets/preview.svg';
 
@@ -30,9 +30,9 @@ const Container = styled.div`
   border: ${({ theme }) => theme.borders.solidGrey1};
   border-radius: 15px;
 
-  -webkit-box-shadow: 9px 9px 6px -2px rgba(201,201,201,1);
-  -moz-box-shadow: 9px 9px 6px -2px rgba(201,201,201,1);
-  box-shadow: 9px 9px 6px -2px rgba(201,201,201,1);
+  -webkit-box-shadow: 9px 9px 6px -2px rgba(201, 201, 201, 1);
+  -moz-box-shadow: 9px 9px 6px -2px rgba(201, 201, 201, 1);
+  box-shadow: 9px 9px 6px -2px rgba(201, 201, 201, 1);
 
   display: flex;
   flex-direction: column;
@@ -48,21 +48,18 @@ const PageTitle = styled(MUITypography)`
   text-align: center;
 `;
 
-const Section = ({
-  name,
-  editLink,
-  previewLink,
-  icon,
-  className,
-}) => {
+const Section = ({ name, editLink, previewLink, icon, className }) => {
   const history = useHistory();
-  const handleNavClick = useCallback((site, external = false) => () => {
-    if (external) {
-      window.location.href = site;
-    } else {
-      history.push(site);
-    }
-  }, [history]);
+  const handleNavClick = useCallback(
+    (site, external = false) => () => {
+      if (external) {
+        window.location.href = site;
+      } else {
+        history.push(site);
+      }
+    },
+    [history],
+  );
 
   return (
     <Container className={className}>

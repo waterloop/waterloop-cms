@@ -1,8 +1,15 @@
 import { useCallback } from 'react';
-import { useGoogleLogin } from 'react-google-login';
+import { useGoogleLogin, useGoogleLogout } from 'react-google-login';
 import * as userActions from '../state/user/actions';
 import { useDispatch } from 'react-redux';
 import api from '../api';
+import Cookies from 'js-cookie';
+
+const scopes = [
+  'profile',
+  'email',
+  'https://www.googleapis.com/auth/admin.directory.group.readonly',
+];
 
 const useGoogleAuth = (onAuthComplete) => {
   const dispatch = useDispatch();
@@ -36,15 +43,26 @@ const useGoogleAuth = (onAuthComplete) => {
     onFailure: (err) => {
       console.log('failed auth', err);
     },
-    clientId:
-      '538509890740-e3dai2feq6knjfdspqde5ogt2kme0chm.apps.googleusercontent.com',
-    scope:
-      'profile email https://www.googleapis.com/auth/admin.directory.group.readonly',
+    clientId: process.env.REACT_APP_GOOGLE_CLIENT_ID,
+    scope: scopes.join(' '),
     prompt: 'consent',
+  });
+
+  const { signOut } = useGoogleLogout({
+    clientId: process.env.REACT_APP_GOOGLE_CLIENT_ID,
+    onLogoutSuccess: () => {
+      // removeAllCookies();
+      Cookies.remove('tokenId');
+      console.log('successful logout');
+    },
+    onFailure: () => {
+      console.error('Failed to logout!');
+    },
   });
 
   return {
     signIn,
+    signOut,
   };
 };
 

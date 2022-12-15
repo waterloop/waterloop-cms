@@ -1,13 +1,13 @@
 import React from 'react';
-import { useHistory } from 'react-router-dom';
 import styled from 'styled-components';
-import MUIGrid from '@material-ui/core/Grid';
-import MUITypography from '@material-ui/core/Typography';
-import ClickAwayListener from '@material-ui/core/ClickAwayListener';
+import MUIGrid from '@mui/material/Grid';
+import MUITypography from '@mui/material/Typography';
+import ClickAwayListener from '@mui/material/ClickAwayListener';
 
 const Typography = styled(MUITypography)`
   font: ${({ theme }) => theme.fonts.bold14};
   text-align: center;
+  cursor: pointer;
 `;
 
 const Grid = styled(MUIGrid)``;
@@ -38,21 +38,17 @@ const Container = styled.div`
   }
 `;
 
-const ProfileDropdown = ({ className, onClose }) => {
-  const history = useHistory();
-
-  return (
-    <ClickAwayListener onClickAway={onClose}>
-      <Container className={className}>
-        <Arrow />
-        <MainBox>
-          <Grid xs={20}>
-            <Typography>Sign Out</Typography>
-          </Grid>
-        </MainBox>
-      </Container>
-    </ClickAwayListener>
-  );
-};
+const ProfileDropdown = ({ className, onClose, onLogout }) => (
+  <ClickAwayListener onClickAway={onClose}>
+    <Container className={className}>
+      <Arrow />
+      <MainBox>
+        <Grid xs={20}>
+          <Typography onClick={onLogout}>Sign Out</Typography>
+        </Grid>
+      </MainBox>
+    </Container>
+  </ClickAwayListener>
+);
 
 export default ProfileDropdown;

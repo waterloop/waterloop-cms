@@ -22,7 +22,9 @@ export const uploadImage = (file) => {
   const { originalname, buffer, mimetype } = file;
 
   return new Promise((resolve, reject) => {
-    const filename = `${Date.now()}-${originalname}`;
+    let filename = `${Date.now()}-${originalname}`;
+    filename = filename.replaceAll(' ', '-') // no white space in image file name
+    
     const file = bucket.file(filename);
 
     const stream = file.createWriteStream({

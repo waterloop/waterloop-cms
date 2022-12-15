@@ -5,7 +5,7 @@ import { useHistory } from 'react-router-dom';
 
 import { buttonCopies, mainCopies } from './Copies';
 
-import TableCell from '@material-ui/core/TableCell';
+import TableCell from '@mui/material/TableCell';
 import UnstyledPreviewTable from '../../components/PreviewTable';
 import Button from '../../components/Button';
 
@@ -56,7 +56,8 @@ const ButtonContainer = styled.div`
   & > * {
     margin-right: 20px;
     margin-top: 10px;
-    @media only screen and (max-width: ${({ theme }) => theme.breakpoints.md}px) {
+    @media only screen and (max-width: ${({ theme }) =>
+        theme.breakpoints.md}px) {
       margin-right: 0;
     }
   }
@@ -85,8 +86,7 @@ const RowComponent = ({ name, lastUpdated, tier }) => (
 const SponsorsPage = () => {
   const { sponsorTiers, sponsors } = useSponsors();
   const tableRows = sponsors.map((sponsor) => {
-
-    if (sponsor.tier != undefined){
+    if (sponsor.tier != undefined) {
       return {
         id: sponsor.sponsorId,
         name: sponsor.name,
@@ -98,10 +98,10 @@ const SponsorsPage = () => {
         id: sponsor.sponsorId,
         name: sponsor.name,
         lastUpdated: sponsor.lastUpdated,
-        tier: sponsorTiers.filter((sTier) => sTier.id === sponsor.tierId)[0].text,
+        tier: sponsorTiers.filter((sTier) => sTier.id === sponsor.tierId)[0]
+          .text,
       };
     }
-    
   });
 
   const history = useHistory();

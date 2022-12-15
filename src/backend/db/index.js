@@ -9,6 +9,7 @@ import openingsDescription from './openings-description';
 import featurePermissions from './feature-permissions';
 import newsletterRecipients from './newsletter-recipient';
 import blogs from './blogs';
+import geeseFeatures from './geese-features';
 
 export default {
   users: {
@@ -37,5 +38,8 @@ export default {
   },
   blogs: {
     ...blogs(db),
+  },
+  geeseFeatures: {
+    ...geeseFeatures(db),
   },
 };

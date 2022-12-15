@@ -4,7 +4,7 @@ import SortingVectorTop from './assets/SortingVectorTop.svg';
 import SortingVectorTopColoured from './assets/SortingVectorTopColoured.svg';
 import SortingVectorBottom from './assets/SortingVectorBottom.svg';
 import SortingVectorBottomColoured from './assets/SortingVectorBottomColoured.svg';
-import MUITableCell from '@material-ui/core/TableCell';
+import MUITableCell from '@mui/material/TableCell';
 
 const TableCell = styled(MUITableCell)`
   cursor: pointer;
@@ -36,21 +36,14 @@ const ChartHeaderText = styled.div`
   color: #000000;
 `;
 
-const HeaderCell = ({
-  onSort,
-  title,
-  sorted,
-  ascending,
-}) => (
+const HeaderCell = ({ onSort, title, sorted, ascending }) => (
   <TableCell>
     <ChartHeaderText onClick={onSort}>
       {title}
       <SortingIcon>
         <SortingTop
           src={
-            sorted && ascending
-              ? SortingVectorTopColoured
-              : SortingVectorTop
+            sorted && ascending ? SortingVectorTopColoured : SortingVectorTop
           }
           alt="Table Header Sort Acceding"
         />
