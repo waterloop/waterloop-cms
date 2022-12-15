@@ -1,12 +1,12 @@
 import { useCallback, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import * as R from 'ramda';
-import api from '../api';
-import * as postingActions from '../state/postings/actions';
-import * as postingSelectors from '../state/postings/selectors';
-import { useHistory } from 'react-router';
+import api from 'frontend/api';
+import * as postingActions from 'frontend/state/postings/actions';
+import * as postingSelectors from 'frontend/state/postings/selectors';
+import { useHistory } from 'react-router-dom';
 
-import { dateToLocalTime } from '../utils/datetime';
+import { dateToLocalTime } from 'frontend/utils/datetime';
 
 const dateStringsToDate = (data) => ({
   ...data,
@@ -42,7 +42,7 @@ const usePostings = () => {
       }
     } catch (err) {
       if (process.env.NODE_ENV === 'development') {
-        console.log(err);
+        console.error(err);
       }
       throw err;
     }
@@ -53,7 +53,7 @@ const usePostings = () => {
       dispatch(postingActions.setPostings(await getPostings()));
     } catch {
       if (process.env.NODE_ENV === 'development') {
-        console.log('Failed to load postings');
+        console.error('Failed to load postings');
       }
     }
   }, [dispatch, getPostings]);
@@ -72,12 +72,11 @@ const usePostings = () => {
         );
 
         if (response.status === 200) {
-          console.log('closedState', closedState);
           dispatch(postingActions.updateClosedState(id, boolClosedState));
         }
       } catch (err) {
         if (process.env.NODE_ENV === 'development') {
-          console.log(err);
+          console.error(err);
         }
       }
     },
@@ -85,8 +84,7 @@ const usePostings = () => {
   );
 
   const addPosting = useCallback(() => {
-
-      history.push(`/postings/-1`);
+    history.push(`/postings/-1`);
   }, [history]);
 
   return {

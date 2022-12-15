@@ -1,24 +1,15 @@
-import React, {
-  useReducer,
-  useCallback,
-  useEffect,
-  useMemo,
-  useState,
-} from 'react';
-import Button from '../../../components/Button';
-import FormContainer from '../../../components/FormContainer';
-import TextInput from '../../../components/TextInput';
+import { useReducer, useCallback, useEffect, useMemo, useState } from 'react';
 
-import api from '../../../api';
-import useTeams from '../../../hooks/teams';
+import api from 'frontend/api';
+import useTeams from 'frontend/hooks/teams';
 import { useHistory } from 'react-router-dom';
-import { EditorState, ContentState } from 'draft-js';
+import { EditorState } from 'draft-js';
 import {
   convertArrayToEditorStateBulletedList,
   convertEditorStateBulletListToArray,
-} from '../../../utils/rich-text/rich-text-utils';
+} from 'frontend/utils/rich-text/rich-text-utils';
 
-import { dateToLocalTime } from '../../../utils/datetime';
+import { dateToLocalTime } from 'frontend/utils/datetime';
 
 const today = new Date();
 
@@ -173,7 +164,7 @@ const usePostingForm = (postingId, input = {}) => {
    */
   useEffect(() => {
     if (state.loading) {
-      if (postingId == -1) {
+      if (postingId === -1) {
         dispatch({
           type: 'LOAD_SUCCESS',
         });
@@ -186,7 +177,7 @@ const usePostingForm = (postingId, input = {}) => {
                 type: 'LOAD_SUCCESS',
                 payload: {
                   ...response.data,
-                  deadline: new Date(response.data.deadline),
+                  deadline: dateToLocalTime(response.data.deadline),
                   requirements: convertArrayToEditorStateBulletedList(
                     response.data.requirements.map((req) => req.requirement),
                   ),
@@ -273,40 +264,55 @@ const usePostingForm = (postingId, input = {}) => {
     [dispatch],
   );
 
-  const updateRequirements = useCallback((requirements) => {
-    dispatch({
-      type: 'UPDATE_REQUIREMENTS',
-      payload: requirements,
-    });
-  });
+  const updateRequirements = useCallback(
+    (requirements) => {
+      dispatch({
+        type: 'UPDATE_REQUIREMENTS',
+        payload: requirements,
+      });
+    },
+    [dispatch],
+  );
 
-  const updateInfo = useCallback((info) => {
-    dispatch({
-      type: 'UPDATE_INFO',
-      payload: info,
-    });
-  });
+  const updateInfo = useCallback(
+    (info) => {
+      dispatch({
+        type: 'UPDATE_INFO',
+        payload: info,
+      });
+    },
+    [dispatch],
+  );
 
-  const updateTasks = useCallback((tasks) => {
-    dispatch({
-      type: 'UPDATE_TASKS',
-      payload: tasks,
-    });
-  });
+  const updateTasks = useCallback(
+    (tasks) => {
+      dispatch({
+        type: 'UPDATE_TASKS',
+        payload: tasks,
+      });
+    },
+    [dispatch],
+  );
 
-  const updateRecommendedSkills = useCallback((recommendedSkills) => {
-    dispatch({
-      type: 'UPDATE_RECOMMENDED_SKILLS',
-      payload: recommendedSkills,
-    });
-  });
+  const updateRecommendedSkills = useCallback(
+    (recommendedSkills) => {
+      dispatch({
+        type: 'UPDATE_RECOMMENDED_SKILLS',
+        payload: recommendedSkills,
+      });
+    },
+    [dispatch],
+  );
 
-  const updateSkillsToBeLearned = useCallback((skillsToBeLearned) => {
-    dispatch({
-      type: 'UPDATE_SKILLS_TO_BE_LEARNED',
-      payload: skillsToBeLearned,
-    });
-  });
+  const updateSkillsToBeLearned = useCallback(
+    (skillsToBeLearned) => {
+      dispatch({
+        type: 'UPDATE_SKILLS_TO_BE_LEARNED',
+        payload: skillsToBeLearned,
+      });
+    },
+    [dispatch],
+  );
 
   /**
    * Save and close Functions
@@ -317,7 +323,7 @@ const usePostingForm = (postingId, input = {}) => {
   }, [history]);
 
   const saveForm = useCallback(() => {
-    if (postingId == -1) {
+    if (postingId === -1) {
       const form = {
         ...state.form,
         requirements: convertEditorStateBulletListToArray(

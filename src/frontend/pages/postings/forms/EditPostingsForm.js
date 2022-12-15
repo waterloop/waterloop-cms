@@ -4,11 +4,10 @@ import { useRouteMatch } from 'react-router-dom';
 import usePostingForm from '../hooks/posting-form';
 import Grid from '@mui/material/Grid';
 import UnstyledDatePicker from 'react-datepicker';
-import Button from '../../../components/Button';
-import FormContainer from '../../../components/FormContainer';
-import Selector from '../../../components/Selector';
-import DropDownList from '../../../components/DropDownList';
-import TextInput from '../../../components/TextInput';
+import Button from 'frontend/components/Button';
+import FormContainer from 'frontend/components/FormContainer';
+import Selector from 'frontend/components/Selector';
+import TextInput from 'frontend/components/TextInput';
 
 import * as R from 'ramda';
 
@@ -37,7 +36,7 @@ const TermContainer = styled.div`
 `;
 
 const GridContainer = styled(Grid)`
-  padding-bottom: 16px;
+  padding-bottom: 2rem;
 `;
 
 const ButtonContainer = styled.div`
@@ -136,14 +135,20 @@ const EditPostingsForm = () => {
     tasks,
   ]);
 
+  useEffect(() => {
+    console.log(deadline);
+  }, [deadline]);
+
   return loading ? (
     <Container>Loading</Container>
   ) : (
     <Container>
-      <Button cancel onClick={closeForm}>
-        &#60; Back
-      </Button>
-      <GridContainer container spacing={4}>
+      <GridContainer item container>
+        <Button cancel onClick={closeForm}>
+          &#60; Back
+        </Button>
+      </GridContainer>
+      <GridContainer item container spacing={4}>
         <Grid item xs={12} md={6}>
           <FormContainer title="Opening Name (required)" isError={nameError}>
             <TextInput
@@ -193,9 +198,7 @@ const EditPostingsForm = () => {
             <DatePicker
               selected={deadline}
               onChange={(newDeadline) => {
-                newDeadline.setDate(newDeadline.getDate());
                 newDeadline.setHours(23, 59, 59, 999);
-                console.log(newDeadline);
                 updateDeadline(newDeadline);
               }}
               isError={deadlineError}

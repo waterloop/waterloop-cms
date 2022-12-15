@@ -1,13 +1,13 @@
 import React from 'react';
-import useSponsors from '../../hooks/sponsors';
+import useSponsors from 'frontend/hooks/sponsors';
 import styled from 'styled-components';
 import { useHistory } from 'react-router-dom';
 
 import { buttonCopies, mainCopies } from './Copies';
 
 import TableCell from '@mui/material/TableCell';
-import UnstyledPreviewTable from '../../components/PreviewTable';
-import Button from '../../components/Button';
+import UnstyledPreviewTable from 'frontend/components/PreviewTable';
+import Button from 'frontend/components/Button';
 
 const Container = styled.div`
   margin: ${({ theme }) => theme.pageMargin};
@@ -86,7 +86,7 @@ const RowComponent = ({ name, lastUpdated, tier }) => (
 const SponsorsPage = () => {
   const { sponsorTiers, sponsors } = useSponsors();
   const tableRows = sponsors.map((sponsor) => {
-    if (sponsor.tier != undefined) {
+    if (sponsor.tier !== undefined) {
       return {
         id: sponsor.sponsorId,
         name: sponsor.name,

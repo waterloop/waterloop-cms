@@ -1,16 +1,11 @@
-import {
-  useReducer,
-  useCallback,
-  useEffect,
-} from 'react';
+import { useReducer, useCallback, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
-import api from '../../../api';
+import api from 'frontend/api';
 import FormData from 'form-data';
 
-import useSponsors from "../../../hooks/sponsors";
+import useSponsors from 'frontend/hooks/sponsors';
 import * as R from 'ramda';
 import * as moment from 'moment';
-
 
 const initialState = (inputState) => ({
   loading: true,
@@ -23,7 +18,7 @@ const initialState = (inputState) => ({
     // corresponding to any new entries in images.
     lastUpdated: '',
     ...inputState, // May overwrite any of the above defaults
-  }
+  },
 });
 
 const reducer = (state, action) => {
@@ -32,7 +27,7 @@ const reducer = (state, action) => {
       return {
         ...state,
         loading: false,
-        userFriendlyErrorMessage: "",
+        userFriendlyErrorMessage: '',
         form: {
           ...state.form,
           ...action.payload.data,
@@ -49,50 +44,50 @@ const reducer = (state, action) => {
     case 'UPDATE_TITLE':
       return {
         ...state,
-        userFriendlyErrorMessage: "",
+        userFriendlyErrorMessage: '',
         form: {
           ...state.form,
           title: action.payload,
-        }
-      }
+        },
+      };
     case 'UPDATE_DESCRIPTION':
       return {
         ...state,
-        userFriendlyErrorMessage: "",
+        userFriendlyErrorMessage: '',
         form: {
           ...state.form,
           description: action.payload,
-        }
-      }
+        },
+      };
     case 'UPDATE_IMAGES':
       return {
         ...state,
-        userFriendlyErrorMessage: "",
+        userFriendlyErrorMessage: '',
         form: {
           ...state.form,
           images: action.payload.images,
-          imageFiles: action.payload.imageFiles
-        }
-      }
+          imageFiles: action.payload.imageFiles,
+        },
+      };
     case 'UPDATE_FAILURE':
       return {
         ...state,
         userFriendlyErrorMessage: action.payload,
         form: {
           ...state.form,
-        }
-      }
+        },
+      };
     default:
       return {
         ...state,
       };
   }
-}
+};
 
 const useSponsorDescForm = (input = {}) => {
   const [state, dispatch] = useReducer(reducer, initialState(input));
   const history = useHistory();
-  const {sponsorDesc} = useSponsors();
+  const { sponsorDesc } = useSponsors();
 
   /**
    * Load Sponsor Data by ID:
@@ -102,19 +97,22 @@ const useSponsorDescForm = (input = {}) => {
       try {
         let data = {
           ...sponsorDesc,
-          imageFiles: Array(sponsorDesc.images.length).fill(null), 
-          lastUpdated: moment.utc(sponsorDesc.updatedAt).local().format("MMMM D, YYYY")
-        }
+          imageFiles: Array(sponsorDesc.images.length).fill(null),
+          lastUpdated: moment
+            .utc(sponsorDesc.updatedAt)
+            .local()
+            .format('MMMM D, YYYY'),
+        };
         dispatch({
           type: 'LOAD_SUCCESS',
           payload: {
-            data
-          }
+            data,
+          },
         });
       } catch (err) {
-          dispatch({ type: 'LOAD_FAILURE', payload: err.message });
+        dispatch({ type: 'LOAD_FAILURE', payload: err.message });
       }
-    }  
+    }
   }, [state.loading, dispatch, sponsorDesc]);
 
   /**
@@ -131,34 +129,38 @@ const useSponsorDescForm = (input = {}) => {
     (description) => {
       dispatch({ type: 'UPDATE_DESCRIPTION', payload: description });
     },
-    [dispatch], 
+    [dispatch],
   );
 
   const updateImage = useCallback(
     (newImage, newImageFile) => {
-      dispatch({ type: 'UPDATE_IMAGES', payload: {
-        images: [...state.form.images, newImage],
-        imageFiles: [...state.form.imageFiles, newImageFile]
-      }});
+      dispatch({
+        type: 'UPDATE_IMAGES',
+        payload: {
+          images: [...state.form.images, newImage],
+          imageFiles: [...state.form.imageFiles, newImageFile],
+        },
+      });
     },
     [dispatch, state.form.images, state.form.imageFiles],
   );
 
   const deleteImage = useCallback(
     (imgNum) => {
-      dispatch({ type: 'UPDATE_IMAGES', payload: {
-        images: state.form.images.filter((_, idx) => idx !== imgNum),
-        imageFiles: state.form.imageFiles.filter((_, idx) => idx !== imgNum)
-      }});
+      dispatch({
+        type: 'UPDATE_IMAGES',
+        payload: {
+          images: state.form.images.filter((_, idx) => idx !== imgNum),
+          imageFiles: state.form.imageFiles.filter((_, idx) => idx !== imgNum),
+        },
+      });
     },
     [dispatch, state.form.images, state.form.imageFiles],
   );
 
-  const updateFailure = useCallback(
-    (err) => {
-      dispatch({ type: 'UPDATE_FAILURE', payload: err });
-    }
-  );
+  const updateFailure = useCallback((err) => {
+    dispatch({ type: 'UPDATE_FAILURE', payload: err });
+  });
 
   /**
    * Save and close Functions
@@ -168,38 +170,36 @@ const useSponsorDescForm = (input = {}) => {
   }, [history]);
 
   const saveForm = useCallback(async () => {
-    // eslint-disable-next-line no-console
-    console.log(state.form);
-
     // Send data to server:
     try {
       const files = state.form.imageFiles;
       let imgStrings = state.form.images;
 
       if (R.isEmpty(imgStrings)) {
-        throw new Error("Requirement not satisfied: images");
+        throw new Error('Requirement not satisfied: images');
       }
 
       // Upload files and retrieve Google Cloud Platform URL string:
-      await Promise.all(files.map(async (file, idx) => {
-        if (file) {
-          const data = new FormData();
-        
-          data.append('files', file, file.name);
-          const res = await api.formUpload(data);
-      
-          // eslint-disable-next-line no-console
-          console.log("Done image upload!");
-          
-          const imageUrl = res.data.data[0];
-          if (!imageUrl) {
-            throw new Error(`Failed to upload image: ${file.name}`);
+      await Promise.all(
+        files.map(async (file, idx) => {
+          if (file) {
+            const data = new FormData();
 
-          } else {
-            imgStrings[idx] = imageUrl;
+            data.append('files', file, file.name);
+            const res = await api.formUpload(data);
+
+            // eslint-disable-next-line no-console
+            console.log('Done image upload!');
+
+            const imageUrl = res.data.data[0];
+            if (!imageUrl) {
+              throw new Error(`Failed to upload image: ${file.name}`);
+            } else {
+              imgStrings[idx] = imageUrl;
+            }
           }
-        }
-      }));
+        }),
+      );
 
       // Upload rest of data to server:
 
@@ -211,16 +211,13 @@ const useSponsorDescForm = (input = {}) => {
 
       const res = await api.sponsors.updateSponsorDesc(data);
 
-      if (res.status != 200) {
-        console.log(res);
+      if (res.status !== 200) {
         throw new Error(res.data);
       }
       // onSuccess:
       closeForm();
-
     } catch (e) {
       // TODO: Display "could not add/update" error to user as dialogue.
-      // eslint-disable-next-line no-console
       updateFailure(e.message);
     }
   }, [state.form, closeForm]);
@@ -240,4 +237,4 @@ const useSponsorDescForm = (input = {}) => {
 };
 
 export default useSponsorDescForm;
-  // END Save and close functions
+// END Save and close functions

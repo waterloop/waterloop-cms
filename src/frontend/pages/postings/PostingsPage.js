@@ -1,16 +1,13 @@
 import React, { useCallback } from 'react';
 import PostingPreview from './PostingsPreview';
-import usePostings from '../../hooks/postings';
+import usePostings from 'frontend/hooks/postings';
 import UnstyledHeaderPreview from './HeadersPreview';
 import useHeaders from './hooks/headers';
 import styled from 'styled-components';
-import { useSelector } from 'react-redux';
 
-import Button from '../../components/Button';
-import PreviewTable from '../../components/PreviewTable';
+import Button from 'frontend/components/Button';
+import PreviewTable from 'frontend/components/PreviewTable';
 import { useHistory, useRouteMatch } from 'react-router-dom';
-import api from '../../api';
-import * as userSelectors from '../../state/user/selectors';
 
 const ChartTitle = styled.div`
   font-style: italic;

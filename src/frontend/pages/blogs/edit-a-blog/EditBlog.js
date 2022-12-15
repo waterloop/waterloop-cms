@@ -1,9 +1,9 @@
 import React, { useMemo } from 'react';
-import ImagePreview from '../../../components/ImagePreview/index';
-import FormContainer from '../../../components/FormContainer/index';
-import Button from '../../../components/Button/index';
-import TextInput from '../../../components/TextInput/index';
-import useBlogForm from '../../../hooks/blog-form';
+import ImagePreview from 'frontend/components/ImagePreview/index';
+import FormContainer from 'frontend/components/FormContainer/index';
+import Button from 'frontend/components/Button/index';
+import TextInput from 'frontend/components/TextInput/index';
+import useBlogForm from 'frontend/hooks/blog-form';
 import styled from 'styled-components';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
@@ -12,7 +12,7 @@ import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import CloseIcon from '@mui/icons-material/Close';
 import IconButton from '@mui/material/IconButton';
-import UnstyledSelector from '../../../components/Selector';
+import UnstyledSelector from 'frontend/components/Selector';
 
 const EditBlogPage = styled.div`
   padding: 64px 88px 65px 58px;
@@ -127,7 +127,7 @@ const EditBlog = ({ add }) => {
   const displayImages = useMemo(() => {
     return (
       <div>
-        {currentImageURL != '' && (
+        {currentImageURL !== '' && (
           <ImageCard>
             <ImagePreview
               src={currentImageURL}
@@ -137,7 +137,7 @@ const EditBlog = ({ add }) => {
             />
           </ImageCard>
         )}
-        {uploadedImageURL != '' && (
+        {uploadedImageURL !== '' && (
           <ImageCard>
             <ImagePreview
               src={URL.createObjectURL(uploadedImageURL)}
