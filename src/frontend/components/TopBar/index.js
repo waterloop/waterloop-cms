@@ -1,4 +1,5 @@
 import React from 'react';
+import { useHistory } from 'react-router-dom';
 import styled from 'styled-components';
 import useProfilePicture from '../../hooks/profile-picture';
 import { Link } from 'react-router-dom';
@@ -10,6 +11,7 @@ import WaterloopLogoSVG from './assets/topbar-logo.svg';
 import UnstyledDesktopMenu from './DesktopMenu';
 import UnstyledProfileDropdown from './ProfileDropdown';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
+import useGoogleAuth from '../../hooks/google-auth';
 
 const AppBar = styled(MUIAppBar)`
   background-color: ${({ theme }) => theme.colours.blues.blue1};
@@ -56,7 +58,14 @@ const ProfilePicture = styled.img`
 const TopBar = () => {
   const [menuOpen, setMenuOpen] = React.useState(false);
   const [dropdownOpen, setDropdownOpen] = React.useState(false);
+  const { signOut } = useGoogleAuth();
+  const history = useHistory();
   const { profilePicture } = useProfilePicture();
+
+  const onLogout = () => {
+    signOut();
+    history.push('/sign-in');
+  };
 
   return (
     <div>
@@ -86,7 +95,10 @@ const TopBar = () => {
       </AppBar>
       {menuOpen && <DesktopMenu onClose={() => setMenuOpen(false)} />}
       {dropdownOpen && (
-        <ProfileDropdown onClose={() => setDropdownOpen(false)} />
+        <ProfileDropdown
+          onClose={() => setDropdownOpen(false)}
+          onLogout={onLogout}
+        />
       )}
     </div>
   );

@@ -1,6 +1,6 @@
-// Load the GCP Key file on keroku
+// Load the GCP Key file on our production server
 // The file is not stored in git,
-// so heroku will need to generate it from .env
+// so the production server will need to generate it from .env
 
 require('dotenv').config()
 const fs = require('fs')

@@ -104,7 +104,7 @@ const SignInPage = () => {
       Cookies.set('tokenId', tokenId, { expires: 1 });
       addAuthTokenToRequests(tokenId);
       console.log('Auth Complete');
-
+      // TODO: store accessToken in browser storage.
       api.google
         .updateUserGroups(userId, groupIds, accessToken)
         .then((resp) => {
