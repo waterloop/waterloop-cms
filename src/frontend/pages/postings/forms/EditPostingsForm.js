@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { useRouteMatch } from 'react-router-dom';
 import usePostingForm from '../hooks/posting-form';
 import Grid from '@mui/material/Grid';
-import UnstyledDatePicker from 'react-datepicker';
+import UnstyledDatePicker from 'react-datepicker'; // TODO: switch to mui datepicker.
 import Button from 'frontend/components/Button';
 import FormContainer from 'frontend/components/FormContainer';
 import Selector from 'frontend/components/Selector';
@@ -20,7 +20,8 @@ const DatePicker = styled(UnstyledDatePicker)`
   height: 47px;
   padding-left: 8px;
   border-radius: 9px;
-  border: ${({ theme }) => theme.borders.solidGrey1};
+  border: ${({ theme, error }) =>
+    error ? theme.borders.solidRed : theme.borders.solidGrey1};
 `;
 
 const Container = styled.div`
@@ -85,7 +86,7 @@ const EditPostingsForm = () => {
     saveForm,
     closeForm,
     deleteForm,
-  } = usePostingForm(postingId);
+  } = usePostingForm(parseInt(postingId));
 
   /* Validation states */
   const [nameError, setNameError] = useState(false);
@@ -113,9 +114,9 @@ const EditPostingsForm = () => {
 
   useEffect(() => {
     setNameError(R.isEmpty(title));
-    setSubTeamError(R.isEmpty(teamId));
+    setSubTeamError(R.isNil(teamId));
     setTermSeasonError(R.isEmpty(termSeason));
-    setTermYearError(R.isEmpty(termYear));
+    setTermYearError(R.isNil(termYear));
     setDeadlineError(R.isEmpty(deadline));
     setTimeCommitmentError(R.isEmpty(timeCommitment));
     setDescriptionError(R.isEmpty(description));
@@ -154,7 +155,7 @@ const EditPostingsForm = () => {
             <TextInput
               value={title}
               onChange={updateTitle}
-              placeholder="Opening Name (required)"
+              placeholder="Assistant to the Regional Manager"
               isError={nameError}
             />
           </FormContainer>
@@ -164,6 +165,7 @@ const EditPostingsForm = () => {
             <Selector
               value={teamId}
               onSelect={updateSubteam}
+              placeholder="Dunder Mifflin Scranton Branch"
               items={subTeams.map((st) => ({ id: st.id, text: st.teamName }))}
               isError={subTeamError}
             />
@@ -177,12 +179,14 @@ const EditPostingsForm = () => {
             <TermContainer>
               <TermSelector
                 value={termYear}
+                placeholder={'(Please select a year)'}
                 onSelect={updateTermYear}
                 items={years}
                 isError={termYearError}
               />
               <TermSelector
                 value={termSeason}
+                placeholder={'(Please select a term)'}
                 onSelect={updateTermSeason}
                 items={terms}
                 isError={termSeasonError}
@@ -196,12 +200,12 @@ const EditPostingsForm = () => {
             isError={deadlineError}
           >
             <DatePicker
+              error={deadlineError}
               selected={deadline}
               onChange={(newDeadline) => {
                 newDeadline.setHours(23, 59, 59, 999);
                 updateDeadline(newDeadline);
               }}
-              isError={deadlineError}
             />
           </FormContainer>
         </Grid>
@@ -213,7 +217,7 @@ const EditPostingsForm = () => {
             <TextInput
               value={timeCommitment}
               onChange={updateTimeCommitment}
-              placeholder="Time Commitment (required)"
+              placeholder="8-10 hours per week"
               isError={timeCommitmentError}
             />
           </FormContainer>
@@ -226,7 +230,7 @@ const EditPostingsForm = () => {
             <TextInput
               value={description}
               onChange={updateDescription}
-              placeholder="Description (required)"
+              placeholder="(Please enter a short description of the role here.)"
               isError={descriptionError}
               multiLine
             />

@@ -11,23 +11,21 @@ import {
 
 import { dateToLocalTime } from 'frontend/utils/datetime';
 
-const today = new Date();
-
 const initialState = (inputState) => ({
   loading: true,
   userFriendlyErrorMessage: '',
   form: {
-    title: 'New Title',
-    teamId: 1,
-    deadline: today,
-    location: 'On Site',
-    termYear: today.getFullYear(),
-    termSeason: 'WINTER',
-    description: 'Enter Description',
+    title: '',
+    teamId: undefined,
+    deadline: '',
+    location: 'On Site', // unused field
+    termYear: undefined,
+    termSeason: '',
+    description: '',
     requirements: EditorState.createEmpty(),
     tasks: EditorState.createEmpty(),
     info: EditorState.createEmpty(),
-    timeCommitment: '8-10 Hours a Week',
+    timeCommitment: '',
     skillsToBeLearned: EditorState.createEmpty(),
     recommendedSkills: EditorState.createEmpty(),
     ...inputState, // May overwrite any of the above defaults
@@ -322,44 +320,27 @@ const usePostingForm = (postingId, input = {}) => {
     history.push('/postings');
   }, [history]);
 
-  const saveForm = useCallback(() => {
+  const saveForm = useCallback(async () => {
+    const form = {
+      ...state.form,
+      requirements: convertEditorStateBulletListToArray(
+        state.form.requirements,
+      ),
+      info: convertEditorStateBulletListToArray(state.form.info),
+      tasks: convertEditorStateBulletListToArray(state.form.tasks),
+      recommendedSkills: convertEditorStateBulletListToArray(
+        state.form.recommendedSkills,
+      ),
+      skillsToBeLearned: convertEditorStateBulletListToArray(
+        state.form.skillsToBeLearned,
+      ),
+    };
     if (postingId === -1) {
-      const form = {
-        ...state.form,
-        requirements: convertEditorStateBulletListToArray(
-          state.form.requirements,
-        ),
-        info: convertEditorStateBulletListToArray(state.form.info),
-        tasks: convertEditorStateBulletListToArray(state.form.tasks),
-        recommendedSkills: convertEditorStateBulletListToArray(
-          state.form.recommendedSkills,
-        ),
-        skillsToBeLearned: convertEditorStateBulletListToArray(
-          state.form.skillsToBeLearned,
-        ),
-      };
-      api.postings.createNewPosting(form).then((res) => {
-        closeForm();
-      });
+      await api.postings.createNewPosting(form);
     } else {
-      const form = {
-        ...state.form,
-        requirements: convertEditorStateBulletListToArray(
-          state.form.requirements,
-        ),
-        info: convertEditorStateBulletListToArray(state.form.info),
-        tasks: convertEditorStateBulletListToArray(state.form.tasks),
-        recommendedSkills: convertEditorStateBulletListToArray(
-          state.form.recommendedSkills,
-        ),
-        skillsToBeLearned: convertEditorStateBulletListToArray(
-          state.form.skillsToBeLearned,
-        ),
-      };
-      api.postings.patchPosting(form, postingId).then(() => {
-        closeForm();
-      });
+      await api.postings.patchPosting(form, postingId);
     }
+    closeForm();
   }, [state.form, postingId, closeForm]);
 
   const deleteForm = useCallback(() => {

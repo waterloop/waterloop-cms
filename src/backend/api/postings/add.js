@@ -4,7 +4,6 @@ import * as R from 'ramda';
 
 const add = (req, res, next) => {
   const posting = req.body;
-  console.log(posting);
   const newPosting = {
     ...posting,
     deadline: parseTimeFromRequest(posting.deadline),

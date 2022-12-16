@@ -22,21 +22,17 @@ const RequiredText = styled.p`
   font: ${({ theme }) => theme.fonts.medium14};
 `;
 
-const FormContainer = ({ 
-  title, 
-  children, 
+const FormContainer = ({
+  title,
+  children,
   className,
-  requiredText = "This field cannot be left blank.",
+  requiredText = 'This field cannot be left blank.',
   isError = false,
 }) => (
   <OuterContainer className={className}>
     <Title>{title}</Title>
-    {(typeof children == "function") ? children(isError) : children}
-    {isError && (
-      <RequiredText>
-        {requiredText}
-      </RequiredText>
-    )}
+    {typeof children == 'function' ? children(isError) : children}
+    {isError && <RequiredText>{requiredText}</RequiredText>}
   </OuterContainer>
 );
 
@@ -45,5 +41,5 @@ export default FormContainer;
 FormContainer.propTypes = {
   title: PropTypes.string,
   className: PropTypes.string,
-  requiredText: PropTypes.string
+  requiredText: PropTypes.string,
 };

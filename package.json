@@ -24,7 +24,7 @@
     "test:all": "yarn test:unit && yarn test:integration",
     "docker:test": "docker-compose run --service-ports test-db ",
     "docker:dev": "docker-compose run --service-ports dev-db ",
-    "dev": "yarn migrate && yarn seed && cross-env NODE_ENV=development nodemon --ignore ./src/frontend --ignore ./src/index.js --exec babel-node src/backend/index.js",
+    "dev": "yarn migrate && yarn seed && cross-env NODE_ENV=development nodemon --ignore ./src/frontend --ignore ./src/index.js --exec babel-node --only src/backend,lib src/backend/index.js",
     "prebuild": "yarn build:frontend && node ./src/backend/scripts/generate-gcp-key.js",
     "build": "yarn prebuild && cross-env NODE_ENV=production babel src/backend --out-dir lib --copy-files",
     "start": "cross-env NODE_ENV=production babel-node lib/index.js",
