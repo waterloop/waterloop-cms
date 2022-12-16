@@ -1,37 +1,26 @@
-import React, {
-  useReducer,
-  useCallback,
-  useEffect,
-  useMemo,
-  useState,
-} from 'react';
-import Button from '../../../components/Button';
-import FormContainer from '../../../components/FormContainer';
-import TextInput from '../../../components/TextInput';
+import { useReducer, useCallback, useEffect, useMemo, useState } from 'react';
 
-import api from '../../../api';
-import useTeams from '../../../hooks/teams';
+import api from 'frontend/api';
+import useTeams from 'frontend/hooks/teams';
 import { useHistory } from 'react-router-dom';
-import { EditorState, ContentState } from 'draft-js';
+import { EditorState } from 'draft-js';
 import {
   convertArrayToEditorStateBulletedList,
   convertEditorStateBulletListToArray,
-} from '../../../utils/rich-text/rich-text-utils';
+} from 'frontend/utils/rich-text/rich-text-utils';
 
-import { dateToLocalTime } from '../../../utils/datetime';
-
-const today = new Date();
+import { dateToLocalTime } from 'frontend/utils/datetime';
 
 const initialState = (inputState) => ({
   loading: true,
   userFriendlyErrorMessage: '',
   form: {
     title: '',
-    teamId: 1,
-    deadline: today,
-    location: '',
-    termYear: today.getFullYear(),
-    termSeason: 'WINTER',
+    teamId: undefined,
+    deadline: '',
+    location: 'On Site', // unused field
+    termYear: undefined,
+    termSeason: '',
     description: '',
     requirements: EditorState.createEmpty(),
     tasks: EditorState.createEmpty(),
@@ -167,53 +156,57 @@ const usePostingForm = (postingId, input = {}) => {
   const [state, dispatch] = useReducer(reducer, initialState(input));
   const { teams } = useTeams();
   const history = useHistory();
-  useEffect(() => {
-    console.log('teams', teams);
-  }, [teams]);
+
   /**
    * Load Posting Data By posting ID
    */
   useEffect(() => {
     if (state.loading) {
-      api.postings
-        .getPostingById(postingId)
-        .then((response) => {
-          if (response && response.status === 200) {
-            dispatch({
-              type: 'LOAD_SUCCESS',
-              payload: {
-                ...response.data,
-                deadline: new Date(response.data.deadline),
-                requirements: convertArrayToEditorStateBulletedList(
-                  response.data.requirements.map((req) => req.requirement),
-                ),
-                info: convertArrayToEditorStateBulletedList(
-                  response.data.info.map((info) => info.info),
-                ),
-                tasks: convertArrayToEditorStateBulletedList(
-                  response.data.tasks.map((task) => task.task),
-                ),
-                recommendedSkills: convertArrayToEditorStateBulletedList(
-                  response.data.recommendedSkills.map(
-                    (skill) => skill.recommendedSkill,
-                  ),
-                ),
-                skillsToBeLearned: convertArrayToEditorStateBulletedList(
-                  response.data.skillsToBeLearned.map(
-                    (skill) => skill.skillToBeLearned,
-                  ),
-                ),
-              },
-            });
-          } else {
-            throw new Error(
-              'Failed to Load Resources, please refresh the page. If you continue to experience difficulties, please contact the web team',
-            );
-          }
-        })
-        .catch((err) => {
-          dispatch({ type: 'LOAD_FAILURE', payload: err });
+      if (postingId === -1) {
+        dispatch({
+          type: 'LOAD_SUCCESS',
         });
+      } else {
+        api.postings
+          .getPostingById(postingId)
+          .then((response) => {
+            if (response && response.status === 200) {
+              dispatch({
+                type: 'LOAD_SUCCESS',
+                payload: {
+                  ...response.data,
+                  deadline: dateToLocalTime(response.data.deadline),
+                  requirements: convertArrayToEditorStateBulletedList(
+                    response.data.requirements.map((req) => req.requirement),
+                  ),
+                  info: convertArrayToEditorStateBulletedList(
+                    response.data.info.map((info) => info.info),
+                  ),
+                  tasks: convertArrayToEditorStateBulletedList(
+                    response.data.tasks.map((task) => task.task),
+                  ),
+                  recommendedSkills: convertArrayToEditorStateBulletedList(
+                    response.data.recommendedSkills.map(
+                      (skill) => skill.recommendedSkill,
+                    ),
+                  ),
+                  skillsToBeLearned: convertArrayToEditorStateBulletedList(
+                    response.data.skillsToBeLearned.map(
+                      (skill) => skill.skillToBeLearned,
+                    ),
+                  ),
+                },
+              });
+            } else {
+              throw new Error(
+                'Failed to Load Resources, please refresh the page. If you continue to experience difficulties, please contact the web team',
+              );
+            }
+          })
+          .catch((err) => {
+            dispatch({ type: 'LOAD_FAILURE', payload: err });
+          });
+      }
     }
   }, [state.loading, dispatch, postingId]);
 
@@ -269,40 +262,55 @@ const usePostingForm = (postingId, input = {}) => {
     [dispatch],
   );
 
-  const updateRequirements = useCallback((requirements) => {
-    dispatch({
-      type: 'UPDATE_REQUIREMENTS',
-      payload: requirements,
-    });
-  });
+  const updateRequirements = useCallback(
+    (requirements) => {
+      dispatch({
+        type: 'UPDATE_REQUIREMENTS',
+        payload: requirements,
+      });
+    },
+    [dispatch],
+  );
 
-  const updateInfo = useCallback((info) => {
-    dispatch({
-      type: 'UPDATE_INFO',
-      payload: info,
-    });
-  });
+  const updateInfo = useCallback(
+    (info) => {
+      dispatch({
+        type: 'UPDATE_INFO',
+        payload: info,
+      });
+    },
+    [dispatch],
+  );
 
-  const updateTasks = useCallback((tasks) => {
-    dispatch({
-      type: 'UPDATE_TASKS',
-      payload: tasks,
-    });
-  });
+  const updateTasks = useCallback(
+    (tasks) => {
+      dispatch({
+        type: 'UPDATE_TASKS',
+        payload: tasks,
+      });
+    },
+    [dispatch],
+  );
 
-  const updateRecommendedSkills = useCallback((recommendedSkills) => {
-    dispatch({
-      type: 'UPDATE_RECOMMENDED_SKILLS',
-      payload: recommendedSkills,
-    });
-  });
+  const updateRecommendedSkills = useCallback(
+    (recommendedSkills) => {
+      dispatch({
+        type: 'UPDATE_RECOMMENDED_SKILLS',
+        payload: recommendedSkills,
+      });
+    },
+    [dispatch],
+  );
 
-  const updateSkillsToBeLearned = useCallback((skillsToBeLearned) => {
-    dispatch({
-      type: 'UPDATE_SKILLS_TO_BE_LEARNED',
-      payload: skillsToBeLearned,
-    });
-  });
+  const updateSkillsToBeLearned = useCallback(
+    (skillsToBeLearned) => {
+      dispatch({
+        type: 'UPDATE_SKILLS_TO_BE_LEARNED',
+        payload: skillsToBeLearned,
+      });
+    },
+    [dispatch],
+  );
 
   /**
    * Save and close Functions
@@ -312,7 +320,7 @@ const usePostingForm = (postingId, input = {}) => {
     history.push('/postings');
   }, [history]);
 
-  const saveForm = useCallback(() => {
+  const saveForm = useCallback(async () => {
     const form = {
       ...state.form,
       requirements: convertEditorStateBulletListToArray(
@@ -327,9 +335,12 @@ const usePostingForm = (postingId, input = {}) => {
         state.form.skillsToBeLearned,
       ),
     };
-    api.postings.patchPosting(form, postingId).then(() => {
-      closeForm();
-    });
+    if (postingId === -1) {
+      await api.postings.createNewPosting(form);
+    } else {
+      await api.postings.patchPosting(form, postingId);
+    }
+    closeForm();
   }, [state.form, postingId, closeForm]);
 
   const deleteForm = useCallback(() => {

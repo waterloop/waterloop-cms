@@ -33,17 +33,7 @@ const removePostingSkillToBeLearned = (server) => (postingId, skillToBeLearnedId
 
 const patchPosting = (server) => (postingData, postingId) => server.patch(`/api/postings/${postingId}`, postingData);
 
-const createNewPosting = (server) => () => server.post('/api/postings', {
-  title: 'New Title',
-  teamId: 1,
-  deadline: (new Date()).getTime(),
-  location: 'On Site',
-  termYear: '2020',
-  termSeason: 'WINTER',
-  closed: true,
-  description: 'Enter Description',
-  timeCommitment: '8-10 Hours a Week',
-});
+const createNewPosting = (server) => (postingData) => server.post('/api/postings', postingData);
 
 const deletePosting = (server) => (postingId) => server.delete(`/api/postings/${postingId}`);
 

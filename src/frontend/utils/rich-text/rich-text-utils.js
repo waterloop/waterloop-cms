@@ -53,9 +53,11 @@ export const convertArrayToEditorStateBulletedList = (strArr) => {
     });
 
   // Converts the array of bullet points (Content Block(s)) to EditorState to be used
-  return EditorState.createWithContent(
-    ContentState.createFromBlockArray(contentBlocksArray),
-  );
+  return R.isEmpty(contentBlocksArray)
+    ? EditorState.createEmpty()
+    : EditorState.createWithContent(
+        ContentState.createFromBlockArray(contentBlocksArray),
+      );
 };
 
 export const convertEditorStateBulletListToArray = (editorState) => {

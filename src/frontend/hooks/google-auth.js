@@ -1,8 +1,8 @@
 import { useCallback } from 'react';
 import { useGoogleLogin, useGoogleLogout } from 'react-google-login';
-import * as userActions from '../state/user/actions';
+import * as userActions from 'frontend/state/user/actions';
 import { useDispatch } from 'react-redux';
-import api from '../api';
+import api from 'frontend/api';
 import Cookies from 'js-cookie';
 
 const scopes = [
@@ -35,7 +35,7 @@ const useGoogleAuth = (onAuthComplete) => {
 
       dispatch(userActions.setUserPicture(profileObj.imageUrl));
     },
-    [onAuthComplete],
+    [onAuthComplete, dispatch],
   );
 
   const { signIn } = useGoogleLogin({
@@ -51,7 +51,6 @@ const useGoogleAuth = (onAuthComplete) => {
   const { signOut } = useGoogleLogout({
     clientId: process.env.REACT_APP_GOOGLE_CLIENT_ID,
     onLogoutSuccess: () => {
-      // removeAllCookies();
       Cookies.remove('tokenId');
       console.log('successful logout');
     },

@@ -104,19 +104,14 @@ const getPostingById = (db) => async (postingId, getTeamName) => {
         deadline: parseTimeForResponse(posting[0].deadline),
         last_updated: parseTimeForResponse(posting[0].last_updated),
       };
-      const [
-        requirements,
-        tasks,
-        info,
-        recommendedSkills,
-        skillsToBeLearned,
-      ] = await Promise.all([
-        getRequirementsByPostingId(db)(postingId),
-        getTasksByPostingId(db)(postingId),
-        getInfoByPostingId(db)(postingId),
-        getRecommendedSkillsByPostingId(db)(postingId),
-        getSkillsToBeLearnedByPostingId(db)(postingId),
-      ]);
+      const [requirements, tasks, info, recommendedSkills, skillsToBeLearned] =
+        await Promise.all([
+          getRequirementsByPostingId(db)(postingId),
+          getTasksByPostingId(db)(postingId),
+          getInfoByPostingId(db)(postingId),
+          getRecommendedSkillsByPostingId(db)(postingId),
+          getSkillsToBeLearnedByPostingId(db)(postingId),
+        ]);
       return {
         ...toPosting(posting),
         requirements,
@@ -226,7 +221,7 @@ const insertPostingRecommendedSkills = (db) => (postingId, recommendedSkills) =>
             posting_id: postingId,
             recommended_skill: i,
           }),
-          fromRecommendedSkills(recommendedSkills),
+          recommendedSkills,
         ),
       )
     : Promise.resolve();
@@ -239,7 +234,7 @@ const insertPostingSkillsToBeLearned = (db) => (postingId, skillsToBeLearned) =>
             posting_id: postingId,
             skill_to_be_learned: i,
           }),
-          fromSkillsToBeLearned(skillsToBeLearned),
+          skillsToBeLearned,
         ),
       )
     : Promise.resolve();
@@ -433,31 +428,27 @@ const addInfoToPosting = (db) => async (postingId, info) => {
   });
 };
 
-const addRecommendedSkillToPosting = (db) => async (
-  postingId,
-  recommendedSkill,
-) => {
-  const posting = await getPostingById(db)(postingId);
-  if (isEmpty(posting))
-    throw new Error(`posting with id: ${postingId} not found`);
-  return db('posting_recommended_skills').insert({
-    posting_id: postingId,
-    recommended_skill: recommendedSkill,
-  });
-};
+const addRecommendedSkillToPosting =
+  (db) => async (postingId, recommendedSkill) => {
+    const posting = await getPostingById(db)(postingId);
+    if (isEmpty(posting))
+      throw new Error(`posting with id: ${postingId} not found`);
+    return db('posting_recommended_skills').insert({
+      posting_id: postingId,
+      recommended_skill: recommendedSkill,
+    });
+  };
 
-const addSkillToBeLearnedToPosting = (db) => async (
-  postingId,
-  skillToBeLearned,
-) => {
-  const posting = await getPostingById(db)(postingId);
-  if (isEmpty(posting))
-    throw new Error(`posting with id: ${postingId} not found`);
-  return db('posting_skills_to_be_learned').insert({
-    posting_id: postingId,
-    skill_to_be_learned: skillToBeLearned,
-  });
-};
+const addSkillToBeLearnedToPosting =
+  (db) => async (postingId, skillToBeLearned) => {
+    const posting = await getPostingById(db)(postingId);
+    if (isEmpty(posting))
+      throw new Error(`posting with id: ${postingId} not found`);
+    return db('posting_skills_to_be_learned').insert({
+      posting_id: postingId,
+      skill_to_be_learned: skillToBeLearned,
+    });
+  };
 
 const deleteRequirementByReqId = (db) => async (requirementId) => {
   try {

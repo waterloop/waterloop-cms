@@ -6,7 +6,6 @@ import PostingsPage from './PostingsPage';
 
 const PostingsRouter = () => {
   const { path } = useRouteMatch();
-  console.log(path);
   return (
     <Switch>
       <Route path={path} exact>

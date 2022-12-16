@@ -26,14 +26,9 @@ export default (state = initialState, { type, payload }) => {
       return {
         ...state,
         all: state.all.map((value) => {
-          if (value.id === payload.id) {
-            console.log(value);
-          }
-          return (
-            value.id === payload.id
-              ? { ...value, closed: payload.closedState }
-              : value
-          );
+          return value.id === payload.id
+            ? { ...value, closed: payload.closedState }
+            : value;
         }),
         byId: {
           ...state.byId,

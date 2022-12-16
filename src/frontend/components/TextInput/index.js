@@ -1,6 +1,5 @@
 import React from 'react';
 import styled from 'styled-components';
-/* eslint-disable import/no-unresolved */
 import { Editor } from 'react-draft-wysiwyg';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 
@@ -8,7 +7,6 @@ const Container = styled.div`
   width: 500px;
 `;
 
-// TODO: Only change to red when user clicks away from the text box.
 const TextInputContainer = styled.input`
   border: ${({ theme, error }) =>
     error ? theme.borders.solidRed : theme.borders.solidGrey1};
@@ -75,7 +73,8 @@ const TARichContainer = styled.div`
   }
 
   .editor-class {
-    border: ${({ theme }) => theme.borders.solidGrey1};
+    border: ${({ theme, error }) =>
+      error ? theme.borders.solidRed : theme.borders.solidGrey1};
     border-radius: 10px;
     width: 100%;
     min-width: 500px;
@@ -124,7 +123,7 @@ const TextInput = ({
     <Container width={width} className={className}>
       {multiLine ? (
         richText ? (
-          <TARichContainer>
+          <TARichContainer error={isError}>
             <Editor
               editorState={value}
               onEditorStateChange={onChange}

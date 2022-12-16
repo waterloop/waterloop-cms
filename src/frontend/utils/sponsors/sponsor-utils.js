@@ -6,19 +6,21 @@ export const toServerSponsor = (sponsor) => {
       name: sponsor.name,
       website: sponsor.website,
       typeId: sponsor.tierId,
-      joinDate: termSeasonYearToTimestampMillisec(sponsor.termSeason, sponsor.termYear),
+      joinDate: termSeasonYearToTimestampMillisec(
+        sponsor.termSeason,
+        sponsor.termYear,
+      ),
       contributions: sponsor.description,
       logoDir: sponsor.logoStr,
-      youtube: sponsor.videoLink
-    }
-    
+      youtube: sponsor.videoLink,
+    };
   } catch (e) {
     throw e;
   }
 };
 
 export const fromServerSponsor = (sponsor) => {
-  if(sponsor.type != undefined){
+  if (sponsor.type !== undefined) {
     return {
       sponsorId: sponsor.id,
       name: sponsor.name,
@@ -28,8 +30,8 @@ export const fromServerSponsor = (sponsor) => {
       description: sponsor.contributions,
       logoStr: sponsor.logoDir,
       videoLink: sponsor.youtube,
-      lastUpdated: moment.utc(sponsor.updatedAt).local().format("MMMM D, YYYY")
-    }
+      lastUpdated: moment.utc(sponsor.updatedAt).local().format('MMMM D, YYYY'),
+    };
   } else {
     return {
       sponsorId: sponsor.id,
@@ -40,8 +42,8 @@ export const fromServerSponsor = (sponsor) => {
       description: sponsor.contributions,
       logoStr: sponsor.logoDir,
       videoLink: sponsor.youtube,
-      lastUpdated: moment.utc(sponsor.updatedAt).local().format("MMMM D, YYYY")
-    }
+      lastUpdated: moment.utc(sponsor.updatedAt).local().format('MMMM D, YYYY'),
+    };
   }
 };
 
@@ -59,15 +61,15 @@ const termSeasonYearToTimestampMillisec = (season, year) => {
       break;
     default:
       throw new Error(`Unknown season: ${season}`);
-   }
+  }
 
-   // Day == 2 to prevent overflow into previous month in a different time zone.
-   return (new Date()).setFullYear(year, month, 2);
+  // Day == 2 to prevent overflow into previous month in a different time zone.
+  return new Date().setFullYear(year, month, 2);
 };
 
 const timestampMillisecToTermSeasonYear = (timestamp) => {
   const date = new Date(timestamp);
-  
+
   // TODO: Enumerate term seasons.
   // NOTE: Months are 0-indexed.
   let season = 'WINTER';
@@ -83,5 +85,5 @@ const timestampMillisecToTermSeasonYear = (timestamp) => {
   return {
     termSeason: season,
     termYear: date.getFullYear(),
-  }
+  };
 };

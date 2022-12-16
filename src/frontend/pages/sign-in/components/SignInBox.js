@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import MUIButtonBase from '@mui/material/ButtonBase';
 import MUITypography from '@mui/material/Typography';

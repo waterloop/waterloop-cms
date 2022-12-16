@@ -5,7 +5,7 @@
   "homepage": "/",
   "engines": {
     "node": "=16.*",
-    "yarn": "=1.*"
+    "yarn": "=2.*"
   },
   "scripts": {
     "postinstall": "node fix.js",
@@ -24,9 +24,9 @@
     "test:all": "yarn test:unit && yarn test:integration",
     "docker:test": "docker-compose run --service-ports test-db ",
     "docker:dev": "docker-compose run --service-ports dev-db ",
-    "dev": "yarn migrate && yarn seed && cross-env NODE_ENV=development nodemon --exec ./node_modules/.bin/babel-node src/backend/index.js",
+    "dev": "yarn migrate && yarn seed && cross-env NODE_ENV=development nodemon --ignore ./src/frontend --ignore ./src/index.js --exec babel-node --only src/backend,lib src/backend/index.js",
     "prebuild": "yarn build:frontend && node ./src/backend/scripts/generate-gcp-key.js",
-    "build": "cross-env NODE_ENV=production babel src/backend --out-dir lib --copy-files",
+    "build": "yarn prebuild && cross-env NODE_ENV=production babel src/backend --out-dir lib --copy-files",
     "start": "cross-env NODE_ENV=production babel-node lib/index.js",
     "deploy": "fly deploy",
     "migrate": "knex migrate:latest --knexfile src/backend/knexfile.js",
@@ -52,7 +52,9 @@
     "@google-cloud/storage": "^5.7.4",
     "@mui/icons-material": "^5.3.1",
     "@mui/material": "^5.4.0",
+    "@redux-devtools/extension": "^3.2.3",
     "axios": "^0.21.2",
+    "backend": "link:./src/backend",
     "cookie-parser": "^1.4.5",
     "cors": "^2.8.5",
     "cross-env": "^7.0.3",
@@ -64,8 +66,10 @@
     "express-session": "^1.17.1",
     "express-validator": "^6.6.1",
     "form-data": "^4.0.0",
+    "frontend": "link:./src/frontend",
     "google-auth-library": "^7.0.3",
     "googleapis": "^79.0.0",
+    "immutable": "^4.1.0",
     "js-cookie": "^3.0.1",
     "knex": "^0.21.5",
     "md5": "^2.3.0",
@@ -74,12 +78,14 @@
     "nodemon": "^2.0.4",
     "pg": "^8.8.0",
     "pg-connection-string": "^2.4.0",
+    "prop-types": "^15.8.1",
     "ramda": "^0.27.1",
     "react": "^16.13.1",
     "react-datepicker": "^3.5.0",
     "react-dom": "^16.13.1",
     "react-draft-wysiwyg": "^1.14.7",
     "react-google-login": "^5.2.2",
+    "react-is": "^18.2.0",
     "react-redux": "^7.2.1",
     "react-router-dom": "^5.2.0",
     "react-scripts": "3.4.3",
@@ -116,7 +122,7 @@
     "eslint-plugin-jsx-a11y": "^6.3.1",
     "eslint-plugin-prettier": "^3.1.4",
     "esm": "^3.2.25",
-    "mocha": "^8.2.0",
-    "redux-devtools-extension": "^2.13.8"
-  }
+    "mocha": "^8.2.0"
+  },
+  "packageManager": "yarn@3.3.0"
 }
