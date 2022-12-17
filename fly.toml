@@ -1,6 +1,4 @@
 # fly.toml file generated for waterloop-cms on 2022-11-26T21:50:01-05:00
-# NOTE: make sure that you set the secret for DATABASE_URL if it's not already there.
-# Run 'flyctl secrets set DATABASE_URL=<pg connection string>'
 
 app = "waterloop-cms"
 kill_signal = "SIGINT"

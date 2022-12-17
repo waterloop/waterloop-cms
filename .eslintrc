@@ -31,6 +31,8 @@
     "react/jsx-filename-extension": ["warn", { "extensions": [".js", ".jsx"] }],
     "react/jsx-props-no-spreading": "off",
     "react/prop-types": "off",
-    "import/no-anonymous-default-export": "off"
+    "import/no-anonymous-default-export": "off",
+    "spaced-comment": "off",
+    "no-bitwise": "off"
   }
 }

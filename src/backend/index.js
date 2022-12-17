@@ -39,7 +39,7 @@ const multerMid = multer({
   },
 });
 
-app.disable('x-powered-by');
+app.disable('x-powered-by'); // they don't need to know the server tech stack.
 app.use(multerMid.array('files'));
 
 /**
