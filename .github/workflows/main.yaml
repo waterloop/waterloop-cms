@@ -1,0 +1,35 @@
+name: Run CI
+run-name: Running unit and integration tests on ${{ github.actor }}'s ${{ github.head_ref }} branch
+on: [pull_request]
+jobs:
+  pull_request_ci:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [16.x]
+    steps:
+      - uses: actions/checkout@v3
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: yarn
+      - name: Setup docker-compose
+        uses: KengoTODA/actions-setup-docker-compose@v1.0.9
+        with:
+          version: '2.12.2'
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile
+      - name: Setup Docker container
+        run: docker-compose run --detach --service-ports test-db
+      - name: Sleep for 5 seconds
+        run: sleep 5s
+        shell: bash
+      - name: Migrate database
+        run: yarn test:migrate:latest
+      - name: Run seed files
+        run: yarn test:seed
+      - name: Run unit tests
+        run: yarn test:unit
+      - name: Run integration tests
+        run: yarn test:integration
