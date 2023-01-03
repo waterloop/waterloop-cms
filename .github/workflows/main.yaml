@@ -13,6 +13,7 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node-version }}
+          cache: yarn
       - name: Setup docker-compose
         uses: KengoTODA/actions-setup-docker-compose@v1.0.9
         with:
