@@ -25,6 +25,8 @@ jobs:
       - name: Sleep for 5 seconds
         run: sleep 5s
         shell: bash
+      - name: List docker containers
+        run: docker ps
       - name: Migrate database
         run: yarn test:migrate:latest
       - name: Run seed files
