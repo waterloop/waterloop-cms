@@ -12,6 +12,8 @@ Content on our main website is being constantly added and updated on a term-by-t
 2. Create a `.env` file, then copy + paste relevant variables from [wloop.ca/web-env-vars](wloop.ca/web-env-vars)
 3. Start the backend by running `yarn docker:dev`, then open a new terminal and run `yarn dev`
 4. Launch the frontend in a new terminal with `yarn start:frontend`
+5. For more commmands please see `package.json` under the "scripts" section. `yarn start` to start the application.
+6. (Optional): Download React Tools and Redux Devtools to debug components from your browser.
 
 ## 💻 Technologies
 
