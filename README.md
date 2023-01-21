@@ -6,10 +6,9 @@ Content on our main website is being constantly added and updated on a term-by-t
 
 ## Setup
 
-0. Ensure you have `node v16`, `yarn v2.*` and `Docker Desktop` installed. See onboarding docs for more info.
+0. Ensure you have `node v16`, `yarn v2+` and `Docker Desktop` installed. See onboarding docs for more info.
    0.1. https://yarnpkg.com/getting-started/migration#step-by-step
-   <!-- TODO: revisit README and update info on yarn usage. -->
-1. Install dependencies with `yarn install --frozen-lockfile`
+1. Install dependencies with `yarn install`
 2. Start the backend by running `yarn docker:dev`, then open a new terminal and run `yarn dev`
 3. Launch the frontend in a new terminal with `yarn start:frontend`
 
@@ -22,5 +21,4 @@ Content on our main website is being constantly added and updated on a term-by-t
 ## 🔨 Some features to implement
 
 - Full coverage of dynamic content on the main website, so that the majority of updateable content on the site can be updated through the CMS.
-- Implement user permission levels so only a handful of verified users can change the content on the CMS.
 - Improve the login/logout functionality logic.
