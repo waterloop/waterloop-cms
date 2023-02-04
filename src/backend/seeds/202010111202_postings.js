@@ -62,44 +62,49 @@ if (!ENV_IS_STAGING_OR_PROD) {
       .then(() => knex('posting_requirements').del())
       .then(async () => {
         const postings = await knex('postings');
+        const postingsLength = postings.length;
         return knex('posting_requirements').insert(
           R.map(
-            (i) => Requirement(i, (i % 3) + postings[0].id),
-            R.range(0, 10),
+            (i) => Requirement(i, postings[i].id),
+            R.range(0, postingsLength),
           ),
         );
       })
       .then(() => knex('posting_tasks').del())
       .then(async () => {
         const postings = await knex('postings');
+        const postingsLength = postings.length;
         return knex('posting_tasks').insert(
-          R.map((i) => Task(i, (i % 3) + postings[0].id), R.range(0, 10)),
+          R.map((i) => Task(i, postings[i].id), R.range(0, postingsLength)),
         );
       })
       .then(() => knex('posting_info').del())
       .then(async () => {
         const postings = await knex('postings');
+        const postingsLength = postings.length;
         return knex('posting_info').insert(
-          R.map((i) => Info(i, (i % 3) + postings[0].id), R.range(0, 10)),
+          R.map((i) => Info(i, postings[i].id), R.range(0, postingsLength)),
         );
       })
       .then(() => knex('posting_recommended_skills').del())
       .then(async () => {
         const postings = await knex('postings');
+        const postingsLength = postings.length;
         return knex('posting_recommended_skills').insert(
           R.map(
-            (i) => RecommendedSkill(i, (i % 3) + postings[0].id),
-            R.range(0, 10),
+            (i) => RecommendedSkill(i, postings[i].id),
+            R.range(0, postingsLength),
           ),
         );
       })
       .then(() => knex('posting_skills_to_be_learned').del())
       .then(async () => {
         const postings = await knex('postings');
+        const postingsLength = postings.length;
         return knex('posting_skills_to_be_learned').insert(
           R.map(
-            (i) => SkillToBeLearned(i, (i % 3) + postings[0].id),
-            R.range(0, 10),
+            (i) => SkillToBeLearned(i, postings[i].id),
+            R.range(0, postingsLength),
           ),
         );
       });
