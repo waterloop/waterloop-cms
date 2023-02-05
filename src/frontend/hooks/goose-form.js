@@ -85,6 +85,8 @@ const useGooseForm = () => {
   const saveForm = useCallback(async () => {
     // TODO: Validation checks here.
     // Send data to server:
+
+    // BUG: 
     try {
       const files = images;
   
@@ -135,6 +137,7 @@ const useGooseForm = () => {
               return api.geeseInfo.deleteGeeseImages(imageId);
             }),
           );
+          if (files.length >0){
           await api.geeseInfo.addGeeseImages(
             imageUrls2.map((image) => {
               
@@ -144,7 +147,9 @@ const useGooseForm = () => {
               };
             }),
           );
-        } else {
+          }
+        } 
+        else {
           // // TODO when new goose is implemented
           const res = await api.geeseInfo.addGeeseInfo(gooseInfo);
           await api.geeseInfo.addGeeseImages(
