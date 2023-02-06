@@ -27,9 +27,6 @@ const useGooseForm = () => {
               setDescription(gooseInfo.description);
               const response = await api.geeseInfo.getGeeseImages(gooseId);
               setImageUrls(response.data);
-              
-          
-
             }
           }
         } catch (err) {
@@ -86,43 +83,39 @@ const useGooseForm = () => {
     // TODO: Validation checks here.
     // Send data to server:
 
-    // BUG: 
     try {
+      // files added 
       const files = images;
   
+      // all files uploaded 
       let imageUrls2 = [];
       
-
       if (files.length > 0 || imageUrls.length > 0) {
+          // when no new files are added
          if (files.length <= 0){
           const imgArr = imageUrls.map((url) => url.imgDir)
           imageUrls2 = imgArr
           setImageUrls(imageUrls2)
-          
          }
-        
+         
+        //  when new files are added, send them to api
         if (files.length >= 1) {
         const data = new FormData();
 
         files.forEach((file) => {
           data.append('files', file, file.name);
-         
         });
 
         const res = await api.formUpload(data);
 
-         imageUrls2 = res.data.data;
+        imageUrls2 = res.data.data;
 
-       
         if (imageUrls2.length === 0) {
           throw new Error('Failed to upload image.');
         }
       }
       }
-      
-
-      
-
+    
       const gooseInfo = {
         name: gooseName,
         description,
@@ -137,10 +130,11 @@ const useGooseForm = () => {
               return api.geeseInfo.deleteGeeseImages(imageId);
             }),
           );
+
+          // upload images if new files are added
           if (files.length >0){
           await api.geeseInfo.addGeeseImages(
             imageUrls2.map((image) => {
-              
               return {
                 gooseId: params.gooseId,
                 imgDir: image,
@@ -168,7 +162,6 @@ const useGooseForm = () => {
       else {
         throw new Error('Please fill all the required fields.');
       }
-
       // onSuccess:
       closeForm();
     } catch (e) {
