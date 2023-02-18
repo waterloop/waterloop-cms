@@ -41,6 +41,7 @@ export const validateRequest = (req, res, next) => {
       next();
     })
     .catch((err) => {
+      console.log(err)
       res.sendStatus(403);
     });
 };
