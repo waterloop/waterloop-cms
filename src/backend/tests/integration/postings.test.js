@@ -227,11 +227,6 @@ describe('Postings Routes', () => {
   describe('PATCH /api/postings/:id', () => {
     it('should update the entry with "id" to match the new body', async () => {
       const postings = await db('postings');
-      const requirements = await db('posting_requirements').where({ posting_id: postings[0].id });
-      const info = await db('posting_info').where({ posting_id: postings[0].id });
-      const tasks = await db('posting_tasks').where({ posting_id: postings[0].id });
-      const recommendedSkills = await db('posting_recommended_skills').where({ posting_id: postings[0].id });
-      const skillsToBeLearned = await db('posting_skills_to_be_learned').where({ posting_id: postings[0].id });
 
       return chai.request(app)
         .patch(`/api/postings/${postings[0].id}`)
@@ -245,32 +240,20 @@ describe('Postings Routes', () => {
           "description": "Term description",
           "closed": false,
           "requirements": [
-            { id: requirements[0].id, requirement: "req 1" },
-            { id: requirements[1].id, requirement: "req 2" },
-            { id: requirements[2].id, requirement: "req 3" },
+            "new req 1"
           ],
           "info": [
-            { id: info[0].id, info: "info 1" },
-            { id: info[1].id, info: "info 2" },
-            { id: info[2].id, info: "info 3" },
+            "new info 1"
           ],
           "tasks": [
-            { id: tasks[0].id, task: "task 1" },
-            { id: tasks[1].id, task: "task 2" },
-            { id: tasks[2].id, task: "task 3" }
+            "new task 1"
           ],
           "recommendedSkills": [
-            { id: recommendedSkills[0].id, recommendedSkill: "skill 1" },
-            { id: recommendedSkills[1].id, recommendedSkill: "skill 2" },
-            { id: recommendedSkills[2].id, recommendedSkill: "skill 3" }
+            "new rec skill 1"
           ],
-
           "skillsToBeLearned": [
-            { id: skillsToBeLearned[0].id, skillToBeLearned: "skill 1" },
-            { id: skillsToBeLearned[1].id, skillToBeLearned: "skill 2" },
-            { id: skillsToBeLearned[2].id, skillToBeLearned: "skill 3" }
+            "new learn skill 1"
           ],
-
         })
         .then((res) => {
           expect(res).to.have.status(200);
@@ -292,31 +275,16 @@ describe('Postings Routes', () => {
               expect(res2.body).to.have.property('requirements');
               expect(res2.body).to.have.property('tasks');
               expect(res2.body).to.have.property('info');
-              expect(res2.body.requirements).to.include.deep.members([
-                { id: requirements[0].id, requirement: "req 1" },
-                { id: requirements[1].id, requirement: "req 2" },
-                { id: requirements[2].id, requirement: "req 3" },
-              ]);
-              expect(res2.body.tasks).to.include.deep.members([
-                { id: tasks[0].id, task: "task 1" },
-                { id: tasks[1].id, task: "task 2" },
-                { id: tasks[2].id, task: "task 3" },
-              ]);
-              expect(res2.body.info).to.include.deep.members([
-                { id: info[0].id, info: "info 1" },
-                { id: info[1].id, info: "info 2" },
-                { id: info[2].id, info: "info 3" },
-              ]);
-              expect(res2.body.skillsToBeLearned).to.include.deep.members([
-                { id: skillsToBeLearned[0].id, skillToBeLearned: "skill 1" },
-                { id: skillsToBeLearned[1].id, skillToBeLearned: "skill 2" },
-                { id: skillsToBeLearned[2].id, skillToBeLearned: "skill 3" }
-              ]);
-              expect(res2.body.recommendedSkills).to.include.deep.members([
-                { id: recommendedSkills[0].id, recommendedSkill: "skill 1" },
-                { id: recommendedSkills[1].id, recommendedSkill: "skill 2" },
-                { id: recommendedSkills[2].id, recommendedSkill: "skill 3" }
-              ]);
+              expect(res2.body.requirements).to.be.an('array');
+              expect(res2.body.requirements[0]).to.deep.include({"requirement": "new req 1"});
+              expect(res2.body.tasks).to.be.an('array');
+              expect(res2.body.tasks[0]).to.deep.include({"task": "new task 1"});
+              expect(res2.body.info).to.be.an('array');
+              expect(res2.body.info[0]).to.deep.include({"info": "new info 1"});
+              expect(res2.body.skillsToBeLearned).to.be.an('array');
+              expect(res2.body.skillsToBeLearned[0]).to.deep.include({"skillToBeLearned": "new learn skill 1"});
+              expect(res2.body.recommendedSkills).to.be.an('array');
+              expect(res2.body.recommendedSkills[0]).to.deep.include({"recommendedSkill": "new rec skill 1"});
             });
           });
         });
