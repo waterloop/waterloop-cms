@@ -90,15 +90,6 @@ const useGooseForm = () => {
       
       if (newlyAddedImages.length > 0) {
         
-          // when no new files are added
-        //  if (newlyAddedImages.length <= 0){
-        //   const imgArr = imageUrls.map((url) => url.imgDir)
-        //   imageUrls2 = imgArr
-        //   // console.log(imageUrls)
-        //   console.log(imageUrls2)
-        //   setImageUrls(imageUrls)
-        //  }
-         
         const data = new FormData();
 
         newlyAddedImages.forEach((file) => {
@@ -109,7 +100,6 @@ const useGooseForm = () => {
 
         // array of added image urls
         newlyAddedImageUrls = res.data.data;
-      
 
         if (newlyAddedImageUrls.length === 0) {
           throw new Error('Failed to upload image.');
@@ -122,6 +112,7 @@ const useGooseForm = () => {
         updatedAt: Date.now(),
       };
       
+      // if fields are non-empty
       if (gooseName && description && (newlyAddedImageUrls.length > 0 || imageUrls.length > 0)) {
         if (params.gooseId) {
           await api.geeseInfo.updateGeeseInfo(params.gooseId, gooseInfo);
