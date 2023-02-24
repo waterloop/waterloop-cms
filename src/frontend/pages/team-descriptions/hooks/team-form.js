@@ -122,6 +122,11 @@ const useTeamForm = (teamId, input = {}) => {
   const saveForm = useCallback(async () => {
     // Send data to server:
     try {
+      // Handle error on empty team name
+      if (!state.form.teamName){
+        throw new Error('Please enter teamname')
+      }
+
       if (state.exists) {
         await api.teams.updateTeam(state.form, teamId);
       } else {
