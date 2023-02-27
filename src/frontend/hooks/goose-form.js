@@ -112,7 +112,7 @@ const useGooseForm = () => {
         updatedAt: Date.now(),
       };
       
-      // if fields are non-empty
+      // if fields are non-empty and if there is a preexisting image or a new one added
       if (gooseName && description && (newlyAddedImageUrls.length > 0 || imageUrls.length > 0)) {
         if (params.gooseId) {
           await api.geeseInfo.updateGeeseInfo(params.gooseId, gooseInfo);
@@ -137,7 +137,7 @@ const useGooseForm = () => {
         else {
           const res = await api.geeseInfo.addGeeseInfo(gooseInfo);
           await api.geeseInfo.addGeeseImages(
-            imageUrls.map((image) => {
+            newl.map((image) => {
               return {
                 gooseId: res.data[0],
                 imgDir: image,
