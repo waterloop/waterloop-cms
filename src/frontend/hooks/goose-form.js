@@ -137,7 +137,7 @@ const useGooseForm = () => {
         else {
           const res = await api.geeseInfo.addGeeseInfo(gooseInfo);
           await api.geeseInfo.addGeeseImages(
-            newl.map((image) => {
+            newlyAddedImageUrls.map((image) => {
               return {
                 gooseId: res.data[0],
                 imgDir: image,
