@@ -80,35 +80,40 @@ const useGooseForm = () => {
   }, [history]);
 
   const saveForm = useCallback(async () => {
-    // TODO: Validation checks here.
 
-    // Send data to server:
     try {
-      const files = images;
-      let imageUrls = [];
-
-      if (files.length > 0) {
+      // image files added 
+      const newlyAddedImages = images;
+  
+      // all image files uploaded 
+      let newlyAddedImageUrls = [];
+      
+      if (newlyAddedImages.length > 0) {
+        
         const data = new FormData();
 
-        files.forEach((file) => {
+        newlyAddedImages.forEach((file) => {
           data.append('files', file, file.name);
         });
 
         const res = await api.formUpload(data);
 
-        imageUrls = res.data.data;
-        if (imageUrls.length === 0) {
+        // array of added image urls
+        newlyAddedImageUrls = res.data.data;
+
+        if (newlyAddedImageUrls.length === 0) {
           throw new Error('Failed to upload image.');
         }
       }
-
+    
       const gooseInfo = {
         name: gooseName,
         description,
         updatedAt: Date.now(),
       };
-
-      if (gooseName && description && imageUrls.length > 0) {
+      
+      // if fields are non-empty and if there is a preexisting image or a new one added
+      if (gooseName && description && (newlyAddedImageUrls.length > 0 || imageUrls.length > 0)) {
         if (params.gooseId) {
           await api.geeseInfo.updateGeeseInfo(params.gooseId, gooseInfo);
           await Promise.all(
@@ -116,19 +121,23 @@ const useGooseForm = () => {
               return api.geeseInfo.deleteGeeseImages(imageId);
             }),
           );
+
+          // upload images if new files are added
+          if (newlyAddedImages.length >0){
           await api.geeseInfo.addGeeseImages(
-            imageUrls.map((image) => {
+            newlyAddedImageUrls.map((image) => {
               return {
                 gooseId: params.gooseId,
                 imgDir: image,
               };
             }),
           );
-        } else {
-          // // TODO when new goose is implemented
+          }
+        } 
+        else {
           const res = await api.geeseInfo.addGeeseInfo(gooseInfo);
           await api.geeseInfo.addGeeseImages(
-            imageUrls.map((image) => {
+            newlyAddedImageUrls.map((image) => {
               return {
                 gooseId: res.data[0],
                 imgDir: image,
@@ -136,18 +145,21 @@ const useGooseForm = () => {
             }),
           );
         }
-      } else {
+       
+      } 
+
+      else {
         throw new Error('Please fill all the required fields.');
       }
-
       // onSuccess:
       closeForm();
     } catch (e) {
       // TODO: Display "could not add/update" error to user as dialogue.
       // eslint-disable-next-line no-console
+      
       console.error(e);
     }
-  }, [images, params, gooseName, description, closeForm, imagesToDelete]);
+  }, [images, params, gooseName, description, closeForm, imagesToDelete, imageUrls]);
 
   const deleteForm = useCallback(async () => {
     if (params.gooseId) {
