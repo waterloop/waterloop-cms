@@ -82,6 +82,7 @@ const BlogPage = () => {
     updatedAt: blog.date,
     link: blog.link,
     summary: blog.summary,
+    content: blog.content,
     visibility: blog.visibility,
     category: blog.category,
   }));

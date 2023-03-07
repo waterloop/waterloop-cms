@@ -85,6 +85,7 @@ const useBlogForm = () => {
     else if (summary.length > 200){
       tmpErrors.push(`Summary must be between 1-200 characters, currently: ${summary.length}`)
     }
+    if (content === "") { tmpErrors.push("content cannot be blank") }
     if (link === "") { tmpErrors.push("link cannot be blank") }
     if (date === "") { tmpErrors.push("date cannot be blank") }
     if (category === "") {  tmpErrors.push("category cannot be blank") }
