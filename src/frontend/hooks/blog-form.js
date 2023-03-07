@@ -8,6 +8,7 @@ const useBlogForm = () => {
   const [author, setAuthor] = useState('');
   const [summary, setSummary] = useState('');
   const [date, setDate] = useState('');
+  const [content, setContent] = useState('');
   const [link, setLink] = useState('');
   const [currentImageURL, setCurrentImageURL] = useState('');
   const [uploadedImageURL, setUploadedImageURL] = useState('');
@@ -33,6 +34,7 @@ const useBlogForm = () => {
               setAuthor(blogToEdit.author);
               setSummary(blogToEdit.summary);
               setDate(blogToEdit.date);
+              setContent(blogToEdit.content);
               setLink(blogToEdit.link);
               setCurrentImageURL(blogToEdit.image); // direct link to google storage
               setClosed(blogToEdit.closed);
@@ -45,7 +47,7 @@ const useBlogForm = () => {
         }
       })();
     }
-  }, [blogInfo, params, setBlogTitle, setAuthor, setSummary, setDate, setLink, 
+  }, [blogInfo, params, setBlogTitle, setAuthor, setSummary, setDate, setContent, setLink, 
       setCurrentImageURL, setClosed, setVisibility, setCategory]);
 
   const imageUpload = useCallback(
@@ -134,6 +136,7 @@ const useBlogForm = () => {
         author,
         summary,
         date,
+        content,
         link,
         closed,
         visibility,
@@ -162,7 +165,7 @@ const useBlogForm = () => {
       console.error(e);
       setErrors(["Upload Failed; Please Refresh And Try Again."]);
     }
-  }, [ params, blogTitle, summary, date, closeForm, author, link, closed, visibility, category, uploadedImageURL, currentImageURL ]);
+  }, [ params, blogTitle, summary, date, content, closeForm, author, link, closed, visibility, category, uploadedImageURL, currentImageURL ]);
 
   const deleteForm = useCallback(async () => {
     if (params.blogId) {
@@ -176,6 +179,7 @@ const useBlogForm = () => {
     author, setAuthor,
     summary, setSummary,
     date, setDate,
+    content, setContent,
     link, setLink,
     uploadedImageURL,
     currentImageURL,

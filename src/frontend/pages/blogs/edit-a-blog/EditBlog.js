@@ -103,6 +103,8 @@ const EditBlog = ({ add }) => {
     setSummary,
     date,
     setDate,
+    content,
+    setContent,
     link,
     setLink,
     currentImageURL,
@@ -232,6 +234,17 @@ const EditBlog = ({ add }) => {
             onChange={setLink}
             placeholder="https://..."
           />
+        </FormContainer>
+
+        <FormContainer title="Content (required)">
+          <BlogInfo>
+            <TextInput
+              value={content}
+              onChange={setContent}
+              placeholder=""
+              multiLine={true}
+            />
+          </BlogInfo>
         </FormContainer>
 
         <FormContainer title="Closed (required: open by default)">
