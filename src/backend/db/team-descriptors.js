@@ -1,4 +1,5 @@
 import { toTeamDescriptors, toTeamDesc } from "../models/team-descriptors";
+const { parseTimeFromRequest } = require('../utils/db-dates');
 
 /* TEAMS API ENDPOINTS */
 
@@ -10,6 +11,7 @@ const addTeamDescriptor = (db) => (teamDescriptor) =>
     .insert({
       team_name: teamDescriptor.teamName,
       description: teamDescriptor.description,
+      updated_at: parseTimeFromRequest(teamDescriptor.lastUpdated)
     })
     .returning("id")
     .then((response) => {
@@ -25,6 +27,7 @@ const updateTeamDescriptorById = (db) => (id, teamDescriptor) =>
     .update({
       team_name: teamDescriptor.teamName,
       description: teamDescriptor.description,
+      updated_at: parseTimeFromRequest(teamDescriptor.lastUpdated)
     });
 
 const deleteTeamDescriptorById = (db) => (teamDescriptorId) =>
