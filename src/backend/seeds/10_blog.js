@@ -14,7 +14,7 @@ if (!ENV_IS_STAGING_OR_PROD) {
             summary:
               'Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptas accusantium dolorem, beatae possimus nesciunt ab? Illum atque doloremque fugit ipsam quibusdam eveniet magnam quod',
             date: '23-May-2021',
-            content: 'Lorem ipsum',
+            content: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Sed adipiscing diam donec adipiscing tristique risus nec. Laoreet non curabitur gravida arcu ac tortor dignissim convallis. Mi in nulla posuere sollicitudin aliquam ultrices sagittis orci a. Ultricies leo integer malesuada nunc vel risus. Consectetur purus ut faucibus pulvinar elementum integer enim neque. Neque ornare aenean euismod elementum nisi quis eleifend. Aliquet enim tortor at auctor urna nunc id cursus. Dolor morbi non arcu risus quis varius quam quisque. Sit amet nulla facilisi morbi tempus iaculis. Tortor at risus viverra adipiscing. Odio ut enim blandit volutpat maecenas volutpat blandit aliquam etiam.',
             image: 'https://storage.googleapis.com/waterloop_cms_image_upload/1614225359133-waterloop1.png',
             closed: true,
             category: 'Media Appearance',
@@ -26,7 +26,7 @@ if (!ENV_IS_STAGING_OR_PROD) {
             summary:
               'Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptas accusantium dolorem, beatae possimus nesciunt ab? Illum atque doloremque fugit ipsam quibusdam eveniet magnam quod',
             date: '20-May-2021',
-            content: 'Another major milestone for the team is the full implementation of their coil-winding machine that winds up copper coils. In the fall term, They conducted research on the machine, and gained robust knowledge of every single wire inside the machine. After successfully overcoming the complex challenges, the team created a specialized program to run the machine, leading to a ten-fold improvement in coil manufacturing efficiency. The team is now ready to accomplish further advancements with the coil. In the future, this team of dedicated engineers will design a new sensor suite for the future projects, and further explore Ansys simulations’ full potential by utilizing cloud computing providers’ services. They are driven to invest in research and development to push boundaries, and they are passionate about sparking interest in hyperloop among students through exciting outreach initiatives and programs. We look forward to seeing how much this team can achieve by the end of this term, and we cannot wait to share more of Waterloop\'s latest achievements with you!',
+            content: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Sed adipiscing diam donec adipiscing tristique risus nec. Laoreet non curabitur gravida arcu ac tortor dignissim convallis. Mi in nulla posuere sollicitudin aliquam ultrices sagittis orci a. Ultricies leo integer malesuada nunc vel risus. Consectetur purus ut faucibus pulvinar elementum integer enim neque. Neque ornare aenean euismod elementum nisi quis eleifend. Aliquet enim tortor at auctor urna nunc id cursus. Dolor morbi non arcu risus quis varius quam quisque. Sit amet nulla facilisi morbi tempus iaculis. Tortor at risus viverra adipiscing. Odio ut enim blandit volutpat maecenas volutpat blandit aliquam etiam.',
             image: 'https://storage.googleapis.com/waterloop_cms_image_upload/1614225359139-waterloop2.png',
             closed: false,
             category: 'Blog',
@@ -38,7 +38,7 @@ if (!ENV_IS_STAGING_OR_PROD) {
             summary:
               'Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptas accusantium dolorem, beatae possimus nesciunt ab? Illum atque doloremque fugit ipsam quibusdam eveniet magnam quod',
             date: '10-May-2021',
-            content: 'Lorem ipsum',
+            content: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Sed adipiscing diam donec adipiscing tristique risus nec. Laoreet non curabitur gravida arcu ac tortor dignissim convallis. Mi in nulla posuere sollicitudin aliquam ultrices sagittis orci a. Ultricies leo integer malesuada nunc vel risus. Consectetur purus ut faucibus pulvinar elementum integer enim neque. Neque ornare aenean euismod elementum nisi quis eleifend. Aliquet enim tortor at auctor urna nunc id cursus. Dolor morbi non arcu risus quis varius quam quisque. Sit amet nulla facilisi morbi tempus iaculis. Tortor at risus viverra adipiscing. Odio ut enim blandit volutpat maecenas volutpat blandit aliquam etiam.',
             image: 'https://storage.googleapis.com/waterloop_cms_image_upload/1614226228513-waterloop1.png',
             closed: false,
             category: 'Media Appearance',
@@ -50,7 +50,7 @@ if (!ENV_IS_STAGING_OR_PROD) {
             summary:
               'Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptas accusantium dolorem, beatae possimus nesciunt ab? Illum atque doloremque fugit ipsam quibusdam eveniet magnam quod',
             date: '1-May-2021',
-            content: 'Lorem ipsum',
+            content: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Sed adipiscing diam donec adipiscing tristique risus nec. Laoreet non curabitur gravida arcu ac tortor dignissim convallis. Mi in nulla posuere sollicitudin aliquam ultrices sagittis orci a. Ultricies leo integer malesuada nunc vel risus. Consectetur purus ut faucibus pulvinar elementum integer enim neque. Neque ornare aenean euismod elementum nisi quis eleifend. Aliquet enim tortor at auctor urna nunc id cursus. Dolor morbi non arcu risus quis varius quam quisque. Sit amet nulla facilisi morbi tempus iaculis. Tortor at risus viverra adipiscing. Odio ut enim blandit volutpat maecenas volutpat blandit aliquam etiam.',
             image: 'https://storage.googleapis.com/waterloop_cms_image_upload/1614482400810-waterloop2.png',
             closed: true,
             category: 'Blog',

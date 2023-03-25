@@ -141,13 +141,9 @@ const useBlogForm = () => {
         image: imageToUpload
       };
 
-      console.log("here");
-
       // Send to DB
       if (allFieldsAreFilled()) {
-        console.log("inside if");
         if (params.blogId) {
-          console.log("inside blogid")
           // update an EXISTING blog (by id) with the new blogData we just defined
           const res = await api.blogs.editBlog(params.blogId, blogData);
           const data = await res.data
