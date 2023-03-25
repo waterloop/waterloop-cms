@@ -19,7 +19,7 @@ router.patch('/:id', [
   body('title').isString(),
   body('summary').isString().isLength({min:1, max:200}),
   body('date').isString().matches(/^(([0-9])|([0-2][0-9])|([3][0-1]))\-(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)\-\d{4}$/),
-  body('content').isString().isLength({min:1, max:200}),
+  body('content').isString(),
   body('image').isString(),
   body('closed').isBoolean(),
   body('visibility').isString(),
