@@ -4,8 +4,7 @@ exports.up = knex => knex.schema.createTable('blogs', table => {
     table.string('title');
     table.string('summary');
     table.string('date');
-    table.string('content');
-    table.string('link');
+    table.specificType("content", "text");
     table.string('image');
     table.boolean('closed');
     table.string('visibility');

@@ -105,8 +105,6 @@ const EditBlog = ({ add }) => {
     setDate,
     content,
     setContent,
-    link,
-    setLink,
     currentImageURL,
     uploadedImageURL,
     closed,
@@ -225,14 +223,6 @@ const EditBlog = ({ add }) => {
             value={date}
             onChange={setDate}
             placeholder="23-May-2021"
-          />
-        </FormContainer>
-
-        <FormContainer title="Link (required)">
-          <TextInput
-            value={link}
-            onChange={setLink}
-            placeholder="https://..."
           />
         </FormContainer>
 
