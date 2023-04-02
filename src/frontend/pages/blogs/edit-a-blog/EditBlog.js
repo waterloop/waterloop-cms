@@ -218,14 +218,6 @@ const EditBlog = ({ add }) => {
           </BlogInfo>
         </FormContainer>
 
-        <FormContainer title="Date Published (required): Must be day-month-year">
-          <TextInput
-            value={date}
-            onChange={setDate}
-            placeholder="23-May-2021"
-          />
-        </FormContainer>
-
         <FormContainer title="Content (required)">
           <BlogInfo>
             <TextInput
@@ -235,6 +227,14 @@ const EditBlog = ({ add }) => {
               multiLine={true}
             />
           </BlogInfo>
+        </FormContainer>
+
+        <FormContainer title="Date Published (required): Must be day-month-year">
+          <TextInput
+            value={date}
+            onChange={setDate}
+            placeholder="23-May-2021"
+          />
         </FormContainer>
 
         <FormContainer title="Closed (required: open by default)">
