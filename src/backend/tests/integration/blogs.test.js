@@ -136,7 +136,6 @@ describe('Blog Routes', () => {
           title: 'test',
           summary: "Testing the '/api/blogs/add' route",
           date: '22-Aug-2021',
-          link: 'https://test.com',
           image: 'https://picsum.photos/200/300',
         })
         .end((err, res) => {
