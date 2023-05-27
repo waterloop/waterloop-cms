@@ -8,7 +8,7 @@ const useBlogForm = () => {
   const [author, setAuthor] = useState('');
   const [summary, setSummary] = useState('');
   const [date, setDate] = useState('');
-  const [link, setLink] = useState('');
+  const [content, setContent] = useState('');
   const [currentImageURL, setCurrentImageURL] = useState('');
   const [uploadedImageURL, setUploadedImageURL] = useState('');
   const [closed, setClosed] = useState(false);
@@ -33,7 +33,7 @@ const useBlogForm = () => {
               setAuthor(blogToEdit.author);
               setSummary(blogToEdit.summary);
               setDate(blogToEdit.date);
-              setLink(blogToEdit.link);
+              setContent(blogToEdit.content);
               setCurrentImageURL(blogToEdit.image); // direct link to google storage
               setClosed(blogToEdit.closed);
               setVisibility(blogToEdit.visibility);
@@ -45,7 +45,7 @@ const useBlogForm = () => {
         }
       })();
     }
-  }, [blogInfo, params, setBlogTitle, setAuthor, setSummary, setDate, setLink, 
+  }, [blogInfo, params, setBlogTitle, setAuthor, setSummary, setDate, setContent, 
       setCurrentImageURL, setClosed, setVisibility, setCategory]);
 
   const imageUpload = useCallback(
@@ -83,7 +83,7 @@ const useBlogForm = () => {
     else if (summary.length > 200){
       tmpErrors.push(`Summary must be between 1-200 characters, currently: ${summary.length}`)
     }
-    if (link === "") { tmpErrors.push("link cannot be blank") }
+    if (content === "") { tmpErrors.push("content cannot be blank") }
     if (date === "") { tmpErrors.push("date cannot be blank") }
     if (category === "") {  tmpErrors.push("category cannot be blank") }
 
@@ -134,7 +134,7 @@ const useBlogForm = () => {
         author,
         summary,
         date,
-        link,
+        content,
         closed,
         visibility,
         category,
@@ -162,7 +162,7 @@ const useBlogForm = () => {
       console.error(e);
       setErrors(["Upload Failed; Please Refresh And Try Again."]);
     }
-  }, [ params, blogTitle, summary, date, closeForm, author, link, closed, visibility, category, uploadedImageURL, currentImageURL ]);
+  }, [ params, blogTitle, summary, date, content, closeForm, author, closed, visibility, category, uploadedImageURL, currentImageURL ]);
 
   const deleteForm = useCallback(async () => {
     if (params.blogId) {
@@ -176,7 +176,7 @@ const useBlogForm = () => {
     author, setAuthor,
     summary, setSummary,
     date, setDate,
-    link, setLink,
+    content, setContent,
     uploadedImageURL,
     currentImageURL,
     closed, setClosed,
