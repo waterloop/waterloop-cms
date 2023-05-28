@@ -160,7 +160,7 @@ const useSponsorDescForm = (input = {}) => {
 
   const updateFailure = useCallback((err) => {
     dispatch({ type: 'UPDATE_FAILURE', payload: err });
-  });
+  }, []);
 
   /**
    * Save and close Functions
@@ -220,7 +220,7 @@ const useSponsorDescForm = (input = {}) => {
       // TODO: Display "could not add/update" error to user as dialogue.
       updateFailure(e.message);
     }
-  }, [state.form, closeForm]);
+  }, [state.form, closeForm, updateFailure]);
 
   return {
     ...state.form,

@@ -149,7 +149,7 @@ const EditBlog = ({ add }) => {
         )}
       </div>
     );
-  }, [currentImageURL, uploadedImageURL]);
+  }, [currentImageURL, uploadedImageURL, imageDelete]);
 
   const errorList = useMemo(() => {
     return [

@@ -73,41 +73,43 @@ const useBlogForm = () => {
     history.push('/blog-posts');
   }, [history]);
 
-  const allFieldsAreFilled = () => {
-    let tmpErrors = []
-
-    // define errors that will be sent to the user
-    if (blogTitle === "") { tmpErrors.push("title cannot be blank") }
-    if (author === "") { tmpErrors.push("author cannot be blank") }
-    if (summary === "") { tmpErrors.push("summary cannot be blank") }
-    else if (summary.length > 200){
-      tmpErrors.push(`Summary must be between 1-200 characters, currently: ${summary.length}`)
-    }
-    if (link === "") { tmpErrors.push("link cannot be blank") }
-    if (date === "") { tmpErrors.push("date cannot be blank") }
-    if (category === "") {  tmpErrors.push("category cannot be blank") }
-
-    if (currentImageURL === '' && uploadedImageURL === '') {
-          tmpErrors.push( "One image is required")
-        }
-
-    const pattern = /^(([0-9])|([0-2][0-9])|([3][0-1]))-(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)-\d{4}$/;
-    if (!pattern.test(date)){
-      tmpErrors.push("date must be in day-month-year form (Ensure month starts with a capital)")
-    }
-
-    setErrors(tmpErrors);
-
-    if (tmpErrors.length === 0) {
-      return true; // checks passed
-    }
-    return false // checks failed
-  }
+ 
 
   // Begin submitting form
   const saveForm = useCallback(async () => {
+    const allFieldsAreFilled = () => {
+      let tmpErrors = []
+  
+      // define errors that will be sent to the user
+      if (blogTitle === "") { tmpErrors.push("title cannot be blank") }
+      if (author === "") { tmpErrors.push("author cannot be blank") }
+      if (summary === "") { tmpErrors.push("summary cannot be blank") }
+      else if (summary.length > 200){
+        tmpErrors.push(`Summary must be between 1-200 characters, currently: ${summary.length}`)
+      }
+      if (link === "") { tmpErrors.push("link cannot be blank") }
+      if (date === "") { tmpErrors.push("date cannot be blank") }
+      if (category === "") {  tmpErrors.push("category cannot be blank") }
+  
+      if (currentImageURL === '' && uploadedImageURL === '') {
+            tmpErrors.push( "One image is required")
+          }
+  
+      const pattern = /^(([0-9])|([0-2][0-9])|([3][0-1]))-(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)-\d{4}$/;
+      if (!pattern.test(date)){
+        tmpErrors.push("date must be in day-month-year form (Ensure month starts with a capital)")
+      }
+  
+      setErrors(tmpErrors);
+  
+      if (tmpErrors.length === 0) {
+        return true; // checks passed
+      }
+      return false // checks failed
+    }
     // TODO: Still need to validate whether someone uploaded a file that already exists in google storage
     if(!allFieldsAreFilled()) return;
+
 
     try {
       let imageToUpload = "";

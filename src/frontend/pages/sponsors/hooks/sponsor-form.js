@@ -297,7 +297,7 @@ const useSponsorForm = (sponsorId, input = {}) => {
       // eslint-disable-next-line no-console
       console.error(e);
     }
-  }, [state.form, state.exists, sponsorId, closeForm]);
+  }, [state.form, state.exists, sponsorId, closeForm, updateFailure]);
 
   const deleteForm = useCallback(async () => {
     try {
@@ -308,7 +308,7 @@ const useSponsorForm = (sponsorId, input = {}) => {
       // eslint-disable-next-line no-console
       console.error(e);
     }
-  }, [sponsorId, closeForm]);
+  }, [sponsorId, closeForm, updateFailure]);
   // END Save and close functions
 
   /** UTILITY FUNCTIONS: */
