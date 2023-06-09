@@ -1,4 +1,5 @@
 const { ENV_IS_STAGING_OR_PROD } = require('../knexfile');
+const { parseTimeFromRequest } = require('../utils/db-dates');
 
 if (!ENV_IS_STAGING_OR_PROD) {
   exports.seed = function (knex) {
@@ -8,8 +9,8 @@ if (!ENV_IS_STAGING_OR_PROD) {
       .then(function () {
         // Inserts seed entries
         return knex('team_descriptors').insert([
-          { team_name: 'WebTeam', description: 'A team' },
-          { team_name: 'Team Hub', description: 'Another Team' },
+          { team_name: 'WebTeams', description: 'A team', updated_at: parseTimeFromRequest(new Date(1609450000000))},
+          { team_name: 'Team Hub', description: 'Another Team', updated_at: parseTimeFromRequest(new Date(2147483647000))},
         ]);
       });
   };

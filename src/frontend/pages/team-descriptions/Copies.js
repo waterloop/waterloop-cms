@@ -1,6 +1,6 @@
 export const teamCopies = {
   NAME_LABEL: 'Team name (required)',
-  DESCRIPTION_LABEL: 'Description (required)',
+  DESCRIPTION_LABEL: 'Description',
 
   NAME_PLACEHOLDER: 'Team name',
   DESCRIPTION_PLACEHOLDER: 'Description',
