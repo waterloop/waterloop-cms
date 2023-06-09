@@ -1,3 +1,4 @@
+import { update } from 'ramda';
 import {
   fromProductVariation,
   toProductVariation,
@@ -6,7 +7,7 @@ import {
 } from '../models/products';
 
 const getProducts = (db) => () =>
-  db('products')
+  db('merch_products')
     .then((res) => {
       return res.map(toProduct);
     })
@@ -16,7 +17,7 @@ const getProducts = (db) => () =>
     });
 
 const getProductVariations = (db) => () =>
-  db('product_variations')
+  db('merch_product_variations')
     .then((res) => {
       return res.map(toProductVariation);
     })
@@ -26,7 +27,7 @@ const getProductVariations = (db) => () =>
     });
 
 const getProductById = (db) => (id) =>
-  db('products')
+  db('merch_products')
     .where({ id })
     .then((res) => {
       return res.map(toProduct);
@@ -37,7 +38,7 @@ const getProductById = (db) => (id) =>
     });
 
 const getProductVariationsById = (db) => (variationId) =>
-  db('product_variations')
+  db('merch_product_variations')
     .where({ variationId })
     .then((res) => {
       return res.map(toProductVariation);
@@ -48,7 +49,7 @@ const getProductVariationsById = (db) => (variationId) =>
     });
 
 const addProduct = (db) => (productInfo) =>
-  db('products')
+  db('merch_products')
     .insert(fromProduct(productInfo))
     .returning('id')
     .then((response) => {
@@ -60,7 +61,7 @@ const addProduct = (db) => (productInfo) =>
     });
 
 const addProductVariation = (db) => (productVariationInfo) =>
-  db('product_variations')
+  db('merch_product_variations')
     .insert(fromProductVariation(productVariationInfo))
     .returning('id')
     .then((response) => {
@@ -72,7 +73,7 @@ const addProductVariation = (db) => (productVariationInfo) =>
     });
 
 const updateProductById = (db) => (id, productInfo) =>
-  db('products')
+  db('merch_products')
     .where({
       id,
     })
@@ -88,7 +89,7 @@ const updateProductById = (db) => (id, productInfo) =>
     });
 
 const updateProductVariationById = (db) => (id, productVariationInfo) =>
-  db('product_variations')
+  db('merch_product_variations')
     .where({
       id,
     })
@@ -104,7 +105,7 @@ const updateProductVariationById = (db) => (id, productVariationInfo) =>
     });
 
 const deleteProductById = (db) => (id) =>
-  db('products')
+  db('merch_products')
     .where({
       id,
     })
@@ -118,7 +119,7 @@ const deleteProductById = (db) => (id) =>
     });
 
 const deleteProductVariationById = (db) => (id) =>
-  db('product_variations')
+  db('merch_product_variations')
     .where({
       id,
     })
@@ -135,9 +136,11 @@ export default (db) => ({
   getProducts: getProducts(db),
   getProductVariations: getProductVariations(db),
   getProductById: getProductById(db),
-  getProductVariationsById: getProductVariations(db),
+  getProductVariationsById: getProductVariationsById(db),
   addProduct: addProduct(db),
   addProductVariation: addProductVariation(db),
+  updateProductById: updateProductById(db),
+  updateProductVariationById: updateProductVariationById(db),
   deleteProductById: deleteProductById(db),
   deleteProductVariationById: deleteProductVariationById(db),
 });

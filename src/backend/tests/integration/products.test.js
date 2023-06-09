@@ -130,7 +130,7 @@ describe('Products Routes', () => {
 
   describe('PATCH /api/products/:id', () => {
     it('should update the entry with "id" to match the new body', async () => {
-      const products = await db('products');
+      const products = await db('merch_products');
       return chai
         .request(app)
         .patch(`/api/products/${products[0].id}`)
@@ -304,12 +304,12 @@ describe('Products Routes', () => {
 
   describe('PATCH /api/products/:id/variations/:productId', () => {
     it('should update the entry with "id" to match the new body', async () => {
-      const products = await db('products');
+      const products = await db('merch_product_variations');
       return chai
         .request(app)
         .patch(`/api/products/${products[0].id}/variations/1`)
         .send({
-          productId: 6969,
+          productId: 1,
           variationName: 'A new product',
           price: 69,
           stock: 1,
