@@ -21,7 +21,7 @@ describe('Team Descriptor Routes', () => {
   });
 
   // Rollback migration again.
-  after(async function() {
+  after(async function () {
     this.timeout(60 * 1000); // Resetting the DB can take a few seconds
     return db.migrate.rollback();
   });
@@ -144,7 +144,9 @@ describe('Team Descriptor Routes', () => {
             .then((res2) => {
               console.log('res2', res2.body);
               expect(res2).to.have.status(200);
-              const patchedItem = res2.body.find((item) => item.id === teams[0].id);
+              const patchedItem = res2.body.find(
+                (item) => item.id === teams[0].id,
+              );
               expect(patchedItem).to.have.property(
                 'teamName',
                 'An updated Team',
@@ -222,7 +224,7 @@ describe('Team Descriptor Routes', () => {
             'description',
             'images',
             'updatedAt',
-            'createdAt'
+            'createdAt',
           ]);
           done();
         });

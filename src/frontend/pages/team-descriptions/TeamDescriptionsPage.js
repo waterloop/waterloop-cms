@@ -68,16 +68,18 @@ const headers = [
   { id: 'lastUpdated', value: mainCopies.TEAM_LAST_UPDATED_COLUMN },
 ];
 
-const RowComponent = ({ teamName, lastUpdated }) => (
-  <>
-    <TableCell>
-      <TextBold>{teamName}</TextBold>
-    </TableCell>
-    <TableCell>
-      <Text>{moment(lastUpdated).format('MMM Do, YYYY')}</Text>
-    </TableCell>
-  </>
-);
+const RowComponent = ({ teamName, lastUpdated }) => {
+  return (
+    <>
+      <TableCell>
+        <TextBold>{teamName}</TextBold>
+      </TableCell>
+      <TableCell>
+        <Text>{moment(lastUpdated).format('MMM Do, YYYY')}</Text>
+      </TableCell>
+    </>
+  );
+};
 
 const TeamDescriptionsPage = () => {
   const history = useHistory();

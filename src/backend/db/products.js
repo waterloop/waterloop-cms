@@ -1,4 +1,3 @@
-import { update } from 'ramda';
 import {
   fromProductVariation,
   toProductVariation,

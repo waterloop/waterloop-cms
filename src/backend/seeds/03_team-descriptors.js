@@ -9,8 +9,16 @@ if (!ENV_IS_STAGING_OR_PROD) {
       .then(function () {
         // Inserts seed entries
         return knex('team_descriptors').insert([
-          { team_name: 'WebTeams', description: 'A team', updated_at: parseTimeFromRequest(new Date(1609450000000))},
-          { team_name: 'Team Hub', description: 'Another Team', updated_at: parseTimeFromRequest(new Date(2147483647000))},
+          {
+            team_name: 'WebTeams',
+            description: 'A team',
+            updated_at: parseTimeFromRequest(new Date(1609450000000)),
+          },
+          {
+            team_name: 'Team Hub',
+            description: 'Another Team',
+            updated_at: parseTimeFromRequest(new Date(2147483647000)),
+          },
         ]);
       });
   };
