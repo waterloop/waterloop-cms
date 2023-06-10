@@ -1,7 +1,7 @@
 import * as R from 'ramda';
 
 const getFeatures = (db) => () =>
-  db('geese-features')
+  db('geese_features')
     .then((features) => {
       return { features };
     })
@@ -11,7 +11,7 @@ const getFeatures = (db) => () =>
     });
 
 const getFeatureById = (db) => (id) =>
-  db('geese-features')
+  db('geese_features')
     .where({ id })
     .then((res) => {
       return res;
@@ -21,7 +21,7 @@ const getFeatureById = (db) => (id) =>
       throw err;
     });
 const deleteFeature = (db) => (id) =>
-  db('geese-features')
+  db('geese_features')
     .where({
       id,
     })
@@ -35,7 +35,7 @@ const deleteFeature = (db) => (id) =>
     });
 
 const editFeature = (db) => (id, featureInfo) =>
-  db('geese-features')
+  db('geese_features')
     .where({
       id,
     })
@@ -52,7 +52,7 @@ const editFeature = (db) => (id, featureInfo) =>
     });
 
 const addFeature = (db) => (features) =>
-  db('geese-features')
+  db('geese_features')
     .insert({
       ...features,
     })
