@@ -65,6 +65,7 @@ const reducer = (state, action) => {
         form: {
           ...state.form,
           name: action.payload,
+           lastUpdated: state.form.name === action.payload ? state.form.lastUpdated : new Date().toISOString(),
         },
       };
     case 'UPDATE_SPONSOR_WEBSITE':
@@ -74,6 +75,7 @@ const reducer = (state, action) => {
         form: {
           ...state.form,
           website: action.payload,
+          lastUpdated: state.form.website === action.payload ? state.form.lastUpdated : new Date().toISOString(),
         },
       };
     case 'UPDATE_SPONSOR_TIER_ID':
@@ -289,7 +291,8 @@ const useSponsorForm = (sponsorId, input = {}) => {
       } else {
         await api.sponsors.addSponsor(data);
       }
-
+      const updatedLastUpdated = new Date().toISOString();
+      dispatch({ type: 'UPDATE_LAST_UPDATED', payload: updatedLastUpdated });
       // onSuccess:
       closeForm();
     } catch (e) {
