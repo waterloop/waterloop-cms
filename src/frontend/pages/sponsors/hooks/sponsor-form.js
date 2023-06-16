@@ -22,7 +22,7 @@ const initialState = (inputState) => ({
     sponsorId: 0,
     name: '',
     website: '',
-    tierId: '', // !NOTE: initial value is string to allow selector to display placeholder value.
+    tierId: '1', // !NOTE: initial value is string to allow selector to display placeholder value.
     termYear: '',
     termSeason: '',
     description: '',
