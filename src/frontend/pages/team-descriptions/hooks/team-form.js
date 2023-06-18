@@ -1,25 +1,25 @@
-import { useReducer, useCallback, useEffect } from 'react';
-import { useHistory } from 'react-router-dom';
+import { useReducer, useCallback, useEffect } from "react";
+import { useHistory } from "react-router-dom";
 
-import api from '../../../api';
-import useTeams from '../../../hooks/teams';
+import api from "../../../api";
+import useTeams from "../../../hooks/teams";
 
 const initialState = (inputState) => ({
   loading: true,
-  userFriendlyErrorMessage: '',
+  userFriendlyErrorMessage: "",
   exists: false,
   form: {
     teamId: 0,
-    teamName: '',
-    description: '',
-    lastUpdated: '',
+    teamName: "",
+    description: "",
+    lastUpdated: "",
     ...inputState, // May overwrite any of the above defaults
   },
 });
 
 const reducer = (state, action) => {
   switch (action.type) {
-    case 'LOAD_SUCCESS':
+    case "LOAD_SUCCESS":
       return {
         ...state,
         loading: false,
@@ -30,7 +30,7 @@ const reducer = (state, action) => {
           teamId: action.payload.teamId,
         },
       };
-    case 'LOAD_FAILURE':
+    case "LOAD_FAILURE":
       return {
         ...state,
         loading: false,
@@ -38,7 +38,7 @@ const reducer = (state, action) => {
       };
 
     // Redux stores acting as react states:
-    case 'UPDATE_TEAM_NAME':
+    case "UPDATE_TEAM_NAME":
       return {
         ...state,
         form: {
@@ -46,7 +46,7 @@ const reducer = (state, action) => {
           teamName: action.payload,
         },
       };
-    case 'UPDATE_DESCRIPTION':
+    case "UPDATE_DESCRIPTION":
       return {
         ...state,
         form: {
@@ -77,7 +77,7 @@ const useTeamForm = (teamId, input = {}) => {
         const team = teams.filter((team) => team.id === teamId);
         if (team.length <= 1) {
           dispatch({
-            type: 'LOAD_SUCCESS',
+            type: "LOAD_SUCCESS",
             payload: {
               teamId,
               teamData: team[0],
@@ -86,11 +86,11 @@ const useTeamForm = (teamId, input = {}) => {
           });
         } else {
           throw new Error(
-            'Failed to Load Resources, please refresh the page. If you continue to experience difficulties, please contact the web team (ERR_MULTIPLE_TEAMS_CONFLICT)',
+            "Failed to Load Resources, please refresh the page. If you continue to experience difficulties, please contact the web team (ERR_MULTIPLE_TEAMS_CONFLICT)"
           );
         }
       } catch (err) {
-        dispatch({ type: 'LOAD_FAILURE', payload: err });
+        dispatch({ type: "LOAD_FAILURE", payload: err });
       }
     }
   }, [state.loading, dispatch, teamId, teams]);
@@ -100,23 +100,23 @@ const useTeamForm = (teamId, input = {}) => {
    */
   const updateName = useCallback(
     (teamName) => {
-      dispatch({ type: 'UPDATE_TEAM_NAME', payload: teamName });
+      dispatch({ type: "UPDATE_TEAM_NAME", payload: teamName });
     },
-    [dispatch],
+    [dispatch]
   );
 
   const updateDescription = useCallback(
     (description) => {
-      dispatch({ type: 'UPDATE_DESCRIPTION', payload: description });
+      dispatch({ type: "UPDATE_DESCRIPTION", payload: description });
     },
-    [dispatch],
+    [dispatch]
   );
 
   /**
    * Save and close Functions
    */
   const closeForm = useCallback(() => {
-    history.push('/team-descriptions');
+    history.push("/team-descriptions");
   }, [history]);
 
   const saveForm = useCallback(async () => {
