@@ -5,7 +5,6 @@ import app from '../../index';
 import { db } from '../../db';
 
 chai.use(chaiHttp);
-const should = chai.should();
 const expect = chai.expect;
 
 // implement products, below should be product variation
