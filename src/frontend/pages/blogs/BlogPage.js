@@ -52,16 +52,13 @@ const RowComponent = ({
   title,
   updatedAt,
   author,
-  link,
   category,
   visibility,
 }) => (
   <>
     <TableCell>
       <TextBold>
-        <LinkButton as="a" href={link} target="_blank">
           {title}
-        </LinkButton>
       </TextBold>
     </TableCell>
     <TableCell>{updatedAt}</TableCell>
@@ -80,8 +77,8 @@ const BlogPage = () => {
     title: blog.title,
     author: blog.author,
     updatedAt: blog.date,
-    link: blog.link,
     summary: blog.summary,
+    content: blog.content,
     visibility: blog.visibility,
     category: blog.category,
   }));

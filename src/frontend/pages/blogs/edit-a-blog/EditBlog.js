@@ -103,8 +103,8 @@ const EditBlog = ({ add }) => {
     setSummary,
     date,
     setDate,
-    link,
-    setLink,
+    content,
+    setContent,
     currentImageURL,
     uploadedImageURL,
     closed,
@@ -218,19 +218,22 @@ const EditBlog = ({ add }) => {
           </BlogInfo>
         </FormContainer>
 
+        <FormContainer title="Content (required)">
+          <BlogInfo>
+            <TextInput
+              value={content}
+              onChange={setContent}
+              placeholder=""
+              multiLine={true}
+            />
+          </BlogInfo>
+        </FormContainer>
+
         <FormContainer title="Date Published (required): Must be day-month-year">
           <TextInput
             value={date}
             onChange={setDate}
             placeholder="23-May-2021"
-          />
-        </FormContainer>
-
-        <FormContainer title="Link (required)">
-          <TextInput
-            value={link}
-            onChange={setLink}
-            placeholder="https://..."
           />
         </FormContainer>
 
