@@ -65,7 +65,7 @@ const reducer = (state, action) => {
         form: {
           ...state.form,
           name: action.payload,
-           lastUpdated: state.form.name === action.payload ? state.form.lastUpdated : new Date().toISOString(),
+          // lastUpdated: state.form.name === action.payload ? state.form.lastUpdated : new Date().toISOString(),
         },
       };
     case 'UPDATE_SPONSOR_WEBSITE':
@@ -75,7 +75,7 @@ const reducer = (state, action) => {
         form: {
           ...state.form,
           website: action.payload,
-          lastUpdated: state.form.website === action.payload ? state.form.lastUpdated : new Date().toISOString(),
+          // lastUpdated: state.form.website === action.payload ? state.form.lastUpdated : new Date().toISOString(),
         },
       };
     case 'UPDATE_SPONSOR_TIER_ID':
@@ -296,7 +296,9 @@ const useSponsorForm = (sponsorId, input = {}) => {
       // onSuccess:
       closeForm();
     } catch (e) {
-      updateFailure(`Could not ${state.exists ? "update" : "add"} sponsor: ${e.message}`);
+      updateFailure(
+        `Could not ${state.exists ? 'update' : 'add'} sponsor: ${e.message}`,
+      );
       // eslint-disable-next-line no-console
       console.error(e);
     }
