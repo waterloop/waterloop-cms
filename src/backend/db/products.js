@@ -1,14 +1,12 @@
 import {
   fromProductVariation,
   toProductVariation,
-  toProduct,
-  fromProduct,
 } from '../models/products';
 
 const getProducts = (db) => () =>
   db('merch_products')
     .then((res) => {
-      return res.map(toProduct);
+      return res;
     })
     .catch((err) => {
       console.error(`Error in getProducts: ${err}`);
@@ -29,7 +27,7 @@ const getProductById = (db) => (id) =>
   db('merch_products')
     .where({ id })
     .then((res) => {
-      return res.map(toProduct);
+      return res;
     })
     .catch((err) => {
       console.error(`Error in getProductById: ${err}`);
@@ -49,7 +47,7 @@ const getProductVariationsById = (db) => (variationId) =>
 
 const addProduct = (db) => (productInfo) =>
   db('merch_products')
-    .insert(fromProduct(productInfo))
+    .insert(productInfo)
     .returning('id')
     .then((response) => {
       return response;
@@ -77,7 +75,7 @@ const updateProductById = (db) => (id, productInfo) =>
       id,
     })
     .update({
-      ...fromProduct(productInfo),
+      productInfo,
     })
     .then((response) => {
       return response;
