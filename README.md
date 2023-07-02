@@ -15,6 +15,10 @@ Content on our main website is being constantly added and updated on a term-by-t
 5. For more commmands please see `package.json` under the "scripts" section. `yarn start` to start the application.
 6. (Optional): Download React Tools and Redux Devtools to debug components from your browser.
 
+## Deploy
+
+Follow https://docs.google.com/document/d/1dCXT49owNXHkC0MzgUdcb9Do9u-lwnCYmN15ukDl_Q0/edit# for deployment instructions. Please do not share sensitive variables directly; redirect developers to this document instead!
+
 ## ISSUES:
 1. Unit and integration tests will not work with the default Plug n' Play PnP configuration. To make them work, please add `nodeLinker: node-modules` to your .yarnrc.yml and rerun `yarn install`, then try running the unit/integration tests.
    1.1. Hopefully this will be resolved in the future; currently Mocha doesn't like PnP.
