@@ -10,6 +10,7 @@ import featurePermissions from './feature-permissions';
 import newsletterRecipients from './newsletter-recipient';
 import blogs from './blogs';
 import geeseFeatures from './geese-features';
+import products from './products'
 
 export default {
   users: {
@@ -42,4 +43,7 @@ export default {
   geeseFeatures: {
     ...geeseFeatures(db),
   },
+  products: {
+    ...products(db),
+  }
 };

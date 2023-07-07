@@ -3,11 +3,11 @@ const { ENV_IS_STAGING_OR_PROD } = require('../knexfile');
 if (!ENV_IS_STAGING_OR_PROD) {
   exports.seed = function (knex) {
     // Deletes ALL existing entries
-    return knex('geese-features')
+    return knex('geese_features')
       .del()
       .then(() => {
         // Inserts seed entries
-        return knex('geese-features').insert([
+        return knex('geese_features').insert([
           {
             name: 'John Doe',
             picture: 'https://picsum.photos/200/300',

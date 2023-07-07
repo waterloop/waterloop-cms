@@ -47,7 +47,7 @@ describe('Geese Feature Routes', () => {
 
   describe('GET /api/geese-features/:id', () => {
     it('should return a goose feature with specific ID when called', async () => {
-      const geese = await db('geese-features');
+      const geese = await db('geese_features');
       return chai
         .request(app)
         .get(`/api/geese-features/${geese[0].id}`)
@@ -139,7 +139,7 @@ describe('Geese Feature Routes', () => {
 
   describe('PATCH /api/geese-features/:id', () => {
     it('should update the entry with "id" to match the new body', async () => {
-      const geese = await db('geese-features');
+      const geese = await db('geese_features');
       return chai
         .request(app)
         .patch(`/api/geese-features/${geese[0].id}`)
@@ -198,7 +198,7 @@ describe('Geese Feature Routes', () => {
 
   describe('DELETE /api/geese-features/:id', () => {
     it('should delete a goose feature entry with "id" that exists', async () => {
-      const geese = await db('geese-features');
+      const geese = await db('geese_features');
       chai
         .request(app)
         .del(`/api/geese-features/${geese[0].id}`)
