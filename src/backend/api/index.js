@@ -8,6 +8,7 @@ import openingsDescription from './openings-description';
 import newsletter from './newsletter_recipient';
 import blogs from './blogs';
 import geeseFeatures from './geese-features';
+import products from './products';
 
 const router = express.Router();
 
@@ -20,5 +21,6 @@ router.use('/openings-description', openingsDescription);
 router.use('/newsletter', newsletter);
 router.use('/blogs', blogs);
 router.use('/geese-features', geeseFeatures);
+router.use('/products', products)
 
 export default router;
