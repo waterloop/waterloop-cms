@@ -11,7 +11,7 @@ export default (req, res) => {
     }
   })
   .catch((err) => {
-    console.log(err);
+    console.log(`Could not get product with given id: ${err}`);
     res.sendStatus(500);
   });
 }

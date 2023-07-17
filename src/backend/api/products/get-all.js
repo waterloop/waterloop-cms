@@ -7,7 +7,7 @@ export default (req, res) => {
       res.send(products);
     })
     .catch((err) => {
-      console.log(err);
+      console.log(`Could not fetch all products: ${err}`);
       res.sendStatus(500);
     });
 };
