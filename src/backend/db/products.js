@@ -74,9 +74,9 @@ const updateProductById = (db) => (id, productInfo) =>
     .where({
       id,
     })
-    .update({
+    .update(
       productInfo,
-    })
+    )
     .then((response) => {
       return response;
     })
