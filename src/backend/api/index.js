@@ -9,6 +9,7 @@ import newsletter from './newsletter_recipient';
 import blogs from './blogs';
 import geeseFeatures from './geese-features';
 import products from './products';
+import variations from './variations';
 
 const router = express.Router();
 
@@ -22,5 +23,6 @@ router.use('/newsletter', newsletter);
 router.use('/blogs', blogs);
 router.use('/geese-features', geeseFeatures);
 router.use('/products', products)
+router.use('/variations', variations);
 
 export default router;
