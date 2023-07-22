@@ -84,7 +84,7 @@ Unit tests should be written to test internal logic such as helper functions and
 
 Integration Tests are ran with:
 
-`npm run test:integration` or `npm run test:integration`
+`npm run test:integration` or `npm run test:integration:watch`
 
 Integration tests are written for all endpoints to ensure that the correct data and responses are returned
 
