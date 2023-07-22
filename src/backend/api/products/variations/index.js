@@ -23,15 +23,15 @@ router.post('/', [
   body('stock').exists(),
   body('picture').exists(),
   body('lastUpdated').exists(),
-], validationCheck, add);
+], validationCheck, validateRequest, add);
 
 router.patch('/:variationId', [
   check('variationId').isInt(),
   body('lastUpdated').exists(),
-], validationCheck, update);
+], validationCheck, validateRequest, update);
 
 router.delete('/:variationId', [
   check('variationId').isInt()
-], validationCheck, del);
+], validationCheck, validateRequest, del);
 
 export default router;
