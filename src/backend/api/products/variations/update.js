@@ -3,8 +3,9 @@ import db from '../../../db';
 
 export default (req, res) => {
   const productVariationInfo = req.body;
+  const { productId } = req
 
-  db.products.updateProductVariationById(req.params.variationId, productVariationInfo)
+  db.products.updateProductVariationById(req.params.variationId, productId, productVariationInfo)
     .then((response) => {
       console.log(response);
       res.sendStatus(200);

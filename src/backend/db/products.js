@@ -13,8 +13,11 @@ const getProducts = (db) => () =>
       throw err;
     });
 
-const getProductVariations = (db) => () =>
+const getProductVariations = (db) => (productId) =>
   db('merch_product_variations')
+  .where({
+    product_id: productId
+  })
     .then((res) => {
       return res.map(toProductVariation);
     })
@@ -85,10 +88,11 @@ const updateProductById = (db) => (id, productInfo) =>
       throw err;
     });
 
-const updateProductVariationById = (db) => (variationId, productVariationInfo) =>
+const updateProductVariationById = (db) => (variationId, productId, productVariationInfo) =>
   db('merch_product_variations')
     .where({
       id: variationId,
+      product_id: productId
     })
     .update(
       fromProductVariation(productVariationInfo),

@@ -33,10 +33,6 @@ router.delete('/:id', [
 
 router.patch('/:id', [
   check('id').isInt(),
-  body('name').isString(),
-  body('description').isString(),
-  body('category').isString()
-
 ], validationCheck, update);
 
 

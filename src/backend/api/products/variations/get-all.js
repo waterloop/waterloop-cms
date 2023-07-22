@@ -1,7 +1,8 @@
 import db from '../../../db';
 
 export default (req, res) => {
-  db.products.getProductVariations()
+  const { productId } = req
+  db.products.getProductVariations(productId)
     .then((response) => {
       res.json(response);
     })

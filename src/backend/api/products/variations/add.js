@@ -2,9 +2,9 @@ import db from '../../../db';
 
 export default (req, res) => {
   let productVariationData = req.body;
-  const productId = req.productId
+  const { productId } = req
 
-  productVariationData = {...productVariationData, productId }
+  productVariationData = { ...productVariationData, productId }
 
   db.products.addProductVariation(productVariationData)
     .then((response) => {

@@ -22,6 +22,7 @@ router.post('/', [
   body('price').exists(),
   body('stock').exists(),
   body('picture').exists(),
+  body('lastUpdated').exists(),
 ], validationCheck, add);
 
 router.patch('/:variationId', [
