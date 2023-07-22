@@ -25,20 +25,19 @@ router.post('/', [
   body('name').exists(),
   body('description').exists(),
   body('category').exists(),
-], validationCheck, add);
+], validationCheck, validateRequest, add);
 
 router.delete('/:id', [
   check('id').isInt()
-], validationCheck, del);
+], validationCheck, validateRequest, del);
 
 router.patch('/:id', [
   check('id').isInt(),
-], validationCheck, update);
+], validationCheck, validateRequest, update);
 
 
 router.use('/:productId/variations', [
   check('productId').isInt()
 ], validationCheck, passArg('productId'), variations);
-
 
 export default router
