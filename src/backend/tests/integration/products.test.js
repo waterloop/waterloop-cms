@@ -306,9 +306,8 @@ describe('Products Routes', () => {
       const products = await db('merch_product_variations');
       return chai
         .request(app)
-        .patch(`/api/products/${products[0].id}/variations/1`)
+        .patch(`/api/products/1/variations/1`)
         .send({
-          productId: 1,
           variationName: 'A new product',
           price: 69,
           stock: 1,
