@@ -1,14 +1,13 @@
-import { parseTimeForResponse } from '../utils/db-dates';
+import { parseTimeForResponse, parseTimeFromRequest } from '../utils/db-dates';
 import renameProps from '../utils/rename-props';
 
-
   export const fromProductVariation = (productVariation) => ({
+    
     ...renameProps(productVariation, {
       variationName: 'variation_name',
       productId: 'product_id',
       lastUpdated: 'last_updated',
     }),
-    last_updated: parseTimeForResponse(productVariation.lastUpdated),
   });
 
 export const toProductVariation = (productVariation) => ({
@@ -17,5 +16,4 @@ export const toProductVariation = (productVariation) => ({
     product_id: 'productId',
     last_updated: 'lastUpdated',
   }),
-  lastUpdated: parseTimeForResponse(productVariation.last_updated),
 });

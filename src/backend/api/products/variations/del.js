@@ -1,8 +1,8 @@
-import db from '../../db';
+import db from '../../../db';
 
 export default (req, res) => {
-  const { id } = req.params;
-  db.deleteProductVariationById(id)
+  const id = req.params.variationId;
+  db.products.deleteProductVariationById(id)
     .then((response) => {
       res.json(response);
     })

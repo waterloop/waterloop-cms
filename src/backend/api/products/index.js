@@ -1,14 +1,17 @@
 import express from 'express';
 import { param, body, check} from 'express-validator';
 import validationCheck from '../../utils/validation-check';
+import passArg from '../../utils/pass-arg';
 import { validateRequest } from '../../google-auth';
 
 // Products 
-import getAll from './get-all'
+import getAll from './get-all';
 import get from './get';
-import add from './add'
-import del from './del'
-import update from './update'
+import add from './add';
+import del from './del';
+import update from './update';
+
+import variations from './variations';
 
 const router = express.Router();
 
@@ -35,5 +38,11 @@ router.patch('/:id', [
   body('category').isString()
 
 ], validationCheck, update);
+
+
+router.use('/:productId/variations', [
+  check('productId').isInt()
+], validationCheck, passArg('productId'), variations);
+
 
 export default router

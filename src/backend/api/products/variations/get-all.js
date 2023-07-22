@@ -1,7 +1,7 @@
-import db from '../../db';
+import db from '../../../db';
 
 export default (req, res) => {
-  db.getProductVariations()
+  db.products.getProductVariations()
     .then((response) => {
       res.json(response);
     })
