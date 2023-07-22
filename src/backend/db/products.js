@@ -13,8 +13,11 @@ const getProducts = (db) => () =>
       throw err;
     });
 
-const getProductVariations = (db) => () =>
+const getProductVariations = (db) => (productId) =>
   db('merch_product_variations')
+  .where({
+    product_id: productId
+  })
     .then((res) => {
       return res.map(toProductVariation);
     })
@@ -36,7 +39,7 @@ const getProductById = (db) => (id) =>
 
 const getProductVariationsById = (db) => (variationId) =>
   db('merch_product_variations')
-    .where({ variationId })
+    .where({ id: variationId })
     .then((res) => {
       return res.map(toProductVariation);
     })
@@ -48,7 +51,7 @@ const getProductVariationsById = (db) => (variationId) =>
 const addProduct = (db) => (productInfo) =>
   db('merch_products')
     .insert(productInfo)
-    .returning('id')
+    .returning(['id', 'name', 'description', 'category'])
     .then((response) => {
       return response;
     })
@@ -60,7 +63,7 @@ const addProduct = (db) => (productInfo) =>
 const addProductVariation = (db) => (productVariationInfo) =>
   db('merch_product_variations')
     .insert(fromProductVariation(productVariationInfo))
-    .returning('id')
+    .returning(['id', 'variation_name', 'product_id', 'price', 'stock', 'picture'])
     .then((response) => {
       return response;
     })
@@ -74,9 +77,9 @@ const updateProductById = (db) => (id, productInfo) =>
     .where({
       id,
     })
-    .update({
+    .update(
       productInfo,
-    })
+    )
     .then((response) => {
       return response;
     })
@@ -85,14 +88,15 @@ const updateProductById = (db) => (id, productInfo) =>
       throw err;
     });
 
-const updateProductVariationById = (db) => (id, productVariationInfo) =>
+const updateProductVariationById = (db) => (variationId, productId, productVariationInfo) =>
   db('merch_product_variations')
     .where({
-      id,
+      id: variationId,
+      product_id: productId
     })
-    .update({
-      ...fromProductVariation(productVariationInfo),
-    })
+    .update(
+      fromProductVariation(productVariationInfo),
+    )
     .then((response) => {
       return response;
     })
