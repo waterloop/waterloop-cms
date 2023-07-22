@@ -25,15 +25,15 @@ router.post('/', [
   body('name').exists(),
   body('description').exists(),
   body('category').exists(),
-], validationCheck, validateRequest, add);
+], validationCheck, add);
 
 router.delete('/:id', [
   check('id').isInt()
-], validationCheck, validateRequest, del);
+], validationCheck, del);
 
 router.patch('/:id', [
   check('id').isInt(),
-], validationCheck, validateRequest, update);
+], validationCheck, update);
 
 
 router.use('/:productId/variations', [

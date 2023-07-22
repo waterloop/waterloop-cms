@@ -8,6 +8,7 @@ import renameProps from '../utils/rename-props';
       productId: 'product_id',
       lastUpdated: 'last_updated',
     }),
+    last_updated: parseTimeFromRequest(productVariation.lastUpdated),
   });
 
 export const toProductVariation = (productVariation) => ({
@@ -16,4 +17,5 @@ export const toProductVariation = (productVariation) => ({
     product_id: 'productId',
     last_updated: 'lastUpdated',
   }),
+  lastUpdated: parseTimeForResponse(productVariation.last_updated),
 });

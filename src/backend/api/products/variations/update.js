@@ -1,5 +1,6 @@
 import { product } from 'ramda';
 import db from '../../../db';
+import { toProductVariation } from '../../../models/products';
 
 export default (req, res) => {
   const productVariationInfo = req.body;

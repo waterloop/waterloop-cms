@@ -63,7 +63,7 @@ const addProduct = (db) => (productInfo) =>
 const addProductVariation = (db) => (productVariationInfo) =>
   db('merch_product_variations')
     .insert(fromProductVariation(productVariationInfo))
-    .returning(['id', 'variationName', 'productId', 'price', 'stock', 'picture', l])
+    .returning(['id', 'variation_name', 'product_id', 'price', 'stock', 'picture'])
     .then((response) => {
       return response;
     })
