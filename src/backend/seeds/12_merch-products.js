@@ -11,21 +11,29 @@ if (!ENV_IS_STAGING_OR_PROD) {
             name: 'T-shirt',
             description: 'The best t-shirt there is',
             category: 'clothing',
+            picture: 'https://plus.unsplash.com/premium_photo-1690164161383-f5ff30a790bc?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHwyfHx8ZW58MHx8fHx8&auto=format&fit=crop&w=800&q=60',
+            price: 15,
           },
           {
             name: 'Pants',
             description: 'The best pants there is',
             category: 'clothing',
+            picture: 'https://plus.unsplash.com/premium_photo-1690164161383-f5ff30a790bc?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHwyfHx8ZW58MHx8fHx8&auto=format&fit=crop&w=800&q=60',
+            price: 16,
           },
           {
             name: 'Sweater',
             description: 'The best sweater there is',
             category: 'clothing',
+            picture: 'imgs/photo1',
+            price: 17,
           },
           {
             name: 'Sticker',
             description: 'The best sticker there is',
             category: 'miscallaneous',
+            picture: 'imgs/photo1',
+            price: 18,
           },
         ]);
       })

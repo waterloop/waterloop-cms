@@ -5,6 +5,8 @@ exports.up = (knex) =>
       table.string('name').notNullable();
       table.string('description').notNullable();
       table.string('category').notNullable();
+      table.string('picture');
+      table.integer('price').notNullable();
     })
     .then(() =>
       knex.schema.createTable('merch_product_variations', (table) => {
