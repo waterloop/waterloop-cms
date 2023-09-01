@@ -10,6 +10,7 @@ import get from './get';
 import add from './add';
 import del from './del';
 import update from './update';
+import getDetails from './get-details';
 
 import variations from './variations';
 
@@ -20,6 +21,10 @@ router.get('/', getAll);
 router.get('/:id', [
     check('id').isInt()
   ], validationCheck, get);
+
+router.get('/details/:id', [
+  check('id').isInt()
+], validationCheck, getDetails);
 
 router.post('/', [
   body('name').exists(),

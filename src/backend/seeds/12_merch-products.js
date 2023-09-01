@@ -38,10 +38,58 @@ if (!ENV_IS_STAGING_OR_PROD) {
         ]);
       })
       .then(() => {
-        return knex('merch_product_variations').del();
+        return knex('merch_product_details').del();
       })
       .then(async () => {
         const products = await knex('merch_products');
+        return knex('merch_product_details').insert([
+          {
+            name: 'T-shirt',
+            product_id: products[0].id,
+            description: 'The best t-shirt there is',
+            category: 'clothing',
+            picture: 'https://plus.unsplash.com/premium_photo-1690164161383-f5ff30a790bc?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHwyfHx8ZW58MHx8fHx8&auto=format&fit=crop&w=800&q=60',
+            price: 15,
+            order_link: 'https://forms.gle/DgRMop4BGrf3dBVP8',
+            related_product_ids: '1 2 3 4',
+          },
+          {
+            name: 'Pants',
+            product_id: products[1].id,
+            description: 'The best pants there is',
+            category: 'clothing',
+            picture: 'https://plus.unsplash.com/premium_photo-1690164161383-f5ff30a790bc?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHwyfHx8ZW58MHx8fHx8&auto=format&fit=crop&w=800&q=60',
+            price: 16,
+            order_link: 'https://forms.gle/DgRMop4BGrf3dBVP8',
+            related_product_ids: '1 2 3 4',
+          },
+          {
+            name: 'Sweater',
+            product_id: products[2].id,
+            description: 'The best sweater there is',
+            category: 'clothing',
+            picture: 'imgs/photo1',
+            price: 17,
+            order_link: 'https://forms.gle/DgRMop4BGrf3dBVP8',
+            related_product_ids: '1 2 3 4',
+          },
+          {
+            name: 'Sticker',
+            product_id: products[3].id,
+            description: 'The best sticker there is',
+            category: 'miscallaneous',
+            picture: 'imgs/photo1',
+            price: 18,
+            order_link: 'https://forms.gle/DgRMop4BGrf3dBVP8',
+            related_product_ids: '1 2 3 4',
+          },
+        ]);
+      })
+      .then(() => {
+        return knex('merch_product_variations').del();
+      })
+      .then(async () => {
+        const products = await knex('merch_product_details');
         return knex('merch_product_variations').insert([
           {
             variation_name: 'red',

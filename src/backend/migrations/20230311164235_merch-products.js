@@ -8,6 +8,19 @@ exports.up = (knex) =>
       table.string('picture');
       table.integer('price').notNullable();
     })
+    .then(() => 
+      knex.schema.createTable('merch_product_details', (table) => {
+        table.increments('id');
+        table.string('name').notNullable();
+        table.string('description').notNullable();
+        table.string('category').notNullable();
+        table.integer('product_id').index();
+        table.string('picture');
+        table.integer('price').notNullable();
+        table.string('related_product_ids');
+        table.string('order_link');
+      })
+    )
     .then(() =>
       knex.schema.createTable('merch_product_variations', (table) => {
         table.increments('id');
