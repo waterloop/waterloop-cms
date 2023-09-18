@@ -1,8 +1,13 @@
 import db from '../../db';
+import * as R from 'ramda';
 
 export default (req, res) => {
   const id = req.params.id;
   const productInfo = req.body;
+
+  if (R.isEmpty(productInfo)) {
+    res.sendStatus(400);
+  }
 
   db.products.updateProductById(id, productInfo)
     .then((response) => {

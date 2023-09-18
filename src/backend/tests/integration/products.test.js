@@ -86,6 +86,59 @@ describe('Products Routes', () => {
     });
   });
 
+
+
+  describe('PATCH /api/products/:id', () => {
+    it('should update the entry with "id" to match the new body', async () => {
+      const products = await db('merch_products');
+      return chai
+        .request(app)
+        .patch(`/api/products/${products[0].id}`)
+        .send({
+          name: 'A updated product name',
+          description: 'A updated product description',
+          category: 'A updated product category',
+        })
+        .then((res) => {
+          expect(res).to.have.status(200);
+          return chai
+            .request(app)
+            .get('/api/products')
+            .then((res2) => {
+              expect(res2).to.have.status(200);
+              const patchedItem = res2.body.find(
+                (item) => item.id === products[0].id,
+              );
+              expect(patchedItem).to.deep.include({
+                name: 'A updated product name',
+                description: 'A updated product description',
+                category: 'A updated product category',
+              });
+            });
+        });
+    });
+
+    it('should return 404 if an id is not provided', (done) => {
+      chai
+        .request(app)
+        .patch('/api/products')
+        .end((err, res) => {
+          expect(res).to.have.status(404);
+          done();
+        });
+    });
+
+    it('should return 400 when body is missing', (done) => {
+      chai
+        .request(app)
+        .patch('/api/products/1')
+        .end((err, res) => {
+          expect(res).to.have.status(400);
+          done();
+        });
+    });
+  });
+  
   describe('DELETE /api/products/:id', () => {
     it('should delete a product variation with "id" that exists', (done) => {
       chai
@@ -127,58 +180,6 @@ describe('Products Routes', () => {
     });
   });
 
-  describe('PATCH /api/products/:id', () => {
-    it('should update the entry with "id" to match the new body', async () => {
-      const products = await db('merch_products');
-      return chai
-        .request(app)
-        .patch(`/api/products/${products[0].id}`)
-        .send({
-          name: 'A updated product name',
-          description: 'A updated product description',
-          category: 'A updated product category',
-        })
-        .then((res) => {
-          expect(res).to.have.status(200);
-          return chai
-            .request(app)
-            .get('/api/products')
-            .then((res2) => {
-              console.log('res2', res2.body);
-              expect(res2).to.have.status(200);
-              const patchedItem = res2.body.find(
-                (item) => item.id === products[0].id,
-              );
-              expect(patchedItem).to.have.property(
-                'A updated product name',
-                'A updated product description',
-                'A updated product category',
-              );
-            });
-        });
-    });
-
-    it('should return 404 if an id is not provided', (done) => {
-      chai
-        .request(app)
-        .patch('/api/products')
-        .end((err, res) => {
-          expect(res).to.have.status(404);
-          done();
-        });
-    });
-
-    it('should return 400 when body is missing', (done) => {
-      chai
-        .request(app)
-        .patch('/api/products/1')
-        .end((err, res) => {
-          expect(res).to.have.status(400);
-          done();
-        });
-    });
-  });
-
   // variations
 
   describe('GET /api/products/:id/variations', () => {
@@ -205,60 +206,53 @@ describe('Products Routes', () => {
   });
 
   describe('POST /api/products/:id/variations', () => {
-    it('should add a product varaiation to the db with a well formed input', (done) => {
-      chai
-        .request(app)
-        .post('/api/products/1/variations')
-        .send({
-          productId: 6969,
-          variationName: 'A new product',
-          price: 69,
-          stock: 1,
-          picture: './test',
-          lastUpdated: 1609518840000,
-        })
-        .end((err, res) => {
-          expect(res).to.have.status(200);
-          chai
-            .request(app)
-            .get('/api/products/1/variations')
-            .end((err, res2) => {
-              expect(res2).to.have.status(200);
-              res2.body.forEach((item) => {
-                expect(item).to.have.keys([
-                  'id',
-                  'variationName',
-                  'productId',
-                  'price',
-                  'stock',
-                  'picture',
-                  'lastUpdated',
-                ]);
-              });
-              console.log(res2.body);
-              expect(res2.body).to.deep.include({
-                productId: 6969,
-                variationName: 'A new product',
-                price: 69,
-                stock: 1,
-                picture: './test',
-                lastUpdated: 1609518840000,
-              });
-              done();
-            });
-        });
-    });
+    it('should add a product variation to the db with a well-formed input', async () => {
+      try {
+        const products = await db('merch_products');
 
-    it('should return 400 with a poorly formed input', (done) => {
-      chai
+        const prePostVariations = await chai
         .request(app)
-        .post('/api/products/1/variations')
-        .end((err, res) => {
-          expect(res).to.have.status(400);
-          done();
+        .get(`/api/products/${products[0].id}/variations`)
+        
+
+        const response = await chai
+          .request(app)
+          .post(`/api/products/${products[0].id}/variations`)
+          .send({
+            productId: products[0].id,
+            variationName: 'A new product',
+            price: 69,
+            stock: 1,
+            picture: './test',
+            lastUpdated: 1609518840000,
+          });
+  
+        expect(response).to.have.status(200);
+
+  
+        const res2 = await chai
+          .request(app)
+          .get(`/api/products/${products[0].id}/variations`);
+  
+        expect(res2).to.have.status(200);
+        expect(res2.body.length).to.equal(prePostVariations.body.length + 1);
+        res2.body.forEach(item => {
+          expect(item).to.have.keys([
+            'id',
+            'productId',
+            'variationName',
+            'price',
+            'stock',
+            'picture',
+            'lastUpdated',
+          ]);
         });
+      } catch (error) {
+        throw error
+      }
     });
   });
+  
 
   describe('DELETE /api/products/:id/variations/:productId', () => {
     it('should delete a product variation with "id" that exists', (done) => {
@@ -301,9 +295,8 @@ describe('Products Routes', () => {
     });
   });
 
-  describe('PATCH /api/products/:id/variations/:productId', () => {
+  describe('PATCH /api/products/:productId/variations/:variationId', () => {
     it('should update the entry with "id" to match the new body', async () => {
-      const products = await db('merch_product_variations');
       return chai
         .request(app)
         .patch(`/api/products/1/variations/1`)
@@ -316,24 +309,6 @@ describe('Products Routes', () => {
         })
         .then((res) => {
           expect(res).to.have.status(200);
-          return chai
-            .request(app)
-            .get(`/api/products/${products[0].id}/variations/1`)
-            .then((res2) => {
-              console.log('res2', res2.body);
-              expect(res2).to.have.status(200);
-              const patchedItem = res2.body.find(
-                (item) => item.id === products[0].id,
-              );
-              expect(patchedItem).to.have.property(
-                6969,
-                'A new product',
-                69,
-                1,
-                './test',
-                1609518840000,
-              );
-            });
         });
     });
 
