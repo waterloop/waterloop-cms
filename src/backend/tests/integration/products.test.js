@@ -138,6 +138,47 @@ describe('Products Routes', () => {
         });
     });
   });
+  
+  describe('DELETE /api/products/:id', () => {
+    it('should delete a product variation with "id" that exists', (done) => {
+      chai
+        .request(app)
+        .del('/api/products/1')
+        .end((err, res) => {
+          expect(res).to.have.status(200);
+          chai
+            .request(app)
+            .get('/api/products')
+            .end((err2, res2) => {
+              expect(res2).to.have.status(200);
+              res2.body.forEach((item) => {
+                expect(item.id).to.not.eql(1);
+              });
+              done();
+            });
+        });
+    });
+
+    it('should return 404 when an id is not provided', (done) => {
+      chai
+        .request(app)
+        .del('/api/products')
+        .end((err, res) => {
+          expect(res).to.have.status(404);
+          done();
+        });
+    });
+
+    it('should continue if the id does not exist', (done) => {
+      chai
+        .request(app)
+        .del('/api/products/99999')
+        .end((err, res) => {
+          expect(res).to.have.status(200);
+          done();
+        });
+    });
+  });
 
   // variations
 
@@ -168,6 +209,12 @@ describe('Products Routes', () => {
     it('should add a product variation to the db with a well-formed input', async () => {
       try {
         const products = await db('merch_products');
+
+        const prePostVariations = await chai
+        .request(app)
+        .get(`/api/products/${products[0].id}/variations`)
+        
+
         const response = await chai
           .request(app)
           .post(`/api/products/${products[0].id}/variations`)
@@ -181,16 +228,27 @@ describe('Products Routes', () => {
           });
   
         expect(response).to.have.status(200);
+
   
         const res2 = await chai
           .request(app)
           .get(`/api/products/${products[0].id}/variations`);
   
         expect(res2).to.have.status(200);
-  
-        expect(res2.body.some((variation) => variation.productId === products[0].id)).to.equal(true);
+        expect(res2.body.length).to.equal(prePostVariations.body.length + 1);
+        res2.body.forEach(item => {
+          expect(item).to.have.keys([
+            'id',
+            'productId',
+            'variationName',
+            'price',
+            'stock',
+            'picture',
+            'lastUpdated',
+          ]);
+        });
       } catch (error) {
-        throw error;
+        throw error
       }
     });
   });
