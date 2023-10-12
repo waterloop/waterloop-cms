@@ -9,7 +9,7 @@ jobs:
         node-version: [16.x]
     steps:
       - uses: actions/checkout@v3
-        - name: Add nodeLinker 
+      - name: Add nodeLinker 
         run: |
           echo "nodeLinker: node-modules" >> .yarnrc.yml
         working-directory: ${{ github.workspace }}
