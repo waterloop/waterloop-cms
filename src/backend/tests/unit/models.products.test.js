@@ -12,7 +12,7 @@ const productVariationCamel = {
 const product_variation_snake = {
   'variation_name': 'test',
   'product_id': 'test',
-  'last_updated': 9234234324,
+  'last_updated': "1970-04-17 21:03:54.324",
 }
 
 describe('Model: Product Variation', () => {
