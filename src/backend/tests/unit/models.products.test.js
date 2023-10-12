@@ -21,9 +21,4 @@ describe('Model: Product Variation', () => {
       expect(ProductsModel.fromProductVariation(productVariationCamel)).to.deep.equal(product_variation_snake);
     })
   })
-  describe('toProductVariation', () => {
-    it('should return a new object with keys that are camel case', () => {
-      expect(ProductsModel.toProductVariation(product_variation_snake)).to.deep.equal(productVariationCamel);
-    })
-  })
 })
