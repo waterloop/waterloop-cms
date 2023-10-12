@@ -9,6 +9,12 @@ jobs:
         node-version: [16.x]
     steps:
       - uses: actions/checkout@v3
+
+      - name: Add nodeLinker to node-modules
+        run: |
+          echo "nodeLinker: node-modules" >> .yarnrc.yml
+        working-directory: ${{ github.workspace }}
+
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v3
         with:
@@ -30,6 +36,3 @@ jobs:
         run: yarn test:seed
       - name: Run unit tests
         run: yarn test:unit
-      # TODO: Run integration tests (the step below produces errors)
-      # - name: Run integration tests
-      #   run: yarn test:integration
