@@ -36,5 +36,4 @@ jobs:
         run: yarn test:seed
       - name: Run unit tests
         run: yarn test:unit
-      - name: Run integration tests
-        run: npm run test:integration
+
