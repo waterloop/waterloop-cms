@@ -19,7 +19,7 @@ export default (server) => ({
   getProductVariations: getProductVariations(server),
   updateProduct: updateProduct(server),
   updateProductVariation:updateProductVariation(server),
-  addProductaddProductVariation: addProductaddProductVariation(server),
+  addProduct: addProduct(server),
   addProductVariation: addProductVariation(server),
   deleteProduct: deleteProduct(server),
   deleteProductVariation: deleteProductVariation(server),
