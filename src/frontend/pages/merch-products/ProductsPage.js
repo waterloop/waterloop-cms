@@ -13,9 +13,6 @@ const Container = styled.div`
   margin: ${(props) => props.theme.pageMargin};
 `;
 
-const CurrentProductHeader = styled.p`
-  font: ${({ theme }) => theme.fonts.medium24};
-`;
 
 const ButtonContainer = styled.div`
   ${Button} {
@@ -62,12 +59,11 @@ const RowComponent = ({ name, category }) => (
 const ProductsPage = () => {
   const { products } = useProducts();
   const history = useHistory();
-  const currentGoose = 'Goose V';
 
-  const geese = geeseInfo?.map((goose) => ({
-    id: goose.id,
-    name: goose.name,
-    updatedAt: moment.utc(goose.updatedAt).local().format('MMMM D, YYYY'),
+  const rowProduct= products?.map((product) => ({
+    id: product.id,
+    name: product.name,
+    category: product.category,
   }));
 
   const onEdit = useCallback(() => {
@@ -80,38 +76,35 @@ const ProductsPage = () => {
     console.log('Go to preview');
   }, []);
 
-  const addGoose = useCallback(() => {
-    history.push('/geese/add');
+  const addProduct = useCallback(() => {
+    history.push('/products/add');
   }, [history]);
 
-  const onEditGoose = useCallback(
+  const onEditProduct = useCallback(
     (id) => {
-      history.push(`/geese/${id}`);
+      history.push(`/products/${id}`);
     },
     [history],
   );
 
   return (
     <Container>
-      <CurrentProductHeader>
-        Current Goose: <strong>{currentGoose}</strong>
-      </CurrentProductHeader>
       <ButtonContainer>
         <Button label="Edit Description" secondary onClick={onEdit} />
         <Button label="Preview" onClick={onPreview} />
       </ButtonContainer>
       <TableLabelHeader>
-        <TableHeader>All Geese</TableHeader>
-        <Button label="New Goose +" onClick={addGoose} />
+        <TableHeader>All Products</TableHeader>
+        <Button label="New Product +" onClick={addProduct} />
       </TableLabelHeader>
       <PreviewTable
         headers={headers}
         RowComponent={RowComponent}
-        rows={geese}
-        onEdit={onEditGoose}
+        rows={rowProduct}
+        onEdit={onEditProduct}
       />
     </Container>
   );
 };
 
-export default GeesePage;
+export default ProductsPage;
