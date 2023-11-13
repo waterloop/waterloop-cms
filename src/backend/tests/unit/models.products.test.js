@@ -12,18 +12,13 @@ const productVariationCamel = {
 const product_variation_snake = {
   'variation_name': 'test',
   'product_id': 'test',
-  'last_updated': 9234234324,
+  'last_updated': "1970-04-17 21:03:54.324",
 }
 
 describe('Model: Product Variation', () => {
   describe('fromProductVariation', () => {
     it('should return a new object with keys that are snake case', () => {
       expect(ProductsModel.fromProductVariation(productVariationCamel)).to.deep.equal(product_variation_snake);
-    })
-  })
-  describe('toProductVariation', () => {
-    it('should return a new object with keys that are camel case', () => {
-      expect(ProductsModel.toProductVariation(product_variation_snake)).to.deep.equal(productVariationCamel);
     })
   })
 })

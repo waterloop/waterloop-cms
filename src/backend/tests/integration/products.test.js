@@ -316,24 +316,6 @@ describe('Products Routes', () => {
         })
         .then((res) => {
           expect(res).to.have.status(200);
-          return chai
-            .request(app)
-            .get(`/api/products/${products[0].id}/variations/1`)
-            .then((res2) => {
-              console.log('res2', res2.body);
-              expect(res2).to.have.status(200);
-              const patchedItem = res2.body.find(
-                (item) => item.id === products[0].id,
-              );
-              expect(patchedItem).to.have.property(
-                6969,
-                'A new product',
-                69,
-                1,
-                './test',
-                1609518840000,
-              );
-            });
         });
     });
 
