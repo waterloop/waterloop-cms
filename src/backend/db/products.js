@@ -41,7 +41,7 @@ const getProductDetails = (db) => (id) =>
   db('merch_product_details')
     .where({ id })
     .then((res) => {
-      return res;
+      return res[0];
     })
     .catch((err) => {
       console.error(`Error in getProductById: ${err}`);

@@ -19,6 +19,10 @@ exports.up = (knex) =>
         table.integer('price').notNullable();
         table.string('related_product_ids');
         table.string('order_link');
+        table.string('thumbnail1');
+        table.string('thumbnail2');
+        table.string('thumbnail3');
+        table.string('thumbnail4');
       })
     )
     .then(() =>

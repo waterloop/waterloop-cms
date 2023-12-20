@@ -8,7 +8,7 @@ export default (req, res) => {
     if (R.isEmpty(productInfo)) {
       res.sendStatus(404);
     } else {
-      res.send(productInfo);
+      res.send({...productInfo, thumbnails: [productInfo.thumbnail1, productInfo.thumbnail2, productInfo.thumbnail3, productInfo.thumbnail4]});
     }
   })
   .catch((err) => {
