@@ -47,7 +47,16 @@ const getProductDetails = (db) => (id) =>
       console.error(`Error in getProductById: ${err}`);
       throw err;
     });
-
+const getRelatedProducts = (db) => (ids) =>
+    db('merch_products')
+      .whereIn('id', ids)
+      .then((res) => {
+        return res;
+      })
+      .catch((err) => {
+        console.error(`Error in getRelatedProducts: ${err}`);
+        return [];
+      });
 const getProductVariationsById = (db) => (variationId) =>
   db('merch_product_variations')
     .where({ id: variationId })
@@ -156,4 +165,5 @@ export default (db) => ({
   updateProductVariationById: updateProductVariationById(db),
   deleteProductById: deleteProductById(db),
   deleteProductVariationById: deleteProductVariationById(db),
+  getRelatedProducts: getRelatedProducts(db),
 });
