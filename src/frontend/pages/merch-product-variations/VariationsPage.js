@@ -3,9 +3,12 @@ import styled from 'styled-components';
 import UnstyledButton from '../../components/Button';
 import PreviewTable from '../../components/PreviewTable';
 import TableCell from '@mui/material/TableCell';
+import useProductVariations from '../../hooks/product-variations';
 import useProducts from '../../hooks/products';
+
 import * as moment from 'moment';
 import { useHistory } from 'react-router-dom';
+
 
 const Button = styled(UnstyledButton)``;
 
@@ -13,7 +16,7 @@ const Container = styled.div`
   margin: ${(props) => props.theme.pageMargin};
 `;
 
-const ProductsHeader = styled.p`
+const VariationsHeader = styled.p`
   font: ${({ theme }) => theme.fonts.medium24};
 `;
 
@@ -43,30 +46,42 @@ const TableHeader = styled.p`
 
 const headers = [
   {
-    id: 'name',
-    value: 'Product',
+    id:'productName',
+    value:"Product"
   },
   {
-    id: 'category',
-    value: 'Category',
+    id: 'variationName',
+    value: 'Variation',
+  },
+  {
+    id: 'price',
+    value: 'Price',
+  },
+  {
+    id: 'stock',
+    value: 'Stock',
   },
 ];
 
-const RowComponent = ({ name, category }) => (
+const RowComponent = ({productName, variationName, price, stock }) => (
   <>
-    <TableCell>{name}</TableCell>
-    <TableCell>{category}</TableCell>
+    <TableCell>{productName}</TableCell>
+    <TableCell>{variationName}</TableCell>
+    <TableCell>${price.toFixed(2)}</TableCell>
+    <TableCell>{stock}</TableCell>
   </>
 );
 
-const ProductsPage = () => {
-  const { products } = useProducts();
+const VariationsPage = () => {
+  const { productVariations } = useProductVariations();
   const history = useHistory();
 
-  const rowProduct= products?.map((product) => ({
-    id: product.id,
-    name: product.name,
-    category: product.category,
+  const rowVariation = productVariations?.map((variation) => ({
+    id: variation.id,
+    productName: variation.productName,
+    variationName: variation.variationName,
+    price: variation.price,
+    stock: variation.stock
   }));
 
   const onEdit = useCallback(() => {
@@ -79,38 +94,38 @@ const ProductsPage = () => {
     console.log('Go to preview');
   }, []);
 
-  const addProduct = useCallback(() => {
-    history.push('/products/add');
+  const addVariation = useCallback(() => {
+    history.push('/variations/add');
   }, [history]);
 
-  const onEditProduct = useCallback(
-    (id) => {
-      history.push(`/products/${id}`);
+  const onEditVariation = useCallback(
+    (variationId) => {
+      history.push(`/variations/edit/${variationId}/`);
     },
     [history],
   );
 
   return (
     <Container>
-      <ProductsHeader>
-        Merch Store Products
-      </ProductsHeader>
+      <VariationsHeader>
+        Merch Product Variations
+      </VariationsHeader>
       <ButtonContainer>
         <Button label="Edit Description" secondary onClick={onEdit} />
         <Button label="Preview" onClick={onPreview} />
       </ButtonContainer>
       <TableLabelHeader>
-        <TableHeader>All Products</TableHeader>
-        <Button label="New Product +" onClick={addProduct} />
+        <TableHeader>All Variations</TableHeader>
+        <Button label="New Variation +" onClick={addVariation} />
       </TableLabelHeader>
       <PreviewTable
         headers={headers}
         RowComponent={RowComponent}
-        rows={rowProduct}
-        onEdit={onEditProduct}
+        rows={rowVariation}
+        onEdit={onEditVariation}
       />
     </Container>
   );
 };
 
-export default ProductsPage;
+export default VariationsPage;

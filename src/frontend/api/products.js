@@ -8,7 +8,7 @@ const updateProductVariation = (server) => (variationId, productId, updatedVaria
 const addProduct = (server) => (product) => 
   server.post(`/api/products`, product);
 const addProductVariation = (server) => (productVariation) => 
-  server.post(`/api/products/${productVariation.productId}/variations`);
+  server.post(`/api/products/${productVariation.productId}/variations`, productVariation);
 const deleteProduct = (server) => (id) =>
   server.delete(`/api/products/${id}`);
  const deleteProductVariation = (server) => (productId, variationId) =>
