@@ -6,6 +6,7 @@ import RecruitmentPageSVG from '../../assets/page-icons/recruitment.svg';
 import SponsorsPageSVG from '../../assets/page-icons/sponsors.svg';
 import TeamDescriptionsPageSVG from '../../assets/page-icons/team-descriptions.svg';
 import BlogPostsPageSVG from '../../assets/page-icons/blog-posts.svg';
+import MerchPageSVG from '../../assets/page-icons/merch.svg'
 import UnstyledSection from './components/Section';
 import Grid from '@mui/material/Grid';
 
@@ -61,6 +62,18 @@ const sections = [
     editLink: '/blog-posts',
     previewLink: 'https://teamwaterloop.ca/blogs',
     icon: BlogPostsPageSVG,
+  },
+  {
+    name: 'Merch Store Products',
+    editLink: '/products',
+    previewLink: 'https://teamwaterloop.ca/products',
+    icon: MerchPageSVG,
+  },
+  {
+    name: 'Merch Store Variations',
+    editLink: '/variations',
+    previewLink: 'https://teamwaterloop.ca/variations',
+    icon: MerchPageSVG,
   },
 ];
 

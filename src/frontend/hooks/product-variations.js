@@ -10,13 +10,16 @@ const useProductVariations = () => {
   useEffect(() => {
     (async () => {
       try {
+        // get all products 
         const productsResponse = await api.products.getProducts();
         const products = productsResponse.data;
 
+        // array of all unique product ids
         const uniqueProductIds = [...new Set(products.map(product => product.id))];
         
         let newProductVariations = [];
 
+        // fetch all product variations for ids 
         for (const productId of uniqueProductIds) {
           const productVariationsResponse = await api.products.getProductVariations(productId);
           const productName = products.find((product) => product.id === productId)?.name;
@@ -24,8 +27,6 @@ const useProductVariations = () => {
           for (const productVariation of productVariationsResponse.data){
             const variation = {...productVariation, productName};
             newProductVariations = [...newProductVariations, variation];
-            console.log(newProductVariations)
-
           }
           
         }
