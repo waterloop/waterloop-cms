@@ -17,6 +17,7 @@ const useProductsForm = () => {
     if (products.length > 0) {
       (async () => {
         try {
+          // init relevant product data when editing
           if (params.productId) {
             const productId = parseInt(params.productId, 10);
             const product = products.find((product) => product.id === productId);
@@ -50,22 +51,23 @@ const useProductsForm = () => {
     try {
         const data = new FormData();
         const res = await api.formUpload(data);
-        console.log(res.data)
-    
+      
       const productInfo = {
         name: productName,
         description,
         category
       }
       
+      // ensure all fields are filled
       if (productName && description && category) {
+        // update product if it exists
         if (params.productId) {
           await api.products.updateProduct(params.productId, productInfo);
         } 
 
+        // add product if it doesnt exist
         else {
           const res = await api.products.addProduct(productInfo);
-          console.log(res.data)
         }
        
       } 
@@ -75,14 +77,14 @@ const useProductsForm = () => {
       // onSuccess:
       closeForm();
     } catch (e) {
-      // TODO: Display "could not add/update" error to user as dialogue.
-      // eslint-disable-next-line no-console
-      
+
       console.error(e);
     }
   }, [params, productName, description, category, closeForm]);
 
+
   const deleteForm = useCallback(async () => {
+    // delete product 
     if (params.productId) {
       await api.products.deleteProduct(params.productId);
     }
@@ -91,6 +93,7 @@ const useProductsForm = () => {
 
   const getLastUpdated = useCallback(() => {
     const product = products.find((product) => product.id === parseInt(params.productId, 10));
+    // returns last updated time of product 
     if (product) {
       return moment.utc(product.updatedAt).local().format('MMMM D, YYYY');
     }
