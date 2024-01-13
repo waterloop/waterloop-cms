@@ -69,16 +69,6 @@ const ProductsPage = () => {
     category: product.category,
   }));
 
-  const onEdit = useCallback(() => {
-    // TODO: Implement functionality
-    console.log('Go to edit');
-  }, []);
-
-  const onPreview = useCallback(() => {
-    // TODO: Implement functionality
-    console.log('Go to preview');
-  }, []);
-
   const addProduct = useCallback(() => {
     history.push('/products/add');
   }, [history]);
@@ -95,10 +85,6 @@ const ProductsPage = () => {
       <ProductsHeader>
         Merch Store Products
       </ProductsHeader>
-      <ButtonContainer>
-        <Button label="Edit Description" secondary onClick={onEdit} />
-        <Button label="Preview" onClick={onPreview} />
-      </ButtonContainer>
       <TableLabelHeader>
         <TableHeader>All Products</TableHeader>
         <Button label="New Product +" onClick={addProduct} />

@@ -4,11 +4,8 @@ import UnstyledButton from '../../components/Button';
 import PreviewTable from '../../components/PreviewTable';
 import TableCell from '@mui/material/TableCell';
 import useProductVariations from '../../hooks/product-variations';
-import useProducts from '../../hooks/products';
-
-import * as moment from 'moment';
 import { useHistory } from 'react-router-dom';
-
+import moment from 'moment'
 
 const Button = styled(UnstyledButton)``;
 
@@ -18,13 +15,6 @@ const Container = styled.div`
 
 const VariationsHeader = styled.p`
   font: ${({ theme }) => theme.fonts.medium24};
-`;
-
-const ButtonContainer = styled.div`
-  ${Button} {
-    margin-right: 28px;
-    box-shadow: ${({ theme }) => theme.shadows.shadow1};
-  }
 `;
 
 const TableLabelHeader = styled.span`
@@ -61,14 +51,20 @@ const headers = [
     id: 'stock',
     value: 'Stock',
   },
+  {
+    id: 'lastUpdated',
+    value: 'Last Updated'
+  }
 ];
 
-const RowComponent = ({productName, variationName, price, stock }) => (
+const RowComponent = ({productName, variationName, price, stock, lastUpdated }) => (
+
   <>
     <TableCell>{productName}</TableCell>
     <TableCell>{variationName}</TableCell>
     <TableCell>${price.toFixed(2)}</TableCell>
     <TableCell>{stock}</TableCell>
+    <TableCell>{lastUpdated}</TableCell>
   </>
 );
 
@@ -81,18 +77,9 @@ const VariationsPage = () => {
     productName: variation.productName,
     variationName: variation.variationName,
     price: variation.price,
-    stock: variation.stock
+    stock: variation.stock,
+    lastUpdated: moment.utc(variation.lastUpdated).local().format('MMMM D, YYYY'),
   }));
-
-  const onEdit = useCallback(() => {
-    // TODO: Implement functionality
-    console.log('Go to edit');
-  }, []);
-
-  const onPreview = useCallback(() => {
-    // TODO: Implement functionality
-    console.log('Go to preview');
-  }, []);
 
   const addVariation = useCallback(() => {
     history.push('/variations/add');
@@ -104,16 +91,11 @@ const VariationsPage = () => {
     },
     [history],
   );
-
   return (
     <Container>
       <VariationsHeader>
         Merch Product Variations
       </VariationsHeader>
-      <ButtonContainer>
-        <Button label="Edit Description" secondary onClick={onEdit} />
-        <Button label="Preview" onClick={onPreview} />
-      </ButtonContainer>
       <TableLabelHeader>
         <TableHeader>All Variations</TableHeader>
         <Button label="New Variation +" onClick={addVariation} />

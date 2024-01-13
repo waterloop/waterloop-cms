@@ -100,27 +100,48 @@ const AddProductVariation = ({ add }) => {
   const {
     productName,
     setProductName,
-    productId,
-    setProductId,
     variationName,
     setVariationName,
     price,
     setPrice,
+    picture,
+    setPicture,
+    pictureUrl,
+    setPictureURL,
+    imageUpload,
+    imageDelete,
+    imageURLDelete,
     stock,
     setStock,
-    getProductNames,
     closeForm,
     saveForm,
+    deleteForm,
     getLastUpdated,
     showModal,
     openModal,
     closeModal,
+    getProductNames,
+    productId,
+    setProductId
   } = useProductVariationsForm();
 
-  
+
   const productNames = getProductNames()
 
-  console.log(productNames)
+  const displayImages = useMemo(() => {
+    if (pictureUrl){
+    return [
+      <ImageCard>
+      <ImagePreview
+        src={pictureUrl}
+        onDelete={() => {
+          setPicture(null);
+        }}
+      />
+    </ImageCard>
+    ]};
+  
+  }, [picture, pictureUrl, imageURLDelete, imageDelete, setPicture, setPictureURL]);
 
   return (
     <EditVariationsPage>
@@ -168,21 +189,16 @@ const AddProductVariation = ({ add }) => {
             className="variation-info"
           />
         </FormContainer>
-{/* 
         <VariationImages>
           <FormContainer title="Images (at least one is required)">
             <VariationInfo>
-              <ImagesText>
-                The images can be rearranged by dragging them into the desired
-                order.
-              </ImagesText>
               <ImageCards>
                 {displayImages}
                 <ImagePreview onNew={imageUpload} />
               </ImageCards>
             </VariationInfo>
           </FormContainer>
-        </VariationImages> */}
+        </VariationImages>
 
         <VariationButtons>
           <Button label="Save" onClick={saveForm} />
