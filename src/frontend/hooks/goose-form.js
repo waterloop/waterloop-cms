@@ -6,7 +6,7 @@ import moment from 'moment';
 
 const useGooseForm = () => {
   const [gooseName, setGooseName] = useState('');
-  const [description, setDescription] = useState('');
+  const [description, setDescription] = useState(''); 
   const [images, setImages] = useState([]);
   const [imageUrls, setImageUrls] = useState([]);
   const [imagesToDelete, setImagesToDelete] = useState([]);

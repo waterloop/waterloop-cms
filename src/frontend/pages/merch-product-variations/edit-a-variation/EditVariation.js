@@ -91,22 +91,41 @@ const RedDeleteButton = styled(Button)`
 const EditProductVariation = ({ add }) => {
   const {
     productName,
-    setProductName,
     variationName,
     setVariationName,
     price,
     setPrice,
+    picture,
+    setPicture,
+    pictureUrl,
+    setPictureURL,
+    imageUpload,
+    imageDelete,
+    imageURLDelete,
     stock,
     setStock,
     closeForm,
     saveForm,
     deleteForm,
-    getLastUpdated,
     showModal,
     openModal,
     closeModal,
   } = useProductVariationsForm();
 
+  const displayImages = useMemo(() => {
+    if (pictureUrl){
+    return [
+      <ImageCard>
+      <ImagePreview
+        src={pictureUrl}
+        onDelete={() => {
+          imageDelete();
+        }}
+      />
+    </ImageCard>
+    ]};
+  
+  }, [picture, pictureUrl, imageURLDelete, imageDelete, setPicture, setPictureURL]);
 
   return (
     <EditVariationsPage>
@@ -147,21 +166,17 @@ const EditProductVariation = ({ add }) => {
             className="variation-info"
           />
         </FormContainer>
-{/* 
+
         <VariationImages>
           <FormContainer title="Images (at least one is required)">
             <VariationInfo>
-              <ImagesText>
-                The images can be rearranged by dragging them into the desired
-                order.
-              </ImagesText>
               <ImageCards>
                 {displayImages}
                 <ImagePreview onNew={imageUpload} />
               </ImageCards>
             </VariationInfo>
           </FormContainer>
-        </VariationImages> */}
+        </VariationImages>
 
         <VariationButtons>
           <Button label="Save" onClick={saveForm} />

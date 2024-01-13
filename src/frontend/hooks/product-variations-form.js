@@ -12,6 +12,7 @@ const useProductVariationsForm = () => {
   const [price, setPrice] = useState(null);
   const [stock, setStock] = useState(null);
   const [picture, setPicture] = useState(null);
+  const [pictureUrl, setPictureURL] = useState(null)
   const [showModal, setShowModal] = useState(false);
   const history = useHistory();
   const params = useParams();
@@ -33,7 +34,7 @@ const useProductVariationsForm = () => {
               setVariationName(variation.variationName);
               setPrice(variation.price);
               setStock(variation.stock);
-              setPicture(variation.picture);
+              setPictureURL(variation.picture);
             }
           }
         } catch (err) {
@@ -42,7 +43,23 @@ const useProductVariationsForm = () => {
       })();
     }
   }, [productVariations, products, params.variationId]);
+
+  const imageUpload = (image) => {
+    setPicture(image)
+    setPictureURL(URL.createObjectURL(image))
+  }
+
+ const imageDelete = useCallback(() => {
+  setPicture(null)
+  setPictureURL(null)
+ }, [setPicture])
+
+ 
+ const imageURLDelete = useCallback(() => {
+  setPictureURL(null)
+ }, [setPicture, setPictureURL, pictureUrl])
   
+
   const openModal = () => {
     setShowModal(true);
   };
@@ -56,48 +73,44 @@ const useProductVariationsForm = () => {
   }, [history]);
 
   const saveForm = useCallback(async () => {
-
     try {
-        const data = new FormData();
-        const res = await api.formUpload(data);
-      
+      const data = new FormData();
+      data.append('files', picture, picture.name);
+  
+      const res = await api.formUpload(data);
+  
       const currentDateTime = new Date();
       const unixTimestamp = currentDateTime.getTime();
-
+      
+      const newPictureUrl = pictureUrl.replace("blob:","")
+  
       const productVariationInfo = {
         variationName,
         productId,
         price,
-        stock, 
-        picture,
-        lastUpdated: unixTimestamp
-      }
-      
+        stock,
+        picture: newPictureUrl,
+        lastUpdated: unixTimestamp,
+      };
+  
       if (variationName && price && stock) {
         if (params.variationId) {
           await api.products.updateProductVariation(params.variationId, productId, productVariationInfo);
-        } 
-
-        else {
-          console.log(productVariationInfo)
-          const res = await api.products.addProductVariation(productVariationInfo);
-          console.log(res.data)
+        } else {
+          await api.products.addProductVariation(productVariationInfo);
         }
-       
-      } 
-      else {
+        setPicture(picture);
+      } else {
         throw new Error('Please fill all the required fields.');
       }
       // onSuccess:
       closeForm();
     } catch (e) {
-      // TODO: Display "could not add/update" error to user as dialogue.
-      // eslint-disable-next-line no-console
-      
+      // TODO: Display "could not add/update" error to the user as dialogue.
       console.error(e);
     }
-  }, [params, variationName, price, stock, closeForm]);
-
+  }, [params, variationName, price, stock, closeForm, picture, productId]);
+  
   const deleteForm = useCallback(async () => {
     try {
       if (params.variationId) {
@@ -150,10 +163,17 @@ const useProductVariationsForm = () => {
     setVariationName,
     price,
     setPrice,
+    picture,
+    setPicture,
+    pictureUrl,
+    setPictureURL,
     stock,
     setStock,
     getProductNames,
     setVariationIdGivenName,
+    imageUpload,
+    imageDelete,
+    imageURLDelete,
     closeForm,
     saveForm,
     deleteForm,

@@ -32,7 +32,7 @@ const useProductVariations = () => {
         }
         dispatch(productVariationActions.updateProductVariationsInfo(newProductVariations));
       } catch (err) {
-        console.error(err);
+        console.error("error fetching products in product-variations.js: ", err);
       }
     })();
   }, [dispatch]); 
