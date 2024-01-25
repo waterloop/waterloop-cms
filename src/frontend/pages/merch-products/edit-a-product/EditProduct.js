@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React from 'react';
 import FormContainer from '../../../components/FormContainer/index';
 import Button from '../../../components/Button/index';
 import TextInput from '../../../components/TextInput/index';

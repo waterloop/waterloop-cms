@@ -74,16 +74,19 @@ const useProductVariationsForm = () => {
 
   const saveForm = useCallback(async () => {
     try {
-      const data = new FormData();
-      data.append('files', picture, picture.name);
-  
-      const res = await api.formUpload(data);
+      let newPictureUrl = picture;
+
+      if (picture instanceof File) {
+        const data = new FormData();
+        data.append('files', picture, picture.name);
+        await api.formUpload(data);
+
+        newPictureUrl = pictureUrl.replace("blob:","")
+      }
   
       const currentDateTime = new Date();
       const unixTimestamp = currentDateTime.getTime();
-      
-      const newPictureUrl = pictureUrl.replace("blob:","")
-  
+        
       const productVariationInfo = {
         variationName,
         productId,
@@ -92,8 +95,8 @@ const useProductVariationsForm = () => {
         picture: newPictureUrl,
         lastUpdated: unixTimestamp,
       };
-  
-      if (variationName && price && stock) {
+        
+      if (variationName && price && stock && picture) {
         if (params.variationId) {
           await api.products.updateProductVariation(params.variationId, productId, productVariationInfo);
         } else {
@@ -111,6 +114,7 @@ const useProductVariationsForm = () => {
     }
   }, [params, variationName, price, stock, closeForm, picture, productId]);
   
+
   const deleteForm = useCallback(async () => {
     try {
       if (params.variationId) {
@@ -147,7 +151,7 @@ const useProductVariationsForm = () => {
     return uniqueProductNames;
   }, [productVariations]);
   
-  const setVariationIdGivenName = useCallback((productName) => {
+    const setVariationIdGivenName = useCallback((productName) => {
     const varId = productVariations.find((variation) => variation.productName == productName).productId
 
     setProductId(varId)

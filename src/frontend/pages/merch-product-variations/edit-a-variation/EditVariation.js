@@ -29,13 +29,6 @@ const VariationImages = styled.div`
   margin-bottom: 60px;
 `;
 
-const ImagesText = styled.div`
-  font-family: IBM Plex Sans;
-  font-size: 18px;
-  color: #232535;
-  margin: 0;
-`;
-
 const ImageCard = styled.div`
   margin-right: 18px;
 `;
@@ -125,7 +118,7 @@ const EditProductVariation = ({ add }) => {
     </ImageCard>
     ]};
   
-  }, [picture, pictureUrl, imageURLDelete, imageDelete, setPicture, setPictureURL]);
+  }, [picture, pictureUrl]);
 
   return (
     <EditVariationsPage>
@@ -168,7 +161,7 @@ const EditProductVariation = ({ add }) => {
         </FormContainer>
 
         <VariationImages>
-          <FormContainer title="Images (at least one is required)">
+          <FormContainer title="Image (required)">
             <VariationInfo>
               <ImageCards>
                 {displayImages}

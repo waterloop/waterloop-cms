@@ -1,4 +1,4 @@
-import React, { useMemo, useEffect } from 'react';
+import React, { useMemo } from 'react';
 import ImagePreview from '../../../components/ImagePreview/index';
 import FormContainer from '../../../components/FormContainer/index';
 import Button from '../../../components/Button/index';
@@ -8,12 +8,6 @@ import useProductVariationsForm from '../../../hooks/product-variations-form';
 import styled from 'styled-components';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
-import DialogContent from '@mui/material/DialogContent';
-import DialogContentText from '@mui/material/DialogContentText';
-import DialogTitle from '@mui/material/DialogTitle';
-import CloseIcon from '@mui/icons-material/Close';
-import IconButton from '@mui/material/IconButton';
-import useProductVariations from '../../../hooks/product-variations';
 
 const EditVariationsPage = styled.div`
   padding: 64px 88px 65px 58px;
@@ -37,12 +31,6 @@ const Selector = styled(UnstyledSelector)`
   color: black;
 `;
 
-const ImagesText = styled.div`
-  font-family: IBM Plex Sans;
-  font-size: 18px;
-  color: #232535;
-  margin: 0;
-`;
 
 const ImageCard = styled.div`
   margin-right: 18px;
@@ -63,43 +51,9 @@ const VariationButtons = styled.div`
   padding-left: 10px;
 `;
 
-const DeleteButton = styled.div`
-  float: right;
-`;
-
-const ModalTitle = styled.div`
-  font-family: IBM Plex Sans;
-  font-style: normal;
-  font-weight: bold;
-  font-size: 24px;
-  color: #2a2a2a;
-  display: flex;
-  justify-content: space-between;
-`;
-
-const ModalDescription = styled.div`
-  font-family: IBM Plex Sans;
-  font-style: normal;
-  font-weight: normal;
-  font-size: 18px;
-  color: #2a2a2a;
-`;
-
-const ProductName = styled.h2`
-font-family: IBM Plex Sans;
-padding-left: 30px;
-font-size: 30px;
-`
-
-const RedDeleteButton = styled(Button)`
-  background-color: #d02027;
-  color: white;
-`;
 
 const AddProductVariation = ({ add }) => {
   const {
-    productName,
-    setProductName,
     variationName,
     setVariationName,
     price,
@@ -115,10 +69,7 @@ const AddProductVariation = ({ add }) => {
     setStock,
     closeForm,
     saveForm,
-    deleteForm,
-    getLastUpdated,
     showModal,
-    openModal,
     closeModal,
     getProductNames,
     productId,
@@ -151,12 +102,12 @@ const AddProductVariation = ({ add }) => {
         </Button>
       </TopRow>
       <EditVariationBody>
-/* 
+
     <FormContainer title="Product Name (required)">
         <Selector
               className=''
               value={productId}
-              placeholder=''
+              placeholder='Select product'
               items={productNames}
               onSelect={setProductId}
             />
@@ -190,7 +141,7 @@ const AddProductVariation = ({ add }) => {
           />
         </FormContainer>
         <VariationImages>
-          <FormContainer title="Images (at least one is required)">
+          <FormContainer title="Image (required)">
             <VariationInfo>
               <ImageCards>
                 {displayImages}
