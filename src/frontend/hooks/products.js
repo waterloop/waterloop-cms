@@ -19,7 +19,7 @@ const useProducts = () => {
         console.error(err);
       }
     })();
-  }, [dispatch]); 
+  }, [dispatch]);
 
   return {
     products,

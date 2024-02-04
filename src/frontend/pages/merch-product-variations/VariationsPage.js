@@ -36,10 +36,6 @@ const TableHeader = styled.p`
 
 const headers = [
   {
-    id:'productName',
-    value:"Product"
-  },
-  {
     id: 'variationName',
     value: 'Variation',
   },
@@ -57,10 +53,9 @@ const headers = [
   }
 ];
 
-const RowComponent = ({productName, variationName, price, stock, lastUpdated }) => (
+const RowComponent = ({variationName, price, stock, lastUpdated }) => (
 
   <>
-    <TableCell>{productName}</TableCell>
     <TableCell>{variationName}</TableCell>
     <TableCell>${price.toFixed(2)}</TableCell>
     <TableCell>{stock}</TableCell>
@@ -70,26 +65,30 @@ const RowComponent = ({productName, variationName, price, stock, lastUpdated }) 
 
 const VariationsPage = () => {
   const { productVariations } = useProductVariations();
+
+  const productId = productVariations[0]?.productId
+
   const history = useHistory();
 
   const rowVariation = productVariations?.map((variation) => ({
     id: variation.id,
-    productName: variation.productName,
     variationName: variation.variationName,
     price: variation.price,
     stock: variation.stock,
     lastUpdated: moment.utc(variation.lastUpdated).local().format('MMMM D, YYYY'),
   }));
 
+  const productName = productVariations[0]?.productName
+
   const addVariation = useCallback(() => {
-    history.push('/variations/add');
-  }, [history]);
+    history.push(`/variations/add/${productId}`);
+  }, [history, productId]);
 
   const onEditVariation = useCallback(
     (variationId) => {
-      history.push(`/variations/edit/${variationId}/`);
+      history.push(`/variations/${productId}/edit/${variationId}/`);
     },
-    [history],
+    [history, productId],
   );
   return (
     <Container>
@@ -97,7 +96,7 @@ const VariationsPage = () => {
         Merch Product Variations
       </VariationsHeader>
       <TableLabelHeader>
-        <TableHeader>All Variations</TableHeader>
+        <TableHeader>{productName ? `${productName} Variations`: ''}</TableHeader>
         <Button label="New Variation +" onClick={addVariation} />
       </TableLabelHeader>
       <PreviewTable

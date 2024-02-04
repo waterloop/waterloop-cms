@@ -1,41 +1,51 @@
 import { useEffect } from 'react';
+import { useParams } from 'react-router-dom';
 import api from '../api';
 import { useDispatch, useSelector } from 'react-redux';
 import * as productVariationActions from '../state/product-variations/actions';
 import * as productVariationSelectors from '../state/product-variations/selectors';
 
 const useProductVariations = () => {
+  const params = useParams();
+
   const dispatch = useDispatch();
-  const productVariations = useSelector(productVariationSelectors.allVariations);
+  const productVariations = useSelector(
+    productVariationSelectors.allVariations,
+  );
   useEffect(() => {
     (async () => {
       try {
-        // get all products 
-        const productsResponse = await api.products.getProducts();
-        const products = productsResponse.data;
-
-        // array of all unique product ids
-        const uniqueProductIds = [...new Set(products.map(product => product.id))];
-        
         let newProductVariations = [];
+        if (params.productId) {
+          const productVariationsResponse =
+            await api.products.getProductVariations(params.productId);
+          // get all products
+          const productsResponse = await api.products.getProducts();
+          const products = productsResponse.data;
 
-        // fetch all product variations for ids 
-        for (const productId of uniqueProductIds) {
-          const productVariationsResponse = await api.products.getProductVariations(productId);
-          const productName = products.find((product) => product.id === productId)?.name;
+          const productName = products.find(
+            (product) => product.id == params.productId,
+          ).name;
 
-          for (const productVariation of productVariationsResponse.data){
-            const variation = {...productVariation, productName};
+          for (const productVariation of productVariationsResponse.data) {
+            const variation = { ...productVariation, productName };
             newProductVariations = [...newProductVariations, variation];
           }
-          
         }
-        dispatch(productVariationActions.updateProductVariationsInfo(newProductVariations));
+
+        dispatch(
+          productVariationActions.updateProductVariationsInfo(
+            newProductVariations,
+          ),
+        );
       } catch (err) {
-        console.error("error fetching products in product-variations.js: ", err);
+        console.error(
+          'error fetching products in product-variations.js: ',
+          err,
+        );
       }
     })();
-  }, [dispatch]); 
+  }, [dispatch, params.productId, params.variationId]);
 
   return {
     productVariations,

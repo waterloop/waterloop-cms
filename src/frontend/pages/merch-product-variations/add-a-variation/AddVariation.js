@@ -54,6 +54,7 @@ const VariationButtons = styled.div`
 
 const AddProductVariation = ({ add }) => {
   const {
+    productName,
     variationName,
     setVariationName,
     price,
@@ -76,8 +77,6 @@ const AddProductVariation = ({ add }) => {
     setProductId
   } = useProductVariationsForm();
 
-
-  const productNames = getProductNames()
 
   const displayImages = useMemo(() => {
     if (pictureUrl){
@@ -103,15 +102,6 @@ const AddProductVariation = ({ add }) => {
       </TopRow>
       <EditVariationBody>
 
-    <FormContainer title="Product Name (required)">
-        <Selector
-              className=''
-              value={productId}
-              placeholder='Select product'
-              items={productNames}
-              onSelect={setProductId}
-            />
-    </FormContainer> 
 
       <FormContainer title="Variation Name (required)">
           <TextInput

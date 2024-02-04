@@ -72,6 +72,7 @@ const EditProduct = ({ add }) => {
     saveForm,
     deleteForm,
     getLastUpdated,
+    openVariations,
     showModal,
     openModal,
     closeModal,
@@ -83,6 +84,9 @@ const EditProduct = ({ add }) => {
       <TopRow>
         <Button cancel onClick={closeForm}>
           &#60; Back
+        </Button>
+        <Button onClick={openVariations}>
+          See all variations
         </Button>
       </TopRow>
 

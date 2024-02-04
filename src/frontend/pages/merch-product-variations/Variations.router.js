@@ -8,13 +8,13 @@ const VariationsRouter = () => {
   const { path } = useRouteMatch();
   return (
     <Switch>
-      <Route path={path} exact>
+      <Route path={`${path}/:productId`} exact>
         <VariationsPage />
       </Route>
-      <Route path={`${path}/add`}>
+      <Route path={`${path}/add/:productId`}>
         <AddVariation add />
       </Route>
-      <Route path={`${path}/edit/:variationId`}>
+      <Route path={`${path}/:productId/edit/:variationId`}>
         <EditVariation />
       </Route>
     </Switch>

@@ -100,6 +100,11 @@ const useProductsForm = () => {
     return '';
   }, [products, params.productId]);
 
+
+  const openVariations = useCallback(() => {
+    history.push(`/variations/${params.productId}`)
+  }, [history])
+
   return {
     productName,
     setProductName,
@@ -112,6 +117,7 @@ const useProductsForm = () => {
     deleteForm,
     getLastUpdated,
     showModal,
+    openVariations,
     openModal,
     closeModal,
   };
