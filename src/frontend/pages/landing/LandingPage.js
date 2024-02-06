@@ -69,12 +69,6 @@ const sections = [
     previewLink: 'https://teamwaterloop.ca/products',
     icon: MerchPageSVG,
   },
-  {
-    name: 'Merch Store Variations',
-    editLink: '/variations',
-    previewLink: 'https://teamwaterloop.ca/variations',
-    icon: MerchPageSVG,
-  },
 ];
 
 const LandingPage = () => {

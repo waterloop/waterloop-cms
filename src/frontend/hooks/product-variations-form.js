@@ -24,23 +24,26 @@ const useProductVariationsForm = () => {
       try {
         let variation = {};
         let product = {};
-        if (params.variationId) {
+
+        if (params.productId) {
+          product = await products.find(
+            (product) => product.id == params.productId,
+          );
+        }
+
+        else if (params.variationId) {
           const productVariationId = parseInt(params.variationId, 10);
           variation = productVariations.find(
             (variation) => variation.id === productVariationId,
           );
 
           if (variation) {
-            product = await products.find(
+            product = products.find(
               (product) => product.id === variation.productId,
             );
           }
         }
-        if (params.productId) {
-          product = await products.find(
-            (product) => product.id == params.productId,
-          );
-        }
+        
         setProductName(product.name);
         setProductId(product.id);
         setVariationName(variation.variationName);
@@ -48,7 +51,7 @@ const useProductVariationsForm = () => {
         setStock(variation.stock);
         setPictureURL(variation.picture);
       } catch (err) {
-        console.log(err);
+        console.error('Error init\'ing product variation form info', err);
       }
     })();
   }, [productVariations, products, params.variationId, params.productId]);
