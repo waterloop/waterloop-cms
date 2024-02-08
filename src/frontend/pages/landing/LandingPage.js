@@ -64,7 +64,7 @@ const sections = [
     icon: BlogPostsPageSVG,
   },
   {
-    name: 'Merch Store Products',
+    name: 'Merch Store',
     editLink: '/products',
     previewLink: 'https://teamwaterloop.ca/products',
     icon: MerchPageSVG,

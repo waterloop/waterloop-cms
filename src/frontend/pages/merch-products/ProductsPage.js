@@ -75,7 +75,7 @@ const ProductsPage = () => {
 
   const onEditProduct = useCallback(
     (id) => {
-      history.push(`/products/${id}`);
+      history.push(`/products/${id}/edit`);
     },
     [history],
   );

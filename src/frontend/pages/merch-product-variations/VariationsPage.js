@@ -5,7 +5,8 @@ import PreviewTable from '../../components/PreviewTable';
 import TableCell from '@mui/material/TableCell';
 import useProductVariations from '../../hooks/product-variations';
 import { useHistory } from 'react-router-dom';
-import moment from 'moment'
+import moment from 'moment';
+import useProductVariationsForm from '../../hooks/product-variations-form';
 
 const Button = styled(UnstyledButton)``;
 
@@ -49,12 +50,11 @@ const headers = [
   },
   {
     id: 'lastUpdated',
-    value: 'Last Updated'
-  }
+    value: 'Last Updated',
+  },
 ];
 
-const RowComponent = ({variationName, price, stock, lastUpdated }) => (
-
+const RowComponent = ({ variationName, price, stock, lastUpdated }) => (
   <>
     <TableCell>{variationName}</TableCell>
     <TableCell>${price.toFixed(2)}</TableCell>
@@ -65,8 +65,7 @@ const RowComponent = ({variationName, price, stock, lastUpdated }) => (
 
 const VariationsPage = () => {
   const { productVariations } = useProductVariations();
-
-  const productId = productVariations[0]?.productId
+  const { productId } = useProductVariationsForm();
 
   const history = useHistory();
 
@@ -75,29 +74,38 @@ const VariationsPage = () => {
     variationName: variation.variationName,
     price: variation.price,
     stock: variation.stock,
-    lastUpdated: moment.utc(variation.lastUpdated).local().format('MMMM D, YYYY'),
+    lastUpdated: moment
+      .utc(variation.lastUpdated)
+      .local()
+      .format('MMMM D, YYYY'),
   }));
 
-  const productName = productVariations[0]?.productName
+  const productName = productVariations[0]?.productName;
 
-  const addVariation = useCallback(() => {
-    history.push(`/variations/add/${productId}`);
+  const onAddVariation = useCallback(() => {
+    history.push(`/products/${productId}/variations/add`);
   }, [history, productId]);
 
   const onEditVariation = useCallback(
     (variationId) => {
-      history.push(`/variations/${productId}/edit/${variationId}/`);
+      history.push(`/products/${productId}/variations/edit/${variationId}/`);
     },
     [history, productId],
   );
+
+  const onReturnToProducts = useCallback(() => {
+    history.push(`/products`)
+  }, [])
+
   return (
     <Container>
-      <VariationsHeader>
-        Merch Product Variations
-      </VariationsHeader>
+      <VariationsHeader>Merch Product Variations</VariationsHeader>
+      <Button cancel onClick={onReturnToProducts}>&#60; Back to products</Button>
       <TableLabelHeader>
-        <TableHeader>{productName ? `${productName} Variations`: ''}</TableHeader>
-        <Button label="New Variation +" onClick={addVariation} />
+        <TableHeader>
+          {productName ? `${productName} Variations` : ''}
+        </TableHeader>
+        <Button label="New Variation +" onClick={onAddVariation} />
       </TableLabelHeader>
       <PreviewTable
         headers={headers}

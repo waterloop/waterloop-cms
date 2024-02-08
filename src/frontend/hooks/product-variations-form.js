@@ -31,25 +31,20 @@ const useProductVariationsForm = () => {
           );
         }
 
-        else if (params.variationId) {
+         if (params.variationId) {
           const productVariationId = parseInt(params.variationId, 10);
           variation = productVariations.find(
             (variation) => variation.id === productVariationId,
           );
-
-          if (variation) {
-            product = products.find(
-              (product) => product.id === variation.productId,
-            );
-          }
         }
-        
         setProductName(product.name);
         setProductId(product.id);
+        
         setVariationName(variation.variationName);
         setPrice(variation.price);
         setStock(variation.stock);
         setPictureURL(variation.picture);
+
       } catch (err) {
         console.error('Error init\'ing product variation form info', err);
       }
@@ -79,20 +74,21 @@ const useProductVariationsForm = () => {
   };
 
   const closeForm = useCallback(() => {
-    history.push(`/variations/${productId}`);
+    history.push(`/products/${productId}/variations`);
   }, [history, productId]);
 
   const saveForm = useCallback(async () => {
     try {
       let newPictureUrl = pictureUrl;
-
+      
       if (picture instanceof File) {
         const data = new FormData();
         data.append('files', picture, picture.name);
         await api.formUpload(data);
-
+        
         newPictureUrl = pictureUrl.replace('blob:', '');
       }
+      console.log(newPictureUrl)
 
       const currentDateTime = new Date();
       const unixTimestamp = currentDateTime.getTime();
@@ -106,7 +102,7 @@ const useProductVariationsForm = () => {
         lastUpdated: unixTimestamp,
       };
 
-      if (variationName && price && stock && picture) {
+      if (variationName && price && stock && pictureUrl) {
         if (params.variationId) {
           await api.products.updateProductVariation(
             params.variationId,
