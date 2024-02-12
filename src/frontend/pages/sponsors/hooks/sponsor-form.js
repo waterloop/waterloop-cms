@@ -1,11 +1,11 @@
-import { useReducer, useCallback, useEffect, useMemo } from 'react';
+import { useReducer, useCallback, useEffect, useMemo, useState } from 'react';
 import api from '../../../api';
 import { useHistory } from 'react-router-dom';
 import FormData from 'form-data';
 
 import useSponsors from '../../../hooks/sponsors';
 import { toServerSponsor } from '../../../utils/sponsors/sponsor-utils';
-
+import moment from 'moment';
 const TODAY = new Date();
 
 // Used for setting sponsor join date boundaries:
@@ -22,7 +22,7 @@ const initialState = (inputState) => ({
     sponsorId: 0,
     name: '',
     website: '',
-    tierId: '', // !NOTE: initial value is string to allow selector to display placeholder value.
+    tierId: '1', // !NOTE: initial value is string to allow selector to display placeholder value.
     termYear: '',
     termSeason: '',
     description: '',
@@ -148,7 +148,29 @@ const useSponsorForm = (sponsorId, input = {}) => {
   const [state, dispatch] = useReducer(reducer, initialState(input));
   const history = useHistory();
   const { sponsorTiers, sponsors } = useSponsors();
+  const [isFormDirty, setFormDirty] = useState(false); // Track form modifications
 
+  const [saveLastUpdated, setSaveLastUpdated] = useState(
+    state.form.lastUpdated
+      ? moment(state.form.lastUpdated).format('LLL')
+      : null,
+  );
+
+  useEffect(() => {
+    if (!isFormDirty && state.form.lastUpdated) {
+      setSaveLastUpdated(moment(state.form.lastUpdated).format('LLL'));
+    }
+  }, [state.form.lastUpdated, isFormDirty]);
+  const handleSave = useCallback(() => {
+    const currentDate = new Date().toLocaleString();
+    console.log('Save date and time:', currentDate); // Log the updated date and time
+    setSaveLastUpdated(moment(currentDate).format('LLL'));
+    setFormDirty(false);
+  }, []);
+
+  useEffect(() => {
+    console.log('Last Updated', saveLastUpdated); // Log the updated date and time
+  }, [saveLastUpdated]);
   /**
    * Load Sponsor Data by ID:
    */
@@ -243,7 +265,6 @@ const useSponsorForm = (sponsorId, input = {}) => {
     },
     [dispatch],
   );
-
   /**
    * Save and close Functions
    */
@@ -289,11 +310,13 @@ const useSponsorForm = (sponsorId, input = {}) => {
       } else {
         await api.sponsors.addSponsor(data);
       }
-
       // onSuccess:
+      handleSave();
       closeForm();
     } catch (e) {
-      updateFailure(`Could not ${state.exists ? "update" : "add"} sponsor: ${e.message}`);
+      updateFailure(
+        `Could not ${state.exists ? 'update' : 'add'} sponsor: ${e.message}`,
+      );
       // eslint-disable-next-line no-console
       console.error(e);
     }
@@ -310,7 +333,6 @@ const useSponsorForm = (sponsorId, input = {}) => {
     }
   }, [sponsorId, closeForm]);
   // END Save and close functions
-
   /** UTILITY FUNCTIONS: */
   /**
    * Calculate Years for Selector.
@@ -351,6 +373,9 @@ const useSponsorForm = (sponsorId, input = {}) => {
     saveForm,
     closeForm,
     deleteForm,
+    isFormDirty,
+    saveLastUpdated,
+    handleSave,
   };
 };
 
