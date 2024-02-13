@@ -4,7 +4,6 @@ import UnstyledButton from '../../components/Button';
 import PreviewTable from '../../components/PreviewTable';
 import TableCell from '@mui/material/TableCell';
 import useProducts from '../../hooks/products';
-import * as moment from 'moment';
 import { useHistory } from 'react-router-dom';
 
 const Button = styled(UnstyledButton)``;
@@ -15,13 +14,6 @@ const Container = styled.div`
 
 const ProductsHeader = styled.p`
   font: ${({ theme }) => theme.fonts.medium24};
-`;
-
-const ButtonContainer = styled.div`
-  ${Button} {
-    margin-right: 28px;
-    box-shadow: ${({ theme }) => theme.shadows.shadow1};
-  }
 `;
 
 const TableLabelHeader = styled.span`
@@ -63,7 +55,7 @@ const ProductsPage = () => {
   const { products } = useProducts();
   const history = useHistory();
 
-  const rowProduct= products?.map((product) => ({
+  const rowProduct = products?.map((product) => ({
     id: product.id,
     name: product.name,
     category: product.category,
@@ -82,9 +74,7 @@ const ProductsPage = () => {
 
   return (
     <Container>
-      <ProductsHeader>
-        Merch Store Products
-      </ProductsHeader>
+      <ProductsHeader>Merch Store Products</ProductsHeader>
       <TableLabelHeader>
         <TableHeader>All Products</TableHeader>
         <Button label="New Product +" onClick={addProduct} />

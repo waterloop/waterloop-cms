@@ -61,10 +61,6 @@ const useProductVariationsForm = () => {
     setPictureURL(null);
   }, [setPicture]);
 
-  const imageURLDelete = useCallback(() => {
-    setPictureURL(null);
-  }, [setPicture, setPictureURL, pictureUrl]);
-
   const openModal = () => {
     setShowModal(true);
   };
@@ -88,8 +84,7 @@ const useProductVariationsForm = () => {
         
         newPictureUrl = pictureUrl.replace('blob:', '');
       }
-      console.log(newPictureUrl)
-
+      
       const currentDateTime = new Date();
       const unixTimestamp = currentDateTime.getTime();
 
@@ -175,23 +170,6 @@ const useProductVariationsForm = () => {
     return '';
   }, [productVariations, params.variationId]);
 
-  const getProductNames = useCallback(() => {
-    const uniqueProductNames = [
-      ...new Set(
-        products.map((product) => ({ text: product.name, id: product.id })),
-      ),
-    ];
-
-    return uniqueProductNames;
-  }, [productVariations]);
-
-  const setVariationIdGivenName = useCallback((productName) => {
-    const varId = productVariations.find(
-      (variation) => variation.productName == productName,
-    ).productId;
-
-    setProductId(varId);
-  });
   return {
     productName,
     setProductName,
@@ -207,11 +185,8 @@ const useProductVariationsForm = () => {
     setPictureURL,
     stock,
     setStock,
-    getProductNames,
-    setVariationIdGivenName,
     imageUpload,
     imageDelete,
-    imageURLDelete,
     closeForm,
     saveForm,
     deleteForm,

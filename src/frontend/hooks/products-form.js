@@ -2,7 +2,6 @@ import { useState, useEffect, useCallback } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
 import useProducts from '../hooks/products';
 import api from '../api';
-import moment from 'moment';
 
 const useProductsForm = () => {
   const [productName, setProductName] = useState('');
@@ -68,7 +67,7 @@ const useProductsForm = () => {
 
         // add product if it doesnt exist
         else {
-          const res = await api.products.addProduct(productInfo);
+          await api.products.addProduct(productInfo);
         }
       } else {
         throw new Error('Please fill all the required fields.');
@@ -88,17 +87,6 @@ const useProductsForm = () => {
     closeForm();
   }, [params.productId, closeForm]);
 
-  const getLastUpdated = useCallback(() => {
-    const product = products.find(
-      (product) => product.id === parseInt(params.productId, 10),
-    );
-    // returns last updated time of product
-    if (product) {
-      return moment.utc(product.updatedAt).local().format('MMMM D, YYYY');
-    }
-    return '';
-  }, [products, params.productId]);
-
   const openVariations = useCallback(() => {
     history.push(`/products/${params.productId}/variations`);
   }, [history, params.productId]);
@@ -113,7 +101,6 @@ const useProductsForm = () => {
     closeForm,
     saveForm,
     deleteForm,
-    getLastUpdated,
     showModal,
     openVariations,
     openModal,

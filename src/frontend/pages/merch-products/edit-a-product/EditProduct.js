@@ -71,7 +71,6 @@ const EditProduct = ({ add }) => {
     closeForm,
     saveForm,
     deleteForm,
-    getLastUpdated,
     openVariations,
     showModal,
     openModal,
