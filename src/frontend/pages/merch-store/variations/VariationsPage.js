@@ -1,12 +1,12 @@
 import React, { useCallback } from 'react';
 import styled from 'styled-components';
-import UnstyledButton from '../../components/Button';
-import PreviewTable from '../../components/PreviewTable';
+import UnstyledButton from '../../../components/Button';
+import PreviewTable from '../../../components/PreviewTable';
 import TableCell from '@mui/material/TableCell';
-import useProductVariations from '../../hooks/product-variations';
+import useProductVariations from '../../../hooks/product-variations';
 import { useHistory } from 'react-router-dom';
 import moment from 'moment';
-import useProductVariationsForm from '../../hooks/product-variations-form';
+import useProductVariationsForm from '../../../hooks/product-variations-form';
 
 const Button = styled(UnstyledButton)``;
 

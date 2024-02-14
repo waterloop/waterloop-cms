@@ -2,8 +2,9 @@ import React from 'react';
 import { Switch, Route, useRouteMatch } from 'react-router-dom';
 import ProductsPage from './ProductsPage';
 import EditProduct from './edit-a-product/EditProduct';
-import VariationsPage from '../merch-product-variations/VariationsPage';
-import EditProductVariation from '../merch-product-variations/edit-a-variation/EditVariation';
+import EditProductVariation from './variations/edit-a-variation/EditVariation';
+import VariationsPage from './variations/VariationsPage';
+
 
 const ProductsRouter = () => {
   const { path } = useRouteMatch();

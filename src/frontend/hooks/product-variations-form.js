@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
-import useProductVariations from '../hooks/product-variations';
-import useProducts from '../hooks/products';
+import useProductVariations from './product-variations';
+import useProducts from './products';
 import api from '../api';
 import moment from 'moment';
 
@@ -99,13 +99,13 @@ const useProductVariationsForm = () => {
 
       if (variationName && price && stock && pictureUrl) {
         if (params.variationId) {
-          await api.products.updateProductVariation(
+          await api.merchStore.updateProductVariation(
             params.variationId,
             productId,
             productVariationInfo,
           );
         } else {
-          await api.products.addProductVariation({
+          await api.merchStore.addProductVariation({
             ...productVariationInfo,
             productId,
           });
@@ -146,7 +146,7 @@ const useProductVariationsForm = () => {
 
           if (product) {
             const productId = product.id;
-            await api.products.deleteProductVariation(
+            await api.merchStore.deleteProductVariation(
               productId,
               params.variationId,
             );

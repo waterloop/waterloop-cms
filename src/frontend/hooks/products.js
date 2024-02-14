@@ -10,7 +10,7 @@ const useProducts = () => {
   useEffect(() => {
     (async () => {
       try {
-        const productsResponse = await api.products.getProducts();
+        const productsResponse = await api.merchStore.getProducts();
 
         const newProducts = productsResponse.data;
 

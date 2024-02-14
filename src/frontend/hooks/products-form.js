@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
-import useProducts from '../hooks/products';
+import useProducts from './products';
 import api from '../api';
 
 const useProductsForm = () => {
@@ -62,12 +62,12 @@ const useProductsForm = () => {
       if (productName && description && category) {
         // update product if it exists
         if (params.productId) {
-          await api.products.updateProduct(params.productId, productInfo);
+          await api.merchStore.updateProduct(params.productId, productInfo);
         }
 
         // add product if it doesnt exist
         else {
-          await api.products.addProduct(productInfo);
+          await api.merchStore.addProduct(productInfo);
         }
       } else {
         throw new Error('Please fill all the required fields.');
@@ -82,7 +82,7 @@ const useProductsForm = () => {
   const deleteForm = useCallback(async () => {
     // delete product
     if (params.productId) {
-      await api.products.deleteProduct(params.productId);
+      await api.merchStore.deleteProduct(params.productId);
     }
     closeForm();
   }, [params.productId, closeForm]);

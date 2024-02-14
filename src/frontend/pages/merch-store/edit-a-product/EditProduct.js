@@ -1,9 +1,8 @@
-import React, { useMemo } from 'react';
-import ImagePreview from '../../../components/ImagePreview/index';
+import React from 'react';
+import useProductsForm from '../../../hooks/products-form';
 import FormContainer from '../../../components/FormContainer/index';
 import Button from '../../../components/Button/index';
 import TextInput from '../../../components/TextInput/index';
-import useProductVariationsForm from '../../../hooks/product-variations-form';
 import styled from 'styled-components';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
@@ -13,38 +12,24 @@ import DialogTitle from '@mui/material/DialogTitle';
 import CloseIcon from '@mui/icons-material/Close';
 import IconButton from '@mui/material/IconButton';
 
-const EditVariationsPage = styled.div`
+const EditProductPage = styled.div`
   padding: 64px 88px 65px 58px;
 `;
-
-const EditVariationBody = styled.div`
-  padding-left: 30px;
-`;
-
 
 const TopRow = styled.div`
   display: flex;
 `;
-const VariationImages = styled.div`
-  margin-bottom: 60px;
+
+const EditProductBody = styled.div`
+  padding-left: 30px;
 `;
 
-const ImageCard = styled.div`
-  margin-right: 18px;
-`;
-
-const ImageCards = styled.div`
-  padding-top: 20px;
-  display: flex;
-`;
-
-
-const VariationInfo = styled.div`
+const ProductInfo = styled.div`
   padding-left: 10px;
 `;
 
 
-const VariationButtons = styled.div`
+const ProductButtons = styled.div`
   padding-left: 10px;
 `;
 
@@ -70,105 +55,71 @@ const ModalDescription = styled.div`
   color: #2a2a2a;
 `;
 
-const ProductName = styled.h2`
-font-family: IBM Plex Sans;
-padding-left: 30px;
-font-size: 30px;
-`
-
 const RedDeleteButton = styled(Button)`
   background-color: #d02027;
   color: white;
 `;
 
-const EditProductVariation = ({ add }) => {
+const EditProduct = ({ add }) => {
   const {
     productName,
-    variationName,
-    setVariationName,
-    price,
-    setPrice,
-    picture,
-    pictureUrl,
-    imageUpload,
-    imageDelete,
-    stock,
-    setStock,
+    setProductName,
+    description,
+    setDescription,
+    category,
+    setCategory,
     closeForm,
     saveForm,
     deleteForm,
+    openVariations,
     showModal,
     openModal,
     closeModal,
-  } = useProductVariationsForm();
+  } = useProductsForm();
 
-  const displayImages = useMemo(() => {
-    if (pictureUrl){
-    return [
-      <ImageCard>
-      <ImagePreview
-        src={pictureUrl}
-        onDelete={() => {
-          imageDelete();
-        }}
-      />
-    </ImageCard>
-    ]};
-  
-  }, [picture, pictureUrl]);
 
   return (
-    <EditVariationsPage>
+    <EditProductPage>
       <TopRow>
         <Button cancel onClick={closeForm}>
           &#60; Back
         </Button>
+        <Button onClick={openVariations}>
+          See all variations
+        </Button>
       </TopRow>
-      <ProductName>
-      Product: {productName}
-      </ProductName>
-      <EditVariationBody>
 
-      <FormContainer title="Variation Name (required)">
+      <EditProductBody>
+        <FormContainer title="Name (required)">
           <TextInput
-            value={variationName}
-            onChange={setVariationName}
-            placeholder="Black"
-            className="variation-info"
+            value={productName}
+            onChange={setProductName}
+            placeholder="Sweater"
+            className="product-info"
           />
         </FormContainer>
 
-
-        <FormContainer title="Price (required)">
+        <FormContainer title="Category (required)">
           <TextInput
-            value={price}
-            onChange={setPrice}
-            placeholder="100"
-            className="variation-info"
+            value={category}
+            onChange={setCategory}
+            placeholder="Clothing"
+            className="product-info"
           />
         </FormContainer>
 
-        <FormContainer title="Stock (required)">
-          <TextInput
-            value={stock}
-            onChange={setStock}
-            placeholder="10"
-            className="variation-info"
-          />
+        <FormContainer title="Description (required)">
+          <ProductInfo>
+            <TextInput
+              value={description}
+              onChange={setDescription}
+              placeholder="Lorem ipsum dolor sit amet, consectetur adipiscing elit..."
+              multiLine={true}
+            />
+          </ProductInfo>
         </FormContainer>
 
-        <VariationImages>
-          <FormContainer title="Image (required)">
-            <VariationInfo>
-              <ImageCards>
-                {displayImages}
-                <ImagePreview onNew={imageUpload} />
-              </ImageCards>
-            </VariationInfo>
-          </FormContainer>
-        </VariationImages>
-
-        <VariationButtons>
+        <ProductButtons>
           <Button label="Save" onClick={saveForm} />
           <Button label="Cancel" cancel onClick={closeForm} />
           {!add && (
@@ -177,7 +128,7 @@ const EditProductVariation = ({ add }) => {
               <Dialog open={showModal} onClose={closeModal}>
                 <DialogTitle>
                   <ModalTitle>
-                    Delete this Variation
+                    Delete this Product
                     <IconButton>
                       <CloseIcon onClick={closeModal} />
                     </IconButton>
@@ -186,7 +137,7 @@ const EditProductVariation = ({ add }) => {
                 <DialogContent>
                   <DialogContentText>
                     <ModalDescription>
-                      Are you sure you want to delete this variation? This process
+                      Are you sure you want to delete this Goose? This process
                       cannot be undone.
                     </ModalDescription>
                   </DialogContentText>
@@ -198,10 +149,10 @@ const EditProductVariation = ({ add }) => {
               </Dialog>
             </DeleteButton>
           )}
-        </VariationButtons>
-      </EditVariationBody>
-    </EditVariationsPage>
+        </ProductButtons>
+      </EditProductBody>
+    </EditProductPage>
   );
 };
 
-export default EditProductVariation;
+export default EditProduct;

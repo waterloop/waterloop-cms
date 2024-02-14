@@ -13,7 +13,7 @@ import PostingsRouter from './pages/postings/Postings.router';
 import SponsorsRouter from './pages/sponsors/Sponsors.router';
 import GeeseRouter from './pages/geese/Geese.router';
 import TeamDescriptionsRouter from './pages/team-descriptions/TeamDescriptions.router';
-import ProductsRouter from './pages/merch-products/Products.router';
+import MerchStoreRouter from './pages/merch-store/Products.router'
 
 import { addAuthTokenToRequests } from './api/server';
 import BlogsRouter from './pages/blogs/Blogs.Router';
@@ -74,7 +74,7 @@ const App = () => {
         <Route path="/products">
           {!token && <Redirect to="/sign-in" />}
           <TopBar />
-          <ProductsRouter />
+          <MerchStoreRouter />
         </Route>
         <Route component={NotFoundPage}>
           {/* {!token && <Redirect to="/sign-in" />} */}

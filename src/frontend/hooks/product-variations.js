@@ -18,9 +18,9 @@ const useProductVariations = () => {
         let newProductVariations = [];
         if (params.productId) {
           const productVariationsResponse =
-            await api.products.getProductVariations(params.productId);
+            await api.merchStore.getProductVariations(params.productId);
           // get all products
-          const productsResponse = await api.products.getProducts();
+          const productsResponse = await api.merchStore.getProducts();
           const products = productsResponse.data;
 
           const productName = products.find(
