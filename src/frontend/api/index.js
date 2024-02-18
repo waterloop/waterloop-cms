@@ -7,6 +7,7 @@ import openingsDescription from './openings-description';
 import sponsors from './sponsors';
 import geeseInfo from './geese-info';
 import blogs from './blogs';
+import merchStore from './merch-store'
 
 export default {
   google: google(server),
@@ -16,5 +17,6 @@ export default {
   formUpload: formUpload(server),
   openingsDescription: openingsDescription(server),
   geeseInfo: geeseInfo(server),
-  blogs: blogs(server)
+  blogs: blogs(server),
+  merchStore: merchStore(server)
 };

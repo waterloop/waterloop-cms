@@ -1,0 +1,111 @@
+import { useState, useEffect, useCallback } from 'react';
+import { useHistory, useParams } from 'react-router-dom';
+import useProducts from './products';
+import api from '../api';
+
+const useProductsForm = () => {
+  const [productName, setProductName] = useState('');
+  const [description, setDescription] = useState('');
+  const [category, setCategory] = useState('');
+  const [showModal, setShowModal] = useState(false);
+  const history = useHistory();
+  const params = useParams();
+  const { products } = useProducts();
+
+  useEffect(() => {
+    if (products.length > 0) {
+      (async () => {
+        try {
+          // init relevant product data when editing
+          if (params.productId) {
+            const productId = parseInt(params.productId, 10);
+            const product = products.find(
+              (product) => product.id === productId,
+            );
+            if (product) {
+              setProductName(product.name);
+              setDescription(product.description);
+              setCategory(product.category);
+            }
+          }
+        } catch (err) {
+          console.log(err);
+        }
+      })();
+    }
+  }, [setProductName, setDescription, setCategory]);
+
+  const openModal = () => {
+    setShowModal(true);
+  };
+
+  const closeModal = () => {
+    setShowModal(false);
+  };
+
+  const closeForm = useCallback(() => {
+    history.push('/products');
+  }, [history]);
+
+  const saveForm = useCallback(async () => {
+    try {
+      const data = new FormData();
+      const res = await api.formUpload(data);
+
+      const productInfo = {
+        name: productName,
+        description,
+        category,
+      };
+
+      // ensure all fields are filled
+      if (productName && description && category) {
+        // update product if it exists
+        if (params.productId) {
+          await api.merchStore.updateProduct(params.productId, productInfo);
+        }
+
+        // add product if it doesnt exist
+        else {
+          await api.merchStore.addProduct(productInfo);
+        }
+      } else {
+        throw new Error('Please fill all the required fields.');
+      }
+      // onSuccess:
+      closeForm();
+    } catch (e) {
+      console.error(e);
+    }
+  }, [params, productName, description, category, closeForm]);
+
+  const deleteForm = useCallback(async () => {
+    // delete product
+    if (params.productId) {
+      await api.merchStore.deleteProduct(params.productId);
+    }
+    closeForm();
+  }, [params.productId, closeForm]);
+
+  const openVariations = useCallback(() => {
+    history.push(`/products/${params.productId}/variations`);
+  }, [history, params.productId]);
+
+  return {
+    productName,
+    setProductName,
+    description,
+    setDescription,
+    category,
+    setCategory,
+    closeForm,
+    saveForm,
+    deleteForm,
+    showModal,
+    openVariations,
+    openModal,
+    closeModal,
+  };
+};
+
+export default useProductsForm;
