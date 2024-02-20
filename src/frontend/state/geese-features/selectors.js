@@ -1,0 +1,1 @@
+export const allGeeseFeatures = (state) => state.geeseFeatures.allGeeseFeatures
