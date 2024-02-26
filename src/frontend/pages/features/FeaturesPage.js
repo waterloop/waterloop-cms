@@ -1,6 +1,8 @@
 import React from 'react'
 import FeaturePreview from './components/FeaturePreview'
 import useFeatures from './hooks/features';
+import useGeeseFeatures from '../../hooks/geese-features';
+import useGeeseFeaturesForm from '../../hooks/geese-features-form';
 
 const FeaturesPage = () => {
   const {
