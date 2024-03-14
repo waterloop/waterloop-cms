@@ -17,7 +17,7 @@ const useGeeseFeaturesForm = () => {
   const { geeseFeatures } = useGeeseFeatures();
 
   useEffect(() => {
-    if (geeseFeatures.length > 0) {
+    if (geeseFeatures?.length > 0) {
       (async () => {
         try {
           if (params.featureId) {
@@ -28,9 +28,10 @@ const useGeeseFeaturesForm = () => {
             );
 
             if (feature) {
-              setFeatureName(feature.featureName);
+              setFeatureName(feature.name);
               setPictureUrl(feature.picture);
               setDescription(feature.description);
+              console.log(feature)
             }
           }
         } catch (error) {
@@ -47,20 +48,15 @@ const useGeeseFeaturesForm = () => {
     geeseFeatures,
   ]);
 
-  const imageUpload = useCallback(
-    (image) => {
-      setPicture(image);
-    },
-    [setPicture],
-  );
+  const imageUpload = (image) => {
+    setPicture(image);
+    setPictureUrl(URL.createObjectURL(image));
+  };
 
   const imageDelete = useCallback(() => {
     setPicture('');
+    setPictureUrl('')
   }, [setPicture]);
-
-  const imageUrlDelete = useCallback(() => {
-    setPictureUrl('');
-  }, [setPictureUrl]);
 
   const openModal = () => {
     setShowModal(true);
@@ -80,7 +76,7 @@ const useGeeseFeaturesForm = () => {
 
       if (picture instanceof File) {
         const formData = new FormData();
-        formData.append('image', picture, picture.name);
+        formData.append('files', picture, picture.name);
         const response = await api.formUpload(formData);
 
         if (!response.data.data) {
@@ -96,25 +92,22 @@ const useGeeseFeaturesForm = () => {
         description,
       };
 
-      if (featureName && picture && description) {
-        if (params.featureId) {
-          await api.geeseFeatures.addGeeseFeature({ ...feature });
+      if (featureName && newPictureUrl && description) {
+        if (!params.featureId) {
+          await api.geeseFeatures.addGeeseFeature(feature);
         } else {
-          await api.geeseFeatures.updateGeeseFeature(params.featureId, {
-            ...feature,
-          });
+          await api.geeseFeatures.updateGeeseFeature(params.featureId, feature);
         }
       } else {
         throw new Error('Fields must be non empty');
       }
     } catch (error) {
-      throw new Error(error);
+      console.log(error)
+    } finally{
+      closeForm()
+
     }
   }, [featureName, picture, pictureUrl, description, params]);
-
-  const deleteForm = useCallback(async (featureId) => {
-    await api.geeseFeatures.deleteGeeseFeature(featureId);
-  }, [params.featureId, closeForm]);
 
   return {
     featureName,
@@ -125,6 +118,13 @@ const useGeeseFeaturesForm = () => {
     setPictureUrl,
     description,
     setDescription,
+    imageUpload,
+    imageDelete,
+    saveForm,
+    closeForm,
+    showModal,
+    openModal,
+    closeModal,
   };
 };
 
