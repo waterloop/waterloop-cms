@@ -86,6 +86,7 @@ const useGeeseFeaturesForm = () => {
         newPictureUrl = response.data.data[0];
       }
 
+
       const feature = {
         name: featureName,
         picture: newPictureUrl,
@@ -98,13 +99,14 @@ const useGeeseFeaturesForm = () => {
         } else {
           await api.geeseFeatures.updateGeeseFeature(params.featureId, feature);
         }
+        closeForm()
+
       } else {
         throw new Error('Fields must be non empty');
       }
     } catch (error) {
       console.log(error)
     } finally{
-      closeForm()
 
     }
   }, [featureName, picture, pictureUrl, description, params]);
