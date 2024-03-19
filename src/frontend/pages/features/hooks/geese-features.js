@@ -1,8 +1,8 @@
 import { useCallback, useEffect } from 'react';
-import api from '../api';
+import api from '../../../api';
 import { useDispatch, useSelector } from 'react-redux';
-import * as geeseFeaturesActions from '../state/geese-features/actions';
-import * as geeseFeaturesSelectors from '../state/geese-features/selectors';
+import * as geeseFeaturesActions from '../../../state/geese-features/actions'
+import * as geeseFeaturesSelectors from '../../../state/geese-features/selectors';
 
 const useGeeseFeatures = () => {
   const dispatch = useDispatch();

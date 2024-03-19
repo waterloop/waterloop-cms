@@ -5,7 +5,6 @@ import EditFeature from './EditFeature';
 
 const FeaturesRouter = () => {
   const { path } = useRouteMatch();
-  console.log(path)
   return (
     <Switch>
       <Route path={path} exact>

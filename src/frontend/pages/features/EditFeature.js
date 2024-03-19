@@ -3,7 +3,7 @@ import ImagePreview from '../../components/ImagePreview/index';
 import FormContainer from '../../components/FormContainer/index';
 import Button from '../../components/Button/index';
 import TextInput from '../../components/TextInput/index';
-import useFeaturesForm from '../../hooks/geese-features-form';
+import useFeaturesForm from './hooks/geese-features-form';
 import styled from 'styled-components';
 
 const EditFeaturePage = styled.div`

@@ -1,8 +1,7 @@
 import { useState, useEffect, useCallback } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
-import useGeeseFeatures from '../hooks/geese-features';
-import api from '../api';
-import moment from 'moment';
+import useGeeseFeatures from './geese-features';
+import api from '../../../api';
 
 const useGeeseFeaturesForm = () => {
   const [featureName, setFeatureName] = useState('');
@@ -31,7 +30,6 @@ const useGeeseFeaturesForm = () => {
               setFeatureName(feature.name);
               setPictureUrl(feature.picture);
               setDescription(feature.description);
-              console.log(feature)
             }
           }
         } catch (error) {

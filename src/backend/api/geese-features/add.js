@@ -2,6 +2,7 @@ import db from '../../db';
 
 export default (req, res) => {
   const featureData = req.body;
+  console.log(req.body)
   db.geeseFeatures
     .addFeature(featureData)
     .then((response) => {

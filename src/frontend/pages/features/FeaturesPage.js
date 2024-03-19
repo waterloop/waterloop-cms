@@ -2,8 +2,7 @@ import React from 'react';
 import { useHistory } from 'react-router-dom';
 
 import FeaturePreview from './components/FeaturePreview';
-import useFeatures from './hooks/features';
-import useGeeseFeatures from '../../hooks/geese-features';
+import useGeeseFeatures from './hooks/geese-features';
 import styled from 'styled-components';
 
 const FeaturesPage = () => {
@@ -33,8 +32,6 @@ const FeaturesPage = () => {
 
   const history = useHistory();
   const { geeseFeatures, deleteFeature } = useGeeseFeatures();
-
-  console.log(geeseFeatures)
 
   const handleEdit = (id) => () => {
     history.push(`features/${id}`);
