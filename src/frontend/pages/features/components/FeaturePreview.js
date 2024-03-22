@@ -81,22 +81,23 @@ const ButtonContainer = styled.div`
 `;
 
 const FeaturePreview = ({
-  title,
-  body,
-  img,
+  name,
+  description,
+  picture,
   onEdit,
   onDelete,
-}) => (
+}) => {
+  return (
     <Container>
       <FlexContainer>
         <FeatImage
           className="FeatImage"
-          src={img}
+          src={picture}
           alt="Example alt text"
         />
         <Column>
-          <h3>{title}</h3>
-          <p>{body}</p>
+          <h3>{name}</h3>
+          <p>{description}</p>
         </Column>
       </FlexContainer>
       <ButtonContainer>
@@ -104,6 +105,6 @@ const FeaturePreview = ({
         <DeleteButton onClick={onDelete}>Delete</DeleteButton>
       </ButtonContainer>
     </Container>
-  );
+  )};
 
 export default FeaturePreview;

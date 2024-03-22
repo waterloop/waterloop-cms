@@ -6,7 +6,6 @@ import Cookies from 'js-cookie';
 import * as userSelectors from './state/user/selectors';
 import TopBar from './components/TopBar';
 import LandingPage from './pages/landing/LandingPage';
-import FeaturesPage from './pages/features/FeaturesPage';
 import SignInPage from './pages/sign-in/SignInPage';
 import NotFoundPage from './pages/NotFound';
 import PostingsRouter from './pages/postings/Postings.router';
@@ -15,6 +14,7 @@ import GeeseRouter from './pages/geese/Geese.router';
 import TeamDescriptionsRouter from './pages/team-descriptions/TeamDescriptions.router';
 import { addAuthTokenToRequests } from './api/server';
 import BlogsRouter from './pages/blogs/Blogs.Router';
+import FeaturesRouter from './pages/features/Feature.router';
 
 const App = () => {
   let token = useSelector(userSelectors.token) || Cookies.get('tokenId');
@@ -39,11 +39,11 @@ const App = () => {
             <GeeseRouter />
           </div>
         </Route>
-        <Route path="/features" exact>
+        <Route path="/features">
           <div>
             {!token && <Redirect to="/sign-in" />}
             <TopBar />
-            <FeaturesPage />
+            <FeaturesRouter />
           </div>
         </Route>
         <Route path="/postings">
